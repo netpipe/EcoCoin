@@ -7,14 +7,19 @@
 #endif
 
 #include <iostream>
-
 #define headlessGUI //define for console mode only
 
-//#include "logging/logging.h"
 #include "sqlCon.h"
-//#include "includes/squirrel.h"
 #include <irrlicht.h>
 #include <irrNet.h>
+#include "md5sum.h"
+
+
+//create 5 databas scale to 50 later divide the ammount of coins by databases and search for coin address
+//fill with coin addresses and main wallet info
+
+//int system(const char *command); //md5 file
+
 using namespace irr;
 using namespace core;
 using namespace scene;
@@ -124,14 +129,14 @@ int main()
 	guienv->addStaticText(L"Server!",
 		rect<s32>(10,10,260,22), true);
 
-	IAnimatedMesh* mesh = smgr->getMesh("../../../libs/Irrlicht/media/sydney.md2");
+	IAnimatedMesh* mesh = smgr->getMesh(".media/sydney.md2");
 	if (!mesh)return 1;
 
 	IAnimatedMeshSceneNode* node = smgr->addAnimatedMeshSceneNode( mesh );
 	if (node)
 	{   node->setMaterialFlag(EMF_LIGHTING, false);
 		node->setMD2Animation(scene::EMAT_STAND);
-		node->setMaterialTexture( 0, driver->getTexture("../../../libs/Irrlicht/media/sydney.bmp") );
+		node->setMaterialTexture( 0, driver->getTexture("./media/sydney.bmp") );
 	}
 	smgr->addCameraSceneNode(0, vector3df(0,30,-40), vector3df(0,5,0));
 #endif
@@ -143,22 +148,20 @@ int main()
           netManager->setVerbose(true);
 
 
-    //! TEST AREA FOR SCRIPTING AND SQL
- //   Squirrel *SQ;
- //   SQ->do_main();
- //   SQ->LoadFile("test.nut");
-#define noSQL
+    //! TEST AREA FOR SQL
+//#define noSQL
 #ifndef noSQL
     sqlCon *sq =new sqlCon("ha.db");
     //  sq->execute(".dump");
      // needs error management if table exists it crashse
-      sq->execute("CREATE TABLE learnss (y string,a integer, b string);");
-    //  sq->execute("insert into learnss (y,a,b) VALUES('ssssnipples',33 , 34);");
-    //  sq->execute("INSERT INTO learn (a,b) VALUES(33 , 34);");
-        sq->execute("SELECT * FROM learnss where b like '34%';");
+          //  sq->execute("PRAGMA table_info(Coins);"); //testing
+	//	sq->execute("CREATE TABLE Coins (a integer, b string,y string);");
+    //  sq->execute("insert into Coins (a,b,y) VALUES(33 , 34,'ssssnipples');");
+      //  sq->execute("INSERT INTO Coins (a,b) VALUES(33 , 34);");
+        sq->execute("SELECT * FROM Coins where b like '34%';");
     //  sq->execute("SELECT * FROM learn");
-    //  sq->execute("PRAGMA table_info(learnss)");
-    //  sq->execute("SELECT * FROM sqlite_master WHERE tbl_name = 'learnss' AND type = 'table'");
+    //  sq->execute("PRAGMA table_info(Coins)");
+    //  sq->execute("SELECT * FROM sqlite_master WHERE tbl_name = 'Coins' AND type = 'table'");
 #endif
 
 
@@ -168,7 +171,8 @@ int main()
     {
         // std::cout << "Sleeping for 150 units\n " ;
         // device->sleep(150,0);
-#else
+#endif
+#ifdef net
 while(1){
     if(netManager->getConnectionStatus() != net::EICS_FAILED)
     {
@@ -209,6 +213,7 @@ while(1){
     }
 }
 #endif
+
 #ifndef headlessGUI
         driver->beginScene(true, true, SColor(255,100,101,140));
         smgr->drawAll();

@@ -32,10 +32,13 @@
 		</Compiler>
 		<Linker>
 			<Add library="sqlite3" />
+			<Add library="ssl" />
+			<Add library="crypto" />
 			<Add directory="/home/Dev/libs/net/irrNetLite22" />
 			<Add directory="/home/Dev/libs/game/Irrlicht-SVN/lib/Linux" />
 		</Linker>
 		<Unit filename="main.cpp" />
+		<Unit filename="md5sum.h" />
 		<Unit filename="sqlCon.cpp" />
 		<Unit filename="sqlCon.h" />
 		<Extensions>

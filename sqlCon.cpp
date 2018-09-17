@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string.h>
 #include <vector>
+
  int sqlCon::callback(void *NotUsed, int argc, char **argv, char **azColName){
   int i;
   for(i=0; i<argc; i++){
@@ -31,27 +32,29 @@ int sqlCon::execute(char *command){
   int ncol;
    fprintf(stderr, "Executing Command \n");
 
-    rc = sqlite3_prepare(db, "PRAGMA table_info(learnss)", strlen(command), &stmt, 0);
-    int col_cnt = sqlite3_column_count(stmt);
-    printf("do tokanizing on  #%i Cols\n",col_cnt);
-
-
-
-            sqlite3_reset(stmt);
+   //print table info
+//    rc = sqlite3_prepare(db, "PRAGMA table_info(Coins)", strlen(command), &stmt, 0);
+////
+////   int col_cnt = sqlite3_column_count(stmt);
+////    printf("do tokanizing on  #%i Cols\n",col_cnt);
+////
+////
+////
+////            sqlite3_reset(stmt);
             int result;
-
-            for ( int i=0; i < col_cnt/2  ;i++){
-                    rc = sqlite3_step(stmt);
-
-                const  unsigned char* vp = sqlite3_column_text(stmt, i);
-                printf( "%s ", vp);
-            };
-            printf("   =-=");
+////
+////            for ( int i=0; i < col_cnt/2  ;i++){
+////                    rc = sqlite3_step(stmt);
+////
+////                const  unsigned char* vp = sqlite3_column_text(stmt, i);
+////                printf( "%s ", vp);
+////            };
+////            printf("   =-=");
        //     sqlite3_finalize(stmt);
 
 
-   rc = sqlite3_prepare(db, command, strlen(command), &stmt, 0); // -1 for the string length seems to work too.
-    //  rc = sqlite3_exec(db, command, sqlCon::callback, 0, &zErrMsg);
+    //rc = sqlite3_prepare(db, command, strlen(command), &stmt, 0); // -1 for the string length seems to work too.
+    rc = sqlite3_exec(db, command, sqlCon::callback, 0, &zErrMsg);
 
 
 
@@ -76,15 +79,16 @@ int sqlCon::execute(char *command){
         }
 */
 
-printf("   =-=");
+//printf("   =-=");
   if( rc!=SQLITE_OK ){
     fprintf(stderr, "SQL error: %s\n", zErrMsg);
     sqlite3_free(zErrMsg);
   }
 
-    int rowcount;
-   col_cnt = sqlite3_column_count(stmt);
-printf("there is #%i columns \n",col_cnt);
+ int rowcount;
+ int   col_cnt = sqlite3_column_count(stmt);
+  // printf("there is #%i columns \n",col_cnt);
+
 bool  finished = false;
   while (!finished) {
       if(col_cnt !=0){
