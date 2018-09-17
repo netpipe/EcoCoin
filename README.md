@@ -1,0 +1,2 @@
+# EcoCoin
+eco friendly cryptocoin
