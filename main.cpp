@@ -1,6 +1,9 @@
 #include <unistd.h>
 #include <cstdio>
 #include <string>
+#include <stdio.h>
+#include <iostream>
+#include <memory.h>
 
 #ifdef WIN32
 #include <windows.h>
@@ -151,17 +154,23 @@ int main()
     //! TEST AREA FOR SQL
 //#define noSQL
 #ifndef noSQL
+std::string a;
     sqlCon *sq =new sqlCon("ha.db");
     //  sq->execute(".dump");
      // needs error management if table exists it crashse
           //  sq->execute("PRAGMA table_info(Coins);"); //testing
-	//	sq->execute("CREATE TABLE Coins (a integer, b string,y string);");
+	//	sq->execute("CREATE TABLE Coins (a integer, b integer,y string);");
     //  sq->execute("insert into Coins (a,b,y) VALUES(33 , 34,'ssssnipples');");
       //  sq->execute("INSERT INTO Coins (a,b) VALUES(33 , 34);");
         sq->execute("SELECT * FROM Coins where b like '34%';");
+	//a = sq->execute("SELECT a FROM Coins where y like '%nameo%';");
+    //sq->execute("FLOOR(DATEDIFF(CURRENT_DATE, hire_date) / 365) b)";
+    //DATEDIFF(year, hire_date,CURRENT_TIMESTAMP)
     //  sq->execute("SELECT * FROM learn");
     //  sq->execute("PRAGMA table_info(Coins)");
     //  sq->execute("SELECT * FROM sqlite_master WHERE tbl_name = 'Coins' AND type = 'table'");
+
+//    cout << a << endl;
 #endif
 
 

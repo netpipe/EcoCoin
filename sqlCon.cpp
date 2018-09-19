@@ -25,7 +25,7 @@ sqlCon::sqlCon(char*){
 
 }
 
-int sqlCon::execute(char *command){
+std::string sqlCon::execute(char *command){
 
   //char **result;
   int nrow;
@@ -57,7 +57,7 @@ int sqlCon::execute(char *command){
     rc = sqlite3_exec(db, command, sqlCon::callback, 0, &zErrMsg);
 
 
-
+char ret[100];
 /*  <<they should make coment folding into CB for certain things
       rc = sqlite3_get_table(
 			db,              // An open database
@@ -112,6 +112,11 @@ bool  finished = false;
             case SQLITE_INTEGER:
               result = sqlite3_column_int(stmt, a);
               printf( "%d ", result);
+              //snprintf(ret,sizeof(ret)+1,"%d",result);
+//              printf( "%s ", ret);
+//			  memcpy(ret,&result,sizeof(result)+1);
+//			  sqlite3_finalize(stmt);
+//			  return ret;
               break;
             case SQLITE_FLOAT:
               {
@@ -119,6 +124,9 @@ bool  finished = false;
                 double  dub;
                 dub = sqlite3_column_double(stmt, a);
                 printf( "%f", dub);
+              //  snprintf(ret,sizeof(ret)+1,"%d",result);
+			  //sqlite3_finalize(stmt);
+			  //return ret;
               }
               break;
             case SQLITE_TEXT:
@@ -126,6 +134,7 @@ bool  finished = false;
                 const  unsigned char* vp = sqlite3_column_text(stmt, a);
                 //  sqlite3_stmt *p = stmt;
                 printf( "%s ", vp);
+				//strcpy(ret, (char*)vp);
                 //  while (*vp > 0)            //        { *p++ = *vp++;}
               break;
               }
@@ -156,6 +165,7 @@ bool  finished = false;
 //  sqlite3_finalize(stmt);
 //  sqlite3_free_table(result);
 //  rc = sqlite3_step(stmt);
+return ret;
 }
 
 sqlCon::~sqlCon(){

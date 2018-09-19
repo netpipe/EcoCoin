@@ -15,7 +15,7 @@ public:
 char *zErrMsg;
   int rc;
   sqlite3 *db;
-  int execute(char*);
+  std::string execute(char*);
   static int callback(void *, int , char **, char **);
 };
 
