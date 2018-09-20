@@ -16,6 +16,7 @@
 #include <irrlicht.h>
 #include <irrNet.h>
 #include "md5sum.h"
+#include "address.h"
 
 
 //create 5 databas scale to 50 later divide the ammount of coins by databases and search for coin address
@@ -152,17 +153,31 @@ int main()
 
 
     //! TEST AREA FOR SQL
-//#define noSQL
-#ifndef noSQL
 std::string a;
     sqlCon *sq =new sqlCon("ha.db");
     //  sq->execute(".dump");
-     // needs error management if table exists it crashse
           //  sq->execute("PRAGMA table_info(Coins);"); //testing
-	//	sq->execute("CREATE TABLE Coins (a integer, b integer,y string);");
-    //  sq->execute("insert into Coins (a,b,y) VALUES(33 , 34,'ssssnipples');");
-      //  sq->execute("INSERT INTO Coins (a,b) VALUES(33 , 34);");
-        sq->execute("SELECT * FROM Coins where b like '34%';");
+
+		int createcoins=0;
+		if ( createcoins==1 ){
+			sq->execute("CREATE TABLE Coins (coin integer, wallet string);");
+			for (int coin=1;coin < 100 ;++coin){
+				std::string test = "insert into Coins (coin,wallet) VALUES(" + std::to_string(coin) + " ,'ssssnipples');";
+				//printf("%s",(char*)chr);
+				const char *chr = test.c_str();
+				sq->execute((char*)chr);
+			}
+		}
+
+		// either scan through db to build coin list or remember what coins belong to your wallet
+		// search several dabatase ranges
+		  sq->execute("SELECT * FROM Coins where wallet like '%ssssnipples%';");
+		//a=   sq->search("SELECT * FROM Coins where wallet like '%ssssnipples%';");
+
+//	sq->execute("insert into Coins (coin,wallet) VALUES(35,'nameo');");
+       // sq->execute("INSERT INTO Coins (a,b) VALUES(35 , 'nameo');");
+    //  a=   sq->execute("SELECT * FROM Coins where coin like '35%';");
+
 	//a = sq->execute("SELECT a FROM Coins where y like '%nameo%';");
     //sq->execute("FLOOR(DATEDIFF(CURRENT_DATE, hire_date) / 365) b)";
     //DATEDIFF(year, hire_date,CURRENT_TIMESTAMP)
@@ -170,9 +185,10 @@ std::string a;
     //  sq->execute("PRAGMA table_info(Coins)");
     //  sq->execute("SELECT * FROM sqlite_master WHERE tbl_name = 'Coins' AND type = 'table'");
 
-//    cout << a << endl;
-#endif
+    //cout << a << endl;
 
+
+    generateAddress();
 
 #ifndef headlessGUI
 

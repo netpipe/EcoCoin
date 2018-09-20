@@ -16,6 +16,7 @@ char *zErrMsg;
   int rc;
   sqlite3 *db;
   std::string execute(char*);
+  std::string search(char*);
   static int callback(void *, int , char **, char **);
 };
 

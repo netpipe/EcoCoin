@@ -26,6 +26,7 @@
 		</VirtualTargets>
 		<Compiler>
 			<Add option="-fPIC" />
+			<Add option="-fpermissive" />
 			<Add directory="/home/Dev/libs/net/irrNetLite22/source" />
 			<Add directory="/home/Dev/libs/game/Irrlicht-SVN/include" />
 			<Add directory="/home/Dev/libs/net/irrNetLite22" />
@@ -37,6 +38,7 @@
 			<Add directory="/home/Dev/libs/net/irrNetLite22" />
 			<Add directory="/home/Dev/libs/game/Irrlicht-SVN/lib/Linux" />
 		</Linker>
+		<Unit filename="address.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="md5sum.h" />
 		<Unit filename="sqlCon.cpp" />

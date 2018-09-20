@@ -24,13 +24,17 @@ sqlCon::sqlCon(char*){
      fprintf(stderr, "DB READY \n");
 
 }
+std::string sqlCon::search(char *command){
+
+    rc = sqlite3_exec(db, command, sqlCon::callback, 0, &zErrMsg);
+}
 
 std::string sqlCon::execute(char *command){
 
   //char **result;
   int nrow;
   int ncol;
-   fprintf(stderr, "Executing Command \n");
+ //  fprintf(stderr, "Search Command \n");
 
    //print table info
 //    rc = sqlite3_prepare(db, "PRAGMA table_info(Coins)", strlen(command), &stmt, 0);
@@ -53,12 +57,17 @@ std::string sqlCon::execute(char *command){
        //     sqlite3_finalize(stmt);
 
 
-    //rc = sqlite3_prepare(db, command, strlen(command), &stmt, 0); // -1 for the string length seems to work too.
-    rc = sqlite3_exec(db, command, sqlCon::callback, 0, &zErrMsg);
+       //prepare method seems to be for searching
+    rc = sqlite3_prepare(db, command, strlen(command), &stmt, 0); // -1 for the string length seems to work too.
+
+    //	rc = sqlite3_step(stmt);
+	//rc = sqlite3_reset(stmt);
+
+    //rc = sqlite3_exec(db, command, sqlCon::callback, 0, &zErrMsg);
 
 
-char ret[100];
-/*  <<they should make coment folding into CB for certain things
+
+/*  << should make coment folding into CB for certain things
       rc = sqlite3_get_table(
 			db,              // An open database
 			command,        //SQL to be executed
@@ -78,6 +87,16 @@ char ret[100];
             //printf("%s \n",result[i]);
         }
 */
+
+
+char ret[100];
+std::vector<std::string> ints;
+ints.clear();
+//for(int t=0;t<list.size();++t){
+//cout << ints.at(t);
+//}
+
+//std::vector<std::string> ints;
 
 //printf("   =-=");
   if( rc!=SQLITE_OK ){
@@ -112,7 +131,8 @@ bool  finished = false;
             case SQLITE_INTEGER:
               result = sqlite3_column_int(stmt, a);
               printf( "%d ", result);
-              //snprintf(ret,sizeof(ret)+1,"%d",result);
+             // snprintf(ret,sizeof(ret)+1,"%d",result);
+              ints.push_back(ret);
 //              printf( "%s ", ret);
 //			  memcpy(ret,&result,sizeof(result)+1);
 //			  sqlite3_finalize(stmt);
@@ -135,6 +155,9 @@ bool  finished = false;
                 //  sqlite3_stmt *p = stmt;
                 printf( "%s ", vp);
 				//strcpy(ret, (char*)vp);
+				snprintf(ret,sizeof(ret)+1,"%s",vp);
+			  sqlite3_finalize(stmt);
+			  return ret;
                 //  while (*vp > 0)            //        { *p++ = *vp++;}
               break;
               }
@@ -148,6 +171,7 @@ bool  finished = false;
              }
           }  //switch
         }    //for
+       // vect()
  printf( "\n");
        rowcount++;
         break;
@@ -158,7 +182,9 @@ bool  finished = false;
              }
     };
   } else {
-      printf( "EXECUTED A COMMAND WITH NULL RESULTS\n");
+      printf( "Command Ran\n");
+          	rc = sqlite3_step(stmt);
+	  rc = sqlite3_reset(stmt);
      finished = true;};
  };
 
