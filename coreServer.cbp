@@ -39,10 +39,35 @@
 			<Add directory="/home/Dev/libs/game/Irrlicht-SVN/lib/Linux" />
 		</Linker>
 		<Unit filename="address.h" />
+		<Unit filename="crypto/Base58Check.cpp" />
+		<Unit filename="crypto/Base58Check.hpp" />
+		<Unit filename="crypto/CurvePoint.cpp" />
+		<Unit filename="crypto/CurvePoint.hpp" />
+		<Unit filename="crypto/Ecdsa.cpp" />
+		<Unit filename="crypto/Ecdsa.hpp" />
+		<Unit filename="crypto/ExtendedPrivateKey.cpp" />
+		<Unit filename="crypto/ExtendedPrivateKey.hpp" />
+		<Unit filename="crypto/FieldInt.cpp" />
+		<Unit filename="crypto/FieldInt.hpp" />
+		<Unit filename="crypto/Keccak256.cpp" />
+		<Unit filename="crypto/Keccak256.hpp" />
+		<Unit filename="crypto/Ripemd160.cpp" />
+		<Unit filename="crypto/Ripemd160.hpp" />
+		<Unit filename="crypto/Sha256.cpp" />
+		<Unit filename="crypto/Sha256.hpp" />
+		<Unit filename="crypto/Sha256Hash.cpp" />
+		<Unit filename="crypto/Sha256Hash.hpp" />
+		<Unit filename="crypto/Sha512.cpp" />
+		<Unit filename="crypto/Sha512.hpp" />
+		<Unit filename="crypto/Uint256.cpp" />
+		<Unit filename="crypto/Uint256.hpp" />
+		<Unit filename="crypto/Utils.cpp" />
+		<Unit filename="crypto/Utils.hpp" />
 		<Unit filename="main.cpp" />
 		<Unit filename="md5sum.h" />
 		<Unit filename="sqlCon.cpp" />
 		<Unit filename="sqlCon.h" />
+		<Unit filename="verify.cpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />

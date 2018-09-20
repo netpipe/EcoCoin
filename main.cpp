@@ -22,6 +22,11 @@
 //create 5 databas scale to 50 later divide the ammount of coins by databases and search for coin address
 //fill with coin addresses and main wallet info
 
+// sign txid with private key use public key(wallet address) to decode it and verify
+//hash tx with coin addresses to produce a txid file
+
+//txid file has value, coins (random generated addresses ? or just coin numbers) hash of file , publickey, timestamp , fee, send to walletid
+
 //int system(const char *command); //md5 file
 
 using namespace irr;
