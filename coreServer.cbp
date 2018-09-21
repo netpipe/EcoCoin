@@ -59,6 +59,7 @@
 		<Unit filename="crypto/Sha256Hash.hpp" />
 		<Unit filename="crypto/Sha512.cpp" />
 		<Unit filename="crypto/Sha512.hpp" />
+		<Unit filename="crypto/TestHelper.hpp" />
 		<Unit filename="crypto/Uint256.cpp" />
 		<Unit filename="crypto/Uint256.hpp" />
 		<Unit filename="crypto/Utils.cpp" />
