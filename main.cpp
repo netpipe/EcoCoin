@@ -214,7 +214,7 @@ int main()
 {
 #ifndef headlessGUI
                     std::cout << "Create IrrDevice " ;
-	IrrlichtDevice *device = createDevice( video::EDT_BURNINGSVIDEO, dimension2d<s32>(640, 480), 16,
+	IrrlichtDevice *device = createDevice( video::EDT_OPENGL, dimension2d<s32>(640, 480), 16,
                                             false, false, false, 0);
 
                                             if (!device)return 1;
