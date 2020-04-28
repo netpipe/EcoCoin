@@ -1,3 +1,22 @@
 https://github.com/ganquan0910/qt5-sqlite-connection-example
 
 petro points style cards to hold points in the ledger for individuals to run like paypal attached to the cardnumber or name and account
+
+
+outline
+
+everything double encrypted with rsa and aes
+
+ledger/coin address generator based on set ammount of coins random 8 letter/number address encrypted with rsa+aes
+
+available coins to user accounts encrypted based on name on card or account number
+
+decrypt when spent to verify validity
+
+to be spent centralized so there is no between account transfers ?
+
+validation false count to disable account (call for service)
+
+offline coldstorage validation through usb switch with electronic controller to switch thumbdrive between 2 computers hourly or daily
+
+frontend(online computer) and/or clients card keeps account balances for querry's and quick checks

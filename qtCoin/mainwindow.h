@@ -5,6 +5,10 @@
 #include <QtSql/QSqlDatabase>
 #include <QtSql/QSqlQuery>
 #include <QtSql/QSqlError>
+#include <QMediaPlayer>
+#include "src/encryption/rsa/Rsa.h"
+#include <QEvent>
+#include <QThread>
 
 namespace Ui {
 class MainWindow;
@@ -20,6 +24,20 @@ public:
     void createUserTable();
     void insertUser();
     void selectUsers();
+    QMediaPlayer*player;
+    Rsa *rsaTester;
+    BigInt m_e, m_n;
+    QString aesKey;
+    QString currentUser;
+
+    QString encdec(QString ,int );
+    QString encdec2(QString ,int );
+    QString rsaenc(QString input, Rsa *rsa = NULL);
+    QString rsadec(QString input, Rsa *rsa);
+    QByteArray aesenc(QString input,QString,QString);
+    QString aesdec(QByteArray input,QString,QString);
+    QByteArray EncryptMsg(QString plainMsg);
+    QString DecryptMsg(QByteArray encryptedMsg, Rsa *rsa);
 
 private slots:
     void on_pushButtonInsertUser_clicked();

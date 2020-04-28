@@ -1,5 +1,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "src/encryption/encryption.h"
+#include "src/encryption/rsa/Rsa.h"
+#include "src/qstylesheetmanager.h"
+#include "src/downloadmanager.h"
+
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -26,6 +31,24 @@ MainWindow::MainWindow(QWidget *parent) :
 
     createUserTable();
     selectUsers();
+
+    player=new QMediaPlayer();
+   // player->setMedia(QUrl("qrc:/sounds/ec1_mono.ogg"));
+   // player->setMedia(QUrl::fromLocalFile("./paddle_hit.wav"));
+    //or play from memory
+     QFile file("Resource/sounds/ec1_mono.ogg");
+     file.open(QIODevice::ReadOnly);
+     QByteArray* arr = new QByteArray(file.readAll());
+     file.close();
+     QBuffer* buffer = new QBuffer(arr);
+     buffer->open(QIODevice::ReadOnly);
+     buffer->seek(0);
+
+//    media->setMedia("sound.mp3");
+    player->setMedia(QMediaContent(), buffer);
+    player->play();
+
+
 }
 
 MainWindow::~MainWindow()
