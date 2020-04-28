@@ -1,22 +1,30 @@
 https://github.com/ganquan0910/qt5-sqlite-connection-example
 
-petro points style cards to hold points in the ledger for individuals to run like paypal attached to the cardnumber or name and account
-
-
 outline
 
-everything double encrypted with rsa and aes
+2 master keys name and coin key, one used to protect customers names after account creation incase of server theft also coin key used to verify coins being spent. the name key is only needed during account creation or maintenance to verify someone has lost their coins.
 
-ledger/coin address generator based on set ammount of coins random 8 letter/number address encrypted with rsa+aes
+year dated 2020ABC45678 8 alphanumeric accountnumber idea so the database knows where to look for account might be encrypted based on name for coin verification.
 
-available coins to user accounts encrypted based on name on card or account number
+coins will be encrypted from encrypted users name with a user generated rsa+aes key also the master coin key.
 
-decrypt when spent to verify validity
+name is double encrypted with rsa and aes, to protect customers incase of theft. can use a new encryption key each year if desired to further increase security.
 
-to be spent centralized so there is no between account transfers ?
+ledger/coin address generator based on set ammount of coins . account number can be year+ random 8 letter/number address encrypted with rsa+aes
 
-validation false count to disable account (call for service)
+3 databases valid coins and customer holdings and available coins also possability to split the holdings databases by year to keep size lower and faster to search. use verify method to double check all coins accounted for. also md5sums
+
+decrypt when spent to verify validity in valid coins database.
+
+to be spent on a centralized system
+
+validation false count to disable account (call for service) 
 
 offline coldstorage validation through usb switch with electronic controller to switch thumbdrive between 2 computers hourly or daily
 
 frontend(online computer) and/or clients card keeps account balances for querry's and quick checks
+
+functions
+	transfer between accounts
+	verify coins - get total holdings
+
