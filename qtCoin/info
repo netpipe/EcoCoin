@@ -2,6 +2,8 @@ https://github.com/ganquan0910/qt5-sqlite-connection-example
 
 outline
 
+coin addresses will be valued at .25 or .50 cents to keep the addresses fewer
+
 2 master keys name and coin key, one used to protect customers names after account creation incase of server theft also coin key used to verify coins being spent. the name key is only needed during account creation or maintenance to verify someone has lost their coins.
 
 year dated 2020ABC45678 8 alphanumeric accountnumber idea so the database knows where to look for account might be encrypted based on name for coin verification.
