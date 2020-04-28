@@ -6,6 +6,8 @@ coin addresses will be valued at .25 or .50 cents to keep the addresses fewer
 
 2 master keys name and coin key, one used to protect customers names after account creation incase of server theft also coin key used to verify coins being spent. the name key is only needed during account creation or maintenance to verify someone has lost their coins.
 
+randomize coin locations after generating bruteforce combinations and use index number as part of encryption.
+
 year dated 2020ABC45678 8 alphanumeric accountnumber idea so the database knows where to look for account might be encrypted based on name for coin verification.
 
 coins will be encrypted from encrypted users name with a user generated rsa+aes key also the master coin key.
