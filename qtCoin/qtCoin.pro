@@ -14,6 +14,10 @@ TEMPLATE = app
 RC_FILE = ./qtCoin.rc
 ICON = ./qtCoin.ico
 
+CONFIG += c++11
+
+DEFINES += QT_DEPRECATED_WARNINGS
+
 SOURCES += main.cpp\
         mainwindow.cpp \
     src/qstylesheetmanager.cpp \
@@ -32,8 +36,8 @@ HEADERS  += mainwindow.h \
 
 FORMS    += mainwindow.ui
 
-#RESOURCES += \
- #   itas_js.qrc
+RESOURCES += \
+    itas_js.qrc
 
 DISTFILES += \
     qtCoin.ico
