@@ -24,6 +24,8 @@ public:
     void createUserTable();
     void insertUser();
     void selectUsers();
+    void GenerateCoins1();
+    void GenerateCoins2();
     QMediaPlayer*player;
     Rsa *rsaTester;
     BigInt m_e, m_n;
