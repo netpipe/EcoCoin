@@ -172,6 +172,21 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::ListUSB(){ // only need the drive we have named USBKEY (could put random number with it for verify)
+//https://stackoverflow.com/questions/40035332/how-to-get-path-to-usb-drive-on-linux-in-qt
+    foreach (const QStorageInfo &storage, QStorageInfo::mountedVolumes()) {
+
+   qDebug() << storage.rootPath();
+   if (storage.isReadOnly())
+       qDebug() << "isReadOnly:" << storage.isReadOnly();
+
+   qDebug() << "name:" << storage.name();
+   qDebug() << "fileSystemType:" << storage.fileSystemType();
+   qDebug() << "size:" << storage.bytesTotal()/1000/1000 << "MB";
+   qDebug() << "availableSize:" << storage.bytesAvailable()/1000/1000 << "MB";
+}
+}
+
 void MainWindow::createUserTable()
 {
     QString query;
