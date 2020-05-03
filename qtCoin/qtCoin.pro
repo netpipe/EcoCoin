@@ -8,9 +8,11 @@ QT       += core gui sql network printsupport  multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = sqlite-database-example
+TARGET = qtCoin
 TEMPLATE = app
 
+RC_FILE = ./app1.rc
+ICON = ./qtCoin.ico
 
 SOURCES += main.cpp\
         mainwindow.cpp \
@@ -30,8 +32,8 @@ HEADERS  += mainwindow.h \
 
 FORMS    += mainwindow.ui
 
-RESOURCES += \
-    itas_js.qrc
+#RESOURCES += \
+ #   itas_js.qrc
 
 DISTFILES += \
     qtCoin.ico

@@ -13,8 +13,6 @@
         <file>Resource/upArrow.png</file>
         <file>Resource/upArrow_hover.png</file>
         <file>Resource/upArrow_pressed.png</file>
-        <file>Resource/style4.qss</file>
-        <file>Resource/style3.qss</file>
     </qresource>
     <qresource prefix="/">
         <file>sounds/ec9_mono.ogg</file>
