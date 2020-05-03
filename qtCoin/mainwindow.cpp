@@ -58,7 +58,7 @@ void MainWindow::GenerateCoins2()
     //randomize indexs after backing up into coinlist.db into another db called freecoins.db
     //stop after set ammount of coins have been generated
 
-const string alphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+const string alphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"; // can randomize string and record as part of the unique coin signature ?
 
 
 const int min_pw_len = 1;
@@ -129,7 +129,7 @@ void MainWindow::GenerateCoins1()
     unsigned long nbMDP = 0;
 
     //const char ALL[105] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz1234567890<>,?;.:/!§*µù%$£¤¨+=})]à@ç^\\_`è|-[({'#\"é~&";
-    const char ALL[105] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+    const char ALL[105] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"; // can randomize string and record as part of the unique coin signature ?
     int Lg = LongMin - 1;
     int i, x, y;
 

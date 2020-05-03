@@ -32,3 +32,6 @@ FORMS    += mainwindow.ui
 
 RESOURCES += \
     itas_js.qrc
+
+DISTFILES += \
+    qtCoin.ico
