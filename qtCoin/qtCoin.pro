@@ -11,7 +11,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = qtCoin
 TEMPLATE = app
 
-RC_FILE = ./app1.rc
+RC_FILE = ./qtCoin.rc
 ICON = ./qtCoin.ico
 
 SOURCES += main.cpp\
