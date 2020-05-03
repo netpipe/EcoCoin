@@ -200,6 +200,11 @@ void MainWindow::createUserTable()
 void MainWindow::insertUser()
 {
     QString query;
+
+//        QByteArray bFname = EncryptMsg(fname);
+//        QString mykey1 = BigInt2Str(m_e);
+//        QString mykey2 = BigInt2Str(m_n);
+
     query.append("INSERT INTO users("
                     "name,"
                     "surname,"
