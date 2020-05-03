@@ -1,0 +1,30 @@
+<RCC>
+    <qresource prefix="/ITAS_JS">
+        <file>Resource/cbm_downArrow.png</file>
+        <file>Resource/downArrow.png</file>
+        <file>Resource/downArrow_hover.png</file>
+        <file>Resource/downArrow_pressed.png</file>
+        <file>Resource/leftArrow.png</file>
+        <file>Resource/leftArrow_hover.png</file>
+        <file>Resource/leftArrow_pressed.png</file>
+        <file>Resource/rightArrow.png</file>
+        <file>Resource/rightArrow_hover.png</file>
+        <file>Resource/rightArrow_pressed.png</file>
+        <file>Resource/upArrow.png</file>
+        <file>Resource/upArrow_hover.png</file>
+        <file>Resource/upArrow_pressed.png</file>
+        <file>Resource/style4.qss</file>
+        <file>Resource/style3.qss</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>sounds/ec9_mono.ogg</file>
+        <file>sounds/ec8_mono.ogg</file>
+        <file>sounds/ec7_stereo.ogg</file>
+        <file>sounds/ec6_mono.ogg</file>
+        <file>sounds/ec5_mono.ogg</file>
+        <file>sounds/ec4_mono.ogg</file>
+        <file>sounds/ec3_mono.ogg</file>
+        <file>sounds/ec2_mono.ogg</file>
+        <file>sounds/ec1_mono.ogg</file>
+    </qresource>
+</RCC>

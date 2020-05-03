@@ -29,3 +29,6 @@ HEADERS  += mainwindow.h \
     src/encryption/encryption.h
 
 FORMS    += mainwindow.ui
+
+RESOURCES += \
+    itas_js.qrc
