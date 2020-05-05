@@ -9,7 +9,6 @@
 #include "src/encryption/rsa/Rsa.h"
 #include <QEvent>
 #include <QThread>
-#include <KDateTimeWidget>
 
 namespace Ui {
 class MainWindow;
