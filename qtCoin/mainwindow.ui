@@ -148,6 +148,13 @@
           </column>
          </widget>
         </item>
+        <item row="0" column="2">
+         <widget class="QPushButton" name="pushButton_5">
+          <property name="text">
+           <string>Random Search</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="settings">
@@ -303,7 +310,7 @@
             <item row="4" column="1">
              <widget class="QLabel" name="label_16">
               <property name="text">
-               <string>Coin Value based on Local Currency or something like Gold / silver / bitcoin / cookies etc...</string>
+               <string>Coin Value based on Local Currency or something like Gold / silver / bitcoin / cookies / votes / lottery etc...</string>
               </property>
              </widget>
             </item>
