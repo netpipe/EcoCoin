@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>847</width>
-    <height>708</height>
+    <height>750</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -319,6 +319,13 @@
                   <widget class="QDoubleSpinBox" name="doubleSpinBox">
                    <property name="value">
                     <double>1.000000000000000</double>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_20">
+                   <property name="text">
+                    <string>Investment Multiplier: 2 is double</string>
                    </property>
                   </widget>
                  </item>
