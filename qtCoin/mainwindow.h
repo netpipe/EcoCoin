@@ -27,8 +27,9 @@ public:
     void selectUsers();
     void GenerateCoins1();
     void GenerateCoins2();
-    void GenerateCoins3();
+    void GenerateCoins3(int length,int total);
     void combinationUtil(QString arr, int n, int r, int index, QString data, int i);
+    QString GetRandomString() const;
 void insertCoins();
 void createCoinTable();
 QSqlDatabase coinDB;

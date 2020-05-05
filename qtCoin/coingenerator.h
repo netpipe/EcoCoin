@@ -4,6 +4,113 @@
 #include  <math.h>
 #include <QCoreApplication>
 
+void MainWindow::insertCoins()
+{
+    //https://stackoverflow.com/questions/1711631/improve-insert-per-second-performance-of-sqlite
+    //https://forum.qt.io/topic/86846/insert-data-into-sqlite-is-very-slow-by-qsqlquery/5
+    //https://stackoverflow.com/questions/31197144/why-is-my-sqlite-query-so-slow-in-qt5/31208237
+
+    coinDB.transaction();
+    QString query = "INSERT INTO coins(addr) VALUES (?)";
+    QVariantList coins;
+    for(int k = 0 ; k < _coins.count() ; k++)
+    {
+        coins << _coins[k];
+//        query += "INSERT INTO coins(addr) VALUES ('" + _coins[k] + "');";
+    }
+    coins << QVariant(QVariant::String);
+
+//    qDebug() << query;
+    QSqlQuery insert;
+    insert.prepare(query);
+    insert.addBindValue(coins);
+
+    if(insert.execBatch())
+    {
+        qDebug() << "Coin is properly inserted";
+    }
+    else
+    {
+        qDebug()<<"ERROR! "<< insert.lastError();
+    }
+    coinDB.commit();
+    _coins.clear();
+
+}
+
+
+void MainWindow::GenerateCoins3(int length,int total)
+{
+    QString arr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+    QString data;
+   // _total = 10000;
+    _total = total;
+    _count = 0;
+    _state = false;
+ //   _length = 8;
+    _length = length;
+
+    for (int i=0; i < _length; i++){
+       data += " ";
+    }
+   // QString data = "        ";
+
+
+     qDebug() << "running combo util";
+
+    combinationUtil(arr, arr.length(), _length, 0, data, 0);
+}
+
+void MainWindow::combinationUtil(QString arr, int n, int r, int index, QString data, int i)
+{
+    if(_state)
+        return;
+    if(index == r)
+    {
+        //qDebug() << data;
+
+        // write to the database
+        _coins.append(data);
+
+        if(_coins.count() > 300)
+        {
+            insertCoins();
+        }
+
+        _count++;
+        if(_count >= _total)
+        {
+            _state = true;
+        }
+        return;
+    }
+
+    if(i >= n)
+        return;
+
+    data[index] = arr[i];
+//    data.at(index) = arr.at(i);
+
+    combinationUtil(arr, n, r, index+1, data, i+1);
+    combinationUtil(arr, n, r, index, data, i+1);
+}
+
+QString MainWindow::GetRandomString() const
+{ //https://stackoverflow.com/questions/18862963/qt-c-random-string-generation/18866593
+   const QString possibleCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
+   const int randomStringLength = 12; // assuming you want random strings of 12 characters
+
+   QString randomString;
+   for(int i=0; i<randomStringLength; ++i)
+   {
+       int index = qrand() % possibleCharacters.length();
+       QChar nextChar = possibleCharacters.at(index);
+       randomString.append(nextChar);
+   }
+   return randomString;
+}
+
+
 void MainWindow::GenerateCoins2()
 { //basic demo-bruteforce algorithm in C++ from hacksenkessel.com
 
@@ -120,53 +227,6 @@ void MainWindow::GenerateCoins1()
     free(Buff);// Libere la memoire
 }
 
-void MainWindow::GenerateCoins3()
-{
-    QString arr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
-    QString data = "        ";
-    _total = 10000;
-    _count = 0;
-    _state = false;
-    _length = 8;
-
-     qDebug() << "running combo util";
-
-    combinationUtil(arr, arr.length(), _length, 0, data, 0);
-}
-
-void MainWindow::combinationUtil(QString arr, int n, int r, int index, QString data, int i)
-{
-    if(_state)
-        return;
-    if(index == r)
-    {
-        //qDebug() << data;
-
-        // write to the database
-        _coins.append(data);
-
-        if(_coins.count() > 300)
-        {
-            insertCoins();
-        }
-
-        _count++;
-        if(_count >= _total)
-        {
-            _state = true;
-        }
-        return;
-    }
-
-    if(i >= n)
-        return;
-
-    data[index] = arr[i];
-//    data.at(index) = arr.at(i);
-
-    combinationUtil(arr, n, r, index+1, data, i+1);
-    combinationUtil(arr, n, r, index, data, i+1);
-}
 
 
 #endif // COINGENERATOR_H
