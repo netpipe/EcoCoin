@@ -2,6 +2,9 @@ https://github.com/ganquan0910/qt5-sqlite-connection-example
 
 ![qtCoin 0.1](screenshot.png)
 
+usb mechanical switch example
+https://netpipe.ca/wp-content/uploads/2019/11/1024x768-Screenshot-at-2019-11-15-02-47-29.png
+
 GPL project
 
 outline
