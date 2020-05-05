@@ -51,11 +51,18 @@ MainWindow::MainWindow(QWidget *parent) :
     player->setMedia(QMediaContent(), buffer);
     player->play();
 
- qDebug("text");
- qDebug()<<"test";
+// qDebug("text");
+// qDebug()<<"test";
 // cout << "testing";
- printf("testing");
- qInfo() << "Is this working?";
+// printf("testing");
+// qInfo() << "Is this working?";
+
+//    QString s = QDate::currentDate().toString();
+//    QDate::currentDate().day();
+//    QDate::currentDate().month();
+//    QDate::currentDate().year();
+
+    ui->progress->setValue(50);
 }
 
 
@@ -222,4 +229,14 @@ void MainWindow::on_pushButton_clicked()
 {
      qDebug()<<"Error: failed database connection";
     GenerateCoins3();
+}
+
+void MainWindow::on_actionSyncUSB_triggered()
+{
+
+}
+
+void MainWindow::on_actionExit_triggered()
+{
+    QApplication::quit();
 }

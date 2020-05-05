@@ -62,6 +62,10 @@ private slots:
 
     void on_pushButton_clicked();
 
+    void on_actionSyncUSB_triggered();
+
+    void on_actionExit_triggered();
+
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db;

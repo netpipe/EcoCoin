@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>847</width>
-    <height>750</height>
+    <height>781</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -47,7 +47,7 @@
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QProgressBar" name="progressBar">
+         <widget class="QProgressBar" name="progress">
           <property name="value">
            <number>24</number>
           </property>
@@ -165,13 +165,6 @@
             <string>Coin Settings</string>
            </attribute>
            <layout class="QGridLayout" name="gridLayout_2">
-            <item row="10" column="1">
-             <widget class="QPushButton" name="pushButton_4">
-              <property name="text">
-               <string>Validate Coins - compare coins.db freecoins.db and clientcoins.db</string>
-              </property>
-             </widget>
-            </item>
             <item row="3" column="0">
              <widget class="QLabel" name="label_7">
               <property name="text">
@@ -179,21 +172,142 @@
               </property>
              </widget>
             </item>
-            <item row="9" column="1">
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="coinname">
+              <property name="text">
+               <string>CookieCoin</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="0">
+             <widget class="QLabel" name="label_17">
+              <property name="text">
+               <string>Type</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_6">
+              <property name="text">
+               <string>CoinAddressLength</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <layout class="QHBoxLayout" name="horizontalLayout_4">
+              <item>
+               <widget class="QSpinBox" name="createday"/>
+              </item>
+              <item>
+               <widget class="QComboBox" name="createmonth">
+                <item>
+                 <property name="text">
+                  <string>Jan</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Feb</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Mar</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>April</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>May</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>June</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>July</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Aug</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>September</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>October</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>November</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSpinBox" name="createyear">
+                <property name="maximum">
+                 <number>15000</number>
+                </property>
+                <property name="value">
+                 <number>2020</number>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QTimeEdit" name="createtime"/>
+              </item>
+             </layout>
+            </item>
+            <item row="11" column="1">
              <widget class="QPushButton" name="pushButton">
               <property name="text">
                <string>GenerateCoin</string>
               </property>
              </widget>
             </item>
-            <item row="2" column="1">
-             <widget class="QLineEdit" name="coinlength">
+            <item row="5" column="1">
+             <widget class="QLineEdit" name="valuetype">
               <property name="text">
-               <string>8</string>
+               <string>CAD</string>
               </property>
              </widget>
             </item>
-            <item row="7" column="0" colspan="2">
+            <item row="12" column="1">
+             <widget class="QPushButton" name="pushButton_4">
+              <property name="text">
+               <string>Validate Coins - compare coins.db freecoins.db and clientcoins.db</string>
+              </property>
+             </widget>
+            </item>
+            <item row="10" column="1">
+             <widget class="QPushButton" name="gencoininfo_btn">
+              <property name="text">
+               <string>GenerateCoinInfo</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QLabel" name="label_16">
+              <property name="text">
+               <string>Coin Value based on Local Currency or something like Gold / silver / bitcoin / cookies etc...</string>
+              </property>
+             </widget>
+            </item>
+            <item row="8" column="0" rowspan="2" colspan="2">
              <widget class="QGroupBox" name="groupBox">
               <property name="title">
                <string>Matures</string>
@@ -352,117 +466,38 @@
               </layout>
              </widget>
             </item>
-            <item row="8" column="1">
-             <widget class="QPushButton" name="gencoininfo_btn">
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_5">
               <property name="text">
-               <string>GenerateCoinInfo</string>
+               <string>CoinCount</string>
               </property>
              </widget>
             </item>
-            <item row="6" column="1">
-             <widget class="QLineEdit" name="coinvalue">
-              <property name="text">
-               <string>.25</string>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="0">
-             <widget class="QLabel" name="label_8">
-              <property name="text">
-               <string>CoinValue</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="1">
-             <layout class="QHBoxLayout" name="horizontalLayout_4">
+            <item row="7" column="1">
+             <layout class="QHBoxLayout" name="horizontalLayout_7">
               <item>
-               <widget class="QSpinBox" name="createday"/>
-              </item>
-              <item>
-               <widget class="QComboBox" name="createmonth">
-                <item>
-                 <property name="text">
-                  <string>Jan</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Feb</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Mar</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>April</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>May</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>June</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>July</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Aug</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>September</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>October</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>November</string>
-                 </property>
-                </item>
-               </widget>
-              </item>
-              <item>
-               <widget class="QSpinBox" name="createyear">
-                <property name="maximum">
-                 <number>15000</number>
-                </property>
-                <property name="value">
-                 <number>2020</number>
+               <widget class="QRadioButton" name="encrypted_yes">
+                <property name="text">
+                 <string>Yes</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QTimeEdit" name="createtime"/>
+               <widget class="QRadioButton" name="encrypted_no">
+                <property name="text">
+                 <string>No</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
               </item>
              </layout>
             </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="label_6">
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="coinlength">
               <property name="text">
-               <string>CoinAddressLength</string>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="1">
-             <widget class="QLabel" name="label_16">
-              <property name="text">
-               <string>Coin Value based on Local Currency or something like Gold / silver / bitcoin etc...</string>
+               <string>8</string>
               </property>
              </widget>
             </item>
@@ -473,31 +508,10 @@
               </property>
              </widget>
             </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="label_5">
+            <item row="6" column="1">
+             <widget class="QLineEdit" name="coinvalue">
               <property name="text">
-               <string>CoinCount</string>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="1">
-             <widget class="QLineEdit" name="valuetype">
-              <property name="text">
-               <string>CAD</string>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="0">
-             <widget class="QLabel" name="label_17">
-              <property name="text">
-               <string>Type</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QLineEdit" name="coinname">
-              <property name="text">
-               <string>CookieCoin</string>
+               <string>.25</string>
               </property>
              </widget>
             </item>
@@ -505,6 +519,20 @@
              <widget class="QLabel" name="label_19">
               <property name="text">
                <string>Coin Name</string>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="0">
+             <widget class="QLabel" name="label_8">
+              <property name="text">
+               <string>Encrypted-RSA+AES</string>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="0">
+             <widget class="QLabel" name="label_21">
+              <property name="text">
+               <string>Coin Value</string>
               </property>
              </widget>
             </item>
@@ -789,8 +817,8 @@
      <string>File</string>
     </property>
     <addaction name="actionOpenCoin"/>
-    <addaction name="actionExit"/>
     <addaction name="actionSyncUSB"/>
+    <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuAbout">
     <property name="title">
