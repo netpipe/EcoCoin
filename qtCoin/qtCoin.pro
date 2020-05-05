@@ -14,7 +14,8 @@ TEMPLATE = app
 RC_FILE = ./qtCoin.rc
 ICON = ./qtCoin.ico
 
-CONFIG += c++11
+#CONFIG += c++11
+CONFIG += console
 
 DEFINES += QT_DEPRECATED_WARNINGS
 

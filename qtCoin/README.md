@@ -1,11 +1,11 @@
-https://github.com/ganquan0910/qt5-sqlite-connection-example
-
+GPL project
 ![qtCoin 0.1](screenshot.png)
 ![usbswitch](usbswitch.png)
 usb mechanical switch example
-https://netpipe.ca/wp-content/uploads/2019/11/1024x768-Screenshot-at-2019-11-15-02-47-29.png
 
-GPL project
+code tricks
+use projects->run->run in terminal option to see debug output
+
 
 outline
 
@@ -38,4 +38,5 @@ frontend(online computer) and/or clients card keeps account balances for querry'
 functions
 	transfer between accounts
 	verify coins - get total holdings
+
 

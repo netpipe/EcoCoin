@@ -9,7 +9,7 @@
 #include "src/encryption/rsa/Rsa.h"
 #include <QEvent>
 #include <QThread>
-
+#include <QDebug>
 
 namespace Ui {
 class MainWindow;

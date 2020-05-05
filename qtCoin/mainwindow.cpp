@@ -5,6 +5,8 @@
 #include "src/qstylesheetmanager.h"
 #include "src/downloadmanager.h"
 
+#include <coingenerator.h>
+
 #include <QDebug>
 
 
@@ -49,7 +51,11 @@ MainWindow::MainWindow(QWidget *parent) :
     player->setMedia(QMediaContent(), buffer);
     player->play();
 
- ui->coinname->setText("testing");
+ qDebug("text");
+ qDebug()<<"test";
+// cout << "testing";
+ printf("testing");
+ qInfo() << "Is this working?";
 }
 
 
@@ -212,9 +218,8 @@ void MainWindow::on_actionOpenCoin_triggered()
     } while (!line.isNull());
 }
 
-#include <coingenerator.h>
-
 void MainWindow::on_pushButton_clicked()
 {
+     qDebug()<<"Error: failed database connection";
     GenerateCoins3();
 }

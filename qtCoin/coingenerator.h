@@ -1,5 +1,8 @@
 #ifndef COINGENERATOR_H
 #define COINGENERATOR_H
+#include <mainwindow.h>
+#include  <math.h>
+#include <QCoreApplication>
 
 void MainWindow::GenerateCoins2()
 { //basic demo-bruteforce algorithm in C++ from hacksenkessel.com
@@ -125,6 +128,8 @@ void MainWindow::GenerateCoins3()
     _count = 0;
     _state = false;
     _length = 8;
+
+     qDebug() << "running combo util";
 
     combinationUtil(arr, arr.length(), _length, 0, data, 0);
 }
