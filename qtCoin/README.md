@@ -1,5 +1,7 @@
 https://github.com/ganquan0910/qt5-sqlite-connection-example
 
+![qtCoin 0.1](screenshot.png)
+
 GPL project
 
 outline
