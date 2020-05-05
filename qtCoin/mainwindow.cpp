@@ -48,7 +48,7 @@ MainWindow::MainWindow(QWidget *parent) :
     player->setMedia(QMediaContent(), buffer);
     player->play();
 
-
+ ui->coinname->setText("testing");
 }
 
 void MainWindow::GenerateCoins2()
@@ -282,4 +282,46 @@ void MainWindow::on_pushButtonInsertUser_clicked()
 {
     insertUser();
     selectUsers();
+}
+
+void MainWindow::on_gencoininfo_btn_clicked()
+{
+    QFile file("settings.txt");
+      //    if(file.open(QIODevice::WriteOnly | QIODevice::Text))
+          if(file.open(QIODevice::ReadWrite | QIODevice::Text))
+          {
+              QTextStream stream(&file);
+              stream << "CoinName:" << ui->coinname->text() <<'\n';
+              stream << "CoinCount:" << ui->coincount->text() <<'\n';
+              stream << "CoinLength:" << ui->coinlength->text() <<'\n';
+              stream << "createday:" << ui->createday->text() <<'\n';
+              stream << "CreateMonth: " << ui->createmonth->currentText() <<'\n';
+              stream << "createyear:" << ui->createyear->text() <<'\n';
+              stream << "createtime:" << ui->createtime->text() <<'\n';
+              stream << "coinvalue:" << ui->coinvalue->text() <<'\n';
+              stream << "matures:" << ui->matureradio_yes->text() <<'\n';
+              stream << "coinpayout: " << ui->coinpayout->text() <<'\n';
+
+              stream << "maturedate:" << ui->matureday->text() <<'\n';
+              stream << "maturemonth:" << ui->maturemonth->currentText() <<'\n';
+              stream << "matureyear: " << ui->matureyear->text() <<'\n';
+              stream << "maturetime:" << ui->maturetime->text() <<'\n';
+              stream << "maturedescription:" << ui->maturedescription->toPlainText() <<'\n';
+              file.close();
+          }
+}
+
+void MainWindow::on_actionOpenCoin_triggered()
+{//https://stackoverflow.com/questions/31384273/how-to-search-for-a-string-in-a-text-file-using-qt
+    QString searchString("the string I am looking for");
+    QFile MyFile("settings.txt");
+    MyFile.open(QIODevice::ReadWrite);
+    QTextStream in (&MyFile);
+    QString line;
+    do {
+        line = in.readLine();
+        if (!line.contains(searchString, Qt::CaseSensitive)) {
+            // do something
+        }
+    } while (!line.isNull());
 }

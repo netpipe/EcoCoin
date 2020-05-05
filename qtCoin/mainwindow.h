@@ -45,6 +45,10 @@ public:
 private slots:
     void on_pushButtonInsertUser_clicked();
 
+    void on_gencoininfo_btn_clicked();
+
+    void on_actionOpenCoin_triggered();
+
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db;

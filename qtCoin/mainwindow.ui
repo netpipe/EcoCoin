@@ -187,7 +187,7 @@
              </widget>
             </item>
             <item row="2" column="1">
-             <widget class="QLineEdit" name="lineEdit_2">
+             <widget class="QLineEdit" name="coinlength">
               <property name="text">
                <string>8</string>
               </property>
@@ -209,10 +209,10 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QSpinBox" name="spinBox"/>
+                  <widget class="QSpinBox" name="matureday"/>
                  </item>
                  <item>
-                  <widget class="QComboBox" name="comboBox">
+                  <widget class="QComboBox" name="maturemonth">
                    <item>
                     <property name="text">
                      <string>Jan</string>
@@ -271,7 +271,7 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QSpinBox" name="spinBox_2">
+                  <widget class="QSpinBox" name="matureyear">
                    <property name="maximum">
                     <number>15000</number>
                    </property>
@@ -281,7 +281,7 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QTimeEdit" name="timeEdit"/>
+                  <widget class="QTimeEdit" name="maturetime"/>
                  </item>
                 </layout>
                </item>
@@ -290,14 +290,14 @@
                  <item>
                   <layout class="QHBoxLayout" name="horizontalLayout_2">
                    <item>
-                    <widget class="QRadioButton" name="radioButton">
+                    <widget class="QRadioButton" name="matureradio_yes">
                      <property name="text">
                       <string>Yes</string>
                      </property>
                     </widget>
                    </item>
                    <item>
-                    <widget class="QRadioButton" name="radioButton_2">
+                    <widget class="QRadioButton" name="matureradio_no">
                      <property name="text">
                       <string>No</string>
                      </property>
@@ -316,7 +316,7 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QDoubleSpinBox" name="doubleSpinBox">
+                  <widget class="QDoubleSpinBox" name="coinpayout">
                    <property name="value">
                     <double>1.000000000000000</double>
                    </property>
@@ -341,7 +341,7 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QPlainTextEdit" name="plainTextEdit">
+                  <widget class="QPlainTextEdit" name="maturedescription">
                    <property name="plainText">
                     <string>What the investment will be based on</string>
                    </property>
@@ -353,14 +353,14 @@
              </widget>
             </item>
             <item row="8" column="1">
-             <widget class="QPushButton" name="pushButton_2">
+             <widget class="QPushButton" name="gencoininfo_btn">
               <property name="text">
                <string>GenerateCoinInfo</string>
               </property>
              </widget>
             </item>
             <item row="6" column="1">
-             <widget class="QLineEdit" name="lineEdit_4">
+             <widget class="QLineEdit" name="coinvalue">
               <property name="text">
                <string>.25</string>
               </property>
@@ -376,10 +376,10 @@
             <item row="3" column="1">
              <layout class="QHBoxLayout" name="horizontalLayout_4">
               <item>
-               <widget class="QSpinBox" name="spinBox_3"/>
+               <widget class="QSpinBox" name="createday"/>
               </item>
               <item>
-               <widget class="QComboBox" name="comboBox_2">
+               <widget class="QComboBox" name="createmonth">
                 <item>
                  <property name="text">
                   <string>Jan</string>
@@ -438,7 +438,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QSpinBox" name="spinBox_4">
+               <widget class="QSpinBox" name="createyear">
                 <property name="maximum">
                  <number>15000</number>
                 </property>
@@ -448,7 +448,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QTimeEdit" name="timeEdit_2"/>
+               <widget class="QTimeEdit" name="createtime"/>
               </item>
              </layout>
             </item>
@@ -467,7 +467,7 @@
              </widget>
             </item>
             <item row="1" column="1">
-             <widget class="QLineEdit" name="lineEdit">
+             <widget class="QLineEdit" name="coincount">
               <property name="text">
                <string>50000</string>
               </property>
@@ -481,7 +481,7 @@
              </widget>
             </item>
             <item row="5" column="1">
-             <widget class="QLineEdit" name="lineEdit_3">
+             <widget class="QLineEdit" name="valuetype">
               <property name="text">
                <string>CAD</string>
               </property>
@@ -495,7 +495,7 @@
              </widget>
             </item>
             <item row="0" column="1">
-             <widget class="QLineEdit" name="lineEdit_5">
+             <widget class="QLineEdit" name="coinname">
               <property name="text">
                <string>CookieCoin</string>
               </property>
