@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
 //    QString styleSheet = QLatin1String(file.readAll());
 
 
-        QPixmap m("./Resource/goalcoin.png");
+        QPixmap m("./Resource/qtcoin.png");
 
 
     MainWindow w;

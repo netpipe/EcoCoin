@@ -124,6 +124,8 @@ void MainWindow::insertCoins()
     //https://stackoverflow.com/questions/1711631/improve-insert-per-second-performance-of-sqlite
     //https://forum.qt.io/topic/86846/insert-data-into-sqlite-is-very-slow-by-qsqlquery/5
     //https://stackoverflow.com/questions/31197144/why-is-my-sqlite-query-so-slow-in-qt5/31208237
+
+    coinDB.transaction();
     QString query = "INSERT INTO coins(addr) VALUES (?)";
     QVariantList coins;
     for(int k = 0 ; k < _coins.count() ; k++)
@@ -140,12 +142,13 @@ void MainWindow::insertCoins()
 
     if(insert.execBatch())
     {
-      //  qDebug() << "Coin is properly inserted";
+        qDebug() << "Coin is properly inserted";
     }
     else
     {
-      //  qDebug()<<"ERROR! "<< insert.lastError();
+        qDebug()<<"ERROR! "<< insert.lastError();
     }
+    coinDB.commit();
     _coins.clear();
 
 }
