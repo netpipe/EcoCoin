@@ -14,8 +14,8 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QGridLayout" name="gridLayout_2">
-    <item row="0" column="0" colspan="2">
+   <layout class="QGridLayout" name="gridLayout_5">
+    <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
        <number>2</number>
@@ -164,25 +164,25 @@
            <attribute name="title">
             <string>Coin Settings</string>
            </attribute>
-           <layout class="QGridLayout" name="gridLayout_5">
+           <layout class="QGridLayout" name="gridLayout_2">
             <item row="9" column="1">
+             <widget class="QPushButton" name="pushButton_4">
+              <property name="text">
+               <string>Validate Coins - compare coins.db freecoins.db and clientcoins.db</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_7">
+              <property name="text">
+               <string>DateCreated</string>
+              </property>
+             </widget>
+            </item>
+            <item row="8" column="1">
              <widget class="QPushButton" name="pushButton">
               <property name="text">
                <string>GenerateCoin</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="label_6">
-              <property name="text">
-               <string>CoinAddressLength</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QLineEdit" name="lineEdit">
-              <property name="text">
-               <string>50000</string>
               </property>
              </widget>
             </item>
@@ -193,45 +193,21 @@
               </property>
              </widget>
             </item>
-            <item row="3" column="0">
-             <widget class="QLabel" name="label_7">
-              <property name="text">
-               <string>DateCreated</string>
-              </property>
-             </widget>
-            </item>
-            <item row="7" column="0" colspan="2">
+            <item row="6" column="0" colspan="2">
              <widget class="QGroupBox" name="groupBox">
               <property name="title">
                <string>Matures</string>
               </property>
               <layout class="QGridLayout" name="gridLayout">
-               <item row="0" column="0">
-                <widget class="QRadioButton" name="radioButton">
-                 <property name="text">
-                  <string>Yes</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="1">
-                <widget class="QRadioButton" name="radioButton_2">
-                 <property name="text">
-                  <string>No</string>
-                 </property>
-                 <property name="checked">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="0">
-                <widget class="QLabel" name="label_10">
-                 <property name="text">
-                  <string>MaturingDate</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="1">
+               <item row="4" column="1">
                 <layout class="QHBoxLayout" name="horizontalLayout_3">
+                 <item>
+                  <widget class="QLabel" name="label_10">
+                   <property name="text">
+                    <string>MaturingDate</string>
+                   </property>
+                  </widget>
+                 </item>
                  <item>
                   <widget class="QSpinBox" name="spinBox"/>
                  </item>
@@ -309,31 +285,49 @@
                  </item>
                 </layout>
                </item>
+               <item row="2" column="1">
+                <layout class="QHBoxLayout" name="horizontalLayout">
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_2">
+                   <item>
+                    <widget class="QRadioButton" name="radioButton">
+                     <property name="text">
+                      <string>Yes</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QRadioButton" name="radioButton_2">
+                     <property name="text">
+                      <string>No</string>
+                     </property>
+                     <property name="checked">
+                      <bool>true</bool>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_9">
+                   <property name="text">
+                    <string>CoinPayout </string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QDoubleSpinBox" name="doubleSpinBox">
+                   <property name="value">
+                    <double>1.000000000000000</double>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
               </layout>
              </widget>
             </item>
-            <item row="5" column="0">
-             <widget class="QLabel" name="label_8">
-              <property name="text">
-               <string>CoinValue</string>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="0">
-             <widget class="QLabel" name="label_9">
-              <property name="text">
-               <string>CoinPayout</string>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="1">
-             <widget class="QLineEdit" name="lineEdit_5">
-              <property name="text">
-               <string>1x</string>
-              </property>
-             </widget>
-            </item>
-            <item row="8" column="1">
+            <item row="7" column="1">
              <widget class="QPushButton" name="pushButton_2">
               <property name="text">
                <string>GenerateCoinInfo</string>
@@ -347,21 +341,14 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_5">
+            <item row="5" column="0">
+             <widget class="QLabel" name="label_8">
               <property name="text">
-               <string>CoinCount</string>
+               <string>CoinValue</string>
               </property>
              </widget>
             </item>
-            <item row="10" column="1">
-             <widget class="QPushButton" name="pushButton_4">
-              <property name="text">
-               <string>Validate Coins - compare coins.db freecoins.db and clientcoins.db</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="1">
+            <item row="2" column="1">
              <layout class="QHBoxLayout" name="horizontalLayout_4">
               <item>
                <widget class="QSpinBox" name="spinBox_3"/>
@@ -439,6 +426,48 @@
                <widget class="QTimeEdit" name="timeEdit_2"/>
               </item>
              </layout>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_6">
+              <property name="text">
+               <string>CoinAddressLength</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QLabel" name="label_16">
+              <property name="text">
+               <string>Coin Value based on Local Currency or something like Gold / silver / bitcoin etc...</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="lineEdit">
+              <property name="text">
+               <string>50000</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_5">
+              <property name="text">
+               <string>CoinCount</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QLineEdit" name="lineEdit_3">
+              <property name="text">
+               <string>CAD</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="0">
+             <widget class="QLabel" name="label_17">
+              <property name="text">
+               <string>Type</string>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
