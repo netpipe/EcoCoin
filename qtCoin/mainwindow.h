@@ -29,6 +29,10 @@ public:
     void GenerateCoins2();
     void GenerateCoins3();
     void combinationUtil(QString arr, int n, int r, int index, QString data, int i);
+void insertCoins();
+void createCoinTable();
+QSqlDatabase coinDB;
+QList<QString> _coins;
 
     void ListUSB();
     QMediaPlayer*player;

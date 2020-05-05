@@ -35,6 +35,19 @@ MainWindow::MainWindow(QWidget *parent) :
     createUserTable();
     selectUsers();
 
+    coinDB = QSqlDatabase::addDatabase("QSQLITE");
+    coinDB.setDatabaseName("coins.sqlite");
+    if(coinDB.open())
+    {
+        qDebug()<<"Successful coin database connection";
+    }
+    else
+    {
+        qDebug()<<"Error: failed database connection";
+    }
+    createCoinTable();
+
+
     player=new QMediaPlayer();
    // player->setMedia(QUrl("qrc:/sounds/ec1_mono.ogg"));
    // player->setMedia(QUrl::fromLocalFile("./paddle_hit.wav"));
@@ -84,6 +97,57 @@ void MainWindow::ListUSB(){ // only need the drive we have named USBKEY (could p
        qDebug() << "size:" << storage.bytesTotal()/1000/1000 << "MB";
        qDebug() << "availableSize:" << storage.bytesAvailable()/1000/1000 << "MB";
     }
+}
+
+void MainWindow::createCoinTable()
+{
+    QString query;
+    query.append("CREATE TABLE IF NOT EXISTS coins("
+                 "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                 "addr VARCHAR(50));");
+    QSqlQuery create;
+    create.prepare(query);
+
+    if (create.exec())
+    {
+        qDebug()<<"Table exists or has been created";
+    }
+    else
+    {
+        qDebug()<<"Table not exists or has not been created";
+        qDebug()<<"ERROR! "<< create.lastError();
+    }
+}
+
+void MainWindow::insertCoins()
+{
+    //https://stackoverflow.com/questions/1711631/improve-insert-per-second-performance-of-sqlite
+    //https://forum.qt.io/topic/86846/insert-data-into-sqlite-is-very-slow-by-qsqlquery/5
+    //https://stackoverflow.com/questions/31197144/why-is-my-sqlite-query-so-slow-in-qt5/31208237
+    QString query = "INSERT INTO coins(addr) VALUES (?)";
+    QVariantList coins;
+    for(int k = 0 ; k < _coins.count() ; k++)
+    {
+        coins << _coins[k];
+//        query += "INSERT INTO coins(addr) VALUES ('" + _coins[k] + "');";
+    }
+    coins << QVariant(QVariant::String);
+
+//    qDebug() << query;
+    QSqlQuery insert;
+    insert.prepare(query);
+    insert.addBindValue(coins);
+
+    if(insert.execBatch())
+    {
+      //  qDebug() << "Coin is properly inserted";
+    }
+    else
+    {
+      //  qDebug()<<"ERROR! "<< insert.lastError();
+    }
+    _coins.clear();
+
 }
 
 void MainWindow::createUserTable()

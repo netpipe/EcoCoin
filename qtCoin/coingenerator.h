@@ -124,7 +124,7 @@ void MainWindow::GenerateCoins3()
 {
     QString arr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
     QString data = "        ";
-    _total = 100;
+    _total = 10000;
     _count = 0;
     _state = false;
     _length = 8;
@@ -140,9 +140,15 @@ void MainWindow::combinationUtil(QString arr, int n, int r, int index, QString d
         return;
     if(index == r)
     {
-        qDebug() << data;
+        //qDebug() << data;
 
         // write to the database
+        _coins.append(data);
+
+        if(_coins.count() > 300)
+        {
+            insertCoins();
+        }
 
         _count++;
         if(_count >= _total)
