@@ -32,7 +32,8 @@ HEADERS  += mainwindow.h \
     src/downloadmanager.h \
     src/encryption/rsa/Rsa.h \
     src/encryption/Qt-AES/qaesencryption.h \
-    src/encryption/encryption.h
+    src/encryption/encryption.h \
+    coingenerator.h
 
 FORMS    += mainwindow.ui
 

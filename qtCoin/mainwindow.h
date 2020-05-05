@@ -10,6 +10,7 @@
 #include <QEvent>
 #include <QThread>
 
+
 namespace Ui {
 class MainWindow;
 }
@@ -26,6 +27,9 @@ public:
     void selectUsers();
     void GenerateCoins1();
     void GenerateCoins2();
+    void GenerateCoins3();
+    void combinationUtil(QString arr, int n, int r, int index, QString data, int i);
+
     void ListUSB();
     QMediaPlayer*player;
     Rsa *rsaTester;
@@ -42,12 +46,21 @@ public:
     QByteArray EncryptMsg(QString plainMsg);
     QString DecryptMsg(QByteArray encryptedMsg, Rsa *rsa);
 
+    //coingenerator3
+    int _count;
+    int _total;
+    int _length;
+    bool _state;
+
+
 private slots:
     void on_pushButtonInsertUser_clicked();
 
     void on_gencoininfo_btn_clicked();
 
     void on_actionOpenCoin_triggered();
+
+    void on_pushButton_clicked();
 
 private:
     Ui::MainWindow *ui;
