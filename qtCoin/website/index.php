@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xml:lang="en" lang="en">
 <head>
-    <meta name="Keywords" content="keywords" /><meta name="Description" content="FreeLibrary" />
+    <meta name="Keywords" content="keywords" /><meta name="Description" content="qtCoin" />
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="refresh" content="50">
@@ -59,13 +59,9 @@
 //~ ini_set('display_errors', 1);
 //~ ini_set('display_startup_errors', 1);
 //error_reporting(E_ALL);
-$sitename="http://www.freelibrary.net";
+$sitename="http://www.qtCoin.ca";
          //   $pwd = getcwd();
             //chdir('test');
-
-
-//$sites="http://localhost:69/~netpipe/GrandGallery";
-//         include("upload.php");
         
         
 	function render($file){
@@ -171,16 +167,23 @@ $sitename="http://www.freelibrary.net";
 									
         elseif  ( $page == "" ){
 			echo "main page";
+		echo '<div class="wrapper">';
+echo			'<div class="progress-bar">';
+	echo			'<span class="progress-bar-fill" style="width: 80%;"></span>';
+			echo '</div>';
+		echo '</div>';
+
+
+
 			render("books");
 			//render("stories");
-			
+
 			}
 
-
         echo '</div>'; //end of green content box
-      ?>
-      
 
+      ?>
+<progress max="100" value="80"></progress>
 	<div id="footer2" style="border-radius: 15px 15px 15px 15px;margin:10px;background:#d0d0d0;clear:both;border:1px black solid;">
 	    			<br><br>
 
@@ -198,7 +201,7 @@ $sitename="http://www.freelibrary.net";
 //         //  echo rand(1, 10)."<br>";
 -->
 
-        <i> Free Library for the masses<br>
+        <i> qtCoin<br>
         <br> Running this site requires no Javascript or Flash<br><br></i>
 
 
