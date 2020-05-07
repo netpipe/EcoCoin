@@ -32,10 +32,14 @@ public:
     QString GetRandomString(int length);
     QString GenerateClientAddress(int length);
     QString year;
-void insertCoins();
-void createCoinTable();
-void themeInit();
-QList<QString> _coins;
+    QString usbpath;
+    void placeCoins();
+
+    void RandomizeCoins();
+    void insertCoins();
+    void createCoinTable();
+    void themeInit();
+    QList<QString> _coins;
 
     void ListUSB();
     QMediaPlayer*player;

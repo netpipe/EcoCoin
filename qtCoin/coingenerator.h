@@ -5,6 +5,50 @@
 #include <QCoreApplication>
 //#include <QMainWindow>
 
+void MainWindow::RandomizeCoins()
+{
+//put into availableCoins.db
+
+
+    //read coins.db into memory to try and open both sqldb at same time or write to textfile then read back in
+    db.setDatabaseName("avalableCoins.sqlite");
+    if(db.open())
+    {
+        qDebug()<<"Successful coin database connection";
+    }
+    else
+    {
+        qDebug()<<"Error: failed database connection";
+    }
+
+    QString query;
+    query.append("CREATE TABLE IF NOT EXISTS coins("
+                 "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                 "addr VARCHAR(50));");
+
+    //SELECT column FROM table
+    //ORDER BY RAND()
+    //LIMIT 1
+
+    QSqlQuery create;
+
+    create.prepare(query);
+
+    if (create.exec())
+    {
+        qDebug()<<"Table exists or has been created";
+    }
+    else
+    {
+        qDebug()<<"Table not exists or has not been created";
+        qDebug()<<"ERROR! "<< create.lastError();
+    }
+
+    query.clear();
+    db.close();
+
+}
+
 void MainWindow::insertCoins()
 {
     //https://stackoverflow.com/questions/1711631/improve-insert-per-second-performance-of-sqlite

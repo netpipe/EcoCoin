@@ -90,6 +90,8 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::ListUSB(){
+    //store and retrieve master encryption keys with this.
+
 //https://stackoverflow.com/questions/40035332/how-to-get-path-to-usb-drive-on-linux-in-qt
     foreach (const QStorageInfo &storage, QStorageInfo::mountedVolumes()) {
 
@@ -101,6 +103,7 @@ void MainWindow::ListUSB(){
 
 //      qDebug() << storagestring.at(3);
        QString usbstring = ui->usbdrivename->text().toLatin1();
+       usbpath = storage.rootPath().contains(usbstring);
   if (storage.rootPath().contains(usbstring)){
 qDebug() << "yep" << "/n";
     }
@@ -510,6 +513,8 @@ void MainWindow::on_pushButton_3_clicked() //search button
         query.append("SELECT * FROM users WHERE name =" "'" + ui->userid->text()  + "'" );
 }
 
+    //search for coin owner / validity
+
     QSqlQuery select;
     select.prepare(query);
 
@@ -668,3 +673,11 @@ void MainWindow::on_encrypted_no_clicked()
     //check to see if anything is already using encryption
     ui->encrypted_yes->setChecked(1);
 }
+
+void MainWindow::placeCoins() //free coins from coins.db
+{
+// validate first ? (depends on speed)
+// encrypt coin based on index and client encryption key or master encryption key dual encryption probably not required to speed things up might even be able to use xor and hash.
+// place into client walled based on yearly tables
+}
+
