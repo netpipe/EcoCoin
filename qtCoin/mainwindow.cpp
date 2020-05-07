@@ -681,17 +681,23 @@ void MainWindow::placeCoins() //free coins from coins.db
 // place into client walled based on yearly tables
 
     //https://doc.qt.io/qt-5/qcryptographichash.html
-//    QCryptographicHash hash(hashAlgorithm);
-//    if (hash.addData(&f)) {
-//        return hash.result();
-
+//md5Checksum();//
 }
 
-//https://stackoverflow.com/questions/16383392/how-to-get-the-sha-1-md5-checksum-of-a-file-with-qt
-// Returns empty QByteArray() on failure.
-    QByteArray md5Checksum(const QString &fileName,
-                            QCryptographicHash::Algorithm hashAlgorithm)
-    {
+QByteArray md5Checksum(QString stuff)
+{
+    //https://stackoverflow.com/questions/16383392/how-to-get-the-sha-1-md5-checksum-of-a-file-with-qt
+    // Returns empty QByteArray() on failure.
+            QCryptographicHash hash(QCryptographicHash::Md5); //QCryptographicHash::Md5
+            hash.addData(stuff.toLatin1());
+            return hash.result();
+        //return QByteArray();
+}
+
+QByteArray fileChecksum(const QString &fileName,QCryptographicHash::Algorithm hashAlgorithm)
+{
+    //https://stackoverflow.com/questions/16383392/how-to-get-the-sha-1-md5-checksum-of-a-file-with-qt
+    // Returns empty QByteArray() on failure.
         QFile f(fileName);
         if (f.open(QFile::ReadOnly)) {
             QCryptographicHash hash(hashAlgorithm); //QCryptographicHash::Md5
@@ -700,4 +706,4 @@ void MainWindow::placeCoins() //free coins from coins.db
             }
         }
         return QByteArray();
-    }
+}
