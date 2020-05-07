@@ -36,7 +36,7 @@ MainWindow::MainWindow(QWidget *parent) :
     db.close();
 
     createUserTable();
-    selectUsers();
+ //   selectUsers();
 
 
  //   coinDB = QSqlDatabase::addDatabase("QSQLITE");
@@ -344,39 +344,79 @@ void MainWindow::on_actionOpenCoin_triggered()
         }
     } while (!line.isNull());
 
+
                QString coinname=nums.at(0);
+               ui->coinname->text();
                qDebug("%s", qUtf8Printable(coinname));
                QString coincount=nums.at(1);
+                ui->coincount->text();
                qDebug("%s", qUtf8Printable(coincount));
 
     //  QString coincount=nums.at(0).toLocal8Bit().constData();
 
                 QString CoinLength=nums.at(2);
+                ui->coinlength->setText(CoinLength.toLatin1());
                 qDebug("%s", qUtf8Printable(CoinLength));
                 QString createday=nums.at(3);
+             //   ui->createday->value(createday.toInt());
                 qDebug("%s", qUtf8Printable(createday));
                 QString CreateMonth=nums.at(4);
+                //ui->createmonth->setValue();comboBox->currentIndex();
                 qDebug("%s", qUtf8Printable(CreateMonth));
                 QString createyear=nums.at(5);
+                ui->createyear->setValue(createyear.toInt());
                 qDebug("%s", qUtf8Printable(createyear));
                 QString createtime=nums.at(6);
+                QRegExp rx("[:]");// match a comma or a space
+                QStringList list2 = createtime.split(rx);
+                QString ampm = list2.at(0);
+                QRegExp rx2("[A]");// match a comma or a space
+                QStringList list4 = ampm.split(rx2);
+
+//                if(regex.exactMatch(value))
+//                {
+//                   //If regex does match - Doesn't work!
+//                }
+
+                QTime time(list2.at(0).toInt(),list4.at(0).toInt()); //12:00AM
+                ui->createtime->setTime(time);
+
                 qDebug("%s", qUtf8Printable(createtime));
                 QString coinvalue=nums.at(7);
+                ui->coinvalue->setText(coinvalue.toLatin1());
                 qDebug("%s", qUtf8Printable(coinvalue));
-
                 QString matures=nums.at(8);
+                ui->coinpayout->setValue(matures.toInt());
                 qDebug("%s", qUtf8Printable(matures));
-                QString coinpayout=nums.at(0);
+                QString coinpayout=nums.at(9);
+                ui->coinpayout->setValue(coinpayout.toInt());
                 qDebug("%s", qUtf8Printable(coinpayout));
                 QString maturedate=nums.at(10);
-                qDebug("%s", qUtf8Printable(CoinLength));
+                ui->matureday->setValue(maturedate.toInt());
+                qDebug("%s", qUtf8Printable(maturedate));
                 QString maturemonth=nums.at(11);
-                qDebug("%s", qUtf8Printable(CoinLength));
+             //   ui->maturemonth->se(maturemonth.);
+                qDebug("%s", qUtf8Printable(maturemonth));
                 QString matureyear=nums.at(12);
-                qDebug("%s", qUtf8Printable(CoinLength));
-                 QString maturetime=nums.at(13);
+                ui->matureyear->text();
+                qDebug("%s", qUtf8Printable(matureyear));
+QString maturetime=nums.at(13);
+                 list2 = maturetime.split(rx);
+                 ampm = list2.at(0);
+                 list4 = ampm.split(rx2);
+
+//                if(regex.exactMatch(value))
+//                {
+//                   //If regex does match - Doesn't work!
+//                }
+
+                 QTime time2(list2.at(0).toInt(),list4.at(0).toInt()); //12:00AM
+                 ui->maturetime->setTime(time2);
+
+                // ui->maturetime->setDate();
                  qDebug("%s", qUtf8Printable(maturetime));
                  QString maturedescription=nums.at(14);
+                 ui->maturedescription->toPlainText();
                 qDebug("%s", qUtf8Printable(maturedescription));
 
 }
@@ -398,9 +438,18 @@ void MainWindow::on_actionExit_triggered()
 
 void MainWindow::on_pushButton_3_clicked() //search button
 {
-    db.open();
+    db.setDatabaseName("database.sqlite");
+    if(db.open())
+    {
+       qDebug()<<"Successful database connection";
+    }
+    else
+    {
+       qDebug()<<"Error: failed database connection";
+    }
+
     QString query;
-    query.append("SELECT "+ ui->userid->text() +" FROM users");
+    query.append("SELECT * FROM users WHERE name =" "'" + ui->userid->text() + "'" );
 
     QSqlQuery select;
     select.prepare(query);
@@ -427,5 +476,6 @@ void MainWindow::on_pushButton_3_clicked() //search button
         ui->tableWidgetUsers->setItem(row,3,new QTableWidgetItem(select.value(4).toByteArray().constData()));
         row++;
     }
+    query.clear();
     db.close();
 }
