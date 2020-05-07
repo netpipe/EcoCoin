@@ -32,7 +32,7 @@ public:
     QString GetRandomString() const;
 void insertCoins();
 void createCoinTable();
-QSqlDatabase coinDB;
+
 QList<QString> _coins;
 
     void ListUSB();
@@ -76,6 +76,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db;
+    QSqlDatabase coinDB;
 };
 
 #endif // MAINWINDOW_H

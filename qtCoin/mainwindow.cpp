@@ -18,11 +18,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     qDebug()<<"Application initialized...";
 
-    QString name;
-    name.append("database.sqlite");
-
     db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName(name);
+  //  db.setDatabaseName(name);
+    db.setDatabaseName("database.sqlite");
     if(db.open())
     {
        qDebug()<<"Successful database connection";
@@ -32,13 +30,18 @@ MainWindow::MainWindow(QWidget *parent) :
        qDebug()<<"Error: failed database connection";
     }
 
-    createUserTable();
-    //selectUsers();
+  //  if ( db.isOpen() )
+  //      std::cout << "the database is:  open" << std::endl;
+
     db.close();
 
-    coinDB = QSqlDatabase::addDatabase("QSQLITE");
-    coinDB.setDatabaseName("coins.sqlite");
-    if(coinDB.open())
+    createUserTable();
+    selectUsers();
+
+
+ //   coinDB = QSqlDatabase::addDatabase("QSQLITE");
+    db.setDatabaseName("coins.sqlite");
+    if(db.open())
     {
         qDebug()<<"Successful coin database connection";
     }
@@ -46,9 +49,18 @@ MainWindow::MainWindow(QWidget *parent) :
     {
         qDebug()<<"Error: failed database connection";
     }
+    db.close();
 
     createCoinTable();
-    coinDB.close();
+
+    db.setDatabaseName("database.sqlite");
+
+   // if ( coinDB.isOpen() )
+   //     std::cout << "the database is:  open" << std::endl;
+
+//QSqlDatabase::removeDatabase( QSqlDatabase::defaultConnection );
+
+
 
 
     player=new QMediaPlayer();
@@ -102,32 +114,19 @@ void MainWindow::ListUSB(){ // only need the drive we have named USBKEY (could p
     }
 }
 
-void MainWindow::createCoinTable()
-{
-    QString query;
-    query.append("CREATE TABLE IF NOT EXISTS coins("
-                 "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                 "addr VARCHAR(50));");
-
-    QSqlQuery create;
-
-    create.prepare(query);
-
-    if (create.exec())
-    {
-        qDebug()<<"Table exists or has been created";
-    }
-    else
-    {
-        qDebug()<<"Table not exists or has not been created";
-        qDebug()<<"ERROR! "<< create.lastError();
-    }
-}
-
-
 
 void MainWindow::createUserTable()
 {
+    db.setDatabaseName("database.sqlite");
+    if(db.open())
+    {
+       qDebug()<<"Successful database connection";
+    }
+    else
+    {
+       qDebug()<<"Error: failed database connection";
+    }
+
     QString query;
     query.append("CREATE TABLE IF NOT EXISTS users("
                     "id INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -149,11 +148,64 @@ void MainWindow::createUserTable()
         qDebug()<<"Table not exists or has not been created";
         qDebug()<<"ERROR! "<< create.lastError();
     }
+    query.clear();
+   // db.close();
 }
+
+void MainWindow::createCoinTable()
+{
+    db.setDatabaseName("coins.sqlite");
+    if(db.open())
+    {
+        qDebug()<<"Successful coin database connection";
+    }
+    else
+    {
+        qDebug()<<"Error: failed database connection";
+    }
+
+    QString query;
+    query.append("CREATE TABLE IF NOT EXISTS coins("
+                 "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                 "addr VARCHAR(50));");
+
+    QSqlQuery create;
+
+    create.prepare(query);
+
+    if (create.exec())
+    {
+        qDebug()<<"Table exists or has been created";
+    }
+    else
+    {
+        qDebug()<<"Table not exists or has not been created";
+        qDebug()<<"ERROR! "<< create.lastError();
+    }
+
+query.clear();
+
+    db.close();
+//QSqlDatabase::removeDatabase( QSqlDatabase::defaultConnection );
+//    if ( coinDB.isOpen() )
+//        std::cout << "the database is:  open" << std::endl;
+
+}
+
+
 
 void MainWindow::insertUser()
 {
-    db.open();
+    db.setDatabaseName("database.sqlite");
+    if(db.open())
+    {
+       qDebug()<<"Successful database connection";
+    }
+    else
+    {
+       qDebug()<<"Error: failed database connection";
+    }
+
     QString query;
 
 //        QByteArray bFname = EncryptMsg(fname);
@@ -184,12 +236,24 @@ void MainWindow::insertUser()
         qDebug()<<"The user is not inserted correctly";
         qDebug()<<"ERROR! "<< insert.lastError();
     }
+query.clear();
     db.close();
+
 }
 
 void MainWindow::selectUsers()
 {
-    db.open();
+    db.setDatabaseName("database.sqlite");
+    if(db.open())
+    {
+       qDebug()<<"Successful database connection";
+    }
+    else
+    {
+       qDebug()<<"Error: failed database connection";
+    }
+
+
     QString query;
     query.append("SELECT * FROM users");
 
@@ -218,13 +282,15 @@ void MainWindow::selectUsers()
         ui->tableWidgetUsers->setItem(row,3,new QTableWidgetItem(select.value(4).toByteArray().constData()));
         row++;
     }
+    query.clear();
     db.close();
+
 }
 
 void MainWindow::on_pushButtonInsertUser_clicked()
 {
     insertUser();
-    selectUsers();
+  //  selectUsers();
 }
 
 void MainWindow::on_gencoininfo_btn_clicked()
@@ -317,7 +383,7 @@ void MainWindow::on_actionOpenCoin_triggered()
 
 void MainWindow::on_pushButton_clicked() //generate coins button
 {
-    GenerateCoins3(8,1000);
+    GenerateCoins3(8,10000);
 }
 
 void MainWindow::on_actionSyncUSB_triggered()
@@ -334,7 +400,7 @@ void MainWindow::on_pushButton_3_clicked() //search button
 {
     db.open();
     QString query;
-    query.append("SELECT * FROM users");
+    query.append("SELECT "+ ui->userid->text() +" FROM users");
 
     QSqlQuery select;
     select.prepare(query);
@@ -354,11 +420,11 @@ void MainWindow::on_pushButton_3_clicked() //search button
 
     while (select.next())
     {
-//        ui->tableWidgetUsers->insertRow(row);
-//        ui->tableWidgetUsers->setItem(row,0,new QTableWidgetItem(select.value(1).toByteArray().constData()));
-//        ui->tableWidgetUsers->setItem(row,1,new QTableWidgetItem(select.value(2).toByteArray().constData()));
-//        ui->tableWidgetUsers->setItem(row,2,new QTableWidgetItem(select.value(3).toByteArray().constData()));
-//        ui->tableWidgetUsers->setItem(row,3,new QTableWidgetItem(select.value(4).toByteArray().constData()));
+        ui->tableWidgetUsers->insertRow(row);
+        ui->tableWidgetUsers->setItem(row,0,new QTableWidgetItem(select.value(1).toByteArray().constData()));
+        ui->tableWidgetUsers->setItem(row,1,new QTableWidgetItem(select.value(2).toByteArray().constData()));
+        ui->tableWidgetUsers->setItem(row,2,new QTableWidgetItem(select.value(3).toByteArray().constData()));
+        ui->tableWidgetUsers->setItem(row,3,new QTableWidgetItem(select.value(4).toByteArray().constData()));
         row++;
     }
     db.close();
