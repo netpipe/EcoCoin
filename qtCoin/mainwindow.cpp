@@ -207,6 +207,9 @@ void MainWindow::insertUser()
 
 if (ui->encrypted_yes->text() == 1 ){
 
+    rsaTester = new Rsa();
+    rsaTester->publish_keys(m_e, m_n);
+
     QByteArray bFname = EncryptMsg(ui->lineEditName->text(),"123456789", "your-IV-vector");
     QString mykey1 = BigInt2Str(m_e); //rsa keys
     QString mykey2 = BigInt2Str(m_n); //rsa keys
@@ -223,7 +226,7 @@ if (ui->encrypted_yes->text() == 1 ){
                     "age,"
                     "class)"
                     "VALUES("
-                    "'"+ui->lineEditName->text()+"',"
+                    "'"+bFname+"',"
                     "'"+ui->lineEditSurname->text()+"',"
                     ""+ui->lineEditAge->text()+","
                     ""+ui->lineEditClass->text()+""
