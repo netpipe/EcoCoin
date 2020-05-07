@@ -33,7 +33,8 @@ MainWindow::MainWindow(QWidget *parent) :
     }
 
     createUserTable();
-    selectUsers();
+    //selectUsers();
+    db.close();
 
     coinDB = QSqlDatabase::addDatabase("QSQLITE");
     coinDB.setDatabaseName("coins.sqlite");
@@ -45,7 +46,9 @@ MainWindow::MainWindow(QWidget *parent) :
     {
         qDebug()<<"Error: failed database connection";
     }
+
     createCoinTable();
+    coinDB.close();
 
 
     player=new QMediaPlayer();
@@ -105,7 +108,9 @@ void MainWindow::createCoinTable()
     query.append("CREATE TABLE IF NOT EXISTS coins("
                  "id INTEGER PRIMARY KEY AUTOINCREMENT,"
                  "addr VARCHAR(50));");
+
     QSqlQuery create;
+
     create.prepare(query);
 
     if (create.exec())
@@ -148,6 +153,7 @@ void MainWindow::createUserTable()
 
 void MainWindow::insertUser()
 {
+    db.open();
     QString query;
 
 //        QByteArray bFname = EncryptMsg(fname);
@@ -178,10 +184,12 @@ void MainWindow::insertUser()
         qDebug()<<"The user is not inserted correctly";
         qDebug()<<"ERROR! "<< insert.lastError();
     }
+    db.close();
 }
 
 void MainWindow::selectUsers()
 {
+    db.open();
     QString query;
     query.append("SELECT * FROM users");
 
@@ -210,6 +218,7 @@ void MainWindow::selectUsers()
         ui->tableWidgetUsers->setItem(row,3,new QTableWidgetItem(select.value(4).toByteArray().constData()));
         row++;
     }
+    db.close();
 }
 
 void MainWindow::on_pushButtonInsertUser_clicked()
@@ -252,15 +261,61 @@ void MainWindow::on_actionOpenCoin_triggered()
     MyFile.open(QIODevice::ReadWrite);
     QTextStream in (&MyFile);
     QString line;
+  //  int ii=0;
+    QStringList list;
+     //   QList<QString> nums;
+    QStringList nums;
+
+
     do {
         line = in.readLine();
-        if (!line.contains(searchString, Qt::CaseSensitive)) {
+        searchString=":";
+        if (line.contains(searchString)) { //, Qt::CaseSensitive
             // do something
+            QRegExp rx("[:]");// match a comma or a space
+            list = line.split(rx);
+            nums.append(list.at(1).toLatin1());
         }
     } while (!line.isNull());
+
+               QString coinname=nums.at(0);
+               qDebug("%s", qUtf8Printable(coinname));
+               QString coincount=nums.at(1);
+               qDebug("%s", qUtf8Printable(coincount));
+
+    //  QString coincount=nums.at(0).toLocal8Bit().constData();
+
+                QString CoinLength=nums.at(2);
+                qDebug("%s", qUtf8Printable(CoinLength));
+                QString createday=nums.at(3);
+                qDebug("%s", qUtf8Printable(createday));
+                QString CreateMonth=nums.at(4);
+                qDebug("%s", qUtf8Printable(CreateMonth));
+                QString createyear=nums.at(5);
+                qDebug("%s", qUtf8Printable(createyear));
+                QString createtime=nums.at(6);
+                qDebug("%s", qUtf8Printable(createtime));
+                QString coinvalue=nums.at(7);
+                qDebug("%s", qUtf8Printable(coinvalue));
+
+                QString matures=nums.at(8);
+                qDebug("%s", qUtf8Printable(matures));
+                QString coinpayout=nums.at(0);
+                qDebug("%s", qUtf8Printable(coinpayout));
+                QString maturedate=nums.at(10);
+                qDebug("%s", qUtf8Printable(CoinLength));
+                QString maturemonth=nums.at(11);
+                qDebug("%s", qUtf8Printable(CoinLength));
+                QString matureyear=nums.at(12);
+                qDebug("%s", qUtf8Printable(CoinLength));
+                 QString maturetime=nums.at(13);
+                 qDebug("%s", qUtf8Printable(maturetime));
+                 QString maturedescription=nums.at(14);
+                qDebug("%s", qUtf8Printable(maturedescription));
+
 }
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_pushButton_clicked() //generate coins button
 {
     GenerateCoins3(8,1000);
 }
@@ -273,4 +328,38 @@ void MainWindow::on_actionSyncUSB_triggered()
 void MainWindow::on_actionExit_triggered()
 {
     QApplication::quit();
+}
+
+void MainWindow::on_pushButton_3_clicked() //search button
+{
+    db.open();
+    QString query;
+    query.append("SELECT * FROM users");
+
+    QSqlQuery select;
+    select.prepare(query);
+
+    if (select.exec())
+    {
+        qDebug()<<"The user is properly selected";
+    }
+    else
+    {
+        qDebug()<<"The user is not selected correctly";
+        qDebug()<<"ERROR! "<< select.lastError();
+    }
+
+    int row = 0;
+    ui->tableWidgetUsers->setRowCount(0);
+
+    while (select.next())
+    {
+//        ui->tableWidgetUsers->insertRow(row);
+//        ui->tableWidgetUsers->setItem(row,0,new QTableWidgetItem(select.value(1).toByteArray().constData()));
+//        ui->tableWidgetUsers->setItem(row,1,new QTableWidgetItem(select.value(2).toByteArray().constData()));
+//        ui->tableWidgetUsers->setItem(row,2,new QTableWidgetItem(select.value(3).toByteArray().constData()));
+//        ui->tableWidgetUsers->setItem(row,3,new QTableWidgetItem(select.value(4).toByteArray().constData()));
+        row++;
+    }
+    db.close();
 }
