@@ -131,18 +131,6 @@ QString MainWindow::GenerateClientAddress(int length){
     //   QString clientaddress = QDate::currentDate().year() + GetRandomString(length);
     //QDate::currentDate().year();
    // qDebug() << clientaddress << "/n";
-
-
-
-    QByteArray bFname = EncryptMsg(clientaddress,"123456789", "your-IV-vector");
-    QString mykey1 = BigInt2Str(m_e);
-    QString mykey2 = BigInt2Str(m_n);
-
-    //            Rsa *rsa = new Rsa(BigInt(key1.toStdString()), BigInt(key2.toStdString()));
-    //            QString strMsg = DecryptMsg(bMsg, rsa);
-    //            QString strDate = DecryptMsg(bDate, rsa);
-    //            delete rsa;
-
     return clientaddress;
 }
 

@@ -81,6 +81,14 @@ private slots:
 
     void on_btnRemoveThemeFromFile_clicked();
 
+    void on_matureradio_yes_clicked();
+
+    void on_encrypted_yes_clicked();
+
+    void on_matureradio_no_clicked();
+
+    void on_encrypted_no_clicked();
+
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db;

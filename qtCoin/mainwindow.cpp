@@ -205,15 +205,17 @@ void MainWindow::insertUser()
 
     QString query;
 
+if (ui->encrypted_yes->text() == 1 ){
 
-//        QByteArray bFname = EncryptMsg("string to encrypt","123456789", "your-IV-vector");
-//        QString mykey1 = BigInt2Str(m_e); //rsa keys
-//        QString mykey2 = BigInt2Str(m_n); //rsa keys
+    QByteArray bFname = EncryptMsg(ui->lineEditName->text(),"123456789", "your-IV-vector");
+    QString mykey1 = BigInt2Str(m_e); //rsa keys
+    QString mykey2 = BigInt2Str(m_n); //rsa keys
 
-        //            Rsa *rsa = new Rsa(BigInt(key1.toStdString()), BigInt(key2.toStdString()));
-        //            QString strMsg = DecryptMsg(bMsg, rsa);
-        //            QString strDate = DecryptMsg(bDate, rsa);
-        //            delete rsa;
+
+     Rsa *rsa = new Rsa(BigInt(mykey1.toStdString()), BigInt(mykey2.toStdString()));
+     QString strMsg = DecryptMsg(bFname, rsa,"123456789", "your-IV-vector");
+     QString strDate = DecryptMsg(bFname, rsa,"123456789", "your-IV-vector");
+     delete rsa;
 
     query.append("INSERT INTO users("
                     "name,"
@@ -226,6 +228,21 @@ void MainWindow::insertUser()
                     ""+ui->lineEditAge->text()+","
                     ""+ui->lineEditClass->text()+""
                     ");");
+}else{
+    query.append("INSERT INTO users("
+                    "name,"
+                    "surname,"
+                    "age,"
+                    "class)"
+                    "VALUES("
+                    "'"+ui->lineEditName->text()+"',"
+                    "'"+ui->lineEditSurname->text()+"',"
+                    ""+ui->lineEditAge->text()+","
+                    ""+ui->lineEditClass->text()+""
+                    ");");
+
+
+}
 
     QSqlQuery insert;
     insert.prepare(query);
@@ -394,13 +411,30 @@ void MainWindow::on_actionOpenCoin_triggered()
                 ui->coinvalue->setText(coinvalue.toLatin1());
                     qDebug("%s", qUtf8Printable(coinvalue));
                 QString matures=nums.at(8);
-                ui->matureradio_yes->setEnabled(matures.toInt());
+              //  ui->matureradio_yes->setEnabled(matures.toInt());
+                if ( matures.toLatin1() == "Yes"){
+                    ui->matureradio_yes->setChecked(1);
+                    ui->matureradio_no->setChecked(0);
+
+                }else{
+                    ui->matureradio_yes->setChecked(0);
+                    ui->matureradio_no->setChecked(1);
+                }
                     qDebug("%s", qUtf8Printable(matures));
                 QString coinpayout=nums.at(9);
                 ui->coinpayout->setValue(coinpayout.toInt());
                     qDebug("%s", qUtf8Printable(coinpayout));
                 QString encrypted=nums.at(10);
-                ui->encrypted_yes->text();
+               // ui->encrypted_yes->text();
+
+                if ( encrypted.toLatin1() == "Yes"){
+                    ui->encrypted_yes->setChecked(1);
+                    ui->encrypted_no->setChecked(0);
+
+                }else{
+                    ui->encrypted_yes->setChecked(0);
+                    ui->encrypted_no->setChecked(1);
+                }
                     qDebug("%s", qUtf8Printable(coinpayout));
                 QString maturedate=nums.at(11);
                 ui->matureday->setValue(maturedate.toInt());
@@ -579,4 +613,25 @@ void MainWindow::on_btnRemoveThemeFromFile_clicked()
      //file.write("\n");
      file.close();
      }
+}
+
+void MainWindow::on_matureradio_yes_clicked()
+{
+ui->matureradio_no->setChecked(0);
+}
+
+void MainWindow::on_encrypted_yes_clicked()
+{
+    ui->encrypted_no->setChecked(0);
+}
+
+void MainWindow::on_matureradio_no_clicked()
+{
+ui->encrypted_no->setChecked(1);
+}
+
+void MainWindow::on_encrypted_no_clicked()
+{
+    //check to see if anything is already using encryption
+    ui->encrypted_yes->setChecked(1);
 }
