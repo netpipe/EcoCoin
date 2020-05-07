@@ -29,7 +29,9 @@ public:
     void GenerateCoins2();
     void GenerateCoins3(int length,int total);
     void combinationUtil(QString arr, int n, int r, int index, QString data, int i);
-    QString GetRandomString() const;
+    QString GetRandomString(int length);
+    QString GenerateClientAddress(int length);
+    QString year;
 void insertCoins();
 void createCoinTable();
 void themeInit();

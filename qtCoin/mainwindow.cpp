@@ -26,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
     db.close();
 
     createUserTable();
- //   selectUsers();
+    selectUsers();
 
 
  //   coinDB = QSqlDatabase::addDatabase("QSQLITE");
@@ -73,6 +73,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     themeInit();
 
+    int yearvar= QDate::currentDate().year();
+    year = QString::number(yearvar);
+    QString temp = GenerateClientAddress(12);
+  //  qDebug() << QDate::currentDate().year();
+    qDebug() <<temp ;
 }
 
 
@@ -161,6 +166,10 @@ void MainWindow::createCoinTable()
     query.append("CREATE TABLE IF NOT EXISTS coins("
                  "id INTEGER PRIMARY KEY AUTOINCREMENT,"
                  "addr VARCHAR(50));");
+
+    //SELECT column FROM table
+    //ORDER BY RAND()
+    //LIMIT 1
 
     QSqlQuery create;
 
@@ -271,15 +280,19 @@ void MainWindow::selectUsers()
         ui->tableWidgetUsers->setItem(row,3,new QTableWidgetItem(select.value(4).toByteArray().constData()));
         row++;
     }
+
     query.clear();
     db.close();
-
 }
 
 void MainWindow::on_pushButtonInsertUser_clicked()
 {
+    QString temp = GenerateClientAddress(12);
+    ui->lineEditName->setText(temp.toLatin1());
     insertUser();
-  //  selectUsers();
+    selectUsers();
+
+
 }
 
 void MainWindow::on_gencoininfo_btn_clicked()
@@ -312,7 +325,7 @@ void MainWindow::on_gencoininfo_btn_clicked()
 
 void MainWindow::on_actionOpenCoin_triggered()
 {//https://stackoverflow.com/questions/31384273/how-to-search-for-a-string-in-a-text-file-using-qt
-    QString searchString("the string I am looking for");
+    QString searchString(":");
     QFile MyFile("settings.txt");
     MyFile.open(QIODevice::ReadWrite);
     QTextStream in (&MyFile);
@@ -333,7 +346,6 @@ void MainWindow::on_actionOpenCoin_triggered()
             nums.append(list.at(1).toLatin1());
         }
     } while (!line.isNull());
-
 
                 QString coinname=nums.at(0);
                 ui->coinname->setText(coinname.toLatin1());
@@ -412,7 +424,7 @@ void MainWindow::on_actionOpenCoin_triggered()
                  ui->maturedescription->toPlainText();
                     qDebug("%s", qUtf8Printable(maturedescription));
                  QString usbdrivename=nums.at(16);
-                 ui->usbdrivename->text();
+                 ui->usbdrivename->setText("usbdrivename");
                     qDebug("%s", qUtf8Printable(usbdrivename));
 }
 
@@ -515,8 +527,6 @@ void MainWindow::themeInit(){
         //QStyleSheetManager::loadStyleSheet( ui->cmbTheme->currentText().toLatin1());
         QStyleSheetManager::loadStyleSheet(  ui->cmbTheme->itemText(ui->cmbTheme->count()-1));
     }
-
-
 
     QFile file("themes.txt");
         if(file.open(QIODevice::ReadWrite | QIODevice::Text))// QIODevice::Append |
