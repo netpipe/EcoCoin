@@ -205,9 +205,15 @@ void MainWindow::insertUser()
 
     QString query;
 
-//        QByteArray bFname = EncryptMsg(fname);
-//        QString mykey1 = BigInt2Str(m_e);
-//        QString mykey2 = BigInt2Str(m_n);
+
+//        QByteArray bFname = EncryptMsg("string to encrypt","123456789", "your-IV-vector");
+//        QString mykey1 = BigInt2Str(m_e); //rsa keys
+//        QString mykey2 = BigInt2Str(m_n); //rsa keys
+
+        //            Rsa *rsa = new Rsa(BigInt(key1.toStdString()), BigInt(key2.toStdString()));
+        //            QString strMsg = DecryptMsg(bMsg, rsa);
+        //            QString strDate = DecryptMsg(bDate, rsa);
+        //            delete rsa;
 
     query.append("INSERT INTO users("
                     "name,"

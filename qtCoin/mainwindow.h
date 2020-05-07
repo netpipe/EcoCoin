@@ -50,8 +50,8 @@ QList<QString> _coins;
     QString rsadec(QString input, Rsa *rsa);
     QByteArray aesenc(QString input,QString,QString);
     QString aesdec(QByteArray input,QString,QString);
-    QByteArray EncryptMsg(QString plainMsg);
-    QString DecryptMsg(QByteArray encryptedMsg, Rsa *rsa);
+    QByteArray EncryptMsg(QString plainMsg,QString aeskey1,QString aeskey2);
+    QString DecryptMsg(QByteArray encryptedMsg, Rsa *rsa,QString aeskey1,QString aeskey2);
 
     //coingenerator3
     int _count;

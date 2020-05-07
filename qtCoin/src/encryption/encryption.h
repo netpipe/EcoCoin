@@ -6,6 +6,7 @@
 #include <QCryptographicHash>
 #include <QString>
 #include <QDebug>
+#include "../../mainwindow.h"
 
 QString MainWindow::rsaenc(QString string2, Rsa *rsa)
 {
@@ -114,18 +115,20 @@ QString MainWindow::encdec(QString string2,int encdec)
     return (decryptedMsg.c_str());
 }
 
-QByteArray MainWindow::EncryptMsg(QString plainMsg)
+QByteArray MainWindow::EncryptMsg(QString plainMsg,QString aeskey1,QString aeskey2)
 {
     qDebug()<<"Encryption Started";
     QString enc1 = rsaenc(plainMsg);
-    QByteArray enc2 = aesenc(enc1, "123456789", "your-IV-vector");
+   // QByteArray enc2 = aesenc(enc1, "123456789", "your-IV-vector");
+    QByteArray enc2 = aesenc(enc1, aeskey1.toLatin1(), aeskey2.toLatin1());
     return enc2.toHex();
 }
 
-QString MainWindow::DecryptMsg(QByteArray encryptedMsg, Rsa *rsa)
+QString MainWindow::DecryptMsg(QByteArray encryptedMsg, Rsa *rsa,QString aeskey1,QString aeskey2)
 {
     qDebug()<<"Decryption Started";
-    QString dec1 = aesdec(QByteArray::fromHex(encryptedMsg), "123456789", "your-IV-vector");
+   // QString dec1 = aesdec(QByteArray::fromHex(encryptedMsg), "123456789", "your-IV-vector");
+    QString dec1 = aesdec(QByteArray::fromHex(encryptedMsg), aeskey1.toLatin1(), aeskey2.toLatin1() );
     QString dec2 = rsadec(dec1, rsa);
     return dec2;
 }
