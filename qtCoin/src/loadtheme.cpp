@@ -1,8 +1,7 @@
-//#include "loadtheme.h"
-//#include "ui_loadtheme.h"
-//#include "mainwindow.h"
-//#include <QMessageBox>
-//#include <QFileDialog>
+#include "loadtheme.h"
+#include "mainwindow.h"
+#include <QMessageBox>
+#include <QFileDialog>
 
 //LoadTheme::LoadTheme(QWidget *parent) :
 //    QWidget(parent),

@@ -4,9 +4,8 @@
 #include "src/encryption/rsa/Rsa.h"
 #include "src/qstylesheetmanager.h"
 #include "src/downloadmanager.h"
-
+#include <QFileDialog>
 #include <coingenerator.h>
-
 #include <QDebug>
 
 
@@ -15,24 +14,15 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
     qDebug()<<"Application initialized...";
 
-    db = QSqlDatabase::addDatabase("QSQLITE");
-  //  db.setDatabaseName(name);
+    db = QSqlDatabase::addDatabase("QSQLITE");    
     db.setDatabaseName("database.sqlite");
     if(db.open())
-    {
-       qDebug()<<"Successful database connection";
-    }
-    else
-    {
-       qDebug()<<"Error: failed database connection";
-    }
-
+    {       qDebug()<<"Successful database connection";    }
+    else    {       qDebug()<<"Error: failed database connection";    }
   //  if ( db.isOpen() )
   //      std::cout << "the database is:  open" << std::endl;
-
     db.close();
 
     createUserTable();
@@ -42,26 +32,14 @@ MainWindow::MainWindow(QWidget *parent) :
  //   coinDB = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName("coins.sqlite");
     if(db.open())
-    {
-        qDebug()<<"Successful coin database connection";
-    }
+    {        qDebug()<<"Successful coin database connection";    }
     else
-    {
-        qDebug()<<"Error: failed database connection";
-    }
+    {        qDebug()<<"Error: failed database connection";    }
     db.close();
 
     createCoinTable();
 
-    db.setDatabaseName("database.sqlite");
-
-   // if ( coinDB.isOpen() )
-   //     std::cout << "the database is:  open" << std::endl;
-
 //QSqlDatabase::removeDatabase( QSqlDatabase::defaultConnection );
-
-
-
 
     player=new QMediaPlayer();
    // player->setMedia(QUrl("qrc:/sounds/ec1_mono.ogg"));
@@ -79,18 +57,22 @@ MainWindow::MainWindow(QWidget *parent) :
     player->setMedia(QMediaContent(), buffer);
     player->play();
 
-// qDebug("text");
-// qDebug()<<"test";
-// cout << "testing";
-// printf("testing");
-// qInfo() << "Is this working?";
-
 //    QString s = QDate::currentDate().toString();
 //    QDate::currentDate().day();
 //    QDate::currentDate().month();
 //    QDate::currentDate().year();
 
     ui->progress->setValue(50);
+
+    QFile Fout("settings.txt");
+    if(Fout.exists())
+    {
+        on_actionOpenCoin_triggered();
+    }
+    Fout.close();
+
+    themeInit();
+
 }
 
 
@@ -99,11 +81,22 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::ListUSB(){ // only need the drive we have named USBKEY (could put random number with it for verify)
+void MainWindow::ListUSB(){
 //https://stackoverflow.com/questions/40035332/how-to-get-path-to-usb-drive-on-linux-in-qt
     foreach (const QStorageInfo &storage, QStorageInfo::mountedVolumes()) {
 
        qDebug() << storage.rootPath();
+
+//       QString storagestring=storage.rootPath();
+//       QRegExp rx("[/]");// match a comma or a space
+//       QStringList list2 = storagestring.split(rx);
+
+//      qDebug() << storagestring.at(3);
+       QString usbstring = ui->usbdrivename->text().toLatin1();
+  if (storage.rootPath().contains(usbstring)){
+qDebug() << "yep" << "/n";
+    }
+
        if (storage.isReadOnly())
            qDebug() << "isReadOnly:" << storage.isReadOnly();
 
@@ -149,7 +142,7 @@ void MainWindow::createUserTable()
         qDebug()<<"ERROR! "<< create.lastError();
     }
     query.clear();
-   // db.close();
+    db.close();
 }
 
 void MainWindow::createCoinTable()
@@ -183,13 +176,8 @@ void MainWindow::createCoinTable()
         qDebug()<<"ERROR! "<< create.lastError();
     }
 
-query.clear();
-
+    query.clear();
     db.close();
-//QSqlDatabase::removeDatabase( QSqlDatabase::defaultConnection );
-//    if ( coinDB.isOpen() )
-//        std::cout << "the database is:  open" << std::endl;
-
 }
 
 
@@ -236,7 +224,8 @@ void MainWindow::insertUser()
         qDebug()<<"The user is not inserted correctly";
         qDebug()<<"ERROR! "<< insert.lastError();
     }
-query.clear();
+
+    query.clear();
     db.close();
 
 }
@@ -306,16 +295,17 @@ void MainWindow::on_gencoininfo_btn_clicked()
               stream << "createday:" << ui->createday->text() <<'\n';
               stream << "CreateMonth: " << ui->createmonth->currentText() <<'\n';
               stream << "createyear:" << ui->createyear->text() <<'\n';
-              stream << "createtime:" << ui->createtime->text() <<'\n';
+              stream << "createtime:" << ui->createtime->time().hour() << "|" << ui->createtime->time().minute()  <<'\n';
               stream << "coinvalue:" << ui->coinvalue->text() <<'\n';
               stream << "matures:" << ui->matureradio_yes->text() <<'\n';
-              stream << "coinpayout: " << ui->coinpayout->text() <<'\n';
-
+              stream << "coinpayout:" << ui->coinpayout->text() <<'\n';
+              stream << "encrypted:" << ui->encrypted_yes->text() <<'\n';
               stream << "maturedate:" << ui->matureday->text() <<'\n';
               stream << "maturemonth:" << ui->maturemonth->currentText() <<'\n';
-              stream << "matureyear: " << ui->matureyear->text() <<'\n';
-              stream << "maturetime:" << ui->maturetime->text() <<'\n';
-              stream << "maturedescription:" << ui->maturedescription->toPlainText() <<'\n';
+              stream << "matureyear:" << ui->matureyear->text() <<'\n';
+              stream << "maturetime:" << ui->maturetime->time().hour() << "|" << ui->maturetime->time().minute() <<'\n';
+              stream << "maturedescription:" << ui->maturedescription->toPlainText()<<'\n';
+              stream << "usbdrivename:" << ui->usbdrivename->text();
               file.close();
           }
 }
@@ -345,15 +335,13 @@ void MainWindow::on_actionOpenCoin_triggered()
     } while (!line.isNull());
 
 
-               QString coinname=nums.at(0);
-               ui->coinname->text();
-               qDebug("%s", qUtf8Printable(coinname));
-               QString coincount=nums.at(1);
-                ui->coincount->text();
-               qDebug("%s", qUtf8Printable(coincount));
-
-    //  QString coincount=nums.at(0).toLocal8Bit().constData();
-
+                QString coinname=nums.at(0);
+                ui->coinname->setText(coinname.toLatin1());
+                    qDebug("%s", qUtf8Printable(coinname));
+                QString coincount=nums.at(1);
+                ui->coincount->setText(coincount.toLatin1());
+                    qDebug("%s", qUtf8Printable(coincount));
+                //  QString coincount=nums.at(0).toLocal8Bit().constData();
                 QString CoinLength=nums.at(2);
                 ui->coinlength->setText(CoinLength.toLatin1());
                 qDebug("%s", qUtf8Printable(CoinLength));
@@ -366,69 +354,76 @@ void MainWindow::on_actionOpenCoin_triggered()
                 QString createyear=nums.at(5);
                 ui->createyear->setValue(createyear.toInt());
                 qDebug("%s", qUtf8Printable(createyear));
-                QString createtime=nums.at(6);
-                QRegExp rx("[:]");// match a comma or a space
-                QStringList list2 = createtime.split(rx);
-                QString ampm = list2.at(0);
-                QRegExp rx2("[A]");// match a comma or a space
-                QStringList list4 = ampm.split(rx2);
 
+                QString createtime=nums.at(6);
+                QRegExp rx("[|]");// match a comma or a space
+                QStringList list2 = createtime.split(rx);
+//                QString ampm = list2.at(1);
+//                QRegExp rx2("[A]");// match a comma or a space
+//                QStringList list4 = ampm.split(rx2);
+                //qDebug("test %s", qUtf8Printable(list4.at(0).toInt()));
 //                if(regex.exactMatch(value))
 //                {
 //                   //If regex does match - Doesn't work!
 //                }
+                //QTime time(list2.at(0).toInt(),list4.at(0).toInt()); //12:00AM
+                QTime time(list2.at(0).toInt(),list2.at(1).toInt()); //12:00AM
 
-                QTime time(list2.at(0).toInt(),list4.at(0).toInt()); //12:00AM
                 ui->createtime->setTime(time);
 
-                qDebug("%s", qUtf8Printable(createtime));
+                    qDebug("%s", qUtf8Printable(createtime));
                 QString coinvalue=nums.at(7);
                 ui->coinvalue->setText(coinvalue.toLatin1());
-                qDebug("%s", qUtf8Printable(coinvalue));
+                    qDebug("%s", qUtf8Printable(coinvalue));
                 QString matures=nums.at(8);
-                ui->coinpayout->setValue(matures.toInt());
-                qDebug("%s", qUtf8Printable(matures));
+                ui->matureradio_yes->setEnabled(matures.toInt());
+                    qDebug("%s", qUtf8Printable(matures));
                 QString coinpayout=nums.at(9);
                 ui->coinpayout->setValue(coinpayout.toInt());
-                qDebug("%s", qUtf8Printable(coinpayout));
-                QString maturedate=nums.at(10);
+                    qDebug("%s", qUtf8Printable(coinpayout));
+                QString encrypted=nums.at(10);
+                ui->encrypted_yes->text();
+                    qDebug("%s", qUtf8Printable(coinpayout));
+                QString maturedate=nums.at(11);
                 ui->matureday->setValue(maturedate.toInt());
-                qDebug("%s", qUtf8Printable(maturedate));
-                QString maturemonth=nums.at(11);
+                    qDebug("%s", qUtf8Printable(maturedate));
+                QString maturemonth=nums.at(12);
              //   ui->maturemonth->se(maturemonth.);
-                qDebug("%s", qUtf8Printable(maturemonth));
-                QString matureyear=nums.at(12);
+                    qDebug("%s", qUtf8Printable(maturemonth));
+                QString matureyear=nums.at(13);
                 ui->matureyear->text();
-                qDebug("%s", qUtf8Printable(matureyear));
-QString maturetime=nums.at(13);
-                 list2 = maturetime.split(rx);
-                 ampm = list2.at(0);
-                 list4 = ampm.split(rx2);
+                    qDebug("%s", qUtf8Printable(matureyear));
 
+                QString maturetime=nums.at(14);
+                 list2 = maturetime.split(rx);
+//                 ampm = list2.at(1);
+//                 list4 = ampm.split(rx2);
+                   // qDebug("test %s", qUtf8Printable(list4.at(0).toInt()));
 //                if(regex.exactMatch(value))
 //                {
 //                   //If regex does match - Doesn't work!
 //                }
-
-                 QTime time2(list2.at(0).toInt(),list4.at(0).toInt()); //12:00AM
+                 //QTime time2(list2.at(0).toInt(),list4.at(0).toInt()); //12:00AM
+                 QTime time2(list2.at(0).toInt(),list2.at(1).toInt()); //12:00AM
                  ui->maturetime->setTime(time2);
-
                 // ui->maturetime->setDate();
-                 qDebug("%s", qUtf8Printable(maturetime));
-                 QString maturedescription=nums.at(14);
+                    qDebug("%s", qUtf8Printable(maturetime));
+                 QString maturedescription=nums.at(15);
                  ui->maturedescription->toPlainText();
-                qDebug("%s", qUtf8Printable(maturedescription));
-
+                    qDebug("%s", qUtf8Printable(maturedescription));
+                 QString usbdrivename=nums.at(16);
+                 ui->usbdrivename->text();
+                    qDebug("%s", qUtf8Printable(usbdrivename));
 }
 
 void MainWindow::on_pushButton_clicked() //generate coins button
 {
-    GenerateCoins3(8,10000);
+    GenerateCoins3(ui->coinlength->text().toInt(),ui->coincount->text().toInt());
 }
 
 void MainWindow::on_actionSyncUSB_triggered()
 {
-
+ListUSB();
 }
 
 void MainWindow::on_actionExit_triggered()
@@ -478,4 +473,94 @@ void MainWindow::on_pushButton_3_clicked() //search button
     }
     query.clear();
     db.close();
+}
+
+void MainWindow::on_btnApply_clicked() //theme
+{
+    if (ui->cmbTheme->currentText().toLatin1() != ""){
+        QStyleSheetManager::loadStyleSheet( ui->cmbTheme->currentText().toLatin1());
+    }
+}
+
+void MainWindow::themeInit(){
+
+
+
+    QDir directory("./");
+    QStringList themes = directory.entryList(QStringList() << "*.qss" << "*.qss",QDir::Files);
+
+    for (int i=0;i < themes.size(); i++){
+        QString themetmp = themes.at(i);
+        ui->cmbTheme->addItem((themetmp.toLatin1() ));
+        qDebug()<<themetmp << "/n";
+    }
+
+    //        QFile file("themes.txt");
+    //        if (file.open(QIODevice::ReadOnly))
+    //        {
+    //           QTextStream stream(&file);
+    //           QString entry = stream.readLine();
+    //           while (!(stream.atEnd()))
+    //           {
+    //              ui->cmbTheme->addItem(entry);
+    //              entry = stream.readLine();
+    //           }
+    //           ui->cmbTheme->addItem(entry);
+    //           file.close();
+    //        }
+
+    //    ui->cmbTheme->itemText(ui->cmbTheme->count());
+
+    if (ui->cmbTheme->currentText().toLatin1() != ""){
+        //QStyleSheetManager::loadStyleSheet( ui->cmbTheme->currentText().toLatin1());
+        QStyleSheetManager::loadStyleSheet(  ui->cmbTheme->itemText(ui->cmbTheme->count()-1));
+    }
+
+
+
+    QFile file("themes.txt");
+        if(file.open(QIODevice::ReadWrite | QIODevice::Text))// QIODevice::Append |
+        {
+                QTextStream stream(&file);
+                for (int i = 0; i < ui->cmbTheme->count(); i++)
+                {
+                 stream << ui->cmbTheme->itemText(i) << endl;
+                }
+            //                file.write("\n");
+               file.close();
+        }
+}
+
+void MainWindow::on_btnAddThemeFromFile_clicked()
+{
+    QString newFile = QFileDialog ::getOpenFileName(0,"Select File","","Files (*.qss)");
+    ui->cmbTheme->addItem(newFile);
+
+    QFile file("themes.txt");
+        if(file.open(QIODevice::ReadWrite | QIODevice::Text))// QIODevice::Append |
+        {
+                QTextStream stream(&file);
+                for (int i = 0; i < ui->cmbTheme->count(); i++)
+                {
+                 stream << ui->cmbTheme->itemText(i) << endl;
+                }
+            //                file.write("\n");
+               file.close();
+        }
+}
+
+void MainWindow::on_btnRemoveThemeFromFile_clicked()
+{
+    ui->cmbTheme->removeItem(ui->cmbTheme->currentIndex());
+    QFile file("themes.txt");
+    if(file.open(QIODevice::ReadWrite | QIODevice::Text))// QIODevice::Append |
+    {
+        QTextStream stream(&file);
+        for (int i = 0; i < ui->cmbTheme->count(); i++)
+        {
+            stream << ui->cmbTheme->itemText(i) << endl;
+        }
+     //file.write("\n");
+     file.close();
+     }
 }

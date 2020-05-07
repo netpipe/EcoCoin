@@ -32,7 +32,7 @@ public:
     QString GetRandomString() const;
 void insertCoins();
 void createCoinTable();
-
+void themeInit();
 QList<QString> _coins;
 
     void ListUSB();
@@ -72,6 +72,12 @@ private slots:
     void on_actionExit_triggered();
 
     void on_pushButton_3_clicked();
+
+    void on_btnApply_clicked();
+
+    void on_btnAddThemeFromFile_clicked();
+
+    void on_btnRemoveThemeFromFile_clicked();
 
 private:
     Ui::MainWindow *ui;
