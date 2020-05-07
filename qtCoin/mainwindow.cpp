@@ -78,6 +78,9 @@ MainWindow::MainWindow(QWidget *parent) :
     QString temp = GenerateClientAddress(12);
   //  qDebug() << QDate::currentDate().year();
     qDebug() <<temp ;
+
+    rsaTester = new Rsa();
+    rsaTester->publish_keys(m_e, m_n);
 }
 
 
@@ -205,20 +208,13 @@ void MainWindow::insertUser()
 
     QString query;
 
-if (ui->encrypted_yes->text() == 1 ){
+if (ui->encrypted_yes->text() == "Yes" ){
 
-    rsaTester = new Rsa();
-    rsaTester->publish_keys(m_e, m_n);
+
 
     QByteArray bFname = EncryptMsg(ui->lineEditName->text(),"123456789", "your-IV-vector");
     QString mykey1 = BigInt2Str(m_e); //rsa keys
     QString mykey2 = BigInt2Str(m_n); //rsa keys
-
-
-     Rsa *rsa = new Rsa(BigInt(mykey1.toStdString()), BigInt(mykey2.toStdString()));
-     QString strMsg = DecryptMsg(bFname, rsa,"123456789", "your-IV-vector");
-     QString strDate = DecryptMsg(bFname, rsa,"123456789", "your-IV-vector");
-     delete rsa;
 
     query.append("INSERT INTO users("
                     "name,"
@@ -231,6 +227,8 @@ if (ui->encrypted_yes->text() == 1 ){
                     ""+ui->lineEditAge->text()+","
                     ""+ui->lineEditClass->text()+""
                     ");");
+
+     qDebug()<<bFname+ "/n";
 }else{
     query.append("INSERT INTO users("
                     "name,"
@@ -497,9 +495,20 @@ void MainWindow::on_pushButton_3_clicked() //search button
     {
        qDebug()<<"Error: failed database connection";
     }
+        QString query;
 
-    QString query;
-    query.append("SELECT * FROM users WHERE name =" "'" + ui->userid->text() + "'" );
+        //testing save the keys maybe shorten the encryption length ?
+
+    if (ui->encrypted_yes->text() == "Yes" ){
+            QByteArray bFname = EncryptMsg(ui->userid->text(),"123456789", "your-IV-vector");
+            QString mykey1 = BigInt2Str(m_e); //rsa keys
+            QString mykey2 = BigInt2Str(m_n); //rsa keys
+
+            query.append("SELECT * FROM users WHERE name =" "'" + bFname  + "'" );
+
+    }else {
+        query.append("SELECT * FROM users WHERE name =" "'" + ui->userid->text()  + "'" );
+}
 
     QSqlQuery select;
     select.prepare(query);
@@ -517,6 +526,26 @@ void MainWindow::on_pushButton_3_clicked() //search button
     int row = 0;
     ui->tableWidgetUsers->setRowCount(0);
 
+    QString mykey1 = BigInt2Str(m_e); //rsa keys
+    QString mykey2 = BigInt2Str(m_n); //rsa keys
+
+    if (ui->encrypted_yes->text() == "Yes" ){
+
+    while (select.next())
+    {
+        Rsa *rsa = new Rsa(BigInt(mykey1.toStdString()), BigInt(mykey2.toStdString()));
+        QString strMsg = DecryptMsg(select.value(1).toByteArray().constData(), rsa,"123456789", "your-IV-vector");
+       // QString strDate = DecryptMsg(bFname, rsa,"123456789", "your-IV-vector");
+        delete rsa;
+
+        ui->tableWidgetUsers->insertRow(row);
+        ui->tableWidgetUsers->setItem(row,0,new QTableWidgetItem(strMsg));
+        ui->tableWidgetUsers->setItem(row,1,new QTableWidgetItem(select.value(2).toByteArray().constData()));
+        ui->tableWidgetUsers->setItem(row,2,new QTableWidgetItem(select.value(3).toByteArray().constData()));
+        ui->tableWidgetUsers->setItem(row,3,new QTableWidgetItem(select.value(4).toByteArray().constData()));
+        row++;
+    }
+}else{
     while (select.next())
     {
         ui->tableWidgetUsers->insertRow(row);
@@ -525,6 +554,7 @@ void MainWindow::on_pushButton_3_clicked() //search button
         ui->tableWidgetUsers->setItem(row,2,new QTableWidgetItem(select.value(3).toByteArray().constData()));
         ui->tableWidgetUsers->setItem(row,3,new QTableWidgetItem(select.value(4).toByteArray().constData()));
         row++;
+    }
     }
     query.clear();
     db.close();
