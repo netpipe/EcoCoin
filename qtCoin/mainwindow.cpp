@@ -679,5 +679,25 @@ void MainWindow::placeCoins() //free coins from coins.db
 // validate first ? (depends on speed)
 // encrypt coin based on index and client encryption key or master encryption key dual encryption probably not required to speed things up might even be able to use xor and hash.
 // place into client walled based on yearly tables
+
+    //https://doc.qt.io/qt-5/qcryptographichash.html
+//    QCryptographicHash hash(hashAlgorithm);
+//    if (hash.addData(&f)) {
+//        return hash.result();
+
 }
 
+//https://stackoverflow.com/questions/16383392/how-to-get-the-sha-1-md5-checksum-of-a-file-with-qt
+// Returns empty QByteArray() on failure.
+    QByteArray md5Checksum(const QString &fileName,
+                            QCryptographicHash::Algorithm hashAlgorithm)
+    {
+        QFile f(fileName);
+        if (f.open(QFile::ReadOnly)) {
+            QCryptographicHash hash(hashAlgorithm); //QCryptographicHash::Md5
+            if (hash.addData(&f)) {
+                return hash.result();
+            }
+        }
+        return QByteArray();
+    }
