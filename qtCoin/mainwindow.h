@@ -35,6 +35,7 @@ public:
     QString usbpath;
     void placeCoins();
     void md5verifydb();
+    void generateCoins();
 
     void RandomizeCoins();
     void insertCoins();

@@ -3,12 +3,30 @@
 #include <mainwindow.h>
 #include  <math.h>
 #include <QCoreApplication>
+#include <QFile>
+#include <QDebug>
 //#include <QMainWindow>
 
 void MainWindow::RandomizeCoins()
 {
 //put into availableCoins.db
 
+    QFile MyFile("coins.txt");
+    MyFile.open(QIODevice::ReadOnly);
+    QTextStream in (&MyFile);
+    QString line;
+    QStringList list;
+    QStringList nums;
+QVariantList coins;
+    do {
+        line = in.readLine();
+      //      nums.append(line);
+                coins << line.toLatin1();
+        //        query += "INSERT INTO coins(addr) VALUES ('" + _coins[k] + "');";
+
+    } while (!line.isNull());
+
+  coins << QVariant(QVariant::String);
 
     //read coins.db into memory to try and open both sqldb at same time or write to textfile then read back in
     db.setDatabaseName("avalableCoins.sqlite");
@@ -95,6 +113,24 @@ void MainWindow::insertCoins()
 
 }
 
+void MainWindow::generateCoins() //puts coins in text file to be read in by randomizer
+{
+    qDebug() << "generating coins to textfile";
+    QFile file("coins.txt");
+    if(file.open(QIODevice::ReadWrite | QIODevice::Text))// QIODevice::Append |
+    {
+        QTextStream stream(&file);
+        file.seek(file.size());
+
+        for(int i = 0 ; i < _coins.count() ; i++)
+        {
+            stream << _coins[i] << endl;
+        }
+    }
+        _coins.clear();
+        file.close();
+
+}
 
 void MainWindow::GenerateCoins3(int length,int total)
 {
@@ -131,7 +167,10 @@ void MainWindow::combinationUtil(QString arr, int n, int r, int index, QString d
 
         if(_coins.count() > 300)
         {
-            insertCoins();
+            //insertCoins(); //sqlversion
+            generateCoins(); //textversion
+        }else{
+            qDebug() << "not enough coins please use atleast 300";
         }
 
         _count++;
