@@ -120,22 +120,23 @@ void MainWindow::insertCoins()
 
 void MainWindow::generateCoins() //puts coins in text file to be read in by randomizer
 {
-    qDebug() << "generating coins to textfile";
+  //  qDebug() << "generating coins to textfile";
     QFile file("coins.txt");
-    if(file.open(QIODevice::ReadWrite | QIODevice::Text))// QIODevice::Append |
+    if(file.open(QIODevice::ReadWrite |  QIODevice::Append | QIODevice::Text))// QIODevice::Append |
     {
         QTextStream stream(&file);
         file.seek(file.size());
 
-        for(int i = 0 ; i < _coins.count() ; i++)
+        for(int i ; i < _coins.count() ; i++)
         {
-            stream << i << ":" <<_coins[i] << endl;
+            stream << QString::number(coini) << ":" <<_coins[i] << endl;
+            coini++;
         }
     }
         _coins.clear();
         file.close();
 
-        RandomizeCoins();
+      //  RandomizeCoins();
 
 }
 
@@ -172,13 +173,14 @@ void MainWindow::combinationUtil(QString arr, int n, int r, int index, QString d
         // write to the database
         _coins.append(data);
 
-        if(_coins.count() > 300)
+        if(_coins.count() > 80) //if using sql use 300
         {
             //insertCoins(); //sqlversion
             generateCoins(); //textversion
-        }//else{
-          //  qDebug() << "not enough coins please use atleast 300";
-       // }
+        }else{
+            generateCoins();
+           qDebug() << "putting in last little bit";
+        }
 
         _count++;
         if(_count >= _total)

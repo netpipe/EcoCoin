@@ -36,6 +36,7 @@ public:
     void placeCoins();
     void md5verifydb();
     void generateCoins();
+    int coini;
 
     void RandomizeCoins();
     void insertCoins();

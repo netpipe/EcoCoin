@@ -476,7 +476,9 @@ void MainWindow::on_actionOpenCoin_triggered()
 
 void MainWindow::on_pushButton_clicked() //generate coins button
 {
+      coini=0;
     GenerateCoins3(ui->coinlength->text().toInt(),ui->coincount->text().toInt());
+
 }
 
 void MainWindow::on_actionSyncUSB_triggered()
