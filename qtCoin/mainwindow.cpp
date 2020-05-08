@@ -8,7 +8,6 @@
 #include <coingenerator.h>
 #include <QDebug>
 
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -81,6 +80,17 @@ MainWindow::MainWindow(QWidget *parent) :
 
     rsaTester = new Rsa();
     rsaTester->publish_keys(m_e, m_n);
+
+
+//    QString resultxor = XORencryptDecrypt("testing", "key2");
+//       qDebug() <<"xor:"<<resultxor ;
+//    resultxor = XORencryptDecrypt(resultxor.toLatin1(), "key2");
+//            qDebug() <<"xor:"<<resultxor ;
+
+//            string test = XOR("testing", "key2");
+//                    qDebug() <<"xor:"<<test.c_str() ;
+                   // string XOR(test.c_str(), "key2");
+                   // qDebug() <<"xor:"<<test.c_str() ;
 }
 
 
@@ -682,28 +692,8 @@ void MainWindow::placeCoins() //free coins from coins.db
 
     //https://doc.qt.io/qt-5/qcryptographichash.html
 //md5Checksum();//
+
+
 }
 
-QByteArray md5Checksum(QString stuff)
-{
-    //https://stackoverflow.com/questions/16383392/how-to-get-the-sha-1-md5-checksum-of-a-file-with-qt
-    // Returns empty QByteArray() on failure.
-            QCryptographicHash hash(QCryptographicHash::Md5); //QCryptographicHash::Md5
-            hash.addData(stuff.toLatin1());
-            return hash.result();
-        //return QByteArray();
-}
 
-QByteArray fileChecksum(const QString &fileName,QCryptographicHash::Algorithm hashAlgorithm)
-{
-    //https://stackoverflow.com/questions/16383392/how-to-get-the-sha-1-md5-checksum-of-a-file-with-qt
-    // Returns empty QByteArray() on failure.
-        QFile f(fileName);
-        if (f.open(QFile::ReadOnly)) {
-            QCryptographicHash hash(hashAlgorithm); //QCryptographicHash::Md5
-            if (hash.addData(&f)) {
-                return hash.result();
-            }
-        }
-        return QByteArray();
-}

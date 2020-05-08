@@ -6,7 +6,35 @@
 #include <QCryptographicHash>
 #include <QString>
 #include <QDebug>
+#include <QFile>
 #include "../../mainwindow.h"
+
+
+QByteArray md5Checksum(QString stuff)
+{
+    //https://stackoverflow.com/questions/16383392/how-to-get-the-sha-1-md5-checksum-of-a-file-with-qt
+    // Returns empty QByteArray() on failure.
+
+    QCryptographicHash hash(QCryptographicHash::Md5); //QCryptographicHash::Md5
+    hash.addData(stuff.toLatin1());
+    return hash.result();
+
+        //return QByteArray();
+}
+
+QByteArray fileChecksum(const QString &fileName,QCryptographicHash::Algorithm hashAlgorithm)
+{
+    //https://stackoverflow.com/questions/16383392/how-to-get-the-sha-1-md5-checksum-of-a-file-with-qt
+    // Returns empty QByteArray() on failure.
+        QFile f(fileName);
+        if (f.open(QFile::ReadOnly)) {
+            QCryptographicHash hash(hashAlgorithm); //QCryptographicHash::Md5
+            if (hash.addData(&f)) {
+                return hash.result();
+            }
+        }
+        return QByteArray();
+}
 
 QString MainWindow::rsaenc(QString string2, Rsa *rsa)
 {
@@ -132,6 +160,75 @@ QString MainWindow::DecryptMsg(QByteArray encryptedMsg, Rsa *rsa,QString aeskey1
     QString dec2 = rsadec(dec1, rsa);
     return dec2;
 }
+
+
+//still trying to get xor working
+
+//QString XORencryptDecrypt(QString toEncrypt) {
+//    QChar key = 'K'; //Any char will work
+//  //  QString output = toEncrypt;
+
+//    QBbytearray output = qstringtobyte (toEncrypt);
+//    for (int i = 0; i < toEncrypt.size(); i++)
+//        output[i] = toEncrypt[i] ^ key;
+
+//    return output;
+//}
+
+string XOR(string value,string key)
+{
+    string retval(value);
+
+    short unsigned int klen=key.length();
+    short unsigned int vlen=value.length();
+    short unsigned int k=0;
+    short unsigned int v=0;
+
+    for(v = 0;v<vlen;v++)
+    {
+        retval[v]=value[v]^key[k];
+        k=(++k<klen?k:0);
+    }
+
+    return retval;
+}
+
+QString XORencryptDecrypt2(QString toEncrypt, QString key2)
+{
+    //QByteArray::toHex()
+QByteArray arr = toEncrypt.toLatin1();
+char key[3] = {'K', 'C', 'Q'};
+for (int i = 0; i < arr.size(); i++)
+    arr[i] = arr[i] ^ key[i % (sizeof(key) / sizeof(char))];
+
+}
+
+QString XORencryptDecrypt(QString toEncrypt, QString key2)
+{
+
+    const char* input = toEncrypt.toLatin1();
+    int inputLength = toEncrypt.size(); //m_textEdit->toPlainText().toLatin1().length();
+    const char* key = key2.toLatin1();//m_keyLineEdit->text().toLatin1().data();
+    int keyLength = key2.size();//m_keyLineEdit->text().toLatin1().length();
+
+    char output[inputLength];
+
+    for (int i = 0; i < inputLength + 1; ++i)
+    {
+        output[i] = input[i] ^ key[i % keyLength + 1];
+    }
+
+//    if (strinfo.length () > 0) {
+//    Qtextcodec *codec = Qtextcodec::codecforname ("Utf-8");
+//    result = Codec->fromunicode (strinfo);
+//    }
+
+
+    //m_textEdit->setText(QString::fromLatin1(output, inputLength));
+    return QString::fromLatin1(output, inputLength);
+}
+
+
 
 #endif
 
