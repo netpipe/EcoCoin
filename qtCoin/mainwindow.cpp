@@ -54,7 +54,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 //    media->setMedia("sound.mp3");
     player->setMedia(QMediaContent(), buffer);
-    player->play();
+  //  player->play();
 
 //    QString s = QDate::currentDate().toString();
 //    QDate::currentDate().day();
@@ -160,7 +160,8 @@ void MainWindow::createUserTable()
 
 void MainWindow::createCoinTable()
 {
-    db.setDatabaseName("coins.sqlite");
+    //db.setDatabaseName("coins.sqlite");
+        db.setDatabaseName("avalableCoins.sqlite");
     if(db.open())
     {
         qDebug()<<"Successful coin database connection";
@@ -478,7 +479,7 @@ void MainWindow::on_pushButton_clicked() //generate coins button
 {
       coini=0;
     GenerateCoins3(ui->coinlength->text().toInt(),ui->coincount->text().toInt());
-
+    RandomizeCoins();
 }
 
 void MainWindow::on_actionSyncUSB_triggered()

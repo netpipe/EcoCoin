@@ -24,14 +24,16 @@ QVariantList index;
         QRegExp rx("[:]");// match a comma or a space
         list = line.split(rx);
       //      nums.append(line);
-                index << list.at(0).toLatin1();
-                coins << list.at(1).toLatin1();
+              //  index << list.at(0).toLatin1();
+              //  coins << list.at(1).toLatin1();
+                coins << line.toLatin1();
         //        query += "INSERT INTO coins(addr) VALUES ('" + _coins[k] + "');";
 
     } while (!line.isNull());
 
   coins << QVariant(QVariant::String);
 index << QVariant(QVariant::String);
+
     //read coins.db into memory to try and open both sqldb at same time or write to textfile then read back in
     db.setDatabaseName("avalableCoins.sqlite");
     if(db.open())
@@ -43,8 +45,9 @@ index << QVariant(QVariant::String);
         qDebug()<<"Error: failed database connection";
     }
 
-    QString query;
+
     db.transaction();
+    QString query;
     query.append("INSERT INTO coins(addr) VALUES (?)");
 
     //SELECT column FROM table
@@ -56,16 +59,15 @@ index << QVariant(QVariant::String);
     create.prepare(query);
   //  create.addBindValue(index);
     create.addBindValue(coins);
-    if (create.execBatch())
+    if(create.exec())
     {
-        qDebug()<<"Table exists or has been created";
+        qDebug() << "Coin is properly inserted";
     }
     else
     {
-        qDebug()<<"Table not exists or has not been created";
         qDebug()<<"ERROR! "<< create.lastError();
     }
-db.commit();
+    db.commit();
     query.clear();
     db.close();
 
@@ -121,22 +123,22 @@ void MainWindow::insertCoins()
 void MainWindow::generateCoins() //puts coins in text file to be read in by randomizer
 {
   //  qDebug() << "generating coins to textfile";
+
     QFile file("coins.txt");
     if(file.open(QIODevice::ReadWrite |  QIODevice::Append | QIODevice::Text))// QIODevice::Append |
     {
         QTextStream stream(&file);
         file.seek(file.size());
 
-        for(int i ; i < _coins.count() ; i++)
+        for(int i=0 ; i < _coins.count() ; i++)
         {
             stream << QString::number(coini) << ":" <<_coins[i] << endl;
+            //stream <<_coins[i] << endl;
             coini++;
         }
     }
         _coins.clear();
         file.close();
-
-      //  RandomizeCoins();
 
 }
 
