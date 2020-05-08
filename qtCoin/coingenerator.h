@@ -18,16 +18,20 @@ void MainWindow::RandomizeCoins()
     QStringList list;
     QStringList nums;
 QVariantList coins;
+QVariantList index;
     do {
         line = in.readLine();
+        QRegExp rx("[:]");// match a comma or a space
+        list = line.split(rx);
       //      nums.append(line);
-                coins << line.toLatin1();
+                index << list.at(0).toLatin1();
+                coins << list.at(1).toLatin1();
         //        query += "INSERT INTO coins(addr) VALUES ('" + _coins[k] + "');";
 
     } while (!line.isNull());
 
   coins << QVariant(QVariant::String);
-
+index << QVariant(QVariant::String);
     //read coins.db into memory to try and open both sqldb at same time or write to textfile then read back in
     db.setDatabaseName("avalableCoins.sqlite");
     if(db.open())
@@ -51,7 +55,8 @@ QVariantList coins;
     QSqlQuery create;
 
     create.prepare(query);
-
+  //  create.addBindValue(index);
+  //  create.addBindValue(coins);
     if (create.exec())
     {
         qDebug()<<"Table exists or has been created";
@@ -88,6 +93,7 @@ void MainWindow::insertCoins()
     for(int k = 0 ; k < _coins.count() ; k++)
     {
         coins << _coins[k];
+
 //        query += "INSERT INTO coins(addr) VALUES ('" + _coins[k] + "');";
     }
     coins << QVariant(QVariant::String);
@@ -124,7 +130,7 @@ void MainWindow::generateCoins() //puts coins in text file to be read in by rand
 
         for(int i = 0 ; i < _coins.count() ; i++)
         {
-            stream << _coins[i] << endl;
+            stream << i << ":" <<_coins[i] << endl;
         }
     }
         _coins.clear();
