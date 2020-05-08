@@ -37,6 +37,7 @@ public:
     void md5verifydb();
     void generateCoins();
     int coini;
+    bool gentotext;
 
     void RandomizeCoins();
     void insertCoins();
@@ -99,6 +100,8 @@ private slots:
     void on_placeCoins_clicked();
 
     void on_SendCoins_clicked();
+
+    void on_pushButton_2_clicked();
 
 private:
     Ui::MainWindow *ui;

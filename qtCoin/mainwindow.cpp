@@ -478,8 +478,9 @@ void MainWindow::on_actionOpenCoin_triggered()
 void MainWindow::on_pushButton_clicked() //generate coins button
 {
       coini=0;
+      gentotext=0;
     GenerateCoins3(ui->coinlength->text().toInt(),ui->coincount->text().toInt());
-    RandomizeCoins();
+
 }
 
 void MainWindow::on_actionSyncUSB_triggered()
@@ -723,4 +724,13 @@ void MainWindow::on_SendCoins_clicked()
 {
     simplecrypttest();
     //placeCoins();
+}
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    coini=0;
+    gentotext=0;
+  //GenerateCoins3(ui->coinlength->text().toInt(),ui->coincount->text().toInt());
+
+  RandomizeCoins();
 }

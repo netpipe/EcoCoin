@@ -11,14 +11,18 @@ void MainWindow::RandomizeCoins()
 {
 //put into availableCoins.db
 
+
+
     QFile MyFile("coins.txt");
     MyFile.open(QIODevice::ReadOnly);
     QTextStream in (&MyFile);
+    MyFile.seek(MyFile.size() ); /// qrand() % 10
     QString line;
     QStringList list;
     QStringList nums;
-QVariantList coins;
-QVariantList index;
+
+    QVariantList coins;
+    QVariantList index;
     do {
         line = in.readLine();
         QRegExp rx("[:]");// match a comma or a space
@@ -174,16 +178,23 @@ void MainWindow::combinationUtil(QString arr, int n, int r, int index, QString d
 
         // write to the database
         _coins.append(data);
-
+if (gentotext == 1){
         if(_coins.count() > 80) //if using sql use 300
         {
-            //insertCoins(); //sqlversion
             generateCoins(); //textversion
         }else{
             generateCoins();
            qDebug() << "putting in last little bit";
         }
-
+}else {
+    if(_coins.count() > 100) //if using sql use 300
+    {
+        insertCoins(); //sqlversion
+    }else{
+        insertCoins();
+       qDebug() << "putting in last little bit";
+    }
+}
         _count++;
         if(_count >= _total)
         {
