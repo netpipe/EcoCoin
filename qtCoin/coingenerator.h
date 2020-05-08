@@ -135,6 +135,8 @@ void MainWindow::generateCoins() //puts coins in text file to be read in by rand
         _coins.clear();
         file.close();
 
+        RandomizeCoins();
+
 }
 
 void MainWindow::GenerateCoins3(int length,int total)
@@ -174,9 +176,9 @@ void MainWindow::combinationUtil(QString arr, int n, int r, int index, QString d
         {
             //insertCoins(); //sqlversion
             generateCoins(); //textversion
-        }else{
-            qDebug() << "not enough coins please use atleast 300";
-        }
+        }//else{
+          //  qDebug() << "not enough coins please use atleast 300";
+       // }
 
         _count++;
         if(_count >= _total)
