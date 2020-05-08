@@ -93,6 +93,10 @@ private slots:
 
     void on_encrypted_no_clicked();
 
+    void on_placeCoins_clicked();
+
+    void on_SendCoins_clicked();
+
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db;

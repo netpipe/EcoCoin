@@ -82,15 +82,7 @@ MainWindow::MainWindow(QWidget *parent) :
     rsaTester->publish_keys(m_e, m_n);
 
 
-//    QString resultxor = XORencryptDecrypt("testing", "key2");
-//       qDebug() <<"xor:"<<resultxor ;
-//    resultxor = XORencryptDecrypt(resultxor.toLatin1(), "key2");
-//            qDebug() <<"xor:"<<resultxor ;
 
-//            string test = XOR("testing", "key2");
-//                    qDebug() <<"xor:"<<test.c_str() ;
-                   // string XOR(test.c_str(), "key2");
-                   // qDebug() <<"xor:"<<test.c_str() ;
 }
 
 
@@ -691,9 +683,32 @@ void MainWindow::placeCoins() //free coins from coins.db
 // place into client walled based on yearly tables
 
     //https://doc.qt.io/qt-5/qcryptographichash.html
-//md5Checksum();//
+QString test=md5Checksum("testing123");//
+qDebug() << "md5sum:" << test.toLatin1();
 
+    QByteArray array;
+    array.append("ABCDEF12343");
+    qDebug() << QString(array.toHex());
+
+
+    //    QString resultxor = XORencryptDecrypt("testing", "key2");
+    //       qDebug() <<"xor:"<<resultxor ;
+    //    resultxor = XORencryptDecrypt(resultxor.toLatin1(), "key2");
+    //            qDebug() <<"xor:"<<resultxor ;
+
+    //            string test = XOR("testing", "key2");
+    //                    qDebug() <<"xor:"<<test.c_str() ;
+                       // string XOR(test.c_str(), "key2");
+                       // qDebug() <<"xor:"<<test.c_str() ;
 
 }
 
+void MainWindow::on_placeCoins_clicked()
+{
+        placeCoins();
+}
 
+void MainWindow::on_SendCoins_clicked()
+{
+    placeCoins();
+}
