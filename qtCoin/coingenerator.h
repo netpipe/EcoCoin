@@ -44,9 +44,8 @@ index << QVariant(QVariant::String);
     }
 
     QString query;
-    query.append("CREATE TABLE IF NOT EXISTS coins("
-                 "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                 "addr VARCHAR(50));");
+    db.transaction();
+    query.append("INSERT INTO coins(addr) VALUES (?)");
 
     //SELECT column FROM table
     //ORDER BY RAND()
@@ -56,8 +55,8 @@ index << QVariant(QVariant::String);
 
     create.prepare(query);
   //  create.addBindValue(index);
-  //  create.addBindValue(coins);
-    if (create.exec())
+    create.addBindValue(coins);
+    if (create.execBatch())
     {
         qDebug()<<"Table exists or has been created";
     }
@@ -66,7 +65,7 @@ index << QVariant(QVariant::String);
         qDebug()<<"Table not exists or has not been created";
         qDebug()<<"ERROR! "<< create.lastError();
     }
-
+db.commit();
     query.clear();
     db.close();
 
