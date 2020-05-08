@@ -25,7 +25,8 @@ SOURCES += main.cpp\
     src/loadtheme.cpp \
     src/downloadmanager.cpp \
     src/encryption/rsa/Rsa.cpp \
-    src/encryption/Qt-AES/qaesencryption.cpp
+    src/encryption/Qt-AES/qaesencryption.cpp \
+    src/encryption/simpleCrypt/simplecrypt.cpp
 
 HEADERS  += mainwindow.h \
     src/qstylesheetmanager.h \
@@ -34,7 +35,8 @@ HEADERS  += mainwindow.h \
     src/encryption/rsa/Rsa.h \
     src/encryption/Qt-AES/qaesencryption.h \
     src/encryption/encryption.h \
-    coingenerator.h
+    coingenerator.h \
+    src/encryption/simpleCrypt/simplecrypt.h
 
 FORMS    += mainwindow.ui
 

@@ -8,7 +8,25 @@
 #include <QDebug>
 #include <QFile>
 #include "../../mainwindow.h"
+#include "simpleCrypt/simplecrypt.h"
 
+QString simplecrypttest(){
+//optional setkey method
+//  SimpleCrypt crypto();
+//  crypto.setKey(0x0c2ad4a4acb9f023)
+
+
+//with strings
+  SimpleCrypt crypto(Q_UINT64_C(0x0c2ad4a4acb9f023)); //some random number
+  QString testString("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
+
+  //Encryption
+  QString result = crypto.encryptToString(testString);
+
+  //Decryption
+  QString decrypted = crypto.decryptToString(result);
+  qDebug() << testString << endl << result << endl << decrypted;
+ }
 //QString rot13( const QString & input )
 //{
 //    QString r = input;

@@ -34,6 +34,7 @@ public:
     QString year;
     QString usbpath;
     void placeCoins();
+    void md5verifydb();
 
     void RandomizeCoins();
     void insertCoins();

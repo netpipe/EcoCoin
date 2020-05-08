@@ -703,12 +703,21 @@ qDebug() << "md5sum:" << test.toLatin1();
 
 }
 
+void MainWindow::md5verifydb(){
+// md5sum coinsdb maybe choose semirandom coinsammount to make md5 more unique
+// save with settings.txt
+//verify databases
+
+    //md5 convert coinsdb to randomcoins.db then md5sum can also check freecoins.db after each tx
+}
+
 void MainWindow::on_placeCoins_clicked()
 {
-        placeCoins();
+    placeCoins();
 }
 
 void MainWindow::on_SendCoins_clicked()
 {
-    placeCoins();
+    simplecrypttest();
+    //placeCoins();
 }
