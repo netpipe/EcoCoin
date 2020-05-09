@@ -8,6 +8,7 @@
 #include <QDebug>
 //#include <QMainWindow>
 #include <QCryptographicHash>
+#include <QMessageBox>
 
 
 void MainWindow::createCoinTable(QString DBname)
@@ -454,7 +455,9 @@ file.seek(0);
 
 void MainWindow::GenerateCoins3(int length,int total)
 {
-    QString arr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+    QString arrm = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+    QString arr= GetRandomString(arrm.size(),arrm.toLatin1());
+    //save string incase more coins need to be added after
     QString data;
    // _total = 10000;
     _total = total;
@@ -515,9 +518,9 @@ if (gentotext == 1){
     combinationUtil(arr, n, r, index, data, i+1);
 }
 
-QString MainWindow::GetRandomString(int length)
+QString MainWindow::GetRandomString(int length,QString chars)
 { //https://stackoverflow.com/questions/18862963/qt-c-random-string-generation/18866593
-   const QString possibleCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
+   const QString possibleCharacters(chars.toLatin1());
    const int randomStringLength = length; //12 // assuming you want random strings of 12 characters
 
    QString randomString;
@@ -533,7 +536,7 @@ QString MainWindow::GetRandomString(int length)
 QString MainWindow::GenerateClientAddress(int length){
     //QDate year = new QDate;
    // QDate date = QDate::currentDate();
-    QString clientaddress = year + GetRandomString(length);
+    QString clientaddress = year + GetRandomString(length,"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890");
     //double check against existing addresses after encrypting unless not specified
     //   QString clientaddress = QDate::currentDate().year() + GetRandomString(length);
     //QDate::currentDate().year();

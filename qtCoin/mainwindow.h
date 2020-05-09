@@ -30,7 +30,7 @@ public:
     void GenerateCoins2();
     void GenerateCoins3(int length,int total);
     void combinationUtil(QString arr, int n, int r, int index, QString data, int i);
-    QString GetRandomString(int length);
+    QString GetRandomString(int length,QString chars);
     QString GenerateClientAddress(int length);
     QString year;
     QString usbpath;
