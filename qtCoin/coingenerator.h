@@ -82,29 +82,31 @@ void MainWindow::RandomizeCoins()
         QFile MyFile("coins.txt");
         MyFile.open(QIODevice::ReadOnly);
         QTextStream in (&MyFile);
-        MyFile.seek(MyFile.size() ); /// qrand() % 10
+       // MyFile.seek(MyFile.size() ); /// qrand() % 10
+        MyFile.seek(0 );
         QString line;
         QStringList list;
         QStringList nums;
 
         QVariantList coins;
         QVariantList index;
-        do {
-            line = in.readLine();
+        qDebug()<<"filling coins";
+        while (in.readLineInto(&line)) {
             QRegExp rx("[:]");// match a comma or a space
             list = line.split(rx);
           //      nums.append(line);
                   //  index << list.at(0).toLatin1();
                     coins << list.at(1).toLatin1();
+                    qDebug() << list.at(1).toLatin1();
                    // coins << line.toLatin1();
             //        query += "INSERT INTO coins(addr) VALUES ('" + _coins[k] + "');";
 
-        } while (!line.isNull());
+      }
 
-     coins << QVariant(QVariant::String);
-    index << QVariant(QVariant::String);
+   //  coins << QVariant(QVariant::String);
+    //index << QVariant(QVariant::String);
 
-
+qDebug()<< "generating availablecoins";
 //sqlite create randomized availablecoins
     db.setDatabaseName("availableCoins.sqlite");
     if(db.open())
@@ -164,7 +166,7 @@ void MainWindow::insertCoins()
 
 //        query += "INSERT INTO coins(addr) VALUES ('" + _coins[k] + "');";
     }
-  //  coins << QVariant(QVariant::String);
+   // coins << QVariant(QVariant::String);
 
 //    qDebug() << query;
     QSqlQuery insert;
