@@ -9,6 +9,7 @@
 //#include <QMainWindow>
 #include <QCryptographicHash>
 #include <QMessageBox>
+#include <QTextCodec>
 
 
 void MainWindow::createCoinTable(QString DBname)
@@ -319,7 +320,7 @@ void MainWindow::RandomizeCoins()
     //generate md5sum for coins.txt for verification later
 QByteArray coinstxtmd5 =  fileChecksum("coins.txt",QCryptographicHash::Md5);
 
-        createCoinTable("availableCoins.sqlite");
+createCoinTable("availableCoins.sqlite");
     //read coins.txt and send them to new availablecoins database
         QFile MyFile("coins.txt");
         MyFile.open(QIODevice::ReadOnly);
@@ -381,7 +382,22 @@ qDebug()<< "generating availablecoins";
     insert.clear();
     db.close();
 
+    QByteArray coindb =  fileChecksum("coins.sqlite",QCryptographicHash::Md5);
+    QByteArray availablecoins =  fileChecksum("availableCoins.sqlite",QCryptographicHash::Md5);
 
+    QTextCodec *codec = QTextCodec::codecForName("KOI8-R");
+   // codec->toUnicode(coindb)
+
+    QFile hashfile("hashes.txt");
+    if(hashfile.open(QIODevice::ReadWrite | QIODevice::Text))
+    {
+        QTextStream stream(&hashfile);
+            hashfile.seek(0);
+            stream << "coinstxt:" << coinstxtmd5.toHex() << endl;
+            stream << "coinsdb:" << coindb.toHex() << endl;
+            stream << "availableCoins:" << availablecoins.toHex() << endl;
+       }
+    hashfile.close();
 }
 
 void MainWindow::insertCoins()
