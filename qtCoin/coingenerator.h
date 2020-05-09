@@ -24,7 +24,7 @@ void MainWindow::RandomizeCoins()
     }
 
  qDebug() << "randomizing";
-    db.transaction();
+  //  db.transaction();
   //  QString query;
   //  query.append("INSERT INTO coins(addr) VALUES (?)");
    // query.append("SELECT addr FROM coins ORDER BY random()");
@@ -35,7 +35,9 @@ void MainWindow::RandomizeCoins()
     QSqlQuery query;
 
   //  query.prepare("SELECT addr FROM coins ORDER BY random() LIMIT 10");
-        query.prepare("SELECT * FROM coins ORDER BY random()");
+    query.prepare("SELECT * FROM coins ORDER BY random()");
+  //  query.prepare("SELECT * FROM coins LIMIT 30");
+           //    query.prepare("SELECT addr FROM coins LIMIT 30");
   //  create.addBindValue(index);
 //    create.addBindValue(coins);
 
@@ -52,14 +54,23 @@ void MainWindow::RandomizeCoins()
                   return;
               }
 
-          while(query.next())
-         {
-             //query.value("mail").toString()
+              query.next();
+              while(query.isValid())
+              {
+                  stream << query.value("id").toString() << ":" << query.value("addr").toString() <<"\n";
+                  query.next();
+                  qDebug() << "inserting coin" << query.value("id").toString() << ":" << query.value("addr").toString();
+              }
+//          while(query.next())
+//         {
+//             //query.value("mail").toString()
 
-            // stream << query.value("id").toString() << ":" << query.value("addr").toString() <<"\n";
-             stream << query.value("id").toString() << ":" << query.value("addr").toString() <<"\n";
-             qDebug() << "inserting coin";
-          }
+//            // stream << query.value("id").toString() << ":" << query.value("addr").toString() <<"\n";
+//             stream << query.value("id").toString() << ":" << query.value("addr").toString() <<"\n";
+//             qDebug() << "inserting coin" << query.value("id").toString() << ":" << query.value("addr").toString();
+//           //  stream  << query.value(1).toByteArray().constData();
+//             qDebug() << "inserting coin test" << query.value(0).toByteArray().constData();
+//          }
    }
           file.close();
     //db.commit();
@@ -153,7 +164,7 @@ void MainWindow::insertCoins()
 
 //        query += "INSERT INTO coins(addr) VALUES ('" + _coins[k] + "');";
     }
-    coins << QVariant(QVariant::String);
+  //  coins << QVariant(QVariant::String);
 
 //    qDebug() << query;
     QSqlQuery insert;
