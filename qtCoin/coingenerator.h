@@ -66,7 +66,7 @@ void MainWindow::RandomizeCoins()
     query.clear();
     db.close();
 
-createCoinTable("availableCoins.sqlite");
+        createCoinTable("availableCoins.sqlite");
     //read coins.txt and send them to new availablecoins database
         QFile MyFile("coins.txt");
         MyFile.open(QIODevice::ReadOnly);
@@ -107,13 +107,6 @@ createCoinTable("availableCoins.sqlite");
 
     db.transaction();
     QString query2 = "INSERT INTO coins(addr) VALUES (?)";
-    for(int k = 0 ; k < _coins.count() ; k++)
-    {
-        coins << _coins[k];
-
-//        query += "INSERT INTO coins(addr) VALUES ('" + _coins[k] + "');";
-    }
-    coins << QVariant(QVariant::String);
 
 //    qDebug() << query;
     QSqlQuery insert;
@@ -129,7 +122,7 @@ createCoinTable("availableCoins.sqlite");
         qDebug()<<"ERROR! "<< insert.lastError();
     }
     db.commit();
-    _coins.clear();
+    coins.clear();
     insert.clear();
     db.close();
 
@@ -238,21 +231,16 @@ void MainWindow::combinationUtil(QString arr, int n, int r, int index, QString d
         // write to the database
         _coins.append(data);
 if (gentotext == 1){
-        if(_coins.count() > 80) // misses if there arnt more than 80 coins so need to generatelastbit
+        if(_coins.count() > _total/10) // misses if there arnt more than 80 coins so need to generatelastbit
         {
+             qDebug() << _total/10;
             generateCoins(); //textversion
-        }else{
-          //  generateCoins();
-          // qDebug() << "putting in last little bit";
         }
 }else {
-    if(_coins.count() > 100)
+    if(_coins.count() > _total/10)
     {
         insertCoins(); //sqlversion
-        qDebug() << "batching coins";
-    }else{//check if iterating still by seeing about smaller numbers
-       // insertCoins();
-      // qDebug() << "putting in last little bit";
+        qDebug() << _total/10;
     }
 }
         _count++;
