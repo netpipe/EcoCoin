@@ -780,8 +780,8 @@ void MainWindow::on_SendCoins_clicked()
 void MainWindow::on_pushButton_2_clicked()
 {
     coini=0;
-    gentotext=1;
-  //GenerateCoins3(ui->coinlength->text().toInt(),ui->coincount->text().toInt());
+    gentotext=0;
+ // GenerateCoins3(ui->coinlength->text().toInt(),ui->coincount->text().toInt());
 
   RandomizeCoins();
 }

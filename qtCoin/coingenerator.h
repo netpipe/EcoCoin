@@ -197,7 +197,7 @@ void MainWindow::generateCoins() //puts coins in text file to be read in by rand
 {
   //  qDebug() << "generating coins to textfile";
 
-    QFile file("coins.txt");
+    QFile file("coins2.txt");
     if(file.open(QIODevice::ReadWrite |  QIODevice::Append | QIODevice::Text))// QIODevice::Append |
     {
         QTextStream stream(&file);
@@ -248,16 +248,16 @@ void MainWindow::combinationUtil(QString arr, int n, int r, int index, QString d
         // write to the database
         _coins.append(data);
 if (gentotext == 1){
-        if(_coins.count() > _total/10) // misses if there arnt more than 80 coins so need to generatelastbit
+        if(_coins.count() > _total/2-1) // misses if there arnt more than 80 coins so need to generatelastbit
         {
-             qDebug() << _total/10;
+             qDebug() << _total/2-1;
             generateCoins(); //textversion
         }
 }else {
-    if(_coins.count() > _total/10)
+    if(_coins.count() > _total/2-1)
     {
         insertCoins(); //sqlversion
-        qDebug() << _total/10;
+        qDebug() << _total/2-1;
     }
 }
         _count++;
