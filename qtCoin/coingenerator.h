@@ -298,7 +298,7 @@ void MainWindow::RandomizeCoins()
               {
                   stream << query.value("id").toString() << ":" << query.value("addr").toString() <<"\n";
                   query.next();
-                  qDebug() << "inserting coin" << query.value("id").toString() << ":" << query.value("addr").toString();
+                //  qDebug() << "inserting coin" << query.value("id").toString() << ":" << query.value("addr").toString();
               }
 //          while(query.next())
 //         {
@@ -339,7 +339,7 @@ QByteArray coinstxtmd5 =  fileChecksum("coins.txt",QCryptographicHash::Md5);
           //      nums.append(line);
                   //  index << list.at(0).toLatin1();
                     coins << list.at(1).toLatin1();
-                    qDebug() << list.at(1).toLatin1();
+                   // qDebug() << list.at(1).toLatin1();
                    // coins << line.toLatin1();
             //        query += "INSERT INTO coins(addr) VALUES ('" + _coins[k] + "');";
 
