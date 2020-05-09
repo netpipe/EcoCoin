@@ -41,7 +41,7 @@ public:
     bool gentotext;
     QByteArray md5Checksum(QString stuff);
     QByteArray fileChecksum(const QString &fileName,QCryptographicHash::Algorithm hashAlgorithm);
-
+    float version;
     void RandomizeCoins();
     void insertCoins();
     void createCoinTable(QString DBname);

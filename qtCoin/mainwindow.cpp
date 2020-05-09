@@ -33,14 +33,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
  //   coinDB = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName("coins.sqlite");
-    if(db.open())
-    {        qDebug()<<"Successful coin database connection";    }
-    else
-    {        qDebug()<<"Error: failed database connection";    }
-    db.close();
-
-    createCoinTable("coins.sqlite");
 
 //QSqlDatabase::removeDatabase( QSqlDatabase::defaultConnection );
 
@@ -85,7 +77,7 @@ MainWindow::MainWindow(QWidget *parent) :
     rsaTester = new Rsa();
     rsaTester->publish_keys(m_e, m_n);
 
-
+    version=0.6;
 
 }
 
@@ -531,9 +523,33 @@ void MainWindow::on_pushButton_clicked() //generate coins button
 {
     if((ui->coincount->text().toInt() & 1) == 0){
 
+        QFile Fout("coins.sqlite");
+        if(Fout.exists())
+        {
+            QMessageBox::StandardButton reply;
+            reply = QMessageBox::question(this, "Already Exists", "do you want to generate new coindb",
+                                          QMessageBox::Yes|QMessageBox::No);
+            if (reply == QMessageBox::Yes) {
+              qDebug() << "Yes was clicked";
+           //   QApplication::quit();
+            } else {
+              qDebug() << "no";
+              return;
+            }
+        }
+        Fout.close();
+
+        createCoinTable("coins.sqlite");
       coini=0;
       gentotext=0; // use 0 for sql
     GenerateCoins3(ui->coinlength->text().toInt(),ui->coincount->text().toInt());
+    QMessageBox Msgbox;
+       // int sum;
+       // sum = ui->coincount->text().toInt();
+        Msgbox.setText("coin created: ");
+        Msgbox.exec();
+
+
    }else{
     QMessageBox Msgbox;
        // int sum;
@@ -541,6 +557,8 @@ void MainWindow::on_pushButton_clicked() //generate coins button
         Msgbox.setText("needs to be even number: ");
         Msgbox.exec();
     }
+
+
 }
 
 void MainWindow::on_actionSyncUSB_triggered()
@@ -790,7 +808,7 @@ void MainWindow::on_pushButton_2_clicked()
 {
     bool testing=0;
 
-    if(testing=1){
+    if(testing==1){
         coini=0;
         gentotext=1;
         GenerateCoins3(ui->coinlength->text().toInt(),ui->coincount->text().toInt());
