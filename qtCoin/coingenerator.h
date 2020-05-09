@@ -6,6 +6,7 @@
 #include <QFile>
 #include <QDebug>
 //#include <QMainWindow>
+#include <QCryptographicHash>
 
 void MainWindow::RandomizeCoins()
 {
@@ -76,6 +77,9 @@ void MainWindow::RandomizeCoins()
     //db.commit();
     query.clear();
     db.close();
+
+    //generate md5sum for coins.txt for verification later
+QByteArray coinstxtmd5 =  fileChecksum("coins.txt",QCryptographicHash::Md5);
 
         createCoinTable("availableCoins.sqlite");
     //read coins.txt and send them to new availablecoins database

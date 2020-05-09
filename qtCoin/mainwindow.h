@@ -10,6 +10,7 @@
 #include <QEvent>
 #include <QThread>
 #include <QDebug>
+#include <QCryptographicHash>
 
 namespace Ui {
 class MainWindow;
@@ -38,6 +39,8 @@ public:
     void generateCoins();
     int coini;
     bool gentotext;
+    QByteArray md5Checksum(QString stuff);
+    QByteArray fileChecksum(const QString &fileName,QCryptographicHash::Algorithm hashAlgorithm);
 
     void RandomizeCoins();
     void insertCoins();

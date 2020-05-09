@@ -42,7 +42,7 @@ QString simplecrypttest(){
 //    return r;
 //}
 
-QByteArray md5Checksum(QString stuff)
+QByteArray MainWindow::md5Checksum(QString stuff)
 {
     //https://stackoverflow.com/questions/16383392/how-to-get-the-sha-1-md5-checksum-of-a-file-with-qt
     // Returns empty QByteArray() on failure.
@@ -54,7 +54,7 @@ QByteArray md5Checksum(QString stuff)
         //return QByteArray();
 }
 
-QByteArray fileChecksum(const QString &fileName,QCryptographicHash::Algorithm hashAlgorithm)
+QByteArray MainWindow::fileChecksum(const QString &fileName,QCryptographicHash::Algorithm hashAlgorithm)
 {
     //https://stackoverflow.com/questions/16383392/how-to-get-the-sha-1-md5-checksum-of-a-file-with-qt
     // Returns empty QByteArray() on failure.
