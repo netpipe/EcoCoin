@@ -177,7 +177,7 @@ void MainWindow::combinationUtil(QString arr, int n, int r, int index, QString d
         // write to the database
         _coins.append(data);
 if (gentotext == 1){
-        if(_coins.count() > 80) //if using sql use 300
+        if(_coins.count() > 80) // misses if there arnt more than 80 coins so need to generatelastbit
         {
             generateCoins(); //textversion
         }else{
