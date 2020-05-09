@@ -7,6 +7,7 @@
 #include <QFileDialog>
 #include <coingenerator.h>
 #include <QDebug>
+#include <QMessageBox>
 
 //https://doc.qt.io/qt-5/sql-sqlstatements.html
 //https://www.techonthenet.com/mysql/select.php
@@ -528,10 +529,18 @@ void MainWindow::on_actionOpenCoin_triggered()
 
 void MainWindow::on_pushButton_clicked() //generate coins button
 {
+    if((ui->coincount->text().toInt() & 1) == 0){
+
       coini=0;
       gentotext=0; // use 0 for sql
     GenerateCoins3(ui->coinlength->text().toInt(),ui->coincount->text().toInt());
-
+   }else{
+    QMessageBox Msgbox;
+       // int sum;
+       // sum = ui->coincount->text().toInt();
+        Msgbox.setText("needs to be even number: ");
+        Msgbox.exec();
+    }
 }
 
 void MainWindow::on_actionSyncUSB_triggered()
@@ -779,11 +788,16 @@ void MainWindow::on_SendCoins_clicked()
 
 void MainWindow::on_pushButton_2_clicked()
 {
-    coini=0;
-    gentotext=0;
- // GenerateCoins3(ui->coinlength->text().toInt(),ui->coincount->text().toInt());
+    bool testing=0;
 
-  RandomizeCoins();
+    if(testing=1){
+        coini=0;
+        gentotext=1;
+        GenerateCoins3(ui->coinlength->text().toInt(),ui->coincount->text().toInt());
+    }else{
+        //check coins.sqlite exists
+        RandomizeCoins();
+  }
 }
 
 void MainWindow::on_randomSearch_clicked()
