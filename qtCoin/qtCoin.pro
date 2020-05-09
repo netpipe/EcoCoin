@@ -22,7 +22,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp\
         mainwindow.cpp \
     src/qstylesheetmanager.cpp \
-    src/loadtheme.cpp \
     src/downloadmanager.cpp \
     src/encryption/rsa/Rsa.cpp \
     src/encryption/Qt-AES/qaesencryption.cpp \
