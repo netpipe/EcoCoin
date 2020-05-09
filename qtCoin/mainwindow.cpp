@@ -86,9 +86,56 @@ MainWindow::MainWindow(QWidget *parent) :
 }
 
 
+
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::SQLTest(QString dbname,QString Query)
+{
+    db.setDatabaseName(dbname.toLatin1());
+    if(db.open())
+    {
+       qDebug()<<"Successful database connection";
+    }
+    else
+    {
+       qDebug()<<"Error: failed database connection";
+    }
+
+
+    QString query;
+    query.append(Query.toLatin1());
+
+    QSqlQuery select;
+    select.prepare(query);
+
+    if (select.exec())
+    {
+        qDebug()<<"The user is properly selected";
+    }
+    else
+    {
+        qDebug()<<"The user is not selected correctly";
+        qDebug()<<"ERROR! "<< select.lastError();
+    }
+
+    int row = 0;
+    ui->tableWidgetUsers->setRowCount(0);
+
+    while (select.next())
+    {
+        ui->tableWidgetUsers->insertRow(row);
+        ui->tableWidgetUsers->setItem(row,0,new QTableWidgetItem(select.value(0).toByteArray().constData()));
+        ui->tableWidgetUsers->setItem(row,1,new QTableWidgetItem(""));
+        ui->tableWidgetUsers->setItem(row,2,new QTableWidgetItem(""));
+        ui->tableWidgetUsers->setItem(row,3,new QTableWidgetItem(""));
+        row++;
+    }
+
+    query.clear();
+    db.close();
 }
 
 void MainWindow::ListUSB(){
@@ -160,8 +207,8 @@ void MainWindow::createUserTable()
 
 void MainWindow::createCoinTable()
 {
-    //db.setDatabaseName("coins.sqlite");
-        db.setDatabaseName("avalableCoins.sqlite");
+    db.setDatabaseName("coins.sqlite");
+        //db.setDatabaseName("avalableCoins.sqlite");
     if(db.open())
     {
         qDebug()<<"Successful coin database connection";
@@ -478,7 +525,7 @@ void MainWindow::on_actionOpenCoin_triggered()
 void MainWindow::on_pushButton_clicked() //generate coins button
 {
       coini=0;
-      gentotext=0;
+      gentotext=0; // use 0 for sql
     GenerateCoins3(ui->coinlength->text().toInt(),ui->coincount->text().toInt());
 
 }
@@ -733,4 +780,11 @@ void MainWindow::on_pushButton_2_clicked()
   //GenerateCoins3(ui->coinlength->text().toInt(),ui->coincount->text().toInt());
 
   RandomizeCoins();
+}
+
+void MainWindow::on_randomSearch_clicked()
+{//for picking lucky users
+    //repurposed temporarly for sqltest
+    SQLTest("avalableCoins.sqlite",ui->userid->text().toLatin1());
+
 }

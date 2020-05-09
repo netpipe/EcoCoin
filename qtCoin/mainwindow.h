@@ -61,6 +61,7 @@ public:
     QByteArray EncryptMsg(QString plainMsg,QString aeskey1,QString aeskey2);
     QString DecryptMsg(QByteArray encryptedMsg, Rsa *rsa,QString aeskey1,QString aeskey2);
 
+    void SQLTest(QString dbname,QString Query);
     //coingenerator3
     int _count;
     int _total;
@@ -102,6 +103,8 @@ private slots:
     void on_SendCoins_clicked();
 
     void on_pushButton_2_clicked();
+
+    void on_randomSearch_clicked();
 
 private:
     Ui::MainWindow *ui;

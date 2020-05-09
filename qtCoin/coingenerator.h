@@ -11,8 +11,6 @@ void MainWindow::RandomizeCoins()
 {
 //put into availableCoins.db
 
-
-
     QFile MyFile("coins.txt");
     MyFile.open(QIODevice::ReadOnly);
     QTextStream in (&MyFile);
@@ -53,8 +51,8 @@ index << QVariant(QVariant::String);
     db.transaction();
     QString query;
     query.append("INSERT INTO coins(addr) VALUES (?)");
-
-    //SELECT column FROM table
+    query.append("SELECT * FROM coins() VALUES (?)");
+    //SELECT * FROM table
     //ORDER BY RAND()
     //LIMIT 1
 
@@ -183,16 +181,17 @@ if (gentotext == 1){
         {
             generateCoins(); //textversion
         }else{
-            generateCoins();
-           qDebug() << "putting in last little bit";
+          //  generateCoins();
+          // qDebug() << "putting in last little bit";
         }
 }else {
-    if(_coins.count() > 100) //if using sql use 300
+    if(_coins.count() > 100)
     {
         insertCoins(); //sqlversion
-    }else{
-        insertCoins();
-       qDebug() << "putting in last little bit";
+        qDebug() << "batching coins";
+    }else{//check if iterating still by seeing about smaller numbers
+       // insertCoins();
+      // qDebug() << "putting in last little bit";
     }
 }
         _count++;
