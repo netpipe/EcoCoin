@@ -34,9 +34,11 @@ public:
     QString GenerateClientAddress(int length);
     QString year;
     QString usbpath;
+    QString backupusbpath;
     void placeCoins();
-    void md5verifydb();
+    int md5verifydb();
     void generateCoins();
+    void BackUptoUSB();
     int coini;
     bool gentotext;
     QByteArray md5Checksum(QString stuff);

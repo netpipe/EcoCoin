@@ -264,22 +264,10 @@ void MainWindow::RandomizeCoins()
     }
 
  qDebug() << "randomizing";
-  //  db.transaction();
-  //  QString query;
-  //  query.append("INSERT INTO coins(addr) VALUES (?)");
-   // query.append("SELECT addr FROM coins ORDER BY random()");
-    //SELECT * FROM table
-    //ORDER BY RAND()
-    //LIMIT 1
 
     QSqlQuery query;
 
-  //  query.prepare("SELECT addr FROM coins ORDER BY random() LIMIT 10");
     query.prepare("SELECT * FROM coins ORDER BY random()");
-  //  query.prepare("SELECT * FROM coins LIMIT 30");
-           //    query.prepare("SELECT addr FROM coins LIMIT 30");
-  //  create.addBindValue(index);
-//    create.addBindValue(coins);
 
     QFile file("coins.txt");
       //    if(file.open(QIODevice::WriteOnly | QIODevice::Text))
@@ -301,26 +289,13 @@ void MainWindow::RandomizeCoins()
                   query.next();
                 //  qDebug() << "inserting coin" << query.value("id").toString() << ":" << query.value("addr").toString();
               }
-//          while(query.next())
-//         {
-//             //query.value("mail").toString()
-
-//            // stream << query.value("id").toString() << ":" << query.value("addr").toString() <<"\n";
-//             stream << query.value("id").toString() << ":" << query.value("addr").toString() <<"\n";
-//             qDebug() << "inserting coin" << query.value("id").toString() << ":" << query.value("addr").toString();
-//           //  stream  << query.value(1).toByteArray().constData();
-//             qDebug() << "inserting coin test" << query.value(0).toByteArray().constData();
-//          }
    }
           file.close();
     //db.commit();
     query.clear();
     db.close();
 
-    //generate md5sum for coins.txt for verification later
-QByteArray coinstxtmd5 =  fileChecksum("coins.txt",QCryptographicHash::Md5);
-
-createCoinTable("availableCoins.sqlite");
+    createCoinTable("availableCoins.sqlite");
     //read coins.txt and send them to new availablecoins database
         QFile MyFile("coins.txt");
         MyFile.open(QIODevice::ReadOnly);
@@ -349,8 +324,8 @@ createCoinTable("availableCoins.sqlite");
    //  coins << QVariant(QVariant::String);
     //index << QVariant(QVariant::String);
 
-qDebug()<< "generating availablecoins";
-//sqlite create randomized availablecoins
+    qDebug()<< "generating availablecoins";
+    //sqlite create randomized availablecoins
     db.setDatabaseName("availableCoins.sqlite");
     if(db.open())
     {
@@ -362,6 +337,7 @@ qDebug()<< "generating availablecoins";
     }
 
     db.transaction();
+
     QString query2 = "INSERT INTO coins(addr) VALUES (?)";
 
 //    qDebug() << query;
@@ -382,6 +358,9 @@ qDebug()<< "generating availablecoins";
     insert.clear();
     db.close();
 
+
+    //generate md5sum
+    QByteArray coinstxtmd5 =  fileChecksum("coins.txt",QCryptographicHash::Md5);
     QByteArray coindb =  fileChecksum("coins.sqlite",QCryptographicHash::Md5);
     QByteArray availablecoins =  fileChecksum("availableCoins.sqlite",QCryptographicHash::Md5);
 
@@ -389,10 +368,10 @@ qDebug()<< "generating availablecoins";
    // codec->toUnicode(coindb)
 
     QFile hashfile("hashes.txt");
-    if(hashfile.open(QIODevice::ReadWrite | QIODevice::Text))
+    if(hashfile.open(QIODevice::WriteOnly | QIODevice::Text))
     {
         QTextStream stream(&hashfile);
-            hashfile.seek(0);
+            //hashfile.seek(0);
             stream << "coinstxt:" << coinstxtmd5.toHex() << endl;
             stream << "coinsdb:" << coindb.toHex() << endl;
             stream << "availableCoins:" << availablecoins.toHex() << endl;
@@ -443,8 +422,6 @@ void MainWindow::insertCoins()
     _coins.clear();
         insert.clear();
     db.close();
-
-
 }
 
 void MainWindow::generateCoins() //puts coins in text file to be read in by randomizer
@@ -456,7 +433,7 @@ void MainWindow::generateCoins() //puts coins in text file to be read in by rand
     {
         QTextStream stream(&file);
        // file.seek(file.size());
-file.seek(0);
+        file.seek(0);
         for(int i=0 ; i < _coins.count() ; i++)
         {
             stream << QString::number(coini) << ":" <<_coins[i] << endl;
@@ -485,8 +462,6 @@ void MainWindow::GenerateCoins3(int length,int total)
     for (int i=0; i < _length; i++){
        data += " ";
     }
-   // QString data = "        ";
-
 
      qDebug() << "running combo util";
 
@@ -503,19 +478,19 @@ void MainWindow::combinationUtil(QString arr, int n, int r, int index, QString d
 
         // write to the database
         _coins.append(data);
-if (gentotext == 1){
-        if(_coins.count() >= _total/10) // misses if there arnt more than 80 coins so need to generatelastbit
-        {
-         //    qDebug() << _total/2;
-            generateCoins(); //textversion
+        if (gentotext == 1){
+            if(_coins.count() >= _total/10) // misses if there arnt more than 80 coins so need to generatelastbit
+            {
+             //    qDebug() << _total/2;
+                generateCoins(); //textversion
+            }
+        }else{
+            if(_coins.count() >= _total/10)
+            {
+            insertCoins(); //sqlversion
+            // qDebug() << _total/2;
+            }
         }
-}else {
-    if(_coins.count() >= _total/10)
-    {
-        insertCoins(); //sqlversion
-       // qDebug() << _total/2;
-    }
-}
         _count++;
         if(_count >= _total)
         {
@@ -560,16 +535,9 @@ QString MainWindow::GenerateClientAddress(int length){
     return clientaddress;
 }
 
-void MainWindow::GenerateCoins2()
+void MainWindow::GenerateCoins2() //not used
 { //basic demo-bruteforce algorithm in C++ from hacksenkessel.com
-
-    //bruteforce generate coin numbers
-    //randomize indexs after backing up into coinlist.db into another db called freecoins.db
-    //stop after set ammount of coins have been generated
-
     const string alphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"; // can randomize string and record as part of the unique coin signature ?
-
-
     const int min_pw_len = 1;
     const int max_pw_len = 3;
     char pw[max_pw_len + 2];
@@ -625,7 +593,7 @@ void MainWindow::GenerateCoins2()
 }
 }
 
-void MainWindow::GenerateCoins1()
+void MainWindow::GenerateCoins1() //not used
 {   //bruteforce algo by Author: Neo_Fr
 
 
@@ -675,7 +643,5 @@ void MainWindow::GenerateCoins1()
     }
     free(Buff);// Libere la memoire
 }
-
-
 
 #endif // COINGENERATOR_H

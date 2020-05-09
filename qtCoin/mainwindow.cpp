@@ -2,7 +2,6 @@
 #include "ui_mainwindow.h"
 #include "src/encryption/encryption.h"
 #include "src/encryption/rsa/Rsa.h"
-
 #include "src/downloadmanager.h"
 #include "src/loadtheme.h"
 #include <QFileDialog>
@@ -17,25 +16,17 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+
+    version=0.6;
+
     ui->setupUi(this);
     qDebug()<<"Application initialized...";
 
     db = QSqlDatabase::addDatabase("QSQLITE");    
     db.setDatabaseName("database.sqlite");
-    if(db.open())
-    {       qDebug()<<"Successful database connection";    }
-    else    {       qDebug()<<"Error: failed database connection";    }
-  //  if ( db.isOpen() )
-  //      std::cout << "the database is:  open" << std::endl;
-    db.close();
 
     createUserTable();
     selectUsers();
-
-
- //   coinDB = QSqlDatabase::addDatabase("QSQLITE");
-
-//QSqlDatabase::removeDatabase( QSqlDatabase::defaultConnection );
 
     player=new QMediaPlayer();
    // player->setMedia(QUrl("qrc:/sounds/ec1_mono.ogg"));
@@ -51,7 +42,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 //    media->setMedia("sound.mp3");
     player->setMedia(QMediaContent(), buffer);
-  //  player->play();
+    player->play();
 
 //    QString s = QDate::currentDate().toString();
 //    QDate::currentDate().day();
@@ -71,14 +62,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     int yearvar= QDate::currentDate().year();
     year = QString::number(yearvar);
-    QString temp = GenerateClientAddress(12);
-  //  qDebug() << QDate::currentDate().year();
-    qDebug() <<temp ;
 
     rsaTester = new Rsa();
     rsaTester->publish_keys(m_e, m_n);
-
-    version=0.6;
 
 }
 
@@ -87,6 +73,7 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+    //QSqlDatabase::removeDatabase( QSqlDatabase::defaultConnection );
 }
 
 void MainWindow::SQLTest(QString dbname,QString Query)
@@ -149,21 +136,75 @@ void MainWindow::ListUSB(){
 
 //      qDebug() << storagestring.at(3);
        QString usbstring = ui->usbdrivename->text().toLatin1();
-       usbpath = storage.rootPath().contains(usbstring);
-  if (storage.rootPath().contains(usbstring)){
-qDebug() << "yep" << "/n";
-    }
 
-       if (storage.isReadOnly())
-           qDebug() << "isReadOnly:" << storage.isReadOnly();
 
-       qDebug() << "name:" << storage.name();
-       qDebug() << "fileSystemType:" << storage.fileSystemType();
-       qDebug() << "size:" << storage.bytesTotal()/1000/1000 << "MB";
-       qDebug() << "availableSize:" << storage.bytesAvailable()/1000/1000 << "MB";
-    }
+        if (storage.rootPath().contains(usbstring)){
+            //qDebug() << "yep" << "/n";
+            usbpath = storage.rootPath().contains(usbstring);
+
+            if (storage.isReadOnly())
+                qDebug() << "isReadOnly:" << storage.isReadOnly();
+
+                qDebug() << "name:" << storage.name();
+                qDebug() << "fileSystemType:" << storage.fileSystemType();
+                qDebug() << "size:" << storage.bytesTotal()/1000/1000 << "MB";
+                qDebug() << "availableSize:" << storage.bytesAvailable()/1000/1000 << "MB";
+        } else {
+            usbpath="";
+        }
+
+        if (usbpath.toLatin1() == "")
+        {
+            QMessageBox Msgbox;
+                Msgbox.setText("drive not found: ");
+                Msgbox.exec();
+        }
+     }
 }
 
+void MainWindow::BackUptoUSB(){
+    //store and retrieve master encryption keys with this.
+
+//https://stackoverflow.com/questions/40035332/how-to-get-path-to-usb-drive-on-linux-in-qt
+    foreach (const QStorageInfo &storage, QStorageInfo::mountedVolumes()) {
+
+       qDebug() << storage.rootPath();
+
+//       QString storagestring=storage.rootPath();
+//       QRegExp rx("[/]");// match a comma or a space
+//       QStringList list2 = storagestring.split(rx);
+
+//      qDebug() << storagestring.at(3);
+       QString usbstring = "backupdevice";//ui->usbdrivename->text().toLatin1();
+
+        if (storage.rootPath().contains(usbstring)){
+            //qDebug() << "yep" << "/n";
+            backupusbpath = storage.rootPath().contains(usbstring);
+
+            if (storage.isReadOnly())
+                qDebug() << "isReadOnly:" << storage.isReadOnly();
+
+                qDebug() << "name:" << storage.name();
+                qDebug() << "fileSystemType:" << storage.fileSystemType();
+                qDebug() << "size:" << storage.bytesTotal()/1000/1000 << "MB";
+                qDebug() << "availableSize:" << storage.bytesAvailable()/1000/1000 << "MB";
+        } else {
+            backupusbpath="";
+        }
+
+        if (backupusbpath.toLatin1() == "")
+        {
+            QFile::copy("/settings.txt", backupusbpath.toLatin1() );
+            QFile::copy("/coins.sqlite", backupusbpath.toLatin1() );
+            QFile::copy("/availableCoins.sqlite", backupusbpath.toLatin1() );
+            QFile::copy("/hashes.txt", backupusbpath.toLatin1() );
+
+            QMessageBox Msgbox;
+                Msgbox.setText("drive not found: ");
+                Msgbox.exec();
+        }
+     }
+}
 
 void MainWindow::createUserTable()
 {
@@ -450,9 +491,9 @@ void MainWindow::on_encrypted_no_clicked()
 
 void MainWindow::placeCoins() //free coins from coins.db
 {
-// validate first ? (depends on speed)
-// encrypt coin based on index and client encryption key or master encryption key dual encryption probably not required to speed things up might even be able to use xor and hash.
-// place into client walled based on yearly tables
+// encrypt coin based on index and client encryption key or master encryption key dual encryption probably not required to speed things up might
+    //even be able to use xor and hash.
+// place into client walled based on yearly tables when created ID
 
     //https://doc.qt.io/qt-5/qcryptographichash.html
 QString test=md5Checksum("testing123");//
@@ -475,21 +516,83 @@ qDebug() << "md5sum:" << test.toLatin1();
 
 }
 
-void MainWindow::md5verifydb(){
+int MainWindow::md5verifydb(){
 // md5sum coinsdb maybe choose semirandom coinsammount to make md5 more unique
 // save with settings.txt
 //verify databases
 
+    //encrypt hashes for extra security store them on thumbdrive too also keep plaintext unencrypted versions on local
+
+    QFile MyFile("hashes.txt");
+    MyFile.open(QIODevice::ReadWrite);
+    QTextStream in (&MyFile);
+    QString line;
+    QStringList list;
+    QStringList nums;
+
+    do {
+        line = in.readLine();
+        QString searchString=":";
+        if (line.contains(searchString)) { //, Qt::CaseSensitive
+            // do something
+            QRegExp rx("[:]");// match a comma or a space
+            list = line.split(rx);
+            nums.append(list.at(1).toLatin1());
+        }
+    } while (!line.isNull());
+
+       QString coinstxtmd5=nums.at(0);
+       ui->coinname->setText(coinstxtmd5.toLatin1());
+       qDebug("%s", qUtf8Printable(coinstxtmd5));
+
+       QString coindb=nums.at(1);
+       ui->coinname->setText(coindb.toLatin1());
+       qDebug("%s", qUtf8Printable(coindb));
+
+       QString availablecoins=nums.at(2);
+       ui->coinname->setText(availablecoins.toLatin1());
+       qDebug("%s", qUtf8Printable(availablecoins));
+
+       QByteArray coinstxtmd52 =  fileChecksum("coins.txt",QCryptographicHash::Md5);
+       QByteArray coindb2 =  fileChecksum("coins.sqlite",QCryptographicHash::Md5);
+       QByteArray availablecoins2 =  fileChecksum("availableCoins.sqlite",QCryptographicHash::Md5);
+
+       QTextCodec *codec = QTextCodec::codecForName("KOI8-R");
+
+       if (coinstxtmd5.toLatin1()==coinstxtmd52.toHex() && coindb.toLatin1()==coindb2.toHex() && availablecoins.toLatin1() == availablecoins2.toHex()  )
+       {
+//           QMessageBox Msgbox;
+//               Msgbox.setText("verified ");
+//               Msgbox.exec();
+            return 1;
+       }
+
+return 0;
     //md5 convert coinsdb to randomcoins.db then md5sum can also check freecoins.db after each tx
 }
 
 void MainWindow::on_placeCoins_clicked()
 {
+    //decrypt and verify coins / rot13 or xor should suffice to keep the addresses smaller.
+    //if any incorrect flag account for checking also disable other transactions.
+    int verified = md5verifydb();
+
     placeCoins();
+
+    if (verified == 1){
+    QMessageBox Msgbox;
+        Msgbox.setText("coins sent ");
+        Msgbox.exec();
+    }
 }
 
 void MainWindow::on_SendCoins_clicked()
 {
+    //check for master keys from usb drive
+    //check available coins has enough for tx
+    //check ammount is proper format
+    //xor coins with user account id or rot13 and place into user account
+
     simplecrypttest();
     //placeCoins();
 }
