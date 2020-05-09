@@ -11,33 +11,9 @@ void MainWindow::RandomizeCoins()
 {
 //put into availableCoins.db
 
-    QFile MyFile("coins.txt");
-    MyFile.open(QIODevice::ReadOnly);
-    QTextStream in (&MyFile);
-    MyFile.seek(MyFile.size() ); /// qrand() % 10
-    QString line;
-    QStringList list;
-    QStringList nums;
-
-    QVariantList coins;
-    QVariantList index;
-    do {
-        line = in.readLine();
-        QRegExp rx("[:]");// match a comma or a space
-        list = line.split(rx);
-      //      nums.append(line);
-              //  index << list.at(0).toLatin1();
-              //  coins << list.at(1).toLatin1();
-                coins << line.toLatin1();
-        //        query += "INSERT INTO coins(addr) VALUES ('" + _coins[k] + "');";
-
-    } while (!line.isNull());
-
-  coins << QVariant(QVariant::String);
-index << QVariant(QVariant::String);
-
     //read coins.db into memory to try and open both sqldb at same time or write to textfile then read back in
-    db.setDatabaseName("avalableCoins.sqlite");
+    db.setDatabaseName("coins.sqlite");
+    QStringList tables = db.tables();
     if(db.open())
     {
         qDebug()<<"Successful coin database connection";
@@ -47,31 +23,116 @@ index << QVariant(QVariant::String);
         qDebug()<<"Error: failed database connection";
     }
 
-
+ qDebug() << "randomizing";
     db.transaction();
-    QString query;
-    query.append("INSERT INTO coins(addr) VALUES (?)");
-    query.append("SELECT * FROM coins() VALUES (?)");
+  //  QString query;
+  //  query.append("INSERT INTO coins(addr) VALUES (?)");
+   // query.append("SELECT addr FROM coins ORDER BY random()");
     //SELECT * FROM table
     //ORDER BY RAND()
     //LIMIT 1
 
-    QSqlQuery create;
+    QSqlQuery query;
 
-    create.prepare(query);
+  //  query.prepare("SELECT addr FROM coins ORDER BY random() LIMIT 10");
+        query.prepare("SELECT * FROM coins ORDER BY random()");
   //  create.addBindValue(index);
-    create.addBindValue(coins);
-    if(create.exec())
+//    create.addBindValue(coins);
+
+    QFile file("coins.txt");
+      //    if(file.open(QIODevice::WriteOnly | QIODevice::Text))
+          if(file.open(QIODevice::ReadWrite | QIODevice::Text))
+          {
+            QTextStream stream(&file);
+              if(!query.exec())
+             {
+                  qCritical() << query.lastQuery();
+                  qCritical() << query.lastError().databaseText();
+                  qCritical() << query.lastError().driverText();
+                  return;
+              }
+
+          while(query.next())
+         {
+             //query.value("mail").toString()
+
+            // stream << query.value("id").toString() << ":" << query.value("addr").toString() <<"\n";
+             stream << query.value("id").toString() << ":" << query.value("addr").toString() <<"\n";
+             qDebug() << "inserting coin";
+          }
+   }
+          file.close();
+    //db.commit();
+    query.clear();
+    db.close();
+
+createCoinTable("availableCoins.sqlite");
+    //read coins.txt and send them to new availablecoins database
+        QFile MyFile("coins.txt");
+        MyFile.open(QIODevice::ReadOnly);
+        QTextStream in (&MyFile);
+        MyFile.seek(MyFile.size() ); /// qrand() % 10
+        QString line;
+        QStringList list;
+        QStringList nums;
+
+        QVariantList coins;
+        QVariantList index;
+        do {
+            line = in.readLine();
+            QRegExp rx("[:]");// match a comma or a space
+            list = line.split(rx);
+          //      nums.append(line);
+                  //  index << list.at(0).toLatin1();
+                    coins << list.at(1).toLatin1();
+                   // coins << line.toLatin1();
+            //        query += "INSERT INTO coins(addr) VALUES ('" + _coins[k] + "');";
+
+        } while (!line.isNull());
+
+     coins << QVariant(QVariant::String);
+    index << QVariant(QVariant::String);
+
+
+//sqlite create randomized availablecoins
+    db.setDatabaseName("availableCoins.sqlite");
+    if(db.open())
+    {
+        qDebug()<<"Successful coin database connection";
+    }
+    else
+    {
+        qDebug()<<"Error: failed database connection";
+    }
+
+    db.transaction();
+    QString query2 = "INSERT INTO coins(addr) VALUES (?)";
+    for(int k = 0 ; k < _coins.count() ; k++)
+    {
+        coins << _coins[k];
+
+//        query += "INSERT INTO coins(addr) VALUES ('" + _coins[k] + "');";
+    }
+    coins << QVariant(QVariant::String);
+
+//    qDebug() << query;
+    QSqlQuery insert;
+    insert.prepare(query2);
+    insert.addBindValue(coins);
+
+    if(insert.execBatch())
     {
         qDebug() << "Coin is properly inserted";
     }
     else
     {
-        qDebug()<<"ERROR! "<< create.lastError();
+        qDebug()<<"ERROR! "<< insert.lastError();
     }
     db.commit();
-    query.clear();
+    _coins.clear();
+    insert.clear();
     db.close();
+
 
 }
 

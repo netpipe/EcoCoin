@@ -41,7 +41,7 @@ public:
 
     void RandomizeCoins();
     void insertCoins();
-    void createCoinTable();
+    void createCoinTable(QString DBname);
     void themeInit();
     QList<QString> _coins;
 

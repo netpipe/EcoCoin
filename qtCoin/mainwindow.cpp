@@ -36,7 +36,7 @@ MainWindow::MainWindow(QWidget *parent) :
     {        qDebug()<<"Error: failed database connection";    }
     db.close();
 
-    createCoinTable();
+    createCoinTable("coins.sqlite");
 
 //QSqlDatabase::removeDatabase( QSqlDatabase::defaultConnection );
 
@@ -205,9 +205,10 @@ void MainWindow::createUserTable()
     db.close();
 }
 
-void MainWindow::createCoinTable()
+void MainWindow::createCoinTable(QString DBname)
 {
-    db.setDatabaseName("coins.sqlite");
+   // db.setDatabaseName("coins.sqlite");
+    db.setDatabaseName(DBname.toLatin1());
         //db.setDatabaseName("avalableCoins.sqlite");
     if(db.open())
     {
