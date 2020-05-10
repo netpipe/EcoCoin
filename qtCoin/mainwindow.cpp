@@ -259,9 +259,7 @@ void MainWindow::insertUser()
 
     QString query;
 
-if (ui->encrypted_yes->text() == "Yes" ){
-
-
+    if (ui->encrypted_yes->text() == "Yes" ){
 
     QByteArray bFname = EncryptMsg(ui->lineEditName->text(),"123456789", "your-IV-vector");
     QString mykey1 = BigInt2Str(m_e); //rsa keys
@@ -280,7 +278,7 @@ if (ui->encrypted_yes->text() == "Yes" ){
                     ");");
 
      qDebug()<<bFname+ "/n";
-}else{
+    }else{
     query.append("INSERT INTO users("
                     "name,"
                     "surname,"
@@ -292,9 +290,7 @@ if (ui->encrypted_yes->text() == "Yes" ){
                     ""+ui->lineEditAge->text()+","
                     ""+ui->lineEditClass->text()+""
                     ");");
-
-
-}
+    }
 
     QSqlQuery insert;
     insert.prepare(query);
@@ -366,8 +362,6 @@ void MainWindow::on_pushButtonInsertUser_clicked()
     ui->lineEditName->setText(temp.toLatin1());
     insertUser();
     selectUsers();
-
-
 }
 
 
@@ -496,13 +490,12 @@ void MainWindow::placeCoins() //free coins from coins.db
 // place into client walled based on yearly tables when created ID
 
     //https://doc.qt.io/qt-5/qcryptographichash.html
-QString test=md5Checksum("testing123");//
-qDebug() << "md5sum:" << test.toLatin1();
+//    QString test=md5Checksum("testing123");//
+//    qDebug() << "md5sum:" << test.toLatin1();
 
-    QByteArray array;
-    array.append("ABCDEF12343");
-    qDebug() << QString(array.toHex());
-
+//    QByteArray array;
+//    array.append("ABCDEF12343");
+//    qDebug() << QString(array.toHex());
 
     //    QString resultxor = XORencryptDecrypt("testing", "key2");
     //       qDebug() <<"xor:"<<resultxor ;
@@ -513,8 +506,14 @@ qDebug() << "md5sum:" << test.toLatin1();
     //                    qDebug() <<"xor:"<<test.c_str() ;
                        // string XOR(test.c_str(), "key2");
                        // qDebug() <<"xor:"<<test.c_str() ;
-
+QString decrypt = encryptxor("test","key").toLatin1();
+    qDebug() << decrypt;
+  //  qDebug() <<XOR2 (test2.toStdString(),"tring");
+    qDebug() << decryptxor(decrypt,"key");
 }
+
+
+
 
 int MainWindow::md5verifydb(){
 // md5sum coinsdb maybe choose semirandom coinsammount to make md5 more unique
@@ -575,7 +574,7 @@ void MainWindow::on_placeCoins_clicked()
 {
     //decrypt and verify coins / rot13 or xor should suffice to keep the addresses smaller.
     //if any incorrect flag account for checking also disable other transactions.
-    int verified = md5verifydb();
+    int verified = 0;//md5verifydb();
 
     placeCoins();
 

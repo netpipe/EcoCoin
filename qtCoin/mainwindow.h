@@ -39,6 +39,10 @@ public:
     int md5verifydb();
     void generateCoins();
     void BackUptoUSB();
+
+    QString encryptxor(QString test,QString key);
+    QString decryptxor(QString string,QString key);
+
     int coini;
     bool gentotext;
     QByteArray md5Checksum(QString stuff);

@@ -9,6 +9,7 @@
 #include <QFile>
 #include "../../mainwindow.h"
 #include "simpleCrypt/simplecrypt.h"
+#include <QTextCodec>
 
 QString simplecrypttest(){
 //optional setkey method
@@ -194,6 +195,65 @@ QString MainWindow::DecryptMsg(QByteArray encryptedMsg, Rsa *rsa,QString aeskey1
 }
 
 
+QString MainWindow::encryptxor(QString test,QString key)
+{
+
+    // Read the file into a QByteArray
+    QByteArray clearBlob = test.toLatin1();
+    qDebug() << "File contains " << clearBlob.length() << " bytes.";
+
+    // Convert the key into a QByteArray
+    QByteArray keyBlob = key.toLatin1();
+
+    qDebug() << "Key is " << keyBlob.length() << " bytes.";
+
+    // XOR the file with the key
+    QByteArray cryptBlob;
+    // Give ourselves the memory before hand, so we don't call append() in the loop. It's slow.
+    cryptBlob.resize(clearBlob.size());
+    int blobPos;
+    for (blobPos = 0; blobPos < clearBlob.length(); blobPos++)
+    {
+        // XOR each byte of the clearblob with the key, wrapping the key position around
+        cryptBlob[blobPos] = clearBlob[blobPos] ^ keyBlob[blobPos % keyBlob.size()];
+        //qDebug() << blobPos << ": " << clearBlob[blobPos] << " XOR " << keyBlob[blobPos % keyBlob.size()] << " (@ " << blobPos % keyBlob.size() << ")";
+    }
+
+    // Base64Encode the resulting encrypted QByteArray
+    QString output = cryptBlob.toBase64(QByteArray::Base64Encoding | QByteArray::KeepTrailingEquals);
+
+return output;
+}
+QString MainWindow::decryptxor(QString string,QString key)
+{
+    // Read the input into a QByteArray (integral Base64Decode)
+    QByteArray cryptBlob;
+    cryptBlob = QByteArray::fromBase64(string.toUtf8(), QByteArray::Base64Encoding | QByteArray::KeepTrailingEquals);
+    qDebug() << "Input contains " << cryptBlob.length() << " bytes.";
+
+    // Convert the key into a QByteArray
+    QByteArray keyBlob = key.toLatin1();
+
+    // XOR the key with the decoded input
+    QByteArray clearBlob;
+    // Give ourselves the memory before hand, so we don't call append() in the loop. It's slow.
+    clearBlob.resize(cryptBlob.size());
+    int blobPos;
+    for (blobPos = 0; blobPos < cryptBlob.length(); blobPos++)
+    {
+        // XOR each byte of the clearblob with the key, wrapping the key position around
+        clearBlob[blobPos] = cryptBlob[blobPos] ^ keyBlob[blobPos % keyBlob.size()];
+        //qDebug() << blobPos << ": " << cryptBlob[blobPos] << " XOR " << keyBlob[blobPos % keyBlob.size()] << " (@ " << blobPos % keyBlob.size() << ")";
+    }
+
+    QTextCodec *codec = QTextCodec::codecForName("KOI8-R");
+
+    return codec->toUnicode(clearBlob);
+}
+
+// old xor functions
+
+
 //still trying to get xor working
 
 //QString XORencryptDecrypt(QString toEncrypt) {
@@ -207,58 +267,60 @@ QString MainWindow::DecryptMsg(QByteArray encryptedMsg, Rsa *rsa,QString aeskey1
 //    return output;
 //}
 
-string XOR(string value,string key)
-{
-    string retval(value);
 
-    short unsigned int klen=key.length();
-    short unsigned int vlen=value.length();
-    short unsigned int k=0;
-    short unsigned int v=0;
 
-    for(v = 0;v<vlen;v++)
-    {
-        retval[v]=value[v]^key[k];
-        k=(++k<klen?k:0);
-    }
+//string XOR(string value,string key)
+//{
+//    string retval(value);
 
-    return retval;
-}
+//    short unsigned int klen=key.length();
+//    short unsigned int vlen=value.length();
+//    short unsigned int k=0;
+//    short unsigned int v=0;
 
-QString XORencryptDecrypt2(QString toEncrypt, QString key2)
-{
-    //QByteArray::toHex()
-QByteArray arr = toEncrypt.toLatin1();
-char key[3] = {'K', 'C', 'Q'};
-for (int i = 0; i < arr.size(); i++)
-    arr[i] = arr[i] ^ key[i % (sizeof(key) / sizeof(char))];
-
-}
-
-QString XORencryptDecrypt(QString toEncrypt, QString key2)
-{
-
-    const char* input = toEncrypt.toLatin1();
-    int inputLength = toEncrypt.size(); //m_textEdit->toPlainText().toLatin1().length();
-    const char* key = key2.toLatin1();//m_keyLineEdit->text().toLatin1().data();
-    int keyLength = key2.size();//m_keyLineEdit->text().toLatin1().length();
-
-    char output[inputLength];
-
-    for (int i = 0; i < inputLength + 1; ++i)
-    {
-        output[i] = input[i] ^ key[i % keyLength + 1];
-    }
-
-//    if (strinfo.length () > 0) {
-//    Qtextcodec *codec = Qtextcodec::codecforname ("Utf-8");
-//    result = Codec->fromunicode (strinfo);
+//    for(v = 0;v<vlen;v++)
+//    {
+//        retval[v]=value[v]^key[k];
+//        k=(++k<klen?k:0);
 //    }
 
+//    return retval;
+//}
 
-    //m_textEdit->setText(QString::fromLatin1(output, inputLength));
-    return QString::fromLatin1(output, inputLength);
-}
+//QString XORencryptDecrypt2(QString toEncrypt, QString key2)
+//{
+//    //QByteArray::toHex()
+//QByteArray arr = toEncrypt.toLatin1();
+//char key[3] = {'K', 'C', 'Q'};
+//for (int i = 0; i < arr.size(); i++)
+//    arr[i] = arr[i] ^ key[i % (sizeof(key) / sizeof(char))];
+
+//}
+
+//QString XORencryptDecrypt(QString toEncrypt, QString key2)
+//{
+
+//    const char* input = toEncrypt.toLatin1();
+//    int inputLength = toEncrypt.size(); //m_textEdit->toPlainText().toLatin1().length();
+//    const char* key = key2.toLatin1();//m_keyLineEdit->text().toLatin1().data();
+//    int keyLength = key2.size();//m_keyLineEdit->text().toLatin1().length();
+
+//    char output[inputLength];
+
+//    for (int i = 0; i < inputLength + 1; ++i)
+//    {
+//        output[i] = input[i] ^ key[i % keyLength + 1];
+//    }
+
+////    if (strinfo.length () > 0) {
+////    Qtextcodec *codec = Qtextcodec::codecforname ("Utf-8");
+////    result = Codec->fromunicode (strinfo);
+////    }
+
+
+//    //m_textEdit->setText(QString::fromLatin1(output, inputLength));
+//    return QString::fromLatin1(output, inputLength);
+//}
 
 
 
