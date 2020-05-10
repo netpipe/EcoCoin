@@ -302,7 +302,30 @@ void MainWindow::on_actionOpenCoin_triggered()
              //   ui->createday->value(createday.toInt());
                 qDebug("%s", qUtf8Printable(createday));
                 QString CreateMonth=nums.at(4);
-                //ui->createmonth->setValue();comboBox->currentIndex();
+                if (CreateMonth == "Jan")
+                    ui->createmonth->setCurrentIndex(0);
+                if (CreateMonth == "Feb")
+                    ui->createmonth->setCurrentIndex(1);
+                if (CreateMonth == "Mar")
+                    ui->createmonth->setCurrentIndex(2);
+                if (CreateMonth == "April")
+                    ui->createmonth->setCurrentIndex(3);
+                if (CreateMonth == "May")
+                    ui->createmonth->setCurrentIndex(4);
+                if (CreateMonth == "June")
+                    ui->createmonth->setCurrentIndex(5);
+                if (CreateMonth == "July")
+                    ui->createmonth->setCurrentIndex(6);
+                if (CreateMonth == "Aug")
+                    ui->createmonth->setCurrentIndex(7);
+                if (CreateMonth == "September")
+                    ui->createmonth->setCurrentIndex(8);
+                if (CreateMonth == "October")
+                    ui->createmonth->setCurrentIndex(9);
+                if (CreateMonth == "November")
+                    ui->createmonth->setCurrentIndex(10);
+                if (CreateMonth == "December")
+                    ui->createmonth->setCurrentIndex(11);
                 qDebug("%s", qUtf8Printable(CreateMonth));
                 QString createyear=nums.at(5);
                 ui->createyear->setValue(createyear.toInt());
@@ -358,7 +381,31 @@ void MainWindow::on_actionOpenCoin_triggered()
                 ui->matureday->setValue(maturedate.toInt());
                     qDebug("%s", qUtf8Printable(maturedate));
                 QString maturemonth=nums.at(12);
-             //   ui->maturemonth->se(maturemonth.);
+                if (maturemonth == "Jan")
+                    ui->maturemonth->setCurrentIndex(0);
+                if (maturemonth == "Feb")
+                    ui->maturemonth->setCurrentIndex(1);
+                if (maturemonth == "Mar")
+                    ui->maturemonth->setCurrentIndex(2);
+                if (maturemonth == "April")
+                    ui->maturemonth->setCurrentIndex(3);
+                if (maturemonth == "May")
+                    ui->maturemonth->setCurrentIndex(4);
+                if (maturemonth == "June")
+                    ui->maturemonth->setCurrentIndex(5);
+                if (maturemonth == "July")
+                    ui->maturemonth->setCurrentIndex(6);
+                if (maturemonth == "Aug")
+                    ui->maturemonth->setCurrentIndex(7);
+                if (maturemonth == "September")
+                    ui->maturemonth->setCurrentIndex(8);
+                if (maturemonth == "October")
+                    ui->createmonth->setCurrentIndex(9);
+                if (CreateMonth == "November")
+                    ui->maturemonth->setCurrentIndex(10);
+                if (maturemonth == "December")
+                    ui->maturemonth->setCurrentIndex(11);
+
                     qDebug("%s", qUtf8Printable(maturemonth));
                 QString matureyear=nums.at(13);
                 ui->matureyear->text();

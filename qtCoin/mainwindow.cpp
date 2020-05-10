@@ -44,13 +44,16 @@ MainWindow::MainWindow(QWidget *parent) :
     player->setMedia(QMediaContent(), buffer);
     player->play();
 
-//    QString s = QDate::currentDate().toString();
-//    QDate::currentDate().day();
-//    QDate::currentDate().month();
-//    QDate::currentDate().year();
 
-    ui->progress->setValue(50);
 
+
+    ui->createyear->setValue(year.toInt());
+    //if (QDate::currentDate().month()="January")
+
+    //ui->createmonth->(QDate::currentDate().month());
+ui->createmonth->setCurrentIndex(QDate::currentDate().month()-1);
+ui->maturemonth->setCurrentIndex(QDate::currentDate().month()-1);
+    //load settings
     QFile Fout("settings.txt");
     if(Fout.exists())
     {
@@ -60,8 +63,43 @@ MainWindow::MainWindow(QWidget *parent) :
 
     themeInit();
 
+    //set global current year
     int yearvar= QDate::currentDate().year();
     year = QString::number(yearvar);
+
+    //subtract date to set progress bar
+
+    //    QString s = QDate::currentDate().toString();
+    //    QDate::currentDate().day();
+    //    QDate::currentDate().month();
+    //    QDate::currentDate().year();
+
+//convert to days then set progressbar
+    ui->matureyear->text();
+    ui->maturemonth->currentText();
+
+//int pcreate = ui->createmonth->currentIndex()+1;
+int pmature = ui->maturemonth->currentIndex()+1;
+
+
+    QDate dNow(QDate::currentDate());
+    QDate createdate(ui->createyear->text().toInt(), ui->createmonth->currentIndex()+1, ui->createday->text().toInt());
+    QDate maturedate(ui->matureyear->text().toInt(), ui->maturemonth->currentIndex()+1, ui->matureday->text().toInt());
+    qDebug() << ui->matureyear->text().toInt()<< ui->maturemonth->currentIndex()+1<< ui->matureday->text().toInt();
+
+
+    qDebug() << "Today is" << dNow.toString("dd.MM.yyyy")
+                << "maturedate is" << maturedate.toString("dd.MM.yyyy")
+             << "days to maturing: "
+             << dNow.daysTo(maturedate);
+
+   qDebug() <<  createdate.daysTo(maturedate) - dNow.daysTo(maturedate);
+
+
+    ui->progress->setValue(createdate.daysTo(maturedate) - dNow.daysTo(maturedate));
+
+    //ui->createmonth->setValue();comboBox->currentIndex();
+  //  qDebug()<< pcreate*24;
 
     rsaTester = new Rsa();
     rsaTester->publish_keys(m_e, m_n);
@@ -384,8 +422,12 @@ void MainWindow::on_pushButtonInsertUser_clicked()
    // selectUsers();
 
     createyearly(temp.toLatin1());
+   // createyearly("FvEZ0TCH4YOVaaaaaaaaaaaaaaaaaaaaaaaaaaa");
    // createyearly("FvEZ0TCH4YOV");
     //selectUsersCoins(temp.toLatin1(),year.toLatin1());
+
+    //combine user year+userid to give to user
+
 
 }
 
