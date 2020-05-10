@@ -93,10 +93,15 @@ int pmature = ui->maturemonth->currentIndex()+1;
              << "days to maturing: "
              << dNow.daysTo(maturedate);
 
-   qDebug() <<  createdate.daysTo(maturedate) - dNow.daysTo(maturedate);
-
-
-    ui->progress->setValue(createdate.daysTo(maturedate) - dNow.daysTo(maturedate));
+   float dayselapsed =  createdate.daysTo(maturedate) - dNow.daysTo(maturedate); // days elapsed since creation
+   float daystotalmaturing = createdate.daysTo(maturedate);
+   float test4 = dayselapsed / daystotalmaturing * 100;
+//   float pi = 3.14;
+//   QString b;
+//   b.setNum(pi);
+  // qDebug() << percent2 << fixed << qSetRealNumberPrecision(2);
+   qDebug() << test4;
+    ui->progress->setValue( test4);
 
     //ui->createmonth->setValue();comboBox->currentIndex();
   //  qDebug()<< pcreate*24;
