@@ -25,8 +25,8 @@ MainWindow::MainWindow(QWidget *parent) :
     db = QSqlDatabase::addDatabase("QSQLITE");    
     db.setDatabaseName("database.sqlite");
 
-    createUserTable();
-    selectUsers();
+    //createUserTable();
+    //selectUsers();
 
     player=new QMediaPlayer();
    // player->setMedia(QUrl("qrc:/sounds/ec1_mono.ogg"));
@@ -206,9 +206,11 @@ void MainWindow::BackUptoUSB(){
      }
 }
 
-void MainWindow::createUserTable()
+void MainWindow::createyearly(QString ownerID)
 {
-    db.setDatabaseName("database.sqlite");
+    //holds users generated from each new year and their coins pulled from rcoins.sqlite
+
+    db.setDatabaseName("./db/"+year+".sqlite");
     if(db.open())
     {
        qDebug()<<"Successful database connection";
@@ -219,15 +221,31 @@ void MainWindow::createUserTable()
     }
 
     QString query;
-    query.append("CREATE TABLE IF NOT EXISTS users("
+
+    query.append("CREATE TABLE IF NOT EXISTS "+ownerID.toLatin1()+"("
                     "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    "name VARCHAR(100),"
-                    "surname VARCHAR(100),"
-                    "age INTEGER NOT NULL,"
-                    "class INTEGER NOT NULL"
+                    "owner VARCHAR(100),"
+                    "addr VARCHAR(100),"
+                    "datetime INTEGER NOT NULL,"
+                    "class INTEGER NOT NULL,"
+                    "etype INTEGER NOT NULL,"
+                    "ekey VARCHAR(100),"
+                    "extra VARCHAR(100)"
                     ");");
 
-    QSqlQuery create;
+//    query.append("CREATE TABLE IF NOT EXISTS test("
+//                    "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+//                    "owner VARCHAR(100),"
+//                    "addr VARCHAR(100),"
+//                    "datetime INTEGER NOT NULL,"
+//                    "class INTEGER NOT NULL,"
+//                    "etype INTEGER NOT NULL,"
+//                    "ekey VARCHAR(100),"
+//                    "extra VARCHAR(100)"
+//                    ");");
+
+
+        QSqlQuery create;
     create.prepare(query);
 
     if (create.exec())
@@ -245,7 +263,8 @@ void MainWindow::createUserTable()
 
 
 
-void MainWindow::insertUser()
+
+void MainWindow::insertUser() //strictly a db to hold all userid's for verification
 {
     db.setDatabaseName("database.sqlite");
     if(db.open())
@@ -358,10 +377,16 @@ void MainWindow::selectUsers()
 
 void MainWindow::on_pushButtonInsertUser_clicked()
 {
-    QString temp = GenerateClientAddress(12);
+    //QString temp = GenerateClientAddress(8);
+    QString temp = GetRandomString(8,"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890");
     ui->lineEditName->setText(temp.toLatin1());
-    insertUser();
-    selectUsers();
+   // insertUser();
+   // selectUsers();
+
+    createyearly(temp.toLatin1());
+   // createyearly("FvEZ0TCH4YOV");
+    //selectUsersCoins(temp.toLatin1(),year.toLatin1());
+
 }
 
 
@@ -556,7 +581,7 @@ int MainWindow::md5verifydb(){
        QByteArray coindb2 =  fileChecksum("coins.sqlite",QCryptographicHash::Md5);
        QByteArray availablecoins2 =  fileChecksum("availableCoins.sqlite",QCryptographicHash::Md5);
 
-       QTextCodec *codec = QTextCodec::codecForName("KOI8-R");
+       //QTextCodec *codec = QTextCodec::codecForName("KOI8-R");
 
        if (coinstxtmd5.toLatin1()==coinstxtmd52.toHex() && coindb.toLatin1()==coindb2.toHex() && availablecoins.toLatin1() == availablecoins2.toHex()  )
        {
@@ -614,5 +639,5 @@ void MainWindow::on_randomSearch_clicked()
 {//for picking lucky users
     //repurposed temporarly for sqltest
  //   SQLTest("coins.sqlite",ui->userid->text().toLatin1());
-generateRCoins();
+
 }

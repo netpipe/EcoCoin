@@ -31,14 +31,15 @@ public:
     void GenerateCoins3(int length,int total);
     void combinationUtil(QString arr, int n, int r, int index, QString data, int i);
     QString GetRandomString(int length,QString chars);
-    QString GenerateClientAddress(int length);
+    QString getClientAddress();
     QString year;
     QString usbpath;
     QString backupusbpath;
     void createFreeCoinTable(QString DBname);
     void placeCoins();
     void generateRCoins();
-
+void createyearly(QString ownerID);
+void selectUsersCoins(QString userid,QString yeardb);
     int md5verifydb();
     void generateCoins();
     void BackUptoUSB();

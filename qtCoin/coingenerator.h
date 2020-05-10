@@ -11,9 +11,62 @@
 #include <QMessageBox>
 #include <QTextCodec>
 
+
+QString MainWindow::getClientAddress(){ //change to getclientaddress instead
+    QString clientaddress = year + GetRandomString(length,"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890");
+    return clientaddress;
+}
+
+void MainWindow::selectUsersCoins(QString userid,QString yeardb) // not ready yet
+{
+    db.setDatabaseName("./db/"+yeardb+".sqlite");
+    if(db.open())
+    {
+       qDebug()<<"Successful database connection";
+    }
+    else
+    {
+       qDebug()<<"Error: failed database connection";
+    }
+
+
+    QString query;
+    query.append("SELECT * FROM "+userid);
+
+    QSqlQuery select;
+    select.prepare(query);
+
+    if (select.exec())
+    {
+        qDebug()<<"The user is properly selected";
+    }
+    else
+    {
+        qDebug()<<"The user is not selected correctly";
+        qDebug()<<"ERROR! "<< select.lastError();
+    }
+
+    int row = 0;
+    ui->tableWidgetUsers->setRowCount(0);
+
+    while (select.next())
+    {
+        ui->tableWidgetUsers->insertRow(row);
+        ui->tableWidgetUsers->setItem(row,0,new QTableWidgetItem(select.value(1).toByteArray().constData()));
+        ui->tableWidgetUsers->setItem(row,1,new QTableWidgetItem(select.value(2).toByteArray().constData()));
+        ui->tableWidgetUsers->setItem(row,2,new QTableWidgetItem(select.value(3).toByteArray().constData()));
+        ui->tableWidgetUsers->setItem(row,3,new QTableWidgetItem(select.value(4).toByteArray().constData()));
+        row++;
+    }
+
+    query.clear();
+    db.close();
+}
+
+
+
 void MainWindow::generateRCoins()
 {
-
     //read coins.txt and send them to new availablecoins database
         QFile MyFile("coins.txt");
         MyFile.open(QIODevice::ReadOnly);
@@ -38,10 +91,6 @@ void MainWindow::generateRCoins()
             //        query += "INSERT INTO coins(addr) VALUES ('" + _coins[k] + "');";
 
          }
-
-  //   coins << QVariant(QVariant::String);
-  //  index << QVariant(QVariant::String);
-
 
     createFreeCoinTable("rcoins.sqlite");
     qDebug()<< "generating availablecoins";
@@ -82,9 +131,9 @@ void MainWindow::generateRCoins()
 
 
     //generate md5sum
-    //QByteArray coinstxtmd5 =  fileChecksum("rcoins.sqlite",QCryptographicHash::Md5);
+    QByteArray coinstxtmd5 =  fileChecksum("rcoins.sqlite",QCryptographicHash::Md5);
 
-    //QTextCodec *codec = QTextCodec::codecForName("KOI8-R");
+    QTextCodec *codec = QTextCodec::codecForName("KOI8-R");
    // codec->toUnicode(coindb)
 
 //    QFile hashfile("hashes.txt");
@@ -120,12 +169,7 @@ void MainWindow::createCoinTable(QString DBname)
                  "id INTEGER PRIMARY KEY AUTOINCREMENT,"
                  "addr VARCHAR(50));");
 
-    //SELECT column FROM table
-    //ORDER BY RAND()
-    //LIMIT 1
-
     QSqlQuery create;
-
     create.prepare(query);
 
     if (create.exec())
@@ -144,9 +188,8 @@ void MainWindow::createCoinTable(QString DBname)
 
 void MainWindow::createFreeCoinTable(QString DBname)
 {
-   // db.setDatabaseName("coins.sqlite");
     db.setDatabaseName(DBname.toLatin1());
-        //db.setDatabaseName("avalableCoins.sqlite");
+
     if(db.open())
     {
         qDebug()<<"Successful coin database connection";
@@ -173,7 +216,6 @@ void MainWindow::createFreeCoinTable(QString DBname)
 //    query.bindValue(":id", 1001);
 //    query.bindValue(":origid", "Thad Beaumont");
 //    query.bindValue(":addr", 65000);
-
 
     QSqlQuery create;
 
@@ -364,9 +406,9 @@ void MainWindow::on_pushButton_clicked() //generate coins button
         }
         Fout.close();
 
-        createCoinTable("coins.sqlite");
-      coini=0;
-      gentotext=0; // use 0 for sql
+    createCoinTable("coins.sqlite");
+    coini=0;
+    gentotext=0; // use 0 for sql
     GenerateCoins3(ui->coinlength->text().toInt(),ui->coincount->text().toInt());
     RandomizeCoins();
     generateRCoins();
@@ -375,8 +417,6 @@ void MainWindow::on_pushButton_clicked() //generate coins button
        // sum = ui->coincount->text().toInt();
         Msgbox.setText("coin created: ");
         Msgbox.exec();
-
-
    }else{
     QMessageBox Msgbox;
        // int sum;
@@ -384,8 +424,6 @@ void MainWindow::on_pushButton_clicked() //generate coins button
         Msgbox.setText("needs to be even number: ");
         Msgbox.exec();
     }
-
-
 }
 
 void MainWindow::RandomizeCoins()
@@ -665,16 +703,6 @@ QString MainWindow::GetRandomString(int length,QString chars)
    return randomString;
 }
 
-QString MainWindow::GenerateClientAddress(int length){
-    //QDate year = new QDate;
-   // QDate date = QDate::currentDate();
-    QString clientaddress = year + GetRandomString(length,"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890");
-    //double check against existing addresses after encrypting unless not specified
-    //   QString clientaddress = QDate::currentDate().year() + GetRandomString(length);
-    //QDate::currentDate().year();
-   // qDebug() << clientaddress << "/n";
-    return clientaddress;
-}
 
 void MainWindow::GenerateCoins2() //not used
 { //basic demo-bruteforce algorithm in C++ from hacksenkessel.com
