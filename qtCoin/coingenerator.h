@@ -11,6 +11,95 @@
 #include <QMessageBox>
 #include <QTextCodec>
 
+void MainWindow::generateRCoins()
+{
+
+    //read coins.txt and send them to new availablecoins database
+        QFile MyFile("coins.txt");
+        MyFile.open(QIODevice::ReadOnly);
+        QTextStream in (&MyFile);
+       // MyFile.seek(MyFile.size() ); /// qrand() % 10
+        MyFile.seek(0 );
+        QString line;
+        QStringList list;
+        QStringList nums;
+
+        QVariantList coins;
+        QVariantList index;
+        qDebug()<<"filling coins list";
+        while (in.readLineInto(&line)) {
+            QRegExp rx("[:]");// match a comma or a space
+            list = line.split(rx);
+          //      nums.append(line);
+                    index << list.at(0).toLatin1();
+                    coins << list.at(1).toLatin1();
+                   // qDebug() << list.at(1).toLatin1();
+                   // coins << line.toLatin1();
+            //        query += "INSERT INTO coins(addr) VALUES ('" + _coins[k] + "');";
+
+         }
+
+  //   coins << QVariant(QVariant::String);
+  //  index << QVariant(QVariant::String);
+
+
+    createFreeCoinTable("rcoins.sqlite");
+    qDebug()<< "generating availablecoins";
+    //sqlite create randomized availablecoins
+    db.setDatabaseName("rcoins.sqlite");
+    if(db.open())
+    {
+        qDebug()<<"Successful coin database connection";
+    }
+    else
+    {
+        qDebug()<<"Error: failed database connection";
+    }
+
+    db.transaction();
+
+    QString query2 = "INSERT INTO coins(origid,addr) VALUES (?,?)";
+
+//    qDebug() << query;
+    QSqlQuery insert;
+    insert.prepare(query2);
+    insert.addBindValue(index);
+    insert.addBindValue(coins);
+
+    if(insert.execBatch())
+    {
+        qDebug() << "Coin is properly inserted";
+    }
+    else
+    {
+        qDebug()<<"ERROR! "<< insert.lastError();
+    }
+    db.commit();
+    index.clear();
+    coins.clear();
+    insert.clear();
+    db.close();
+
+
+    //generate md5sum
+    //QByteArray coinstxtmd5 =  fileChecksum("rcoins.sqlite",QCryptographicHash::Md5);
+
+    //QTextCodec *codec = QTextCodec::codecForName("KOI8-R");
+   // codec->toUnicode(coindb)
+
+//    QFile hashfile("hashes.txt");
+//    if(hashfile.open(QIODevice::WriteOnly | QIODevice::Text))
+//    {
+//        QTextStream stream(&hashfile);
+//            //hashfile.seek(0);
+//            stream << "coinstxt:" << coinstxtmd5.toHex() << endl;
+//            stream << "coinsdb:" << coindb.toHex() << endl;
+//            stream << "availableCoins:" << availablecoins.toHex() << endl;
+//       }
+//    hashfile.close();
+
+}
+
 
 void MainWindow::createCoinTable(QString DBname)
 {
@@ -34,6 +123,57 @@ void MainWindow::createCoinTable(QString DBname)
     //SELECT column FROM table
     //ORDER BY RAND()
     //LIMIT 1
+
+    QSqlQuery create;
+
+    create.prepare(query);
+
+    if (create.exec())
+    {
+        qDebug()<<"Table exists or has been created";
+    }
+    else
+    {
+        qDebug()<<"Table not exists or has not been created";
+        qDebug()<<"ERROR! "<< create.lastError();
+    }
+
+    query.clear();
+    db.close();
+}
+
+void MainWindow::createFreeCoinTable(QString DBname)
+{
+   // db.setDatabaseName("coins.sqlite");
+    db.setDatabaseName(DBname.toLatin1());
+        //db.setDatabaseName("avalableCoins.sqlite");
+    if(db.open())
+    {
+        qDebug()<<"Successful coin database connection";
+    }
+    else
+    {
+        qDebug()<<"Error: failed database connection";
+    }
+
+    QString query;
+    query.append("CREATE TABLE IF NOT EXISTS coins("
+                 "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                 "origid VARCHAR(50),""addr VARCHAR(50));");
+
+//    query.prepare("INSERT INTO employee (id INTEGER PRIMARY KEY AUTOINCREMENT, origid , addr) "
+//                  "VALUES (:id, :origid, :coin)");
+//    query.prepare("INSERT INTO employee (id, origid, addr) "
+//                  "VALUES (?, ?, ?)");
+
+//    query.addBindValue(1001);
+//    query.addBindValue("Thad Beaumont");
+//    query.addBindValue(65000);
+
+//    query.bindValue(":id", 1001);
+//    query.bindValue(":origid", "Thad Beaumont");
+//    query.bindValue(":addr", 65000);
+
 
     QSqlQuery create;
 
@@ -229,6 +369,7 @@ void MainWindow::on_pushButton_clicked() //generate coins button
       gentotext=0; // use 0 for sql
     GenerateCoins3(ui->coinlength->text().toInt(),ui->coincount->text().toInt());
     RandomizeCoins();
+    generateRCoins();
     QMessageBox Msgbox;
        // int sum;
        // sum = ui->coincount->text().toInt();

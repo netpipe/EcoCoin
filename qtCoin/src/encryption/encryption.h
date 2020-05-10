@@ -197,7 +197,7 @@ QString MainWindow::DecryptMsg(QByteArray encryptedMsg, Rsa *rsa,QString aeskey1
 
 QString MainWindow::encryptxor(QString test,QString key)
 {
-
+//code taken from silve_smuggler xor utility
     // Read the file into a QByteArray
     QByteArray clearBlob = test.toLatin1();
     qDebug() << "File contains " << clearBlob.length() << " bytes.";
@@ -224,6 +224,7 @@ QString MainWindow::encryptxor(QString test,QString key)
 
 return output;
 }
+
 QString MainWindow::decryptxor(QString string,QString key)
 {
     // Read the input into a QByteArray (integral Base64Decode)

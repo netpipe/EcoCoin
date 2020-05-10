@@ -613,6 +613,6 @@ void MainWindow::on_pushButton_2_clicked()
 void MainWindow::on_randomSearch_clicked()
 {//for picking lucky users
     //repurposed temporarly for sqltest
-    SQLTest("coins.sqlite",ui->userid->text().toLatin1());
-
+ //   SQLTest("coins.sqlite",ui->userid->text().toLatin1());
+generateRCoins();
 }

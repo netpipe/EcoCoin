@@ -35,7 +35,10 @@ public:
     QString year;
     QString usbpath;
     QString backupusbpath;
+    void createFreeCoinTable(QString DBname);
     void placeCoins();
+    void generateRCoins();
+
     int md5verifydb();
     void generateCoins();
     void BackUptoUSB();
