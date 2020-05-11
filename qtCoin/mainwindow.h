@@ -38,8 +38,13 @@ public:
     void createFreeCoinTable(QString DBname);
     void placeCoins();
     void generateRCoins();
+
 void createyearly(QString ownerID);
+void searchyearly(QString ownerID);
 void selectUsersCoins(QString userid,QString yeardb);
+void cleartablesusers();
+QString simplecrypt(QString string,QString key);
+QString simpledecrypt(QString string,QString key);
     int md5verifydb();
     void generateCoins();
     void BackUptoUSB();

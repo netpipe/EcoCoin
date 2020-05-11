@@ -326,11 +326,12 @@ void MainWindow::on_actionOpenCoin_triggered()
                     ui->createmonth->setCurrentIndex(10);
                 if (CreateMonth == "December")
                     ui->createmonth->setCurrentIndex(11);
-                qDebug("%s", qUtf8Printable(CreateMonth));
+
+                    qDebug("%s", qUtf8Printable(CreateMonth));
+
                 QString createyear=nums.at(5);
                 ui->createyear->setValue(createyear.toInt());
-                qDebug("%s", qUtf8Printable(createyear));
-
+                    qDebug("%s", qUtf8Printable(createyear));
                 QString createtime=nums.at(6);
                 QRegExp rx("[|]");// match a comma or a space
                 QStringList list2 = createtime.split(rx);
@@ -648,6 +649,61 @@ void MainWindow::insertCoins()
     _coins.clear();
         insert.clear();
     db.close();
+}
+
+int MainWindow::md5verifydb(){
+// md5sum coinsdb maybe choose semirandom coinsammount to make md5 more unique
+// save with settings.txt
+//verify databases
+
+    //encrypt hashes for extra security store them on thumbdrive too also keep plaintext unencrypted versions on local
+
+    QFile MyFile("hashes.txt");
+    MyFile.open(QIODevice::ReadWrite);
+    QTextStream in (&MyFile);
+    QString line;
+    QStringList list;
+    QStringList nums;
+
+    do {
+        line = in.readLine();
+        QString searchString=":";
+        if (line.contains(searchString)) { //, Qt::CaseSensitive
+            // do something
+            QRegExp rx("[:]");// match a comma or a space
+            list = line.split(rx);
+            nums.append(list.at(1).toLatin1());
+        }
+    } while (!line.isNull());
+
+       QString coinstxtmd5=nums.at(0);
+       ui->coinname->setText(coinstxtmd5.toLatin1());
+       qDebug("%s", qUtf8Printable(coinstxtmd5));
+
+       QString coindb=nums.at(1);
+       ui->coinname->setText(coindb.toLatin1());
+       qDebug("%s", qUtf8Printable(coindb));
+
+       QString availablecoins=nums.at(2);
+       ui->coinname->setText(availablecoins.toLatin1());
+       qDebug("%s", qUtf8Printable(availablecoins));
+
+       QByteArray coinstxtmd52 =  fileChecksum("coins.txt",QCryptographicHash::Md5);
+       QByteArray coindb2 =  fileChecksum("coins.sqlite",QCryptographicHash::Md5);
+       QByteArray availablecoins2 =  fileChecksum("availableCoins.sqlite",QCryptographicHash::Md5);
+
+       //QTextCodec *codec = QTextCodec::codecForName("KOI8-R");
+
+       if (coinstxtmd5.toLatin1()==coinstxtmd52.toHex() && coindb.toLatin1()==coindb2.toHex() && availablecoins.toLatin1() == availablecoins2.toHex()  )
+       {
+//           QMessageBox Msgbox;
+//               Msgbox.setText("verified ");
+//               Msgbox.exec();
+            return 1;
+       }
+
+return 0;
+    //md5 convert coinsdb to randomcoins.db then md5sum can also check freecoins.db after each tx
 }
 
 void MainWindow::generateCoins() //puts coins in text file to be read in by randomizer

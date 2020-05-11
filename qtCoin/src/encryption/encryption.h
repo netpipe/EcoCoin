@@ -11,22 +11,37 @@
 #include "simpleCrypt/simplecrypt.h"
 #include <QTextCodec>
 
-QString simplecrypttest(){
+QString MainWindow::simplecrypt(QString string,QString key)
+{
+
+    QByteArray test = key.toUtf8();//0x0c2ad4a4acb9f023;
+//convert to hex
+
+    //Q_UINT64_C(test.toHex()
+   uint test2= test.toHex().toInt();
+
 //optional setkey method
-//  SimpleCrypt crypto();
-//  crypto.setKey(0x0c2ad4a4acb9f023)
+ // SimpleCrypt crypto();
+ // crypto.setKey(key);
+  SimpleCrypt crypto(test2); //some random number
+  QString result = crypto.encryptToString(string);
+  return result;
+ }
 
+QString MainWindow::simpledecrypt(QString string,QString key)
+{
+    QByteArray test = key.toUtf8();//0x0c2ad4a4acb9f023;
+//convert to hex
 
-//with strings
-  SimpleCrypt crypto(Q_UINT64_C(0x0c2ad4a4acb9f023)); //some random number
-  QString testString("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
+    //Q_UINT64_C(test.toHex()
+   uint test2= test.toHex().toInt();
 
-  //Encryption
-  QString result = crypto.encryptToString(testString);
-
-  //Decryption
-  QString decrypted = crypto.decryptToString(result);
-  qDebug() << testString << endl << result << endl << decrypted;
+    //QByteArray::fromHex(key.toLatin1();
+  //  QByteArray tester2= key.toUtf8();
+  //   uint tester2= key.toUtf8();
+  SimpleCrypt crypto(test2); //some random number
+  QString decrypted = crypto.decryptToString(string);
+  return decrypted;
  }
 //QString rot13( const QString & input )
 //{
@@ -193,6 +208,8 @@ QString MainWindow::DecryptMsg(QByteArray encryptedMsg, Rsa *rsa,QString aeskey1
     QString dec2 = rsadec(dec1, rsa);
     return dec2;
 }
+
+
 
 
 QString MainWindow::encryptxor(QString test,QString key)

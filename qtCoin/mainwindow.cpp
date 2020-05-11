@@ -53,6 +53,11 @@ MainWindow::MainWindow(QWidget *parent) :
     //ui->createmonth->(QDate::currentDate().month());
 ui->createmonth->setCurrentIndex(QDate::currentDate().month()-1);
 ui->maturemonth->setCurrentIndex(QDate::currentDate().month()-1);
+
+QTime starttime(QTime::currentTime().hour(),QTime::currentTime().minute()); //12:00AM
+
+ui->createtime->setTime(starttime);
+
     //load settings
     QFile Fout("settings.txt");
     if(Fout.exists())
@@ -78,8 +83,8 @@ ui->maturemonth->setCurrentIndex(QDate::currentDate().month()-1);
     ui->matureyear->text();
     ui->maturemonth->currentText();
 
-//int pcreate = ui->createmonth->currentIndex()+1;
-int pmature = ui->maturemonth->currentIndex()+1;
+    //int pcreate = ui->createmonth->currentIndex()+1;
+    int pmature = ui->maturemonth->currentIndex()+1;
 
 
     QDate dNow(QDate::currentDate());
@@ -87,6 +92,7 @@ int pmature = ui->maturemonth->currentIndex()+1;
     QDate maturedate(ui->matureyear->text().toInt(), ui->maturemonth->currentIndex()+1, ui->matureday->text().toInt());
     qDebug() << ui->matureyear->text().toInt()<< ui->maturemonth->currentIndex()+1<< ui->matureday->text().toInt();
 
+    qDebug() << "leap year detector" << QDate::isLeapYear(year.toInt());
 
     qDebug() << "Today is" << dNow.toString("dd.MM.yyyy")
                 << "maturedate is" << maturedate.toString("dd.MM.yyyy")
@@ -100,7 +106,7 @@ int pmature = ui->maturemonth->currentIndex()+1;
 //   QString b;
 //   b.setNum(pi);
   // qDebug() << percent2 << fixed << qSetRealNumberPrecision(2);
-   qDebug() << test4;
+    qDebug() << test4;
     ui->progress->setValue( test4);
 
     //ui->createmonth->setValue();comboBox->currentIndex();
@@ -109,9 +115,49 @@ int pmature = ui->maturemonth->currentIndex()+1;
     rsaTester = new Rsa();
     rsaTester->publish_keys(m_e, m_n);
 
+  //  ui->createtime->setTime(starttime);
+
 }
 
+void MainWindow::createUserTable()
+{
+    db.setDatabaseName("database.sqlite");
+    if(db.open())
+    {
+       qDebug()<<"Successful database connection";
+    }
+    else
+    {
+       qDebug()<<"Error: failed database connection";
+    }
+    QString query;
+    query.append("CREATE TABLE IF NOT EXISTS users("
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    "name VARCHAR(100),"
+                    "surname VARCHAR(100),"
+                    "age INTEGER NOT NULL,"
+                    "class INTEGER NOT NULL"
+                    ");");
 
+    //    "etype INTEGER NOT NULL,"
+    //    "ekey VARCHAR(100),"
+    //    "extra VARCHAR(100)"
+
+    QSqlQuery create;
+    create.prepare(query);
+
+    if (create.exec())
+    {
+        qDebug()<<"Table exists or has been created";
+    }
+    else
+    {
+        qDebug()<<"Table not exists or has not been created";
+        qDebug()<<"ERROR! "<< create.lastError();
+    }
+    query.clear();
+    db.close();
+}
 
 MainWindow::~MainWindow()
 {
@@ -237,6 +283,7 @@ void MainWindow::BackUptoUSB(){
 
         if (backupusbpath.toLatin1() == "")
         {
+            //date
             QFile::copy("/settings.txt", backupusbpath.toLatin1() );
             QFile::copy("/coins.sqlite", backupusbpath.toLatin1() );
             QFile::copy("/availableCoins.sqlite", backupusbpath.toLatin1() );
@@ -249,6 +296,73 @@ void MainWindow::BackUptoUSB(){
      }
 }
 
+void MainWindow::searchyearly(QString ownerID)
+{
+    db.setDatabaseName("database.sqlite");
+    if(db.open())
+    {
+       qDebug()<<"Successful database connection";
+    }
+    else
+    {
+       qDebug()<<"Error: failed database connection";
+    }
+
+    QString query;
+    query.append("SELECT * FROM "+ownerID);
+
+    QSqlQuery select;
+    select.prepare(query);
+
+    if (select.exec())
+    {
+        qDebug()<<"The user is properly selected";
+    }
+    else
+    {
+        qDebug()<<"The user is not selected correctly";
+        qDebug()<<"ERROR! "<< select.lastError();
+    }
+
+    int row = 0;
+    ui->tableWidgetUsers->setRowCount(0);
+
+    while (select.next())
+    {
+        ui->tableWidgetUsers->insertRow(row);
+        ui->tableWidgetUsers->setItem(row,0,new QTableWidgetItem(select.value(1).toByteArray().constData()));
+        ui->tableWidgetUsers->setItem(row,1,new QTableWidgetItem(select.value(2).toByteArray().constData()));
+        ui->tableWidgetUsers->setItem(row,2,new QTableWidgetItem(select.value(3).toByteArray().constData()));
+        ui->tableWidgetUsers->setItem(row,3,new QTableWidgetItem(select.value(4).toByteArray().constData()));
+        row++;
+    }
+
+    query.clear();
+    db.close();
+}
+
+void MainWindow::cleartablesusers()
+{
+    // removes databases/users to start fresh
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, "Are you sure ?", "remova all tables/users ?",
+                                  QMessageBox::Yes|QMessageBox::No);
+    if (reply == QMessageBox::Yes) {
+      qDebug() << "Yes was clicked";
+      QFile::remove("./db/"+year+".sqlite");
+
+      QFile::remove("coins.txt");
+      QFile::remove("coins.sqlite");
+      QFile::remove("availableCoins.sqlite");
+      QFile::remove("rcoins.sqlite");
+      QFile::remove("hashes.txt");
+   //   QApplication::quit();
+    } else {
+      qDebug() << "no";
+      return;
+    }
+
+}
 void MainWindow::createyearly(QString ownerID)
 {
     //holds users generated from each new year and their coins pulled from rcoins.sqlite
@@ -267,13 +381,9 @@ void MainWindow::createyearly(QString ownerID)
 
     query.append("CREATE TABLE IF NOT EXISTS "+ownerID.toLatin1()+"("
                     "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    "owner VARCHAR(100),"
                     "addr VARCHAR(100),"
                     "datetime INTEGER NOT NULL,"
-                    "class INTEGER NOT NULL,"
-                    "etype INTEGER NOT NULL,"
-                    "ekey VARCHAR(100),"
-                    "extra VARCHAR(100)"
+                    "class INTEGER NOT NULL"
                     ");");
 
 //    query.append("CREATE TABLE IF NOT EXISTS test("
@@ -328,9 +438,13 @@ void MainWindow::insertUser() //strictly a db to hold all userid's for verificat
     QString mykey2 = BigInt2Str(m_n); //rsa keys
 
     query.append("INSERT INTO users("
+                 "id,"
                     "name,"
                     "surname,"
-                    "age,"
+                    "phone,"
+                 "etype,"
+                 "ekey,"
+                 "extra,"
                     "class)"
                     "VALUES("
                     "'"+bFname+"',"
@@ -338,6 +452,10 @@ void MainWindow::insertUser() //strictly a db to hold all userid's for verificat
                     ""+ui->lineEditAge->text()+","
                     ""+ui->lineEditClass->text()+""
                     ");");
+
+//    "etype INTEGER NOT NULL,"
+//    "ekey VARCHAR(100),"
+//    "extra VARCHAR(100)"
 
      qDebug()<<bFname+ "/n";
     }else{
@@ -578,68 +696,12 @@ void MainWindow::placeCoins() //free coins from coins.db
     //                    qDebug() <<"xor:"<<test.c_str() ;
                        // string XOR(test.c_str(), "key2");
                        // qDebug() <<"xor:"<<test.c_str() ;
+
 QString decrypt = encryptxor("test","key").toLatin1();
     qDebug() << decrypt;
   //  qDebug() <<XOR2 (test2.toStdString(),"tring");
     qDebug() << decryptxor(decrypt,"key");
-}
 
-
-
-
-int MainWindow::md5verifydb(){
-// md5sum coinsdb maybe choose semirandom coinsammount to make md5 more unique
-// save with settings.txt
-//verify databases
-
-    //encrypt hashes for extra security store them on thumbdrive too also keep plaintext unencrypted versions on local
-
-    QFile MyFile("hashes.txt");
-    MyFile.open(QIODevice::ReadWrite);
-    QTextStream in (&MyFile);
-    QString line;
-    QStringList list;
-    QStringList nums;
-
-    do {
-        line = in.readLine();
-        QString searchString=":";
-        if (line.contains(searchString)) { //, Qt::CaseSensitive
-            // do something
-            QRegExp rx("[:]");// match a comma or a space
-            list = line.split(rx);
-            nums.append(list.at(1).toLatin1());
-        }
-    } while (!line.isNull());
-
-       QString coinstxtmd5=nums.at(0);
-       ui->coinname->setText(coinstxtmd5.toLatin1());
-       qDebug("%s", qUtf8Printable(coinstxtmd5));
-
-       QString coindb=nums.at(1);
-       ui->coinname->setText(coindb.toLatin1());
-       qDebug("%s", qUtf8Printable(coindb));
-
-       QString availablecoins=nums.at(2);
-       ui->coinname->setText(availablecoins.toLatin1());
-       qDebug("%s", qUtf8Printable(availablecoins));
-
-       QByteArray coinstxtmd52 =  fileChecksum("coins.txt",QCryptographicHash::Md5);
-       QByteArray coindb2 =  fileChecksum("coins.sqlite",QCryptographicHash::Md5);
-       QByteArray availablecoins2 =  fileChecksum("availableCoins.sqlite",QCryptographicHash::Md5);
-
-       //QTextCodec *codec = QTextCodec::codecForName("KOI8-R");
-
-       if (coinstxtmd5.toLatin1()==coinstxtmd52.toHex() && coindb.toLatin1()==coindb2.toHex() && availablecoins.toLatin1() == availablecoins2.toHex()  )
-       {
-//           QMessageBox Msgbox;
-//               Msgbox.setText("verified ");
-//               Msgbox.exec();
-            return 1;
-       }
-
-return 0;
-    //md5 convert coinsdb to randomcoins.db then md5sum can also check freecoins.db after each tx
 }
 
 void MainWindow::on_placeCoins_clicked()
@@ -664,22 +726,17 @@ void MainWindow::on_SendCoins_clicked()
     //check ammount is proper format
     //xor coins with user account id or rot13 and place into user account
 
-    simplecrypttest();
+    QString crypted = simplecrypt("test","test2");
+    qDebug() << crypted;
+    QString decrypted = simpledecrypt(crypted,"test2");
+    qDebug() << decrypted;
+
     //placeCoins();
 }
 
 void MainWindow::on_pushButton_2_clicked()
 {
-    bool testing=0;
-
-    if(testing==1){
-        coini=0;
-        gentotext=1;
-        GenerateCoins3(ui->coinlength->text().toInt(),ui->coincount->text().toInt());
-    }else{
-        //check coins.sqlite exists
-        RandomizeCoins();
-  }
+cleartablesusers();
 }
 
 void MainWindow::on_randomSearch_clicked()
