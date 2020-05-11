@@ -131,17 +131,19 @@ void MainWindow::createUserTable()
        qDebug()<<"Error: failed database connection";
     }
     QString query;
+
     query.append("CREATE TABLE IF NOT EXISTS users("
                     "id INTEGER PRIMARY KEY AUTOINCREMENT,"
                     "name VARCHAR(100),"
                     "surname VARCHAR(100),"
                     "age INTEGER NOT NULL,"
+                     "etype INTEGER NOT NULL,"
+                     "ekey VARCHAR(100),"
+                     "extra VARCHAR(100),"
                     "class INTEGER NOT NULL"
                     ");");
 
-    //    "etype INTEGER NOT NULL,"
-    //    "ekey VARCHAR(100),"
-    //    "extra VARCHAR(100)"
+
 
     QSqlQuery create;
     create.prepare(query);
@@ -697,11 +699,46 @@ void MainWindow::placeCoins() //free coins from coins.db
                        // string XOR(test.c_str(), "key2");
                        // qDebug() <<"xor:"<<test.c_str() ;
 
-QString decrypt = encryptxor("test","key").toLatin1();
-    qDebug() << decrypt;
-  //  qDebug() <<XOR2 (test2.toStdString(),"tring");
-    qDebug() << decryptxor(decrypt,"key");
+   // ui->givecoinsid.text().toLatin1()
+//ui->givecoinsammount.text().toLatin1()
+    //pull from rcoins db and remove coin after placing in tmp text file
 
+//    db.setDatabaseName("rcoins.sqlite");
+//    db.open();
+//        QSqlDatabase::database().transaction();
+//        QSqlQuery query;
+//        query.exec("SELECT id FROM employee WHERE name = 'Torild Halvorsen'");
+//        if (query.next()) {
+    //removecoins
+//            int employeeId = query.value(0).toInt();
+//            query.exec("INSERT INTO project (id, name, ownerid) "
+//                       "VALUES (201, 'Manhattan Project', "
+//                       + QString::number(employeeId) + ')');
+    //place into textfile
+//        }
+//        QSqlDatabase::database().commit();
+//    db.close();
+
+
+//verify coins and insert into yearly userid
+//QString decrypt = encryptxor("test","key").toLatin1();
+//    qDebug() << decrypt;
+//  //  qDebug() <<XOR2 (test2.toStdString(),"tring");
+//    qDebug() << decryptxor(decrypt,"key");
+
+//    db.setDatabaseName("database.sqlite");
+//    db.open();
+//        QSqlDatabase::database().transaction();
+//        QSqlQuery query2;
+//        query.exec("SELECT id FROM employee WHERE name = 'Torild Halvorsen'");
+//        if (query.next()) {
+//            int employeeId = query.value(0).toInt();
+//            query.exec("INSERT INTO project (id, name, ownerid) "
+//                       "VALUES (201, 'Manhattan Project', "
+//                       + QString::number(employeeId) + ')');
+//        }
+//        QSqlDatabase::database().commit();
+//    db.close();
 }
 
 void MainWindow::on_placeCoins_clicked()
@@ -726,22 +763,64 @@ void MainWindow::on_SendCoins_clicked()
     //check ammount is proper format
     //xor coins with user account id or rot13 and place into user account
 
-    QString crypted = simplecrypt("test","test2");
-    qDebug() << crypted;
-    QString decrypted = simpledecrypt(crypted,"test2");
-    qDebug() << decrypted;
+    //ui->receiveid.text().toLatin1()
+    //ui->receiveammount.text().toLatin1()
+    //    QString crypted = simplecrypt("test","test2");
+//    qDebug() << crypted;
+//    QString decrypted = simpledecrypt(crypted,"test2");
+//    qDebug() << decrypted;
+
+//    //remove coins from userindex
+//    //find user in yearly db pull coins out and verify validity then place back into rcoins
+//    //re-md5sum file
+//    db.setDatabaseName("rcoins.sqlite");
+//    db.open();
+//        QSqlDatabase::database().transaction();
+//        QSqlQuery query;
+//        query.exec("SELECT id FROM employee WHERE name = 'Torild Halvorsen'");
+//        if (query.next()) {
+//            int employeeId = query.value(0).toInt();
+//            query.exec("INSERT INTO project (id, name, ownerid) "
+//                       "VALUES (201, 'Manhattan Project', "
+//                       + QString::number(employeeId) + ')');
+//        }
+//        QSqlDatabase::database().commit();
+//    db.close();
+
+
+//QString decrypt = encryptxor("test","key").toLatin1();
+//    qDebug() << decrypt;
+//  //  qDebug() <<XOR2 (test2.toStdString(),"tring");
+//    qDebug() << decryptxor(decrypt,"key");
+
+//    db.setDatabaseName("database.sqlite");
+//    db.open();
+//        QSqlDatabase::database().transaction();
+//        QSqlQuery query2;
+//        query.exec("SELECT id FROM employee WHERE name = 'Torild Halvorsen'");
+//        if (query.next()) {
+//            int employeeId = query.value(0).toInt();
+//            query.exec("INSERT INTO project (id, name, ownerid) "
+//                       "VALUES (201, 'Manhattan Project', "
+//                       + QString::number(employeeId) + ')');
+//        }
+//        QSqlDatabase::database().commit();
+//    db.close();
+
 
     //placeCoins();
 }
 
 void MainWindow::on_pushButton_2_clicked()
 {
-cleartablesusers();
+    cleartablesusers();
 }
 
 void MainWindow::on_randomSearch_clicked()
 {//for picking lucky users
     //repurposed temporarly for sqltest
- //   SQLTest("coins.sqlite",ui->userid->text().toLatin1());
+    QString sql = "SELECT * FROM users ORDER BY random()";
+
+    SQLTest("database.sqlite",sql.toLatin1());
 
 }
