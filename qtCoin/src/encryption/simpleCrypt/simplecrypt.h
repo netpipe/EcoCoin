@@ -30,7 +30,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <QString>
 #include <QVector>
 #include <QFlags>
-
+#include <QCryptographicHash>
 /**
   @short Simple encryption and decryption of strings and byte arrays
 
@@ -145,13 +145,13 @@ public:
       a cyphertext the result. The result is a base64 encoded version of the binary array that is the
       actual result of the string, so it can be stored easily in a text format.
       */
-    QString encryptToString(const QString& plaintext) ;
+    QString encryptToString(const QString& plaintext,QCryptographicHash::Algorithm hash) ;
     /**
       Encrypts the @arg plaintext QByteArray with the key the class was initialized with, and returns
       a cyphertext the result. The result is a base64 encoded version of the binary array that is the
       actual result of the encryption, so it can be stored easily in a text format.
       */
-    QString encryptToString(QByteArray plaintext) ;
+    QString encryptToString(QByteArray plaintext,QCryptographicHash::Algorithm hash) ;
     /**
       Encrypts the @arg plaintext string with the key the class was initialized with, and returns
       a binary cyphertext in a QByteArray the result.
@@ -159,7 +159,7 @@ public:
       This method returns a byte array, that is useable for storing a binary format. If you need
       a string you can store in a text file, use encryptToString() instead.
       */
-    QByteArray encryptToByteArray(const QString& plaintext) ;
+    QByteArray encryptToByteArray(const QString& plaintext,QCryptographicHash::Algorithm hash) ;
     /**
       Encrypts the @arg plaintext QByteArray with the key the class was initialized with, and returns
       a binary cyphertext in a QByteArray the result.
@@ -167,7 +167,7 @@ public:
       This method returns a byte array, that is useable for storing a binary format. If you need
       a string you can store in a text file, use encryptToString() instead.
       */
-    QByteArray encryptToByteArray(QByteArray plaintext) ;
+    QByteArray encryptToByteArray(QByteArray plaintext,QCryptographicHash::Algorithm hash) ;
 
     /**
       Decrypts a cyphertext string encrypted with this class with the set key back to the
@@ -176,7 +176,7 @@ public:
       If an error occured, such as non-matching keys between encryption and decryption,
       an empty string or a string containing nonsense may be returned.
       */
-    QString decryptToString(const QString& cyphertext) ;
+    QString decryptToString(const QString& cyphertext,QCryptographicHash::Algorithm hash) ;
     /**
       Decrypts a cyphertext string encrypted with this class with the set key back to the
       plain text version.
@@ -184,7 +184,7 @@ public:
       If an error occured, such as non-matching keys between encryption and decryption,
       an empty string or a string containing nonsense may be returned.
       */
-    QByteArray decryptToByteArray(const QString& cyphertext) ;
+    QByteArray decryptToByteArray(const QString& cyphertext,QCryptographicHash::Algorithm hash) ;
     /**
       Decrypts a cyphertext binary encrypted with this class with the set key back to the
       plain text version.
@@ -192,7 +192,7 @@ public:
       If an error occured, such as non-matching keys between encryption and decryption,
       an empty string or a string containing nonsense may be returned.
       */
-    QString decryptToString(QByteArray cypher) ;
+    QString decryptToString(QByteArray cypher,QCryptographicHash::Algorithm hash) ;
     /**
       Decrypts a cyphertext binary encrypted with this class with the set key back to the
       plain text version.
@@ -200,7 +200,7 @@ public:
       If an error occured, such as non-matching keys between encryption and decryption,
       an empty string or a string containing nonsense may be returned.
       */
-    QByteArray decryptToByteArray(QByteArray cypher) ;
+    QByteArray decryptToByteArray(QByteArray cypher,QCryptographicHash::Algorithm hash) ;
 
     //enum to describe options that have been used for the encryption. Currently only one, but
     //that only leaves room for future extensions like adding a cryptographic hash...
@@ -209,7 +209,7 @@ public:
                     CryptoFlagChecksum = 0x02,
                     CryptoFlagHash = 0x04
                    };
-    Q_DECLARE_FLAGS(CryptoFlags, CryptoFlag);
+    Q_DECLARE_FLAGS(CryptoFlags, CryptoFlag)
 private:
 
     void splitKey();

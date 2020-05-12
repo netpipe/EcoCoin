@@ -12,6 +12,9 @@
 //https://doc.qt.io/qt-5/sql-sqlstatements.html
 //https://www.techonthenet.com/mysql/select.php
 
+//http://ismacs.net/singer_sewing_machine_company/why-two-serial-numbers.html some of the first serial numbers
+//https://patents.google.com/patent/US3988571A/en
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -759,18 +762,29 @@ void MainWindow::on_placeCoins_clicked()
 void MainWindow::on_SendCoins_clicked()
 {
     //check for master keys from usb drive
+    //read keys
+
+    QString Key="";
     //check available coins has enough for tx
     //check ammount is proper format
     //xor coins with user account id or rot13 and place into user account
 
     //ui->receiveid.text().toLatin1()
     //ui->receiveammount.text().toLatin1()
-    //    QString crypted = simplecrypt("test","test2");
-//    qDebug() << crypted;
-//    QString decrypted = simpledecrypt(crypted,"test2");
-//    qDebug() << decrypted;
+    QString crypted = simplecrypt("test","test2",QCryptographicHash::Sha224);
+    qDebug() << crypted;
+    QString decrypted = simpledecrypt(crypted,"test2",QCryptographicHash::Sha224);
+    qDebug() << decrypted;
 
 //    //remove coins from userindex
+
+
+ //   "DELETE FROM Students WHERE udserid = "+ "OR StudentId = 12;"
+    // "UPDATE coins SET lastupdated WHERE userid=11"
+    // "DROP table" +userid
+    // "ALTER TABLE name ADD COLUMN test TEXT" or char(50)
+       // "ALTER TABLE name DROP COLUMN name"
+
 //    //find user in yearly db pull coins out and verify validity then place back into rcoins
 //    //re-md5sum file
 //    db.setDatabaseName("rcoins.sqlite");

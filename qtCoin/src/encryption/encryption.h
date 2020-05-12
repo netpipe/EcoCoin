@@ -11,7 +11,9 @@
 #include "simpleCrypt/simplecrypt.h"
 #include <QTextCodec>
 
-QString MainWindow::simplecrypt(QString string,QString key)
+//https://doc.qt.io/qt-5/qcryptographichash.html
+
+QString MainWindow::simplecrypt(QString string,QString key,QCryptographicHash::Algorithm hash)
 {
 
     QByteArray test = key.toUtf8();//0x0c2ad4a4acb9f023;
@@ -24,11 +26,11 @@ QString MainWindow::simplecrypt(QString string,QString key)
  // SimpleCrypt crypto();
  // crypto.setKey(key);
   SimpleCrypt crypto(test2); //some random number
-  QString result = crypto.encryptToString(string);
+  QString result = crypto.encryptToString(string,hash);
   return result;
  }
 
-QString MainWindow::simpledecrypt(QString string,QString key)
+QString MainWindow::simpledecrypt(QString string,QString key,QCryptographicHash::Algorithm hash)
 {
     QByteArray test = key.toUtf8();//0x0c2ad4a4acb9f023;
 //convert to hex
@@ -40,7 +42,7 @@ QString MainWindow::simpledecrypt(QString string,QString key)
   //  QByteArray tester2= key.toUtf8();
   //   uint tester2= key.toUtf8();
   SimpleCrypt crypto(test2); //some random number
-  QString decrypted = crypto.decryptToString(string);
+  QString decrypted = crypto.decryptToString(string,hash);
   return decrypted;
  }
 

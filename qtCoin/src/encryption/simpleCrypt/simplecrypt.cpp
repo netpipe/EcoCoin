@@ -32,6 +32,21 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <QCryptographicHash>
 #include <QDataStream>
 
+//QCryptographicHash::Sha1	2
+//QCryptographicHash::Sha224	3
+//QCryptographicHash::Sha256	4
+//QCryptographicHash::Sha384	5
+//QCryptographicHash::Sha512	6
+//QCryptographicHash::Sha3_224	RealSha3_224
+//QCryptographicHash::Sha3_256	RealSha3_256
+//QCryptographicHash::Sha3_384	RealSha3_384
+//QCryptographicHash::Sha3_512	RealSha3_512
+//QCryptographicHash::Keccak_224	7
+//QCryptographicHash::Keccak_256	8
+//QCryptographicHash::Keccak_384	9
+//QCryptographicHash::Keccak_512	10
+
+
 SimpleCrypt::SimpleCrypt():
     m_key(0),
     m_compressionMode(CompressionAuto),
@@ -70,13 +85,13 @@ void SimpleCrypt::splitKey()
     }
 }
 
-QByteArray SimpleCrypt::encryptToByteArray(const QString& plaintext)
+QByteArray SimpleCrypt::encryptToByteArray(const QString& plaintext,QCryptographicHash::Algorithm hash)
 {
     QByteArray plaintextArray = plaintext.toUtf8();
-    return encryptToByteArray(plaintextArray);
+    return encryptToByteArray(plaintextArray,hash);
 }
 
-QByteArray SimpleCrypt::encryptToByteArray(QByteArray plaintext)
+QByteArray SimpleCrypt::encryptToByteArray(QByteArray plaintext,QCryptographicHash::Algorithm hash2)
 {
     if (m_keyParts.isEmpty()) {
         qWarning() << "No key set.";
@@ -106,7 +121,8 @@ QByteArray SimpleCrypt::encryptToByteArray(QByteArray plaintext)
         s << qChecksum(ba.constData(), ba.length());
     } else if (m_protectionMode == ProtectionHash) {
         flags |= CryptoFlagHash;
-        QCryptographicHash hash(QCryptographicHash::Sha1);
+        //QCryptographicHash hash(QCryptographicHash::Sha1);
+        QCryptographicHash hash(hash2);
         hash.addData(ba);
 
         integrityProtection += hash.result();
@@ -136,47 +152,47 @@ QByteArray SimpleCrypt::encryptToByteArray(QByteArray plaintext)
     return resultArray;
 }
 
-QString SimpleCrypt::encryptToString(const QString& plaintext)
+QString SimpleCrypt::encryptToString(const QString& plaintext,QCryptographicHash::Algorithm hash2)
 {
     QByteArray plaintextArray = plaintext.toUtf8();
-    QByteArray cypher = encryptToByteArray(plaintextArray);
+    QByteArray cypher = encryptToByteArray(plaintextArray,hash2);
     QString cypherString = QString::fromLatin1(cypher.toBase64());
     return cypherString;
 }
 
-QString SimpleCrypt::encryptToString(QByteArray plaintext)
+QString SimpleCrypt::encryptToString(QByteArray plaintext,QCryptographicHash::Algorithm hash2)
 {
-    QByteArray cypher = encryptToByteArray(plaintext);
+    QByteArray cypher = encryptToByteArray(plaintext,hash2);
     QString cypherString = QString::fromLatin1(cypher.toBase64());
     return cypherString;
 }
 
-QString SimpleCrypt::decryptToString(const QString &cyphertext)
+QString SimpleCrypt::decryptToString(const QString &cyphertext,QCryptographicHash::Algorithm hash2)
 {
     QByteArray cyphertextArray = QByteArray::fromBase64(cyphertext.toLatin1());
-    QByteArray plaintextArray = decryptToByteArray(cyphertextArray);
+    QByteArray plaintextArray = decryptToByteArray(cyphertextArray,hash2);
     QString plaintext = QString::fromUtf8(plaintextArray, plaintextArray.size());
 
     return plaintext;
 }
 
-QString SimpleCrypt::decryptToString(QByteArray cypher)
+QString SimpleCrypt::decryptToString(QByteArray cypher,QCryptographicHash::Algorithm hash2)
 {
-    QByteArray ba = decryptToByteArray(cypher);
+    QByteArray ba = decryptToByteArray(cypher,hash2);
     QString plaintext = QString::fromUtf8(ba, ba.size());
 
     return plaintext;
 }
 
-QByteArray SimpleCrypt::decryptToByteArray(const QString& cyphertext)
+QByteArray SimpleCrypt::decryptToByteArray(const QString& cyphertext,QCryptographicHash::Algorithm hash2)
 {
     QByteArray cyphertextArray = QByteArray::fromBase64(cyphertext.toLatin1());
-    QByteArray ba = decryptToByteArray(cyphertextArray);
+    QByteArray ba = decryptToByteArray(cyphertextArray,hash2);
 
     return ba;
 }
 
-QByteArray SimpleCrypt::decryptToByteArray(QByteArray cypher)
+QByteArray SimpleCrypt::decryptToByteArray(QByteArray cypher,QCryptographicHash::Algorithm hash2)
 {
     if (m_keyParts.isEmpty()) {
         qWarning() << "No key set.";
@@ -234,7 +250,8 @@ QByteArray SimpleCrypt::decryptToByteArray(QByteArray cypher)
         }
         QByteArray storedHash = ba.left(20);
         ba = ba.mid(20);
-        QCryptographicHash hash(QCryptographicHash::Sha1);
+       // QCryptographicHash hash(QCryptographicHash::Sha1);
+        QCryptographicHash hash(hash2);
         hash.addData(ba);
         integrityOk = (hash.result() == storedHash);
     }

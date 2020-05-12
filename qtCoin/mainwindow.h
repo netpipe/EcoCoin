@@ -77,8 +77,8 @@ public:
     QByteArray fileChecksum(const QString &fileName,QCryptographicHash::Algorithm hashAlgorithm);
     QString rot13( const QString & input );
 
-    QString simplecrypt(QString string,QString key);
-    QString simpledecrypt(QString string,QString key);
+    QString simplecrypt(QString string,QString key,QCryptographicHash::Algorithm hash);
+    QString simpledecrypt(QString string,QString key,QCryptographicHash::Algorithm hash);
 
     Rsa *rsaTester;
     BigInt m_e, m_n;
