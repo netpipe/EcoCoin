@@ -43,20 +43,21 @@ QString MainWindow::simpledecrypt(QString string,QString key)
   QString decrypted = crypto.decryptToString(string);
   return decrypted;
  }
-//QString rot13( const QString & input )
-//{
-//    QString r = input;
-//    int i = r.length();
-//    while( i-- ) {
-//        if ( r[i] >= QChar('A') && r[i] <= QChar('M') ||
-//             r[i] >= QChar('a') && r[i] <= QChar('m') )
-//            r[i] = (char)((int)QChar(r[i]) + 13);
-//        else if  ( r[i] >= QChar('N') && r[i] <= QChar('Z') ||
-//                   r[i] >= QChar('n') && r[i] <= QChar('z') )
-//            r[i] = (char)((int)QChar(r[i]) - 13);
-//    }
-//    return r;
-//}
+
+QString MainWindow::rot13( const QString & input )
+{//https://doc.qt.io/archives/3.3/rot-example.html
+    QString r = input;
+    int i = r.length();
+    while( i-- ) {
+        if ( r[i] >= QChar('A') && r[i] <= QChar('M') ||
+             r[i] >= QChar('a') && r[i] <= QChar('m') )
+            r[i] = (char)((int)QChar(r[i]).toLatin1() + 13);
+        else if  ( r[i] >= QChar('N') && r[i] <= QChar('Z') ||
+                   r[i] >= QChar('n') && r[i] <= QChar('z') )
+            r[i] = (char)((int)QChar(r[i]).toLatin1() - 13);
+    }
+    return r;
+}
 
 QByteArray MainWindow::md5Checksum(QString stuff)
 {

@@ -39,23 +39,17 @@ public:
     void placeCoins();
     void generateRCoins();
 
-void createyearly(QString ownerID);
-void searchyearly(QString ownerID);
-void selectUsersCoins(QString userid,QString yeardb);
-void cleartablesusers();
-QString simplecrypt(QString string,QString key);
-QString simpledecrypt(QString string,QString key);
+    void createyearly(QString ownerID);
+    void searchyearly(QString ownerID);
+    void selectUsersCoins(QString userid,QString yeardb);
+    void cleartablesusers();
+
     int md5verifydb();
     void generateCoins();
     void BackUptoUSB();
-
-    QString encryptxor(QString test,QString key);
-    QString decryptxor(QString string,QString key);
-
     int coini;
     bool gentotext;
-    QByteArray md5Checksum(QString stuff);
-    QByteArray fileChecksum(const QString &fileName,QCryptographicHash::Algorithm hashAlgorithm);
+
     float version;
     void RandomizeCoins();
     void insertCoins();
@@ -65,6 +59,27 @@ QString simpledecrypt(QString string,QString key);
 
     void ListUSB();
     QMediaPlayer*player;
+
+    void SQLTest(QString dbname,QString Query);
+    //coingenerator3
+    int _count;
+    int _total;
+    int _length;
+    bool _state;
+
+
+
+    //encryption
+    QString encryptxor(QString test,QString key);
+    QString decryptxor(QString string,QString key);
+
+    QByteArray md5Checksum(QString stuff);
+    QByteArray fileChecksum(const QString &fileName,QCryptographicHash::Algorithm hashAlgorithm);
+    QString rot13( const QString & input );
+
+    QString simplecrypt(QString string,QString key);
+    QString simpledecrypt(QString string,QString key);
+
     Rsa *rsaTester;
     BigInt m_e, m_n;
     QString aesKey;
@@ -79,12 +94,6 @@ QString simpledecrypt(QString string,QString key);
     QByteArray EncryptMsg(QString plainMsg,QString aeskey1,QString aeskey2);
     QString DecryptMsg(QByteArray encryptedMsg, Rsa *rsa,QString aeskey1,QString aeskey2);
 
-    void SQLTest(QString dbname,QString Query);
-    //coingenerator3
-    int _count;
-    int _total;
-    int _length;
-    bool _state;
 
 
 private slots:
@@ -123,6 +132,8 @@ private slots:
     void on_pushButton_2_clicked();
 
     void on_randomSearch_clicked();
+
+    void on_test_clicked();
 
 private:
     Ui::MainWindow *ui;

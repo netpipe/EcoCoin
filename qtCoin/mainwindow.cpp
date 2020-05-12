@@ -824,3 +824,10 @@ void MainWindow::on_randomSearch_clicked()
     SQLTest("database.sqlite",sql.toLatin1());
 
 }
+
+void MainWindow::on_test_clicked()
+{
+    QString test = rot13("test");
+    qDebug() << test;
+    qDebug() << rot13(test.toLatin1());
+}
