@@ -43,6 +43,7 @@ public:
     void searchyearly(QString ownerID);
     void selectUsersCoins(QString userid,QString yeardb);
     void cleartablesusers();
+    int validateID(QString userid);
 
     int md5verifydb();
     void generateCoins();
@@ -67,7 +68,8 @@ public:
     int _length;
     bool _state;
 
-
+void generateRXfile(QString euserid,QString etxcoins);
+void generateTXfile(QString euserid,QString etxcoins);
 
     //encryption
     QString encryptxor(QString test,QString key);
@@ -84,6 +86,9 @@ public:
     BigInt m_e, m_n;
     QString aesKey;
     QString currentUser;
+
+    QString masterkey;
+    QString coinkey;
 
     QString encdec(QString ,int );
     QString encdec2(QString ,int );
