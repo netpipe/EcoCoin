@@ -35,7 +35,8 @@ HEADERS  += mainwindow.h \
     src/encryption/Qt-AES/qaesencryption.h \
     src/encryption/encryption.h \
     coingenerator.h \
-    src/encryption/simpleCrypt/simplecrypt.h
+    src/encryption/simpleCrypt/simplecrypt.h \
+    src/coinfunctions.h
 
 FORMS    += mainwindow.ui
 

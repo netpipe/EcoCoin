@@ -97,7 +97,7 @@
         <item row="0" column="0">
          <widget class="QTabWidget" name="transfers2">
           <property name="currentIndex">
-           <number>2</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tab_6">
            <attribute name="title">
@@ -166,6 +166,45 @@
                 </property>
                 <property name="text">
                  <string>Generate TX file</string>
+                </property>
+               </widget>
+               <widget class="QLineEdit" name="givecoinsid2">
+                <property name="geometry">
+                 <rect>
+                  <x>420</x>
+                  <y>40</y>
+                  <width>131</width>
+                  <height>30</height>
+                 </rect>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+               </widget>
+               <widget class="QLabel" name="label_33">
+                <property name="geometry">
+                 <rect>
+                  <x>352</x>
+                  <y>40</y>
+                  <width>62</width>
+                  <height>30</height>
+                 </rect>
+                </property>
+                <property name="text">
+                 <string>to User</string>
+                </property>
+               </widget>
+               <widget class="QLabel" name="label_34">
+                <property name="geometry">
+                 <rect>
+                  <x>360</x>
+                  <y>80</y>
+                  <width>221</width>
+                  <height>30</height>
+                 </rect>
+                </property>
+                <property name="text">
+                 <string>if blank goes comes from rcoins</string>
                 </property>
                </widget>
               </widget>

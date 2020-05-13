@@ -43,7 +43,7 @@ public:
     void searchyearly(QString ownerID);
     void selectUsersCoins(QString userid,QString yeardb);
     void cleartablesusers();
-    int validateID(QString userid);
+
 
     int md5verifydb();
     void generateCoins();
@@ -70,6 +70,10 @@ public:
 
 void generateRXfile(QString euserid,QString etxcoins);
 void generateTXfile(QString euserid,QString etxcoins);
+QString validateCOINsign(QString coin,QString euserID);
+float checkBalance(QString euserID,QString yeardb);
+QString validateID(QString userid);
+int checkAvailableCoins(QString db);
 
     //encryption
     QString encryptxor(QString test,QString key);

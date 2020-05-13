@@ -436,7 +436,7 @@ void MainWindow::on_actionOpenCoin_triggered()
 
 void MainWindow::on_pushButton_clicked() //generate coins button
 {
-    if((ui->coincount->text().toInt() & 1) == 0){
+    if((ui->coincount->text().toInt() & 1) == 0){ // check if odd or even
 
         QFile Fout("coins.sqlite");
         if(Fout.exists())
