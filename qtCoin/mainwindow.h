@@ -44,6 +44,9 @@ public:
     void selectUsersCoins(QString userid,QString yeardb);
     void cleartablesusers();
 
+    void serverusbtxrx();
+    void clientusbtxrx();
+
 
     int md5verifydb();
     void generateCoins();

@@ -8,6 +8,7 @@
 #include <coingenerator.h>
 #include <QDebug>
 #include <QMessageBox>
+#include <QClipboard>
 
 //https://doc.qt.io/qt-5/sql-sqlstatements.html
 //https://www.techonthenet.com/mysql/select.php
@@ -186,6 +187,20 @@ void MainWindow::SQLTest(QString dbname,QString Query)
 
     query.clear();
     db.close();
+}
+
+void MainWindow::serverusbtxrx(){
+    //automatic function to do rxtx from usb for cold storage
+
+
+    //export db's and overwrite if valid
+
+}
+
+void MainWindow::clientusbtxrx(){
+
+    //import db's and overwrite if valid
+
 }
 
 void MainWindow::ListUSB(){
@@ -412,11 +427,11 @@ void MainWindow::createUserTable()
                     "userid VARCHAR(100),"
                     "name VARCHAR(100),"
                     "password VARCHAR(100),"
-                    "phone INTEGER NOT NULL,"//                    "phone INTEGER NOT NULL,"
+                    "phone INTEGER,"//                    "phone INTEGER NOT NULL,"
                      "datetime INTEGER NOT NULL,"
                 //     "ekey VARCHAR(100),"
                      "extra VARCHAR(100),"
-                    "class INTEGER NOT NULL"
+                    "class INTEGER"
                     ");");
 
 
@@ -567,14 +582,19 @@ void MainWindow::on_pushButtonInsertUser_clicked()
     //createyearly(ui->lineEditName->text());
 
     insertUser();
-    ui->lineEditName->setText(year.toLatin1()+temp.toLatin1());
-   // createyearly("FvEZ0TCH4YOVaaaaaaaaaaaaaaaaaaaaaaaaaaa");  // only works without the year infront for some reason ?
-   // createyearly("FvEZ0TCH4YOV");
+
     //selectUsersCoins(temp.toLatin1(),year.toLatin1());
 
     //combine user year+userid to give to user
 //ui->createuserdatetime->text();
 //ui->createuserdatetime->setText();
+
+    ui->lineEditName->setText(year.toLatin1()+temp.toLatin1());
+    ui->lineEditName->setEnabled(1);
+
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(ui->lineEditName->text());
+
 
     // selectUsers(); //refresh user table
 
