@@ -128,6 +128,13 @@ ui->createtime->setTime(starttime);
     masterkey = "testing";
     coinkey = "testing1234567";
 
+
+    QString yeardb = "2020ajasjdkl";
+  // yeardb= yeardb.mid(0,4);
+   yeardb= yeardb.left(4);
+   qDebug() << yeardb;
+
+
     //if client only mode
 
 //ui->settingstab->setEnabled(false);
@@ -929,8 +936,8 @@ QString MainWindow::validateCOINsign(QString coin,QString euserID){
 
       QString yeardb;
     // coin
-    qDebug() <<    datetime.mid(5,0);
-    qDebug() <<     datetime.left(5);
+    qDebug() <<    datetime.mid(0,4);
+    qDebug() <<     datetime.left(4);
 
 
     db.setDatabaseName("./DB/"+yeardb.toLatin1()+".sqlite");
@@ -951,9 +958,6 @@ QString MainWindow::validateCOINsign(QString coin,QString euserID){
 
 QString MainWindow::validateID(QString euserid){
 
-    //validate userid in both places
-
-    //decrypt euserid
 
             //search for user in database.sqlite first ? double might be better then use encryption key to find userid in yeardb ?
 QString ekey;
@@ -970,7 +974,7 @@ QString password;
                     // euserid = query.value(0).toInt(); //not encrypted with user password
                      ekey = query2.value(0).toString();
                     password = query2.value(0).toString();
-                    qDebug() << userid.toLatin1() << "pass " << password << "ekey " << ekey;
+                    qDebug() << euserid.toLatin1() << "pass " << password << "ekey " << ekey;
                   //  return yeardb;
                 }
                 QSqlDatabase::database().commit();
@@ -981,13 +985,14 @@ QString password;
 // if (ui->encrypted_yes->text() == 1){
 
   //  QString crypted = simplecrypt("test","test2",QCryptographicHash::Sha512);
-    QString decrypted = simpledecrypt(userid.toLatin1(),"password",QCryptographicHash::Sha512);
-    userid = simpledecrypt(decrypted,masterkey,QCryptographicHash::Sha512);
+    QString decrypted = simpledecrypt(euserid.toLatin1(),"password",QCryptographicHash::Sha512);
+    QString userid = simpledecrypt(decrypted,masterkey,QCryptographicHash::Sha512);
 
 
-    QString yeardb;
-//    userid.mid(5,0);
-//    userid.left(5);
+    QString yeardb = userid;
+    // yeardb= yeardb.mid(0,4);
+     yeardb= yeardb.left(4);
+   qDebug() << yeardb;
 
 //verify decrypted id
 
@@ -1162,8 +1167,13 @@ void MainWindow::on_SendCoins_clicked()
     }else {
 
         //do this later
+        QString crypted = simplecrypt( ui->givecoinsid->text().toLatin1(), masterkey.toLatin1(), QCryptographicHash::Sha512);
+    //    qDebug() << crypted;
+    //    QString decrypted = simpledecrypt(crypted,"test2",QCryptographicHash::Sha512);
+    //    qDebug() << decrypted;
+
         result2 = validateID(crypted.toLatin1()).toLatin1(); //returns year
-        db.setDatabaseName("./"+ result +".sqlite");
+        db.setDatabaseName("./"+ result2 +".sqlite");
     }
 
 
