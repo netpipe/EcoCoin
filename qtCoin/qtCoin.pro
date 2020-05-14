@@ -47,8 +47,6 @@ HEADERS  += mainwindow.h \
     src/encryption/Qt-AES/qaesencryption.h \
     src/encryption/encryption.h \
     coingenerator.h \
-    src/encryption/simpleCrypt/simplecrypt.h \
-    src/coinfunctions.h \
     src/smtp/SmtpMime \
     src/smtp/smtpexports.h \
     src/smtp/smtpclient.h \
@@ -63,6 +61,7 @@ HEADERS  += mainwindow.h \
     src/smtp/mimecontentformatter.h \
     src/smtp/mimeattachment.h \
     src/smtp/emailaddress.h
+
 
 FORMS    += mainwindow.ui
 

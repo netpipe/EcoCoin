@@ -77,7 +77,7 @@ QString validateCOINsign(QString coin,QString euserID);
 float checkBalance(QString euserID,QString yeardb);
 QString validateID(QString userid);
 int checkAvailableCoins(QString db);
-void smtpsend();
+int smtpsend(QString toemail,QString Message);
 
     //encryption
     QString encryptxor(QString test,QString key);
@@ -147,6 +147,12 @@ private slots:
     void on_randomSearch_clicked();
 
     void on_test_clicked();
+
+    void on_pushButton_5_clicked();
+
+    void on_smtpsave_clicked();
+
+    void on_smtptestmessage_clicked();
 
 private:
     Ui::MainWindow *ui;

@@ -11,7 +11,8 @@
 #include <QClipboard>
 
 #include "./src/smtp/SmtpMime"
-#include <QtCore>
+
+//#include <QtCore>
 
 //https://doc.qt.io/qt-5/sql-sqlstatements.html
 //https://www.techonthenet.com/mysql/select.php
@@ -52,7 +53,7 @@ MainWindow::MainWindow(QWidget *parent) :
     player->play();
 
 
-
+ui->smtppassword->setEchoMode(QLineEdit::Password);
 
     ui->createyear->setValue(year.toInt());
     //if (QDate::currentDate().month()="January")
@@ -1098,43 +1099,40 @@ void MainWindow::on_test_clicked()
     qDebug() << rot13(test.toLatin1());
 }
 
-void MainWindow::smtpsend(){
+int MainWindow::smtpsend(QString toemail,QString Message){
 
 //    QCoreApplication a(argc, argv);
+    bool ssl;
+    if (ui->smtpssl->checkState()==1){
+       ssl = 1;
+    }else{
+     ssl = 0;
+    }
 
-    // This is a first demo application of the SmtpClient for Qt project
 
+    SmtpClient smtp (ui->smtphost->text().toLatin1(), ui->smtpport->text().toInt(), ssl ? SmtpClient::SslConnection : SmtpClient::TcpConnection);
+   // SmtpClient smtp("smtp.gmail.com", 465, SmtpClient::SslConnection); //SmtpClient::TcpConnection
 
-    // First we need to create an SmtpClient object
-    // We will use the Gmail's smtp server (smtp.gmail.com, port 465, ssl)
-
-    SmtpClient smtp("smtp.gmail.com", 465, SmtpClient::SslConnection);
-
-    // We need to set the username (your email address) and password
-    // for smtp authentification.
-
-    smtp.setUser("your_email_address@host.com");
-    smtp.setPassword("your_password");
-
-    // Now we create a MimeMessage object. This is the email.
+    smtp.setUser(ui->smtpemail->text());
+    smtp.setPassword(ui->smtppassword->text());
 
     MimeMessage message;
 
-    EmailAddress sender("your_email_address@host.com", "Your Name");
+    EmailAddress sender(ui->smtpemail->text(), ui->smtpemail->text()); //email,name
     message.setSender(&sender);
 
-    EmailAddress to("recipient@host.com", "Recipient's Name");
+    EmailAddress to(toemail.toLatin1(), toemail.toLatin1()); // email, name
     message.addRecipient(&to);
 
-    message.setSubject("SmtpClient for Qt - Demo");
+    message.setSubject(ui->coinname->text());
 
     // Now add some text to the email.
     // First we create a MimeText object.
 
     MimeText text;
 
+  //  text.setText("Hi,\nThis is a simple email message.\n");
     text.setText("Hi,\nThis is a simple email message.\n");
-
     // Now add it to the mail
 
     message.addPart(&text);
@@ -1143,18 +1141,28 @@ void MainWindow::smtpsend(){
 
     if (!smtp.connectToHost()) {
         qDebug() << "Failed to connect to host!" << endl;
-        //return -1;
+        return 1;
     }
 
     if (!smtp.login()) {
         qDebug() << "Failed to login!" << endl;
-      //  return -2;
+        return 2;
     }
 
     if (!smtp.sendMail(message)) {
         qDebug() << "Failed to send mail!" << endl;
-       // return -3;
+        return 3;
     }
 
     smtp.quit();
+}
+
+void MainWindow::on_smtpsave_clicked()
+{
+
+}
+
+void MainWindow::on_smtptestmessage_clicked()
+{
+
 }
