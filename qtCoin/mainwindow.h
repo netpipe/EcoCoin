@@ -77,6 +77,7 @@ QString validateCOINsign(QString coin,QString euserID);
 float checkBalance(QString euserID,QString yeardb);
 QString validateID(QString userid);
 int checkAvailableCoins(QString db);
+void smtpsend();
 
     //encryption
     QString encryptxor(QString test,QString key);
