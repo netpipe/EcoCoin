@@ -724,7 +724,9 @@ void MainWindow::on_encrypted_no_clicked()
     ui->encrypted_yes->setChecked(1);
 }
 
-void MainWindow::placeCoins() //free coins from coins.db
+
+
+void MainWindow::placeCoins(QString euserid,QString ammount) //free coins from coins.db
 {
 // encrypt coin based on index and client encryption key or master encryption key dual encryption probably not required to speed things up might
     //even be able to use xor and hash.
@@ -775,19 +777,28 @@ void MainWindow::placeCoins() //free coins from coins.db
 //  //  qDebug() <<XOR2 (test2.toStdString(),"tring");
 //    qDebug() << decryptxor(decrypt,"key");
 
-//    db.setDatabaseName("database.sqlite");
-//    db.open();
-//        QSqlDatabase::database().transaction();
-//        QSqlQuery query2;
-//        query.exec("SELECT id FROM employee WHERE name = 'Torild Halvorsen'");
-//        if (query.next()) {
-//            int employeeId = query.value(0).toInt();
-//            query.exec("INSERT INTO project (id, name, ownerid) "
-//                       "VALUES (201, 'Manhattan Project', "
-//                       + QString::number(employeeId) + ')');
-//        }
-//        QSqlDatabase::database().commit();
-//    db.close();
+ //   db.setDatabaseName("./"+ result +".sqlite");
+       db.open();
+           QSqlDatabase::database().transaction();
+           QSqlQuery query;
+         //  query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
+          // query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
+           while (query.next()) {
+               int employeeId = query.value(0).toInt();
+             //  rcoins <<      //decrypt coins and reencrypt for new user
+               //can place into text file to be sure then delete here// verify enough is available
+
+              // query.exec("DELETE FROM userid WHERE addr ="); //do this after the tx has been validated if sending from user to user
+                         //if sending from admin pull from rcoins
+
+               //   "DELETE FROM euserid WHERE addr = "+ "OR StudentId = 12;"
+                  // "UPDATE coins SET lastupdated WHERE userid=11"
+                  // "DROP table" +userid
+                  // "ALTER TABLE name ADD COLUMN test TEXT" or char(50)
+                     // "ALTER TABLE name DROP COLUMN name"
+           }
+           QSqlDatabase::database().commit();
+       db.close();
 
 }
 
@@ -806,8 +817,37 @@ void MainWindow::on_placeCoins_clicked()
 }
 
 void MainWindow::generateTXfile(QString euserid,QString etxcoins){ //file to send from client
-    //encrypt with masterkey encrypted userID and user encryption key to validate coins from their wallet
+    //encrypt with masterkey encrypted userID and user encryption key and datetime to validate coins from their wallet
 
+ //   db.setDatabaseName("./"+ result +".sqlite");
+       db.open();
+           QSqlDatabase::database().transaction();
+           QSqlQuery query;
+         //  query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
+          // query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
+           while (query.next()) {
+               int employeeId = query.value(0).toInt();
+           }
+           QSqlDatabase::database().commit();
+       db.close();
+
+       QFile MyFile("rx.txt");
+       MyFile.open(QIODevice::ReadWrite);
+       QTextStream in (&MyFile);
+       QString line;
+       QStringList list;
+        //   QList<QString> nums;
+       QStringList nums;
+       QRegExp rx("[:]");
+       do {
+           line = in.readLine();
+           if (line.contains(":")) {
+               list = line.split(rx);
+               nums.append(list.at(1).toLatin1());
+           }
+       } while (!line.isNull());
+
+       //append md5sum
 
 }
 
@@ -822,6 +862,39 @@ void MainWindow::generateRXfile(QString euserid,QString etxcoins){ //rxfile to g
     // do they get their actual userid or an encrypted version based on masterkey and their password
 
     //include public address of person who youd like to send to or have it cashed to paypal/cheque or some other deposit service
+ //   db.setDatabaseName("./"+ result +".sqlite");
+
+       db.open();
+           QSqlDatabase::database().transaction();
+           QSqlQuery query;
+         //  query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
+          // query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
+           while (query.next()) {
+               int employeeId = query.value(0).toInt();
+             //  rcoins <<      //decrypt coins and reencrypt for new user
+               //can place into text file to be sure then delete here// verify enough is available
+           }
+           QSqlDatabase::database().commit();
+       db.close();
+
+       QFile MyFile("tx.txt");
+       MyFile.open(QIODevice::ReadWrite);
+       QTextStream in (&MyFile);
+       QString line;
+       QStringList list;
+        //   QList<QString> nums;
+       QStringList nums;
+       QRegExp rx("[:]");
+       do {
+           line = in.readLine();
+           if (line.contains(":")) {
+               list = line.split(rx);
+               nums.append(list.at(1).toLatin1());
+           }
+       } while (!line.isNull());
+
+       //append md5sum
+
 
 }
 
@@ -1035,42 +1108,27 @@ void MainWindow::on_SendCoins_clicked()
 //    qDebug() << decrypted;
 
     QString result = validateID(crypted.toLatin1()).toLatin1();
+    qDebug() << "validate" << result;
     QString result2;
     float balance = checkBalance(ui->givecoinsid->text().toLatin1(), result.toLatin1());
-    qDebug() << balance;
+    qDebug() << "balance:" << balance;
 
 //    //find user in yearly db pull coins out and verify validity then place back into rcoins
 //    //re-md5sum file
 
+
+
+
     //check if 2 userid's provided
     if (ui->givecoinsid2->text() == ""){
-        db.setDatabaseName("rcoins.sqlite");
+        //generateTXfile(QString euserid,QString etxcoins);
+  //      placeCoins(euserid,ammount); // use generated tx
+
     }else {
         result2 = validateID(crypted.toLatin1()).toLatin1(); //returns year
         db.setDatabaseName("./"+ result +".sqlite");
     }
 
-    db.open();
-        QSqlDatabase::database().transaction();
-        QSqlQuery query;
-      //  query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
-       // query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
-        while (query.next()) {
-            int employeeId = query.value(0).toInt();
-          //  rcoins <<      //decrypt coins and reencrypt for new user
-            //can place into text file to be sure then delete here// verify enough is available
-
-           // query.exec("DELETE FROM userid WHERE addr ="); //do this after the tx has been validated if sending from user to user
-                      //if sending from admin pull from rcoins
-
-            //   "DELETE FROM euserid WHERE addr = "+ "OR StudentId = 12;"
-               // "UPDATE coins SET lastupdated WHERE userid=11"
-               // "DROP table" +userid
-               // "ALTER TABLE name ADD COLUMN test TEXT" or char(50)
-                  // "ALTER TABLE name DROP COLUMN name"
-        }
-        QSqlDatabase::database().commit();
-    db.close();
 
 
 
