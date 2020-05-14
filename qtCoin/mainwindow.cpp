@@ -433,7 +433,8 @@ void MainWindow::createUserTable()
                     "password VARCHAR(100),"
                     "phone INTEGER,"//                    "phone INTEGER NOT NULL,"
                      "datetime INTEGER NOT NULL,"
-                //     "ekey VARCHAR(100),"
+                     "ekey VARCHAR(100),"
+                      "total VARCHAR(100),"
                      "extra VARCHAR(100),"
                     "class INTEGER"
                     ");");
@@ -483,6 +484,8 @@ void MainWindow::insertUser() //strictly a db to hold all userid's for verificat
                     "password,"
                     "phone,"//
                  "datetime,"
+                 "ekey,"
+                 "total,"
                  "extra,"
                     "class)"
                     "VALUES("
@@ -491,13 +494,11 @@ void MainWindow::insertUser() //strictly a db to hold all userid's for verificat
                     "'"+ui->lineEditPassword->text().toLatin1()+"',"
                   "'"+ui->lineEditPhone->text().toLatin1()+"',"
                 "'"+ui->createuserdatetime->text()+"',"
+                 "'""'," //ekey
+                 "'""'," //ammount
                     "'"+ui->createextra->text().toLatin1()+"',"
                  "'"+ui->createclass->text()+"'"
                     ");");
-
-//    "etype INTEGER NOT NULL,"
-//    "ekey VARCHAR(100),"
-//    "extra VARCHAR(100)"
 
      qDebug()<< euserid.toLatin1()+ "/n";
 
@@ -608,7 +609,7 @@ void MainWindow::on_pushButtonInsertUser_clicked()
 
 void MainWindow::on_actionSyncUSB_triggered()
 {
-ListUSB();
+    ListUSB();
 }
 
 void MainWindow::on_actionExit_triggered()
@@ -792,7 +793,6 @@ void MainWindow::placeCoins() //free coins from coins.db
 
 void MainWindow::on_placeCoins_clicked()
 {
-    //decrypt and verify coins / rot13 or xor should suffice to keep the addresses smaller.
     //if any incorrect flag account for checking also disable other transactions.
     int verified = 0;//md5verifydb();
 
@@ -833,37 +833,42 @@ QString MainWindow::validateCOINsign(QString coin,QString euserID){
     QString ekey;
            // int euserid;
     QString password;
+    QString datetime;
 
     db.setDatabaseName("database.sqlite");
     db.open();
         QSqlDatabase::database().transaction();
         QSqlQuery query2;
         query2.exec("SELECT * FROM users WHERE userid = ""'"+euserID.toLatin1()+"'");
-        if (query2.next()) {
+        while (query2.next()) {
             // euserid = query.value(0).toInt(); //not encrypted with user password
              ekey = query2.value(0).toString();
-            password = query2.value(0).toString();
+            password = query2.value(4).toString();
+            datetime = query2.value(6).toString(); //datetime
             qDebug() << euserID.toLatin1() << "pass " << password << "ekey " << ekey;
+            qDebug() << datetime;
           //  return yeardb;
         }
         QSqlDatabase::database().commit();
     db.close();
 
+    //use password to decrypt coin then masterkey and check in coinsdb with index
+
       QString yeardb;
     // coin
-    //    yeardb.mid(5,0);
-    //    yeardb.left(5);
+    qDebug() <<    datetime.mid(5,0);
+    qDebug() <<     datetime.left(5);
 
 
     db.setDatabaseName("./DB/"+yeardb.toLatin1()+".sqlite");
     db.open();
         QSqlDatabase::database().transaction();
         QSqlQuery query;
-        query.exec("SELECT id FROM users WHERE name = " "'" + euserID.toLatin1() + "'");
-        if (query.next()) {
-            yeardb = query.value(0).toInt();
-
-            return yeardb.toLatin1();
+        query.exec("SELECT * FROM users WHERE name = " "'" + euserID.toLatin1() + "'" " AND addr = "+coin.toLatin1());
+        while (query.next()) {
+         //   yeardb = query.value(0).toInt();
+            qDebug() << "coin " << query2.value(0).toString();
+           // return yeardb.toLatin1();
         }
         QSqlDatabase::database().commit();
     db.close();
@@ -901,11 +906,11 @@ QString password;
 
             QString decrypted2="";
 // if (ui->encrypted_yes->text() == 1){
+
   //  QString crypted = simplecrypt("test","test2",QCryptographicHash::Sha512);
     QString decrypted = simpledecrypt(userid.toLatin1(),"password",QCryptographicHash::Sha512);
     userid = simpledecrypt(decrypted,masterkey,QCryptographicHash::Sha512);
 
-//}
 
     QString yeardb;
 //    yeardb.mid(5,0);
@@ -925,8 +930,6 @@ QString password;
             }
             QSqlDatabase::database().commit();
         db.close();
-
-
 
     return 0;
 }
@@ -950,43 +953,83 @@ float MainWindow::checkBalance(QString euserID,QString yeardb){
   return balance;
 }
 
-int MainWindow::checkAvailableCoins(QString db2){
 
+int MainWindow::checkAvailableCoins(QString db2,QString needed){
     //check available coins has enough for tx
 int coins=0;
         db.setDatabaseName(db2.toLatin1());
         db.open();
             QSqlQuery query;
-            query.exec("SELECT * FROM coins");
-            if (query.next()) {
+           // query.exec("SELECT * FROM coins");
+            query.exec("SELECT * FROM coins LIMIT "+needed.toLatin1());
+            while (query.next()) {
              //   int employeeId = query.value(0).toInt();
+
+                qDebug() << query.value(2).toString(); //addr
+                qDebug() << query.value(1).toInt(); //origindex
+                qDebug() << query.value(0).toInt(); //index
+
                 coins++;
             }
         db.close();
 
   return coins;
 }
+
+
+void MainWindow::getkeys(){
+
+    QFile MyFile(usbpath.toLatin1()+"keys.txt");
+    MyFile.open(QIODevice::ReadWrite);
+    QTextStream in (&MyFile);
+    QString line;
+    QStringList list;
+     //   QList<QString> nums;
+    QStringList nums;
+    QRegExp rx("[:]");
+    do {
+        line = in.readLine();
+        if (line.contains(":")) {
+            list = line.split(rx);
+            nums.append(list.at(1).toLatin1());
+        }
+    } while (!line.isNull());
+
+masterkey=nums.at(0);
+coinkey=nums.at(1);
+
+}
+
 void MainWindow::on_SendCoins_clicked()
 {
     //check for master keys from usb drive
     //read keys to sign coins with
+   // ListUSB();
+   // getkeys();
 
-    QString Key="";
 
     float remainder =  fmod(ui->givecoinsammount->text().toFloat() ,ui->coinvalue->text().toFloat()); // int % int
-    if ( remainder >= 0 ) // even ammount //check ammount is devisible by value
+    if ( remainder > 0 ) // even ammount //check ammount is devisible by value
     {
+        qDebug() << remainder;
+        qDebug() << "not a proper ammount";
         return;
     }
 
     //check available coins has enough for tx
-    int availableCoins = checkAvailableCoins("rcoins.sqlite");
-    if (availableCoins >= ui->givecoinsammount->text().toFloat()){
+    int availableCoins = checkAvailableCoins("rcoins.sqlite", ui->givecoinsammount->text().toLatin1() );
 
+    qDebug() << availableCoins;
+
+    if (availableCoins = ui->givecoinsammount->text().toFloat()){
+        qDebug() << "coins are available for tx";
+    }
+    else{
+        qDebug() << "not enough for tx";
     }
 
     //check to see if userid is encrypted otherwise no need to encrypt
-    QString crypted = simplecrypt(ui->givecoinsid->text().toLatin1(),masterkey.toLatin1(),QCryptographicHash::Sha512);
+    QString crypted = simplecrypt( ui->givecoinsid->text().toLatin1(), masterkey.toLatin1(), QCryptographicHash::Sha512);
 //    qDebug() << crypted;
 //    QString decrypted = simpledecrypt(crypted,"test2",QCryptographicHash::Sha512);
 //    qDebug() << decrypted;
@@ -994,7 +1037,7 @@ void MainWindow::on_SendCoins_clicked()
     QString result = validateID(crypted.toLatin1()).toLatin1();
     QString result2;
     float balance = checkBalance(ui->givecoinsid->text().toLatin1(), result.toLatin1());
-
+    qDebug() << balance;
 
 //    //find user in yearly db pull coins out and verify validity then place back into rcoins
 //    //re-md5sum file
@@ -1004,15 +1047,15 @@ void MainWindow::on_SendCoins_clicked()
         db.setDatabaseName("rcoins.sqlite");
     }else {
         result2 = validateID(crypted.toLatin1()).toLatin1(); //returns year
-
         db.setDatabaseName("./"+ result +".sqlite");
     }
 
     db.open();
         QSqlDatabase::database().transaction();
         QSqlQuery query;
-        query.exec("SELECT * FROM coins WHERE name = ");
-        if (query.next()) {
+      //  query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
+       // query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
+        while (query.next()) {
             int employeeId = query.value(0).toInt();
           //  rcoins <<      //decrypt coins and reencrypt for new user
             //can place into text file to be sure then delete here// verify enough is available
@@ -1031,13 +1074,14 @@ void MainWindow::on_SendCoins_clicked()
 
 
 
-    //find random coin and insert it ammount times
+//    //find random coin and insert it ammount times
 
-    //placeCoins();
+//    //placeCoins();
 
-    //validate coins have been moved successfully and are valid in coins and id matches place coins into yearly usersdb
+//    //validate coins have been moved successfully and are valid in coins and id matches place coins into yearly usersdb
     float balance2 = checkBalance(ui->givecoinsid->text().toLatin1(), result.toLatin1());
     float total = ui->givecoinsid->text().toFloat() + balance;
+
     if( balance2 == total){ //remove coins from rcoins
             db.setDatabaseName("rcoins.sqlite");
             db.open();
@@ -1053,7 +1097,6 @@ void MainWindow::on_SendCoins_clicked()
                 }
                 QSqlDatabase::database().commit();
             db.close();
-
     }
 
 //    db.setDatabaseName("database.sqlite");
@@ -1103,12 +1146,12 @@ int MainWindow::smtpsend(QString toemail,QString Message){
 
 //    QCoreApplication a(argc, argv);
     bool ssl;
-    if (ui->smtpssl->checkState()==1){
+
+    if ( ui->smtpssl->isChecked() == 1 ){
        ssl = 1;
     }else{
      ssl = 0;
     }
-
 
     SmtpClient smtp (ui->smtphost->text().toLatin1(), ui->smtpport->text().toInt(), ssl ? SmtpClient::SslConnection : SmtpClient::TcpConnection);
    // SmtpClient smtp("smtp.gmail.com", 465, SmtpClient::SslConnection); //SmtpClient::TcpConnection
@@ -1166,3 +1209,4 @@ void MainWindow::on_smtptestmessage_clicked()
 {
 
 }
+

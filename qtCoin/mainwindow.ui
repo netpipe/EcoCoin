@@ -18,7 +18,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="app">
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab_3">
        <attribute name="title">
@@ -97,7 +97,7 @@
         <item row="0" column="1">
          <widget class="QTabWidget" name="transfers2">
           <property name="currentIndex">
-           <number>3</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tab_6">
            <attribute name="title">
@@ -107,7 +107,7 @@
             <item row="0" column="0">
              <widget class="QTabWidget" name="wallet">
               <property name="currentIndex">
-               <number>2</number>
+               <number>0</number>
               </property>
               <widget class="QWidget" name="tab_8">
                <attribute name="title">
@@ -118,8 +118,8 @@
                  <rect>
                   <x>10</x>
                   <y>0</y>
-                  <width>225</width>
-                  <height>136</height>
+                  <width>301</width>
+                  <height>151</height>
                  </rect>
                 </property>
                 <property name="title">
@@ -158,8 +158,8 @@
                <widget class="QPushButton" name="generatetx">
                 <property name="geometry">
                  <rect>
-                  <x>90</x>
-                  <y>130</y>
+                  <x>110</x>
+                  <y>250</y>
                   <width>131</width>
                   <height>28</height>
                  </rect>
@@ -554,11 +554,6 @@
             </property>
            </widget>
           </widget>
-          <widget class="QWidget" name="tab_4">
-           <attribute name="title">
-            <string>Page</string>
-           </attribute>
-          </widget>
          </widget>
         </item>
        </layout>
@@ -571,7 +566,7 @@
         <item row="0" column="0">
          <widget class="QTabWidget" name="tabWidget_2">
           <property name="currentIndex">
-           <number>2</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tab">
            <attribute name="title">
@@ -1216,6 +1211,9 @@
               <widget class="QLineEdit" name="smtppassword">
                <property name="text">
                 <string/>
+               </property>
+               <property name="echoMode">
+                <enum>QLineEdit::Password</enum>
                </property>
               </widget>
              </item>

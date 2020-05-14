@@ -60,7 +60,8 @@ HEADERS  += mainwindow.h \
     src/smtp/mimefile.h \
     src/smtp/mimecontentformatter.h \
     src/smtp/mimeattachment.h \
-    src/smtp/emailaddress.h
+    src/smtp/emailaddress.h \
+    src/encryption/simpleCrypt/simplecrypt.h
 
 
 FORMS    += mainwindow.ui

@@ -36,7 +36,7 @@ public:
     QString usbpath;
     QString backupusbpath;
     void createFreeCoinTable(QString DBname);
-    void placeCoins();
+    void placeCoins(QString euserid,QString ammount);
     void generateRCoins();
 
     void createyearly(QString ownerID);
@@ -76,8 +76,9 @@ void generateTXfile(QString euserid,QString etxcoins);
 QString validateCOINsign(QString coin,QString euserID);
 float checkBalance(QString euserID,QString yeardb);
 QString validateID(QString userid);
-int checkAvailableCoins(QString db);
+int checkAvailableCoins(QString db,QString needed);
 int smtpsend(QString toemail,QString Message);
+void getkeys();
 
     //encryption
     QString encryptxor(QString test,QString key);
@@ -147,8 +148,6 @@ private slots:
     void on_randomSearch_clicked();
 
     void on_test_clicked();
-
-    void on_pushButton_5_clicked();
 
     void on_smtpsave_clicked();
 
