@@ -567,7 +567,7 @@
               </rect>
              </property>
              <property name="text">
-              <string>234</string>
+              <string>test</string>
              </property>
             </widget>
             <widget class="QLabel" name="label_36">
@@ -594,6 +594,32 @@
              </property>
              <property name="text">
               <string>extra text you may want later</string>
+             </property>
+            </widget>
+            <widget class="QLineEdit" name="createclass">
+             <property name="geometry">
+              <rect>
+               <x>90</x>
+               <y>280</y>
+               <width>131</width>
+               <height>30</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>234</string>
+             </property>
+            </widget>
+            <widget class="QLabel" name="label_38">
+             <property name="geometry">
+              <rect>
+               <x>25</x>
+               <y>280</y>
+               <width>61</width>
+               <height>18</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>class</string>
              </property>
             </widget>
            </widget>

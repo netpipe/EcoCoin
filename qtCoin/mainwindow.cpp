@@ -135,47 +135,6 @@ ui->createtime->setTime(starttime);
 
 }
 
-void MainWindow::createUserTable()
-{
-    db.setDatabaseName("database.sqlite");
-    if(db.open())
-    {
-       qDebug()<<"Successful database connection";
-    }
-    else
-    {
-       qDebug()<<"Error: failed database connection";
-    }
-    QString query;
-
-    query.append("CREATE TABLE IF NOT EXISTS users("
-                    "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    "name VARCHAR(100),"
-                    "surname VARCHAR(100),"
-                    "age INTEGER NOT NULL,"
-                     "etype INTEGER NOT NULL,"
-                     "ekey VARCHAR(100),"
-                     "extra VARCHAR(100),"
-                    "class INTEGER NOT NULL"
-                    ");");
-
-
-
-    QSqlQuery create;
-    create.prepare(query);
-
-    if (create.exec())
-    {
-        qDebug()<<"Table exists or has been created";
-    }
-    else
-    {
-        qDebug()<<"Table not exists or has not been created";
-        qDebug()<<"ERROR! "<< create.lastError();
-    }
-    query.clear();
-    db.close();
-}
 
 MainWindow::~MainWindow()
 {
@@ -435,9 +394,52 @@ void MainWindow::createyearly(QString eownerID)
 
 
 
+void MainWindow::createUserTable()
+{
+    db.setDatabaseName("database.sqlite");
+    if(db.open())
+    {
+       qDebug()<<"Successful database connection";
+    }
+    else
+    {
+       qDebug()<<"Error: failed database connection";
+    }
+    QString query;
+
+    query.append("CREATE TABLE IF NOT EXISTS users("
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    "userid VARCHAR(100),"
+                    "name VARCHAR(100),"
+                    "password VARCHAR(100),"
+                    "phone INTEGER NOT NULL,"//                    "phone INTEGER NOT NULL,"
+                     "datetime INTEGER NOT NULL,"
+                //     "ekey VARCHAR(100),"
+                     "extra VARCHAR(100),"
+                    "class INTEGER NOT NULL"
+                    ");");
+
+
+    QSqlQuery create;
+    create.prepare(query);
+
+    if (create.exec())
+    {
+        qDebug()<<"Table exists or has been created";
+    }
+    else
+    {
+        qDebug()<<"Table not exists or has not been created";
+        qDebug()<<"ERROR! "<< create.lastError();
+    }
+    query.clear();
+    db.close();
+}
 
 void MainWindow::insertUser() //strictly a db to hold all userid's for verification
 {
+    createUserTable();
+
     db.setDatabaseName("database.sqlite");
     if(db.open())
     {
@@ -457,18 +459,21 @@ void MainWindow::insertUser() //strictly a db to hold all userid's for verificat
 //    QString mykey2 = BigInt2Str(m_n); //rsa keys
 
     query.append("INSERT INTO users("
-                 "id,"
+                 "userid,"
                     "name,"
                     "password,"
                     "phone,"//
-                 "ekey,"
+                 "datetime,"
                  "extra,"
                     "class)"
                     "VALUES("
                     "'"+euserid.toLatin1()+"',"
-                    "'"+ui->lineEditSurname->text()+"',"
-                    ""+ui->lineEditPassword->text()+","
-                    ""+ui->createextra->text()+""
+                    "'"+ui->lineEditSurname->text().toLatin1()+"',"
+                    "'"+ui->lineEditPassword->text().toLatin1()+"',"
+                  "'"+ui->lineEditPhone->text().toLatin1()+"',"
+                "'"+ui->createuserdatetime->text()+"',"
+                    "'"+ui->createextra->text().toLatin1()+"',"
+                 "'"+ui->createclass->text()+"'"
                     ");");
 
 //    "etype INTEGER NOT NULL,"
@@ -547,6 +552,7 @@ void MainWindow::on_pushButtonInsertUser_clicked()
     //QString temp = GenerateClientAddress(8);
     QString temp = GetRandomString(8,"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890");
     ui->lineEditName->setText(year.toLatin1()+temp.toLatin1());
+    //ui->lineEditName->setText(temp.toLatin1()); //testing
     QString ownerid=ui->lineEditName->text();
     QString password=ui->lineEditPassword->text();
 
@@ -558,10 +564,10 @@ void MainWindow::on_pushButtonInsertUser_clicked()
 
     ui->lineEditName->setText(crypted2.toLatin1());
     createyearly(crypted2.toLatin1());
+    //createyearly(ui->lineEditName->text());
 
     insertUser();
-
-
+    ui->lineEditName->setText(year.toLatin1()+temp.toLatin1());
    // createyearly("FvEZ0TCH4YOVaaaaaaaaaaaaaaaaaaaaaaaaaaa");  // only works without the year infront for some reason ?
    // createyearly("FvEZ0TCH4YOV");
     //selectUsersCoins(temp.toLatin1(),year.toLatin1());
@@ -570,7 +576,7 @@ void MainWindow::on_pushButtonInsertUser_clicked()
 //ui->createuserdatetime->text();
 //ui->createuserdatetime->setText();
 
-     selectUsers(); //refresh user table
+    // selectUsers(); //refresh user table
 
 }
 
