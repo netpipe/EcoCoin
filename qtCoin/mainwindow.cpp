@@ -949,7 +949,7 @@ QString MainWindow::validateCOINsign(QString coin,QString euserID){
 //possibly get coin ready to place back into rcoins decrypted
 }
 
-QString MainWindow::validateID(QString userid){
+QString MainWindow::validateID(QString euserid){
 
     //validate userid in both places
 
@@ -965,7 +965,7 @@ QString password;
             db.open();
                 QSqlDatabase::database().transaction();
                 QSqlQuery query2;
-                query2.exec("SELECT * FROM users WHERE userid = ""'"+userid.toLatin1()+"'");
+                query2.exec("SELECT * FROM users WHERE userid = ""'"+euserid.toLatin1()+"'");
                 if (query2.next()) {
                     // euserid = query.value(0).toInt(); //not encrypted with user password
                      ekey = query2.value(0).toString();
@@ -986,8 +986,8 @@ QString password;
 
 
     QString yeardb;
-//    yeardb.mid(5,0);
-//    yeardb.left(5);
+//    userid.mid(5,0);
+//    userid.left(5);
 
 //verify decrypted id
 
@@ -995,7 +995,7 @@ QString password;
         db.open();
             QSqlDatabase::database().transaction();
             QSqlQuery query;
-            query.exec("SELECT id FROM users WHERE name = " "'" + userid.toLatin1() + "'");
+            query.exec("SELECT id FROM users WHERE name = " "'" + euserid.toLatin1() + "'");
             if (query.next()) {
                 yeardb = query.value(0).toInt();
 
@@ -1075,96 +1075,107 @@ coinkey=nums.at(1);
 
 void MainWindow::on_SendCoins_clicked()
 {
-    //check for master keys from usb drive
-    //read keys to sign coins with
    // ListUSB();
    // getkeys();
 
 
+    //could impliment rounding to make ammount proper
     float remainder =  fmod(ui->givecoinsammount->text().toFloat() ,ui->coinvalue->text().toFloat()); // int % int
     if ( remainder > 0 ) // even ammount //check ammount is devisible by value
     {
         qDebug() << remainder;
         qDebug() << "not a proper ammount";
+
+        QMessageBox Msgbox;
+            Msgbox.setText("not proper ammount use value ");
+            Msgbox.exec();
+
+
         return;
     }
 
-    //check available coins has enough for tx
-    int availableCoins = checkAvailableCoins("rcoins.sqlite", ui->givecoinsammount->text().toLatin1() );
-
-    qDebug() << availableCoins;
-
-    if (availableCoins = ui->givecoinsammount->text().toFloat()){
-        qDebug() << "coins are available for tx";
-    }
-    else{
-        qDebug() << "not enough for tx";
-    }
-
-    //check to see if userid is encrypted otherwise no need to encrypt
-    QString crypted = simplecrypt( ui->givecoinsid->text().toLatin1(), masterkey.toLatin1(), QCryptographicHash::Sha512);
-//    qDebug() << crypted;
-//    QString decrypted = simpledecrypt(crypted,"test2",QCryptographicHash::Sha512);
-//    qDebug() << decrypted;
-
-    QString result = validateID(crypted.toLatin1()).toLatin1();
-    qDebug() << "validate" << result;
-    QString result2;
-    float balance = checkBalance(ui->givecoinsid->text().toLatin1(), result.toLatin1());
-    qDebug() << "balance:" << balance;
-
-//    //find user in yearly db pull coins out and verify validity then place back into rcoins
-//    //re-md5sum file
-
-
+     QString result2;
 
 
     //check if 2 userid's provided
     if (ui->givecoinsid2->text() == ""){
+        //check available coins has enough for tx
+        int availableCoins = checkAvailableCoins("rcoins.sqlite", ui->givecoinsammount->text().toLatin1() );
+
+        qDebug() << availableCoins;
+
+        if (availableCoins = ui->givecoinsammount->text().toFloat()){
+            qDebug() << "coins are available for tx";
+        }
+        else{
+            qDebug() << "not enough for tx";
+        }
+
+        //check to see if userid is encrypted otherwise no need to encrypt
+        QString crypted = simplecrypt( ui->givecoinsid->text().toLatin1(), masterkey.toLatin1(), QCryptographicHash::Sha512);
+    //    qDebug() << crypted;
+    //    QString decrypted = simpledecrypt(crypted,"test2",QCryptographicHash::Sha512);
+    //    qDebug() << decrypted;
+
+        QString result = validateID(crypted.toLatin1()).toLatin1();
+        qDebug() << "validate" << result;
+
+        float balance = checkBalance(ui->givecoinsid->text().toLatin1(), result.toLatin1());
+        qDebug() << "balance:" << balance;
+
+
+        //    //find user in yearly db pull coins out and verify validity then place back into rcoins
+        //    //re-md5sum file
+
+
+        //    //find random coin and insert it ammount times
+        //    //placeCoins();
         //generateTXfile(QString euserid,QString etxcoins);
   //      placeCoins(euserid,ammount); // use generated tx
 
+
+        //    //validate coins have been moved successfully and are valid in coins and id matches place coins into yearly usersdb
+            float balance2 = checkBalance(ui->givecoinsid->text().toLatin1(), result.toLatin1());
+            float total = ui->givecoinsid->text().toFloat() + balance;
+
+            //removeCoins();
+            //for each coin in list
+            if( balance2 == total){ //remove coins from rcoins
+                    db.setDatabaseName("rcoins.sqlite");
+                    db.open();
+                        QSqlDatabase::database().transaction();
+                        QSqlQuery query2;
+                        query2.exec("SELECT id FROM employee WHERE name = ''");
+                        if (query2.next()) {
+        //                    int employeeId = query.value(0).toInt();
+
+        //                    query.exec("INSERT INTO project (id, name, ownerid) "
+        //                               "VALUES (201, '', "
+        //                               + QString::number(employeeId) + ')');
+                        }
+                        QSqlDatabase::database().commit();
+                    db.close();
+            }
+
+
+
     }else {
+
+        //do this later
         result2 = validateID(crypted.toLatin1()).toLatin1(); //returns year
         db.setDatabaseName("./"+ result +".sqlite");
     }
 
 
-
-
-//    //find random coin and insert it ammount times
-
-//    //placeCoins();
-
-//    //validate coins have been moved successfully and are valid in coins and id matches place coins into yearly usersdb
-    float balance2 = checkBalance(ui->givecoinsid->text().toLatin1(), result.toLatin1());
-    float total = ui->givecoinsid->text().toFloat() + balance;
-
-    if( balance2 == total){ //remove coins from rcoins
-            db.setDatabaseName("rcoins.sqlite");
-            db.open();
-                QSqlDatabase::database().transaction();
-                QSqlQuery query2;
-                query2.exec("SELECT id FROM employee WHERE name = ''");
-                if (query2.next()) {
-//                    int employeeId = query.value(0).toInt();
-
-//                    query.exec("INSERT INTO project (id, name, ownerid) "
-//                               "VALUES (201, '', "
-//                               + QString::number(employeeId) + ')');
-                }
-                QSqlDatabase::database().commit();
-            db.close();
-    }
-
+//    update ammount in database
 //    db.setDatabaseName("database.sqlite");
 //    db.open();
 //        QSqlDatabase::database().transaction();
 //        QSqlQuery query2;
-//        query.exec("SELECT id FROM employee WHERE name = ''");
+//        query.exec("SELECT id FROM users WHERE name = ''");
 //        if (query.next()) {
 //            int employeeId = query.value(0).toInt();
-//            query.exec("INSERT INTO project (id, name, ownerid) "
+//            query.exec("UPDATE INTO coins (id, name, ownerid) "
 //                       "VALUES (201, '', "
 //                       + QString::number(employeeId) + ')');
 //        }
