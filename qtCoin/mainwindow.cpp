@@ -807,7 +807,7 @@ void MainWindow::on_placeCoins_clicked()
     //if any incorrect flag account for checking also disable other transactions.
     int verified = 0;//md5verifydb();
 
-    placeCoins();
+    placeCoins("1","1");
 
     if (verified == 1){
     QMessageBox Msgbox;
@@ -1145,8 +1145,8 @@ void MainWindow::on_SendCoins_clicked()
             db.open();
                 QSqlDatabase::database().transaction();
                 QSqlQuery query2;
-                query.exec("SELECT id FROM employee WHERE name = 'Torild Halvorsen'");
-                if (query.next()) {
+                query2.exec("SELECT id FROM employee WHERE name = ''");
+                if (query2.next()) {
 //                    int employeeId = query.value(0).toInt();
 
 //                    query.exec("INSERT INTO project (id, name, ownerid) "
