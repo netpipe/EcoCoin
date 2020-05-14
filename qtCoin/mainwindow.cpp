@@ -450,46 +450,33 @@ void MainWindow::insertUser() //strictly a db to hold all userid's for verificat
 
     QString query;
 
-    if (ui->encrypted_yes->text() == "Yes" ){
+      QString euserid =ui->lineEditName->text();
 
-    QByteArray bFname = EncryptMsg(ui->lineEditName->text(),"123456789", "your-IV-vector");
-    QString mykey1 = BigInt2Str(m_e); //rsa keys
-    QString mykey2 = BigInt2Str(m_n); //rsa keys
+//    QByteArray bFname = EncryptMsg(ui->lineEditName->text(),"123456789", "your-IV-vector");
+//    QString mykey1 = BigInt2Str(m_e); //rsa keys
+//    QString mykey2 = BigInt2Str(m_n); //rsa keys
 
     query.append("INSERT INTO users("
                  "id,"
                     "name,"
-                    "surname,"
-                    "phone,"
-                 "etype,"
+                    "password,"
+                    "phone,"//
                  "ekey,"
                  "extra,"
                     "class)"
                     "VALUES("
-                    "'"+bFname+"',"
+                    "'"+euserid.toLatin1()+"',"
                     "'"+ui->lineEditSurname->text()+"',"
-                    ""+ui->lineEditAge->text()+","
-                    ""+ui->lineEditClass->text()+""
+                    ""+ui->lineEditPassword->text()+","
+                    ""+ui->createextra->text()+""
                     ");");
 
 //    "etype INTEGER NOT NULL,"
 //    "ekey VARCHAR(100),"
 //    "extra VARCHAR(100)"
 
-     qDebug()<<bFname+ "/n";
-    }else{
-    query.append("INSERT INTO users("
-                    "name,"
-                    "surname,"
-                    "age,"
-                    "class)"
-                    "VALUES("
-                    "'"+ui->lineEditName->text()+"',"
-                    "'"+ui->lineEditSurname->text()+"',"
-                    ""+ui->lineEditAge->text()+","
-                    ""+ui->lineEditClass->text()+""
-                    ");");
-    }
+     qDebug()<< euserid.toLatin1()+ "/n";
+
 
     QSqlQuery insert;
     insert.prepare(query);
@@ -559,24 +546,31 @@ void MainWindow::on_pushButtonInsertUser_clicked()
 {
     //QString temp = GenerateClientAddress(8);
     QString temp = GetRandomString(8,"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890");
-    ui->lineEditName->setText(temp.toLatin1());
+    ui->lineEditName->setText(year.toLatin1()+temp.toLatin1());
     QString ownerid=ui->lineEditName->text();
-   // QString password=ui->lineEditPassword->text();
-   // insertUser();
-   // selectUsers();
+    QString password=ui->lineEditPassword->text();
 
 
-    QString crypted = simplecrypt(ownerid.toLatin1(),masterkey.toLatin1(),QCryptographicHash::Sha512);
-    QString crypted2 = simplecrypt(crypted.toLatin1(),ui->lineEditPassword->text(),QCryptographicHash::Sha512);
+// use password first to make more secure so no need to store in plaintext
+    QString crypted = simplecrypt(ownerid.toLatin1(),ui->lineEditPassword->text(),QCryptographicHash::Sha512);
+    QString crypted2 = simplecrypt(crypted.toLatin1(),masterkey.toLatin1(),QCryptographicHash::Sha512);
    // QString decrypted = simpledecrypt(crypted,"test2",QCryptographicHash::Sha512);
 
+    ui->lineEditName->setText(crypted2.toLatin1());
     createyearly(crypted2.toLatin1());
-   // createyearly("FvEZ0TCH4YOVaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+
+    insertUser();
+
+
+   // createyearly("FvEZ0TCH4YOVaaaaaaaaaaaaaaaaaaaaaaaaaaa");  // only works without the year infront for some reason ?
    // createyearly("FvEZ0TCH4YOV");
     //selectUsersCoins(temp.toLatin1(),year.toLatin1());
 
     //combine user year+userid to give to user
+//ui->createuserdatetime->text();
+//ui->createuserdatetime->setText();
 
+     selectUsers(); //refresh user table
 
 }
 
@@ -806,8 +800,6 @@ QString MainWindow::validateCOINsign(QString coin,QString euserID){
     //check for coin in coins.sqlite
     //encrypt coin during validation with user password
 
-
-
     QString ekey;
            // int euserid;
     QString password;
@@ -888,6 +880,7 @@ QString password;
     QString yeardb;
 //    yeardb.mid(5,0);
 //    yeardb.left(5);
+
 //verify decrypted id
 
         db.setDatabaseName("./DB/"+yeardb.toLatin1()+".sqlite");
@@ -902,8 +895,6 @@ QString password;
             }
             QSqlDatabase::database().commit();
         db.close();
-
-
 
 
 
