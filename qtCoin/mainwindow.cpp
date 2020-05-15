@@ -951,17 +951,23 @@ QString MainWindow::validateCOINsign(QString coin,QString euserID){
 //possibly get coin ready to place back into rcoins decrypted
 }
 
-QString MainWindow::validateID(QString euserid){
+QString MainWindow::validateID(QString euserid){ // can validate public encrypted and master encrypted ID's
+//also sets QString yeardb globally for other functions
 
 
             //search for user in database.sqlite first ? double might be better then use encryption key to find userid in yeardb ?
 QString ekey;
        // int euserid;
 QString password;
-
+QString userid;
 //if (euserid.length() > 12){ //check if already encrypted
+//userid was public
 //    QString crypted = simplecrypt("test","test2",QCryptographicHash::Sha512);
 //    euserid =crypted;
+
+// QString decrypted = simpledecrypt(euserid.toLatin1(),"password",QCryptographicHash::Sha512);
+ //userid = simpledecrypt(decrypted,masterkey,QCryptographicHash::Sha512);
+ //           QString decrypted2="";
 //}
 
             db.setDatabaseName("database.sqlite");
@@ -972,9 +978,10 @@ QString password;
                 //query2.exec("SELECT "+euserid.toLatin1()+" FROM users");
 
                 if (query2.next()) {
-                    // euserid = query.value(0).toInt(); //not encrypted with user password
-                     ekey = query2.value(0).toString();
-                    password = query2.value(0).toString();
+                     userid = query2.value(1).toString(); //not encrypted with user password
+                     ekey = query2.value(6).toString();
+                   //  userid = query.value(1);
+                    password = query2.value(3).toString();
                     qDebug() << euserid.toLatin1() << "pass " << password << "ekey " << ekey;
                   //  return yeardb;
                 }
@@ -982,15 +989,20 @@ QString password;
             db.close();
 
 
-            QString decrypted2="";
-// if (ui->encrypted_yes->text() == 1){
+            // if (ui->encrypted_yes->text() == 1){ //extra encryption check
 
-  //  QString crypted = simplecrypt("test","test2",QCryptographicHash::Sha512);
-    QString decrypted = simpledecrypt(euserid.toLatin1(),"password",QCryptographicHash::Sha512);
-    QString userid = simpledecrypt(decrypted,masterkey,QCryptographicHash::Sha512);
+            if (userid == "") { //public key check revalidate with decrypted if not found
+                 QString decrypted = simpledecrypt(euserid.toLatin1(),"password",QCryptographicHash::Sha512);
+                 userid = simpledecrypt(decrypted,masterkey,QCryptographicHash::Sha512);
 
+                if ( validateID(userid) == 1 ) { //retry with encrypted
+                }else{
+                return 0;
+                }
 
-    QString yeardb = userid;
+            }
+
+    yeardb = userid;
     // yeardb= yeardb.mid(0,4);
      yeardb= yeardb.left(4);
    qDebug() << yeardb;
@@ -1005,7 +1017,8 @@ QString password;
             if (query.next()) {
                 yeardb = query.value(0).toInt();
 
-                return yeardb.toLatin1();
+               // return yeardb.toLatin1();
+                return "1";
             }
             QSqlDatabase::database().commit();
         db.close();
@@ -1061,7 +1074,10 @@ void MainWindow::getkeys(){ //for coldstorage server or standalone server which 
 
     //if keys are stored in the local folder and checkout then use those
 
-    //verify md5sum
+    //verify md5sum of keys file from 2 or 3 locations possibly encrypted
+
+    //simple strings found on google have same md5sums or bruteforce could match it.
+
     //load keys if sum is correct
     QFile MyFile(usbpath.toLatin1()+"keys.txt");
     MyFile.open(QIODevice::ReadWrite);
@@ -1089,7 +1105,8 @@ void MainWindow::on_SendCoins_clicked()
    // ListUSB();
    // getkeys();
     //if no keys then generatetx file
-
+    //autosync with perodic checking on a timer for server and client
+//md5verifydb();
 
     //could impliment rounding to make ammount proper
     float remainder =  fmod(ui->givecoinsammount->text().toFloat() ,ui->coinvalue->text().toFloat()); // int % int
@@ -1119,9 +1136,7 @@ void MainWindow::on_SendCoins_clicked()
         if (availableCoins = ui->givecoinsammount->text().toFloat()){
             qDebug() << "coins are available for tx";
         }
-        else{
-            qDebug() << "not enough for tx";
-        }
+
 
         //check to see if userid is encrypted otherwise no need to encrypt
         QString crypted = simplecrypt( ui->givecoinsid->text().toLatin1(), masterkey.toLatin1(), QCryptographicHash::Sha512);
@@ -1138,7 +1153,7 @@ void MainWindow::on_SendCoins_clicked()
 
         //    //find user in yearly db pull coins out and verify validity then place back into rcoins
         //    //re-md5sum file
-
+//md5verifydb()
 
         //    //find random coin and insert it ammount times
         //    //placeCoins();
@@ -1168,7 +1183,9 @@ void MainWindow::on_SendCoins_clicked()
                         QSqlDatabase::database().commit();
                     db.close();
             }
-
+            else{
+                qDebug() << "not enough for tx";
+            }
 
 
     }else {
@@ -1230,44 +1247,27 @@ void MainWindow::on_test_clicked()
 
 int MainWindow::smtpsend(QString toemail,QString Message){
 
-//    QCoreApplication a(argc, argv);
     bool ssl;
-
-    if ( ui->smtpssl->isChecked() == 1 ){
-       ssl = 1;
-    }else{
-     ssl = 0;
-    }
+    if ( ui->smtpssl->isChecked() == 1 ){ ssl = 1;    }else{ ssl = 0; }
 
     SmtpClient smtp (ui->smtphost->text().toLatin1(), ui->smtpport->text().toInt(), ssl ? SmtpClient::SslConnection : SmtpClient::TcpConnection);
-   // SmtpClient smtp("smtp.gmail.com", 465, SmtpClient::SslConnection); //SmtpClient::TcpConnection
-
     smtp.setUser(ui->smtpemail->text());
     smtp.setPassword(ui->smtppassword->text());
 
     MimeMessage message;
-
     EmailAddress sender(ui->smtpemail->text(), ui->smtpemail->text()); //email,name
     message.setSender(&sender);
-
     EmailAddress to(toemail.toLatin1(), toemail.toLatin1()); // email, name
     message.addRecipient(&to);
-
     message.setSubject(ui->coinname->text());
 
-    // Now add some text to the email.
-    // First we create a MimeText object.
-
     MimeText text;
-
   //  text.setText("Hi,\nThis is a simple email message.\n");
     text.setText("Hi,\nThis is a simple email message.\n");
     // Now add it to the mail
-
     message.addPart(&text);
 
     // Now we can send the mail
-
     if (!smtp.connectToHost()) {
         qDebug() << "Failed to connect to host!" << endl;
         return 1;
@@ -1282,7 +1282,6 @@ int MainWindow::smtpsend(QString toemail,QString Message){
         qDebug() << "Failed to send mail!" << endl;
         return 3;
     }
-
     smtp.quit();
 }
 

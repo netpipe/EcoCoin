@@ -33,6 +33,7 @@ public:
     QString GetRandomString(int length,QString chars);
     QString getClientAddress();
     QString year;
+    QString yeardb;//for extracting year from ID's
     QString usbpath;
     QString backupusbpath;
     void createFreeCoinTable(QString DBname);
