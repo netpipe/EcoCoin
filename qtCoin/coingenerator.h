@@ -238,6 +238,7 @@ void MainWindow::createFreeCoinTable(QString DBname)
 
 void MainWindow::on_gencoininfo_btn_clicked()
 {
+
     QFile file("settings.txt");
       //    if(file.open(QIODevice::WriteOnly | QIODevice::Text))
           if(file.open(QIODevice::ReadWrite | QIODevice::Text))
@@ -259,9 +260,21 @@ void MainWindow::on_gencoininfo_btn_clicked()
               stream << "matureyear:" << ui->matureyear->text() <<'\n';
               stream << "maturetime:" << ui->maturetime->time().hour() << "|" << ui->maturetime->time().minute() <<'\n';
               stream << "maturedescription:" << ui->maturedescription->toPlainText()<<'\n';
-              stream << "usbdrivename:" << ui->usbdrivename->text();
+              stream << "usbdrivename:" << ui->usbdrivename->text(); //place into keys instead
               file.close();
           }
+
+          QFile file2(ui->usbdrivename->text()+"keys.txt");
+            //    if(file.open(QIODevice::WriteOnly | QIODevice::Text))
+                if(file2.open(QIODevice::ReadWrite | QIODevice::Text))
+                {
+                    QTextStream stream(&file2);
+                    stream << "masterkey:" << coinkey;
+                    stream << "coinkey:" << coinkey.toLatin1();
+                  //  stream << "usbdrivename:" << ui->usbdrivename->text();
+                    file2.close();
+                }
+       //   md5sum keys file
 }
 
 void MainWindow::on_actionOpenCoin_triggered()
@@ -472,6 +485,7 @@ void MainWindow::on_pushButton_clicked() //generate coins button
         Msgbox.setText("needs to be even number: ");
         Msgbox.exec();
     }
+    on_gencoininfo_btn_clicked(); // save info
 }
 
 void MainWindow::RandomizeCoins()
@@ -732,6 +746,7 @@ void MainWindow::GenerateCoins3(int length,int total)
 {
     QString arrm = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
     QString arr= GetRandomString(arrm.size(),arrm.toLatin1());
+    coinkey=arr;
     //save string incase more coins need to be added after
     QString data;
    // _total = 10000;

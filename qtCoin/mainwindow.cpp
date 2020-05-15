@@ -20,6 +20,8 @@
 //http://ismacs.net/singer_sewing_machine_company/why-two-serial-numbers.html some of the first serial numbers
 //https://patents.google.com/patent/US3988571A/en
 
+    //encrypt with usbdrivename
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -48,6 +50,7 @@ MainWindow::MainWindow(QWidget *parent) :
      buffer->open(QIODevice::ReadOnly);
      buffer->seek(0);
 
+     player->setVolume(10);
 //    media->setMedia("sound.mp3");
     player->setMedia(QMediaContent(), buffer);
     player->play();
@@ -387,19 +390,8 @@ void MainWindow::createyearly(QString eownerID)
                     "id INTEGER PRIMARY KEY AUTOINCREMENT,"
                     "addr VARCHAR(100),"
                     "datetime INTEGER NOT NULL,"
-                    "class INTEGER NOT NULL"
+                    "class INTEGER"
                     ");");
-
-//    query.append("CREATE TABLE IF NOT EXISTS test("
-//                    "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-//                    "owner VARCHAR(100),"
-//                    "addr VARCHAR(100),"
-//                    "datetime INTEGER NOT NULL,"
-//                    "class INTEGER NOT NULL,"
-//                    "etype INTEGER NOT NULL,"
-//                    "ekey VARCHAR(100),"
-//                    "extra VARCHAR(100)"
-//                    ");");
 
 
         QSqlQuery create;
@@ -826,6 +818,8 @@ void MainWindow::on_placeCoins_clicked()
 void MainWindow::generateTXfile(QString euserid,QString etxcoins){ //file to send from client
     //encrypt with masterkey encrypted userID and user encryption key and datetime to validate coins from their wallet
 
+    //might only need ammount and userid and other usersid for tx's because users are not sending coins directly to other users
+
  //   db.setDatabaseName("./"+ result +".sqlite");
        db.open();
            QSqlDatabase::database().transaction();
@@ -858,7 +852,7 @@ void MainWindow::generateTXfile(QString euserid,QString etxcoins){ //file to sen
 
 }
 
-void MainWindow::generateRXfile(QString euserid,QString etxcoins){ //rxfile to give client encrypted coins to put in wallet
+void MainWindow::generateRXfile(QString euserid,QString etxcoins){ //rxfile to give client encrypted coins to put in wallet might not be needed for client only cold server
 
     //etxcoins is either tmptxtfile with encryptedcoins or to make more secure use memory
 
@@ -907,6 +901,7 @@ void MainWindow::generateRXfile(QString euserid,QString etxcoins){ //rxfile to g
 
 QString MainWindow::validateCOINsign(QString coin,QString euserID){
 
+    //get user info to verify coin from yearlydb
     //check for coin in coins.sqlite
     //encrypt coin during validation with user password
 
@@ -964,12 +959,18 @@ QString ekey;
        // int euserid;
 QString password;
 
+//if (euserid.length() > 12){ //check if already encrypted
+//    QString crypted = simplecrypt("test","test2",QCryptographicHash::Sha512);
+//    euserid =crypted;
+//}
 
             db.setDatabaseName("database.sqlite");
             db.open();
                 QSqlDatabase::database().transaction();
                 QSqlQuery query2;
                 query2.exec("SELECT * FROM users WHERE userid = ""'"+euserid.toLatin1()+"'");
+                //query2.exec("SELECT "+euserid.toLatin1()+" FROM users");
+
                 if (query2.next()) {
                     // euserid = query.value(0).toInt(); //not encrypted with user password
                      ekey = query2.value(0).toString();
@@ -1055,8 +1056,13 @@ int coins=0;
 }
 
 
-void MainWindow::getkeys(){
+void MainWindow::getkeys(){ //for coldstorage server or standalone server which contains all the infos
 
+
+    //if keys are stored in the local folder and checkout then use those
+
+    //verify md5sum
+    //load keys if sum is correct
     QFile MyFile(usbpath.toLatin1()+"keys.txt");
     MyFile.open(QIODevice::ReadWrite);
     QTextStream in (&MyFile);
@@ -1082,6 +1088,7 @@ void MainWindow::on_SendCoins_clicked()
 {
    // ListUSB();
    // getkeys();
+    //if no keys then generatetx file
 
 
     //could impliment rounding to make ammount proper
