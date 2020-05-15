@@ -263,8 +263,9 @@ void MainWindow::on_gencoininfo_btn_clicked()
               stream << "usbdrivename:" << ui->usbdrivename->text(); //place into keys instead
               file.close();
           }
+//check if usbdrive inserted
 
-          QFile file2(ui->usbdrivename->text()+"keys.txt");
+          QFile file2(usbpath.toLatin1()+"keys.txt");
             //    if(file.open(QIODevice::WriteOnly | QIODevice::Text))
                 if(file2.open(QIODevice::ReadWrite | QIODevice::Text))
                 {
