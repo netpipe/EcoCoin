@@ -757,44 +757,80 @@ void MainWindow::placeCoins(QString euserid,QString ammount) //free coins from c
 
 //ui->givecoinsammount.text().toLatin1()
     //pull from rcoins db and remove coin after placing in tmp text file
-QString coin;
-
+//QString coin;
+        QVariantList coins;
     db.setDatabaseName("rcoins.sqlite");
     db.open();
-        QSqlDatabase::database().transaction();
         QSqlQuery query;
         query.exec("SELECT * FROM coins ORDER RAND() LIMIT "+ammount);
         while (query.next()) {
-
-            QString coin = query.value(0).toString();
-//            query.exec("INSERT INTO project (id, name, ownerid) "
-//                       "VALUES (201, '', "
-//                       + QString::number(employeeId) + ')');
+        coins << query.value(0).toString();
   //  place into textfile
         }
-        QSqlDatabase::database().commit();
     db.close();
 
 
 //verify coins and insert into yearly userid
+QVariantList signedcoins;
 
+for (int i; i > coins.length(); i++){
+//if (coin > 8) // coin not from rcoins needs decryption first
+    signedcoins << validateCOINsign( coins.at(i).toString(), euserid.toLatin1() );
 
-//    QString signedcoin = validateCOINsign(coin);
 //  // if ( validateCOINsign(coin) == "valid"){
 //        qDebug() << "coin is valid"
-
 //}else {  qDebug << signedcoin; };
+
+}
+
+
+    //valid user so it must have table already in yeardb
+    qDebug()<< "inserting coins into yeardb";
+    //sqlite create randomized availablecoins
+    db.setDatabaseName("./"+ yeardb +".sqlite");
+    if(db.open())
+    {
+        qDebug()<<"Successful coin database connection";
+    }
+    else
+    {
+        qDebug()<<"Error: failed database connection";
+    }
+    db.transaction();
+
+    QString query2 = "INSERT INTO ""'"+euserid+"'""(origid,addr) VALUES (?,?)";
+
+//    qDebug() << query;
+    QSqlQuery insert;
+    insert.prepare(query2);
+  //  insert.addBindValue(index);
+    insert.addBindValue(coins);
+
+    if(insert.execBatch())
+    {
+        qDebug() << "Coin is properly inserted";
+    }
+    else
+    {
+        qDebug()<<"ERROR! "<< insert.lastError();
+        //undo
+    }
+    db.commit();
+   // index.clear();
+    coins.clear();
+    insert.clear();
+
 
 
     //not sure what this is for yet
  //    db.setDatabaseName("./"+ result +".sqlite");
        db.open();
            QSqlDatabase::database().transaction();
-           QSqlQuery query2;
+           QSqlQuery query3;
          //  query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
           // query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
-           while (query2.next()) {
-               int employeeId = query2.value(0).toInt();
+           while (query3.next()) {
+               int employeeId = query3.value(0).toInt();
              //  rcoins <<      //decrypt coins and reencrypt for new user
                //can place into text file to be sure then delete here// verify enough is available
 
@@ -1205,8 +1241,10 @@ void MainWindow::on_SendCoins_clicked()
 
         qDebug() << availableCoins;
 
-        if (availableCoins = ui->givecoinsammount->text().toFloat()){
+        if (availableCoins == ui->givecoinsammount->text().toFloat()){
             qDebug() << "coins are available for tx";
+        }            else{
+            qDebug() << "not enough for tx";
         }
 
 
@@ -1229,9 +1267,8 @@ void MainWindow::on_SendCoins_clicked()
 //md5verifydb()
 
         //    //find random coin and insert it ammount times
-        //    //placeCoins();
-        //generateTXfile(QString euserid,QString etxcoins);
-  //      placeCoins(euserid,ammount); // use generated tx
+        //generateTXfile(result, etxcoins);
+        placeCoins(result,ui->givecoinsammount->text()); // use generated tx
 
 
         //    //validate coins have been moved successfully and are valid in coins and id matches place coins into yearly usersdb
@@ -1240,7 +1277,9 @@ void MainWindow::on_SendCoins_clicked()
 
             //removeCoins();
             //for each coin in list
-            if( balance2 == total){ //remove coins from rcoins
+        //    QString::number(balance2-total).toInt() ;
+
+            if( fabs(balance2-total) < 1 ){ //remove coins from rcoins
                     db.setDatabaseName("rcoins.sqlite");
                     db.open();
                    //     QSqlDatabase::database().transaction();
@@ -1255,10 +1294,11 @@ void MainWindow::on_SendCoins_clicked()
                         }
                    //     QSqlDatabase::database().commit();
                     db.close();
+            } else{
+                qDebug() << "coins not removed from rcoins";
+                //placeCoins back into rcoins reverse tx
             }
-            else{
-                qDebug() << "not enough for tx";
-            }
+
 
 
     }else {
