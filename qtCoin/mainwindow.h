@@ -36,9 +36,13 @@ public:
     QString yeardb;//for extracting year from ID's
     QString usbpath;
     QString backupusbpath;
+
+    QString validatepassword;
+    bool vpublickey;
     void createFreeCoinTable(QString DBname);
     void placeCoins(QString euserid,QString ammount);
     void generateRCoins();
+    int checkAllCoins(QString db2);
 
     void createyearly(QString ownerID);
     void searchyearly(QString ownerID);

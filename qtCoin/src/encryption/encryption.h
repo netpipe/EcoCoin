@@ -13,6 +13,7 @@
 
 //https://doc.qt.io/qt-5/qcryptographichash.html
 
+
 QString MainWindow::simplecrypt(QString string,QString key,QCryptographicHash::Algorithm hash)
 {
 
