@@ -36,6 +36,7 @@ public:
     QString yeardb;//for extracting year from ID's
     QString usbpath;
     QString backupusbpath;
+    int trycount;
 
     QString validatepassword;
     bool vpublickey;

@@ -22,11 +22,11 @@ void MainWindow::selectUsersCoins(QString userid,QString yeardb) // not ready ye
     db.setDatabaseName("./db/"+yeardb+".sqlite");
     if(db.open())
     {
-       qDebug()<<"Successful database connection";
+       qDebug() << "Successful database connection";
     }
     else
     {
-       qDebug()<<"Error: failed database connection";
+       qDebug() << "Error: failed database connection";
     }
 
 
@@ -38,12 +38,12 @@ void MainWindow::selectUsersCoins(QString userid,QString yeardb) // not ready ye
 
     if (select.exec())
     {
-        qDebug()<<"The user is properly selected";
+        qDebug() << "The user is properly selected";
     }
     else
     {
-        qDebug()<<"The user is not selected correctly";
-        qDebug()<<"ERROR! "<< select.lastError();
+        qDebug() << "The user is not selected correctly";
+        qDebug() << "ERROR! "<< select.lastError();
     }
 
     int row = 0;
@@ -79,7 +79,7 @@ void MainWindow::generateRCoins()
 
         QVariantList coins;
         QVariantList index;
-        qDebug()<<"filling coins list";
+        qDebug() << "filling coins list";
         while (in.readLineInto(&line)) {
             QRegExp rx("[:]");// match a comma or a space
             list = line.split(rx);
@@ -93,16 +93,16 @@ void MainWindow::generateRCoins()
          }
 
     createFreeCoinTable("rcoins.sqlite");
-    qDebug()<< "generating availablecoins";
+    qDebug() << "generating availablecoins";
     //sqlite create randomized availablecoins
     db.setDatabaseName("rcoins.sqlite");
     if(db.open())
     {
-        qDebug()<<"Successful coin database connection";
+        qDebug() << "Successful coin database connection";
     }
     else
     {
-        qDebug()<<"Error: failed database connection";
+        qDebug() << "Error: failed database connection";
     }
 
     db.transaction();
@@ -270,7 +270,7 @@ void MainWindow::on_gencoininfo_btn_clicked()
                 if(file2.open(QIODevice::ReadWrite | QIODevice::Text))
                 {
                     QTextStream stream(&file2);
-                    stream << "masterkey:" << coinkey;
+                    stream << "masterkey:" << masterkey.toLatin1();
                     stream << "coinkey:" << coinkey.toLatin1();
                   //  stream << "usbdrivename:" << ui->usbdrivename->text();
                     file2.close();

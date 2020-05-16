@@ -374,27 +374,23 @@ void MainWindow::createyearly(QString eownerID)
     //holds users generated from each new year and their coins pulled from rcoins.sqlite
 
     db.setDatabaseName("./db/"+year+".sqlite");
-    if(db.open())
-    {
-       qDebug()<<"Successful database connection";
-    }
-    else
-    {
-       qDebug()<<"Error: failed database connection";
-    }
+
+    if(db.open())    {       qDebug()<<"Successful database connection";    }
+    else    {       qDebug()<<"Error: failed database connection";    }
 
     QString query;
 
+    qDebug() << "test" << eownerID.toLatin1();
 
-    query.append("CREATE TABLE IF NOT EXISTS "+eownerID.toLatin1()+"("
+    query.append("CREATE TABLE IF NOT EXISTS ""'"+eownerID.toLatin1()+"'""("
                     "id INTEGER PRIMARY KEY AUTOINCREMENT,"
                     "addr VARCHAR(100),"
-                    "datetime INTEGER NOT NULL,"
+                    "datetime INTEGER,"
                     "class INTEGER"
                     ");");
 
 
-        QSqlQuery create;
+    QSqlQuery create;
     create.prepare(query);
 
     if (create.exec())
@@ -471,7 +467,7 @@ void MainWindow::insertUser() //strictly a db to hold all userid's for verificat
 
     QString query;
 
-      QString euserid =ui->lineEditName->text();
+      QString euserid = ui->lineEditName->text();
 
 //    QByteArray bFname = EncryptMsg(ui->lineEditName->text(),"123456789", "your-IV-vector");
 //    QString mykey1 = BigInt2Str(m_e); //rsa keys
@@ -499,8 +495,7 @@ void MainWindow::insertUser() //strictly a db to hold all userid's for verificat
                  "'"+ui->createclass->text()+"'"
                     ");");
 
-     qDebug()<< euserid.toLatin1()+ "/n";
-
+     qDebug()<< euserid.toLatin1();
 
     QSqlQuery insert;
     insert.prepare(query);
@@ -577,16 +572,26 @@ void MainWindow::on_pushButtonInsertUser_clicked()
 
 
 // use password first to make more secure so no need to store in plaintext
-    QString crypted = simplecrypt(ownerid.toLatin1(),ui->lineEditPassword->text(),QCryptographicHash::Sha512);
-    QString crypted2 = simplecrypt(crypted.toLatin1(),masterkey.toLatin1(),QCryptographicHash::Sha512);
+ //   QString crypted = simplecrypt(ownerid.toLatin1(),ui->lineEditPassword->text(),QCryptographicHash::Sha512);
+  //  QString crypted2 = simplecrypt(crypted.toLatin1(),masterkey.toLatin1(),QCryptographicHash::Sha512);
+
+    QString crypted2 = simplecrypt(ownerid.toLatin1(),masterkey.toLatin1(),QCryptographicHash::Sha512);
+
    // QString decrypted = simpledecrypt(crypted,"test2",QCryptographicHash::Sha512);
 
+
+
     ui->lineEditName->setText(crypted2.toLatin1());
-    createyearly(crypted2.toLatin1());
-    //createyearly(ui->lineEditName->text());
+
+    qDebug() << "lineeditname " << ui->lineEditName->text();
+
 
     insertUser();
+//qDebug() << crypted2.simplified() << crypted2;
 
+    createyearly(crypted2); //the /n causes issues
+
+//QString::simplified()
     //selectUsersCoins(temp.toLatin1(),year.toLatin1());
 
     //combine user year+userid to give to user
@@ -782,7 +787,6 @@ for (int i; i > coins.length(); i++){
 //}else {  qDebug << signedcoin; };
 
 }
-
 
     //valid user so it must have table already in yeardb
     qDebug()<< "inserting coins into yeardb";
@@ -1030,10 +1034,9 @@ QString datetime;
 vpublickey = 0;
 
 if (euserid.length() <= 12){ //check if encrypted
-//userid was public
-    QString crypted = simplecrypt("test","test2",QCryptographicHash::Sha512);
-    euserid =crypted;
-qDebug() << "userid now encrypted";
+    QString crypted = simplecrypt(euserid,masterkey,QCryptographicHash::Sha512);
+    euserid = crypted;
+qDebug() << "userid now encrypted" << euserid ;
 // QString decrypted = simpledecrypt(euserid.toLatin1(),"password",QCryptographicHash::Sha512);
  //euserid = simpledecrypt(decrypted,masterkey,QCryptographicHash::Sha512);
 // euserid = simpledecrypt(euserid,masterkey,QCryptographicHash::Sha512);
@@ -1068,35 +1071,42 @@ qDebug() << "searching valid id";
 
 
             // if (ui->encrypted_yes->text() == 1){ //extra encryption check
-            if (userid == "") { //public key check revalidate with decrypted if not found
-                      userid = simpledecrypt(userid,masterkey,QCryptographicHash::Sha512);
-                    if ( validateID(userid) == 1 ) { //retry with encrypted
-                        vpublickey = 1;
+            if (userid == "" && trycount < 10) { //public key check revalidate with decrypted if not found
+                      userid = simpledecrypt(euserid,masterkey,QCryptographicHash::Sha512);
+                      trycount++;
+                      qDebug() << "was public encrypted userid because no match found";
+                      if ( validateID(userid) == 1 ) { //retry with encrypted
+                          vpublickey = 1;
                     }else{
                     return 0;
                     }
-
             }
+QString yeardb2;
             if (vpublickey==1){
                     QString decrypted = simpledecrypt(euserid.toLatin1(),validatepassword,QCryptographicHash::Sha512);
                     userid=decrypted;
-             }
-                    // QString decrypted = simpledecrypt(euserid.toLatin1(),"password",QCryptographicHash::Sha512);
-                     //euserid = simpledecrypt(decrypted,masterkey,QCryptographicHash::Sha512);
+            }else{
+                qDebug() << "decrypt to get year";
+                QString decrypted = simpledecrypt(euserid.toLatin1(),masterkey,QCryptographicHash::Sha512);
+                yeardb2 = simpledecrypt(decrypted,masterkey,QCryptographicHash::Sha512);
+            }
 
-    yeardb = userid;
+
+    yeardb = yeardb2;
     // yeardb= yeardb.mid(0,4);
-     yeardb= yeardb.left(4);
-   qDebug() << yeardb;
+    yeardb = yeardb.left(4);
+    qDebug() << yeardb;
+
 
 //verify decrypted id
-qDebug() << "searching yeardb for valid id";
+        qDebug() << "searching yeardb for valid id";
+
         db.setDatabaseName("./db/"+yeardb.toLatin1()+".sqlite");
         db.open();
          //   QSqlDatabase::database().transaction();
             QSqlQuery query;
-            query.exec("SELECT id FROM users WHERE name = " "'" + userid.toLatin1() + "'");
-            if (query.next()) {
+            query.exec("SELECT * FROM users WHERE userid = " "'" + userid.toLatin1() + "'");
+            while (query.next()) {
                // yeardb =
                 qDebug() << "found user in yeardb" << query.value(0).toInt();
 
@@ -1132,8 +1142,8 @@ float MainWindow::checkBalance(QString euserID,QString yeardb){
 
 int MainWindow::checkAllCoins(QString db2){
     //check available coins has enough for tx
-int coins=0;
-qDebug() << "checking all available coins";
+        int coins=0;
+        qDebug() << "checking all available coins";
         db.setDatabaseName(db2.toLatin1());
         db.open();
             QSqlQuery query;
@@ -1155,8 +1165,9 @@ qDebug() << "checking all available coins";
 
 int MainWindow::checkAvailableCoins(QString db2,QString needed){
     //check available coins has enough for tx
-int coins=0;
-qDebug() << "checking enough coins available for tx";
+        int coins=0;
+        qDebug() << "checking enough coins available for tx";
+
         db.setDatabaseName(db2.toLatin1());
         db.open();
             QSqlQuery query;
@@ -1179,7 +1190,7 @@ qDebug() << "checking enough coins available for tx";
 
 void MainWindow::getkeys(){ //for coldstorage server or standalone server which contains all the infos
 
-qDebug() << "getting keys";
+    qDebug() << "getting keys";
     //if keys are stored in the local folder and checkout then use those
 
     //verify md5sum of keys file from 2 or 3 locations possibly encrypted
@@ -1214,7 +1225,9 @@ void MainWindow::on_SendCoins_clicked()
    // getkeys();
     //if no keys then generatetx file
     //autosync with perodic checking on a timer for server and client
-//md5verifydb();
+
+    md5verifydb();
+
  if (ui->givecoinsid->text().toLatin1()!=""){
     //could impliment rounding to make ammount proper
     float remainder =  fmod(ui->givecoinsammount->text().toFloat() ,ui->coinvalue->text().toFloat()); // int % int
@@ -1253,18 +1266,13 @@ void MainWindow::on_SendCoins_clicked()
     //    qDebug() << crypted;
     //    QString decrypted = simpledecrypt(crypted,"test2",QCryptographicHash::Sha512);
     //    qDebug() << decrypted;
-
-
+trycount=0;
         QString result = validateID(ui->givecoinsid->text().toLatin1()).toLatin1();
         qDebug() << "validate" << result;
 
         float balance = checkBalance(ui->givecoinsid->text().toLatin1(), result.toLatin1());
         qDebug() << "balance:" << balance;
 
-
-        //    //find user in yearly db pull coins out and verify validity then place back into rcoins
-        //    //re-md5sum file
-//md5verifydb()
 
         //    //find random coin and insert it ammount times
         //generateTXfile(result, etxcoins);
@@ -1334,6 +1342,8 @@ void MainWindow::on_SendCoins_clicked()
 //        Msgbox.setText("coins sent ");
 //        Msgbox.exec();
 }
+ //    //find user in yearly db pull coins out and verify validity then place back into rcoins
+ //    //re-md5sum file
 
 }
 
