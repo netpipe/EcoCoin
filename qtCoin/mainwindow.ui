@@ -107,7 +107,7 @@
             <item row="0" column="0">
              <widget class="QTabWidget" name="wallet">
               <property name="currentIndex">
-               <number>0</number>
+               <number>1</number>
               </property>
               <widget class="QWidget" name="tab_8">
                <attribute name="title">
@@ -223,7 +223,7 @@
               </widget>
               <widget class="QWidget" name="tab_9">
                <attribute name="title">
-                <string>Receive</string>
+                <string>Receive / Process</string>
                </attribute>
                <widget class="QGroupBox" name="groupBox_5">
                 <property name="geometry">
@@ -261,12 +261,12 @@
                  <item row="2" column="0">
                   <widget class="QLabel" name="label_27">
                    <property name="text">
-                    <string>TX-File</string>
+                    <string>RX/TX-File</string>
                    </property>
                   </widget>
                  </item>
                  <item row="2" column="1">
-                  <widget class="QPushButton" name="placeCoins_3">
+                  <widget class="QPushButton" name="placeCoinsopenfile">
                    <property name="text">
                     <string>OpenFile</string>
                    </property>
@@ -280,6 +280,19 @@
                   </widget>
                  </item>
                 </layout>
+               </widget>
+               <widget class="QLabel" name="label_28">
+                <property name="geometry">
+                 <rect>
+                  <x>20</x>
+                  <y>190</y>
+                  <width>361</width>
+                  <height>28</height>
+                 </rect>
+                </property>
+                <property name="text">
+                 <string>if just opening file no need to fill in user id and ammount</string>
+                </property>
                </widget>
               </widget>
               <widget class="QWidget" name="tab_11">
@@ -566,7 +579,7 @@
         <item row="0" column="0">
          <widget class="QTabWidget" name="tabWidget_2">
           <property name="currentIndex">
-           <number>0</number>
+           <number>2</number>
           </property>
           <widget class="QWidget" name="tab">
            <attribute name="title">

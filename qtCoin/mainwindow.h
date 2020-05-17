@@ -79,8 +79,7 @@ public:
 
 void generateRXfile(QString suserid,QString ruserid,QString etxcoins);
 void generateTXfile(QString suserid,QString ruserid,QString etxcoins);
-int processTXfile(QString file);
-int processRXfile(QString file);
+int processRXTXfile(QString file);
 QString validateCOINsign(QString coin,QString euserID);
 float checkBalance(QString euserID);
 QString validateID(QString userid);
@@ -162,6 +161,8 @@ private slots:
     void on_smtptestmessage_clicked();
 
     void on_saveuserinfo_clicked();
+
+    void on_placeCoinsopenfile_clicked();
 
 private:
     Ui::MainWindow *ui;

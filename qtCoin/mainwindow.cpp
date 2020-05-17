@@ -134,6 +134,7 @@ ui->createtime->setTime(starttime);
         coinkey = "testing1234567";
     }
 
+    qDebug()<< fileName.toLatin1() ;
     //if client only mode
 
 //ui->settingstab->setEnabled(false);
@@ -878,4 +879,12 @@ void MainWindow::on_smtptestmessage_clicked()
 void MainWindow::on_saveuserinfo_clicked()
 {
 
+}
+
+void MainWindow::on_placeCoinsopenfile_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open rx/tx"), "./", tr("rx/tx files (*.rx *.tx *.txt)"));
+    qDebug()<< fileName.toLatin1() ;
+
+    processRXTXfile(fileName);
 }
