@@ -812,6 +812,9 @@ QString MainWindow::GetRandomString(int length,QString chars)
    const QString possibleCharacters(chars.toLatin1());
    const int randomStringLength = length; //12 // assuming you want random strings of 12 characters
 
+ QTime time = QTime::currentTime();
+qsrand((uint)time.msec());
+
    QString randomString;
    for(int i=0; i<randomStringLength; ++i)
    {

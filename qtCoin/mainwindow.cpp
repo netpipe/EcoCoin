@@ -570,6 +570,18 @@ void MainWindow::on_pushButtonInsertUser_clicked()
     QString ownerid=ui->lineEditName->text().toLatin1();
     QString password=ui->lineEditPassword->text();
 
+    //fix later
+    if (validateID(ownerid) == 0 ){
+    for (int i=0;i < 100 ; i++) { //100 tries
+        if (validateID(ownerid) == 1 ){
+
+        }else {
+            break;
+        }
+        QString temp = GetRandomString(8,"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890");
+        ownerid=ui->lineEditName->text().toLatin1();
+    }
+    }
 
 // use password first to make more secure so no need to store in plaintext
  //   QString crypted = simplecrypt(ownerid.toLatin1(),ui->lineEditPassword->text(),QCryptographicHash::Sha512);
@@ -1125,7 +1137,7 @@ qDebug() <<query.value(1).toString().toLatin1();
                  //qDebug() << query2.value(0).toString().toLatin1() ;
                 if (euserid.toLatin1() == simpledecrypt(query.value(1).toString().toLatin1(),masterkey.toLatin1(),QCryptographicHash::Sha512)){
                      qDebug() << "found user in yeardb" ;
-                             return "1";
+                             return query.value(1).toString().toLatin1();
                 }
 
                // return yeardb.toLatin1();
@@ -1134,7 +1146,7 @@ qDebug() <<query.value(1).toString().toLatin1();
         //    QSqlDatabase::database().commit();
         db.close();
 
-    return 0;
+    return "";
 }
 
 float MainWindow::checkBalance(QString euserID,QString yeardb){
@@ -1330,13 +1342,13 @@ trycount=0;
     }else {
 
         //do this later
-        QString crypted = simplecrypt( ui->givecoinsid->text().toLatin1(), masterkey.toLatin1(), QCryptographicHash::Sha512);
+     //   QString crypted = simplecrypt( ui->givecoinsid->text().toLatin1(), masterkey.toLatin1(), QCryptographicHash::Sha512);
     //    qDebug() << crypted;
     //    QString decrypted = simpledecrypt(crypted,"test2",QCryptographicHash::Sha512);
     //    qDebug() << decrypted;
 
-        result2 = validateID(crypted.toLatin1()).toLatin1(); //returns year
-        db.setDatabaseName("./"+ result2 +".sqlite");
+     //   result2 = validateID(crypted.toLatin1()).toLatin1(); //returns year
+     //   db.setDatabaseName("./"+ result2 +".sqlite");
     }
 
 
