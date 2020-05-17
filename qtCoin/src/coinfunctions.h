@@ -184,7 +184,7 @@ void MainWindow::placeCoins(QString euserid,QString ammount) //free coins from c
     db.setDatabaseName("rcoins.sqlite");
     db.open();
         QSqlQuery query;
-        query.exec("SELECT * FROM coins BY random() LIMIT "+ammount.toLatin1());
+        query.exec("SELECT * FROM coins ORDER BY random() LIMIT "+ammount.toLatin1());
         while (query.next()) {
         coins << query.value(2).toString();
         qDebug() << "picked coins" << query.value(2).toString();
