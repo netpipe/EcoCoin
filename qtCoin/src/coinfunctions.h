@@ -199,13 +199,14 @@ qDebug() << "validate coins";
 //int i2=0;
 for (int i=0; i < coins.size(); i++){
 
-    for (int i=0; i < coins.size(); i++){
+    for (int i=0; i < ammount.toInt(); i++){
     QString test = validateCOINsign( coins.at(i).toString(), euserid.toLatin1() ).toLatin1();
 
     if (test != ""){ // coin not from rcoins needs decryption first
     signedcoins << test ;
+    qDebug() << "validated coin ammount" << i;
      //  i2++;
-    qDebug() << "valid coins" << validateCOINsign( coins.at(i).toString(), euserid.toLatin1() ).toLatin1();
+   // qDebug() << "valid coins" << validateCOINsign( coins.at(i).toString(), euserid.toLatin1() ).toLatin1();
     } else {
        // if (i2 >= ammount.toInt() ) {break;}
     } //{ i--;}
