@@ -41,7 +41,7 @@ public:
     QString validatepassword;
     bool vpublickey;
     void createFreeCoinTable(QString DBname);
-    void placeCoins(QString euserid,QString ammount);
+    int placeCoins(QString euserid,QString ammount);
     void generateRCoins();
     int checkAllCoins(QString db2);
 

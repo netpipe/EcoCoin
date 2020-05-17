@@ -166,7 +166,7 @@ trycount=0;
 
 }
 
-void MainWindow::placeCoins(QString euserid,QString ammount) //free coins from coins.db
+int MainWindow::placeCoins(QString euserid,QString ammount) //free coins from coins.db
 {// place into client walled based on yearly tables when created ID
 
 ///////////////////
@@ -195,6 +195,7 @@ QString extracoins=QString::number(ammount.toInt()+30);
 
 //verify coins and insert into yearly userid
 QVariantList signedcoins;
+int missingcoin=0;
 qDebug() << "validate coins";
 //int i2=0;
 //for (int i=0; i < coins.size(); i++){
@@ -204,10 +205,10 @@ qDebug() << "validate coins";
 
     if (test != ""){ // coin not from rcoins needs decryption first
     signedcoins << test ;
-    qDebug() << "validated coin ammount" << i;
+  //  qDebug() << "validated coin ammount" << i;
      //  i2++;
    // qDebug() << "valid coins" << validateCOINsign( coins.at(i).toString(), euserid.toLatin1() ).toLatin1();
-    } else {
+    } else { missingcoin = 1;
        // if (i2 >= ammount.toInt() ) {break;}
     } //{ i--;}
 //}
@@ -254,36 +255,41 @@ qDebug() << "validate coins";
     }
     db.commit();
    // index.clear();
-    coins.clear();
+ //   coins.clear();
     insert.clear();
     signedcoins.clear();
     db.close();
 
+if ( missingcoin == 0 ) { // if no missing coins validated then remove from rcoins
+qDebug() << "no missing coins validated removing coins from rcoins.db";
 
-
-    //not sure what this is for yet
- //    db.setDatabaseName("./"+ result +".sqlite");
-//       db.open();
-//           QSqlDatabase::database().transaction();
-//           QSqlQuery query3;
-//         //  query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
-//          // query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
-//           while (query3.next()) {
-//               int employeeId = query3.value(0).toInt();
-//             //  rcoins <<      //decrypt coins and reencrypt for new user
-//               //can place into text file to be sure then delete here// verify enough is available
-
-//              // query.exec("DELETE FROM userid WHERE addr ="); //do this after the tx has been validated if sending from user to user
-//                         //if sending from admin pull from rcoins
-
-//               //   "DELETE FROM euserid WHERE addr = "+ "OR StudentId = 12;"
-//                  // "UPDATE coins SET lastupdated WHERE userid=11"
-//                  // "DROP table" +userid
-//                  // "ALTER TABLE name ADD COLUMN test TEXT" or char(50)
-//                     // "ALTER TABLE name DROP COLUMN name"
-//           }
-//           QSqlDatabase::database().commit();
-//       db.close();
+     db.setDatabaseName("rcoins.sqlite");
+       db.open();
+           QSqlQuery query3;
+        for (int i=0; i < ammount.toInt(); i++ ) {
+            query3.exec("SELECT * FROM coins WHERE addr LIKE " "'" + coins.at(i).toString().toLatin1() + "'" "ORDER BY random()");
+            while (query3.next()) {
+               //  qDebug() << "rcoin " << query3.value(2).toString();
+               //  qDebug() << "rcoin2 " << coins.at(i).toString().toLatin1();
+               if ( query3.value(2).toString().toLatin1() ==  coins.at(i).toString().toLatin1() ){
+                    qDebug() << "index" << query3.value(0).toString() << "removing coin from rcoins " << query3.value(2).toString();
+                    query3.exec("DELETE FROM coins WHERE id =" "'"+query3.value(0).toString()+"'");
+               }
+            }
+            query3.clear();
+        }
+        db.close();
+        coins.clear();
+        query3.clear();
+} else{
+qDebug() << "missing coins not removing from db";
+return 0;
+}
+               //   "DELETE FROM euserid WHERE addr = "+ "OR StudentId = 12;"
+                  // "UPDATE coins SET lastupdated WHERE userid=11"
+                  // "DROP table" +userid
+                  // "ALTER TABLE name ADD COLUMN test TEXT" or char(50)
+                     // "ALTER TABLE name DROP COLUMN name"
 
 }
 
@@ -453,7 +459,7 @@ qDebug() << "looking for coin" << coin.toLatin1();
     // coin
   //  qDebug() <<    datetime.mid(0,4);
   //  qDebug() <<     datetime.left(4);
-
+//int missingcoin=0;
 qDebug() << "verify coin in rcoins";
     db.setDatabaseName("rcoins.sqlite");
     db.open();
@@ -476,9 +482,14 @@ qDebug() << "verify coin in rcoins";
         }
     //    QSqlDatabase::database().commit();
     db.close();
+    query3.clear();
   qDebug() << "no valid coin";
   return "";
+//  if (missingcoin ==1 ){
 
+//      }
+
+//  }
 //if coin already in yeardb return "valid" else return encrypted coinid
 //    db.setDatabaseName("./db/"+yeardb.toLatin1()+".sqlite");
 //    db.open();
