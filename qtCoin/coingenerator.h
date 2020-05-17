@@ -481,6 +481,9 @@ void MainWindow::on_pushButton_clicked() //generate coins button
     GenerateCoins3(ui->coinlength->text().toInt(),ui->coincount->text().toInt());
     RandomizeCoins();
     generateRCoins();
+    QString tester1 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+    masterkey = GetRandomString(12,tester1.toLatin1());
+
     QMessageBox Msgbox;
        // int sum;
        // sum = ui->coincount->text().toInt();
@@ -753,8 +756,8 @@ void MainWindow::generateCoins() //puts coins in text file to be read in by rand
 void MainWindow::GenerateCoins3(int length,int total)
 {
     QString arrm = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
-    QString arr= GetRandomString(arrm.size(),arrm.toLatin1());
-    qDebug()<< "coinstring" << arr;
+    QString arr= GetRandomString(15,arrm.toLatin1());
+    //qDebug()<< "coinstring" << arr;
     coinkey=arr;
     //save string incase more coins need to be added after
     QString data;

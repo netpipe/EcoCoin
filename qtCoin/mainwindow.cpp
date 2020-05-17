@@ -99,10 +99,6 @@ ui->createtime->setTime(starttime);
     ui->matureyear->text();
     ui->maturemonth->currentText();
 
-    //int pcreate = ui->createmonth->currentIndex()+1;
-    int pmature = ui->maturemonth->currentIndex()+1;
-
-
     QDate dNow(QDate::currentDate());
     QDate createdate(ui->createyear->text().toInt(), ui->createmonth->currentIndex()+1, ui->createday->text().toInt());
     QDate maturedate(ui->matureyear->text().toInt(), ui->maturemonth->currentIndex()+1, ui->matureday->text().toInt());
@@ -122,28 +118,22 @@ ui->createtime->setTime(starttime);
 //   QString b;
 //   b.setNum(pi);
   // qDebug() << percent2 << fixed << qSetRealNumberPrecision(2);
-    qDebug() << test4;
     ui->progress->setValue( test4);
 
     //ui->createmonth->setValue();comboBox->currentIndex();
   //  qDebug()<< pcreate*24;
 
-    rsaTester = new Rsa();
-    rsaTester->publish_keys(m_e, m_n);
+//    rsaTester = new Rsa();
+//    rsaTester->publish_keys(m_e, m_n);
 
+    if(getkeys() == 1){
+      //
+    }else{ //testing
+        QString tester1 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+        masterkey = GetRandomString(12,tester1.toLatin1());
+        coinkey = "testing1234567";
+    }
 
-    //testing
-    masterkey = "testing";
-    coinkey = "testing1234567";
-
-
-    QString yeardb = "2020ajasjdkl";
-  // yeardb= yeardb.mid(0,4);
-   yeardb= yeardb.left(4);
-   qDebug() << yeardb;
-
-   QString tester1 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
-qDebug() << GetRandomString(tester1.size(),tester1.toLatin1());
     //if client only mode
 
 //ui->settingstab->setEnabled(false);
@@ -167,14 +157,9 @@ void MainWindow::SQLTest(QString dbname,QString Query)
 {
     db.setDatabaseName(dbname.toLatin1());
     if(db.open())
-    {
-       qDebug()<<"Successful database connection";
-    }
+    {       qDebug()<<"Successful database connection";    }
     else
-    {
-       qDebug()<<"Error: failed database connection";
-    }
-
+    {       qDebug()<<"Error: failed database connection";    }
 
     QString query;
     query.append(Query.toLatin1());
@@ -211,14 +196,11 @@ void MainWindow::SQLTest(QString dbname,QString Query)
 
 void MainWindow::serverusbtxrx(){
     //automatic function to do rxtx from usb for cold storage
-
-
     //export db's and overwrite if valid
 
 }
 
 void MainWindow::clientusbtxrx(){
-
     //import db's and overwrite if valid
 
 }
@@ -238,23 +220,18 @@ void MainWindow::ListUSB(){
 //      qDebug() << storagestring.at(3);
        QString usbstring = ui->usbdrivename->text().toLatin1();
 
-
         if (storage.rootPath().contains(usbstring)){
         //   qDebug() << "yep" << "/n";
             usbpath = storage.rootPath();
 
             if (storage.isReadOnly())
-                qDebug() << "isReadOnly:" << storage.isReadOnly();
+               qDebug() << "isReadOnly:" << storage.isReadOnly();
 
-                qDebug() << "name:" << storage.name();
-                qDebug() << "fileSystemType:" << storage.fileSystemType();
-                qDebug() << "size:" << storage.bytesTotal()/1000/1000 << "MB";
-                qDebug() << "availableSize:" << storage.bytesAvailable()/1000/1000 << "MB";
-        } else {
-          //  usbpath="";
+//                qDebug() << "name:" << storage.name();
+//                qDebug() << "fileSystemType:" << storage.fileSystemType();
+//                qDebug() << "size:" << storage.bytesTotal()/1000/1000 << "MB";
+//                qDebug() << "availableSize:" << storage.bytesAvailable()/1000/1000 << "MB";
         }
-
-
      }
 
     if (usbpath.toLatin1() == "")
@@ -288,10 +265,10 @@ void MainWindow::BackUptoUSB(){
             if (storage.isReadOnly())
                 qDebug() << "isReadOnly:" << storage.isReadOnly();
 
-                qDebug() << "name:" << storage.name();
-                qDebug() << "fileSystemType:" << storage.fileSystemType();
-                qDebug() << "size:" << storage.bytesTotal()/1000/1000 << "MB";
-                qDebug() << "availableSize:" << storage.bytesAvailable()/1000/1000 << "MB";
+//                qDebug() << "name:" << storage.name();
+//                qDebug() << "fileSystemType:" << storage.fileSystemType();
+//                qDebug() << "size:" << storage.bytesTotal()/1000/1000 << "MB";
+//                qDebug() << "availableSize:" << storage.bytesAvailable()/1000/1000 << "MB";
         } else {
             backupusbpath="";
         }
@@ -370,6 +347,7 @@ void MainWindow::cleartablesusers()
 //      dir.removeRecursively();
 
       QFile::remove("coins.txt");
+      QFile::remove("database.sqlite");
       QFile::remove("coins.sqlite");
       QFile::remove("availableCoins.sqlite");
       QFile::remove("rcoins.sqlite");
@@ -396,7 +374,7 @@ void MainWindow::createyearly(QString eownerID)
 
     query.append("CREATE TABLE IF NOT EXISTS ""'"+eownerID.toLatin1()+"'""("
                     "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    "origindex VARCHAR(100),"
+                    "origindex VARCHAR(100)," //rcoins index then coins.sqlite is stored on usbdrive as part of key/verify
                     "addr VARCHAR(100),"
                     "datetime INTEGER,"
                     "class INTEGER"
@@ -773,22 +751,31 @@ void MainWindow::on_encrypted_no_clicked()
 
 
 
-void MainWindow::getkeys(){ //for coldstorage server or standalone server which contains all the infos
+int MainWindow::getkeys(){ //for coldstorage server or standalone server which contains all the infos
 
     qDebug() << "getting keys";
     //if keys are stored in the local folder and checkout then use those
 
     //verify md5sum of keys file from 2 or 3 locations possibly encrypted
-
     //simple strings found on google have same md5sums or bruteforce could match it.
-        QString path;
-    //load keys if sum is correct
-    if ( usbpath.toLatin1() != ""){
-    path = usbpath.toLatin1()+"keys.txt";
+    bool keyexists;
+    QString path;
+    if (ui->usbdrivename->text().toLatin1() != ""){
+        ListUSB();
+        QString path2;
+        path2 = usbpath.toLatin1()+"/keys.txt";
+        QFile MyFile2(path2);
+        if ( MyFile2.exists() ){        keyexists= true;        path = usbpath.toLatin1()+"/keys.txt";    }
     } else {
-    path = "./keys.txt";
+        QString path3;
+        path3 = "./keys.txt";
+        QFile MyFile3(path3);
+        if ( MyFile3.exists() ){    keyexists= true;   path = "./keys.txt"; }
     }
+
     QFile MyFile(path);
+
+    if(MyFile.exists() && keyexists ){
     MyFile.open(QIODevice::ReadWrite);
     QTextStream in (&MyFile);
     QString line;
@@ -804,8 +791,15 @@ void MainWindow::getkeys(){ //for coldstorage server or standalone server which 
         }
     } while (!line.isNull());
 
-masterkey=nums.at(0);
-coinkey=nums.at(1);
+    masterkey=nums.at(0);
+    qDebug() << "masterkey" << masterkey;
+    coinkey=nums.at(1);
+    qDebug() << "coinkey" << coinkey;
+    return 1;
+
+    }else {
+        return 0;
+    }
 
 }
 

@@ -77,14 +77,16 @@ public:
     int _length;
     bool _state;
 
-void generateRXfile(QString euserid,QString etxcoins);
-void generateTXfile(QString euserid,QString etxcoins);
+void generateRXfile(QString suserid,QString ruserid,QString etxcoins);
+void generateTXfile(QString suserid,QString ruserid,QString etxcoins);
+int processTXfile(QString file);
+int processRXfile(QString file);
 QString validateCOINsign(QString coin,QString euserID);
 float checkBalance(QString euserID);
 QString validateID(QString userid);
 int checkAvailableCoins(QString db,QString needed);
 int smtpsend(QString toemail,QString Message);
-void getkeys();
+int getkeys();
 
     //encryption
     QString encryptxor(QString test,QString key);
