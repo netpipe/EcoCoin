@@ -12,6 +12,24 @@
 #include <QTextCodec>
 
 //https://doc.qt.io/qt-5/qcryptographichash.html
+//void addressencrypt
+
+
+//    QString resultxor = XORencryptDecrypt("testing", "key2");
+//       qDebug() <<"xor:"<<resultxor ;
+//    resultxor = XORencryptDecrypt(resultxor.toLatin1(), "key2");
+//            qDebug() <<"xor:"<<resultxor ;
+
+//            string test = XOR("testing", "key2");
+//                    qDebug() <<"xor:"<<test.c_str() ;
+                   // string XOR(test.c_str(), "key2");
+                   // qDebug() <<"xor:"<<test.c_str() ;
+
+//QString decrypt = encryptxor("test","key").toLatin1();
+//    qDebug() << decrypt;
+//  //  qDebug() <<XOR2 (test2.toStdString(),"tring");
+//    qDebug() << decryptxor(decrypt,"key");
+// ui->givecoinsid.text().toLatin1()
 
 
 QString MainWindow::simplecrypt(QString string,QString key,QCryptographicHash::Algorithm hash)
@@ -26,7 +44,8 @@ QString MainWindow::simplecrypt(QString string,QString key,QCryptographicHash::A
 //optional setkey method
  // SimpleCrypt crypto();
  // crypto.setKey(key);
-  SimpleCrypt crypto(test2); //some random number
+ // SimpleCrypt crypto(test2); //some random number
+  SimpleCrypt crypto(0x0c2ad4a4acb9f023);
   QString result = crypto.encryptToString(string,hash);
   return result;
  }
@@ -42,7 +61,8 @@ QString MainWindow::simpledecrypt(QString string,QString key,QCryptographicHash:
     //QByteArray::fromHex(key.toLatin1();
   //  QByteArray tester2= key.toUtf8();
   //   uint tester2= key.toUtf8();
-  SimpleCrypt crypto(test2); //some random number
+//  SimpleCrypt crypto(test2); //some random number
+  SimpleCrypt crypto(0x0c2ad4a4acb9f023);
   QString decrypted = crypto.decryptToString(string,hash);
   return decrypted;
  }

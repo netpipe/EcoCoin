@@ -567,43 +567,45 @@ void MainWindow::on_pushButtonInsertUser_clicked()
     QString temp = GetRandomString(8,"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890");
     ui->lineEditName->setText(year.toLatin1()+temp.toLatin1());
     //ui->lineEditName->setText(temp.toLatin1()); //testing
-    QString ownerid=ui->lineEditName->text();
+    QString ownerid=ui->lineEditName->text().toLatin1();
     QString password=ui->lineEditPassword->text();
 
 
 // use password first to make more secure so no need to store in plaintext
  //   QString crypted = simplecrypt(ownerid.toLatin1(),ui->lineEditPassword->text(),QCryptographicHash::Sha512);
   //  QString crypted2 = simplecrypt(crypted.toLatin1(),masterkey.toLatin1(),QCryptographicHash::Sha512);
-
+         qDebug() << ownerid.toLatin1() ;
     QString crypted2 = simplecrypt(ownerid.toLatin1(),masterkey.toLatin1(),QCryptographicHash::Sha512);
-
    // QString decrypted = simpledecrypt(crypted,"test2",QCryptographicHash::Sha512);
-
-
-
+     qDebug() << crypted2 ;
+//  crypted2 = simplecrypt(ownerid.toLatin1(),masterkey.toLatin1(),QCryptographicHash::Sha512);
+// qDebug() << crypted2 ;
+//   crypted2 = simplecrypt(ownerid.toLatin1(),masterkey.toLatin1(),QCryptographicHash::Sha512);
+//  qDebug() << crypted2 ;
     ui->lineEditName->setText(crypted2.toLatin1());
 
-    qDebug() << "lineeditname " << ui->lineEditName->text();
+    createyearly(crypted2);
 
+  //  createyearly(crypted2); //the /n causes issues
+
+  //  qDebug() << "lineeditname " << ui->lineEditName->text();
 
     insertUser();
-//qDebug() << crypted2.simplified() << crypted2;
 
-    createyearly(crypted2); //the /n causes issues
 
-//QString::simplified()
+
+
     //selectUsersCoins(temp.toLatin1(),year.toLatin1());
 
     //combine user year+userid to give to user
 //ui->createuserdatetime->text();
 //ui->createuserdatetime->setText();
 
-    ui->lineEditName->setText(year.toLatin1()+temp.toLatin1());
+    ui->lineEditName->setText(ownerid.toLatin1());
     ui->lineEditName->setEnabled(1);
 
     QClipboard *clipboard = QApplication::clipboard();
     clipboard->setText(ui->lineEditName->text());
-
 
     // selectUsers(); //refresh user table
 
@@ -743,21 +745,6 @@ void MainWindow::placeCoins(QString euserid,QString ammount) //free coins from c
 //    array.append("ABCDEF12343");
 //    qDebug() << QString(array.toHex());
 
-    //    QString resultxor = XORencryptDecrypt("testing", "key2");
-    //       qDebug() <<"xor:"<<resultxor ;
-    //    resultxor = XORencryptDecrypt(resultxor.toLatin1(), "key2");
-    //            qDebug() <<"xor:"<<resultxor ;
-
-    //            string test = XOR("testing", "key2");
-    //                    qDebug() <<"xor:"<<test.c_str() ;
-                       // string XOR(test.c_str(), "key2");
-                       // qDebug() <<"xor:"<<test.c_str() ;
-
-    //QString decrypt = encryptxor("test","key").toLatin1();
-    //    qDebug() << decrypt;
-    //  //  qDebug() <<XOR2 (test2.toStdString(),"tring");
-    //    qDebug() << decryptxor(decrypt,"key");
-   // ui->givecoinsid.text().toLatin1()
 //////////////////////
 
 //ui->givecoinsammount.text().toLatin1()
@@ -975,7 +962,7 @@ QString MainWindow::validateCOINsign(QString coin,QString euserID){ // for getti
             password = query2.value(4).toString();
             datetime = query2.value(6).toString(); //datetime
             qDebug() << euserID.toLatin1() << "pass " << password << "ekey " << ekey;
-            qDebug() << datetime;
+            //qDebug() << datetime;
           //  return yeardb;
         }
      //   QSqlDatabase::database().commit();
@@ -1034,36 +1021,48 @@ QString datetime;
 vpublickey = 0;
 
 if (euserid.length() <= 12){ //check if encrypted
-    QString crypted = simplecrypt(euserid,masterkey,QCryptographicHash::Sha512);
-    euserid = crypted;
-qDebug() << "userid now encrypted" << euserid ;
+    qDebug() << "userid" << euserid.toLatin1() ;
+   // QString crypted = simplecrypt(ui->lineEditName->text().toLatin1(),masterkey.toLatin1(),QCryptographicHash::Sha512);
+   // euserid = crypted.toLatin1();
+qDebug() << "userid now encrypted" << euserid.toLatin1() ;
 // QString decrypted = simpledecrypt(euserid.toLatin1(),"password",QCryptographicHash::Sha512);
  //euserid = simpledecrypt(decrypted,masterkey,QCryptographicHash::Sha512);
 // euserid = simpledecrypt(euserid,masterkey,QCryptographicHash::Sha512);
            // QString decrypted2="";
+}else{
+    qDebug() << "userid encrypted" << euserid ;
+
+    // QString decrypted = simpledecrypt(euserid.toLatin1(),masterkey,QCryptographicHash::Sha512);
+    euserid = simpledecrypt(euserid,masterkey.toLatin1(),QCryptographicHash::Sha512);
 }
-qDebug() << "searching valid id";
+
+
+qDebug() << "searching valid id" << euserid;
             db.setDatabaseName("database.sqlite");
             db.open();
             //    QSqlDatabase::database().transaction();
                 QSqlQuery query2;
-                query2.exec("SELECT * FROM users WHERE userid = ""'"+euserid.toLatin1()+"'");
+              //  query2.exec("SELECT * FROM users WHERE userid = ""'"+euserid.toLatin1()+"'");
+                query2.exec("SELECT * FROM users");
                 //query2.exec("SELECT "+euserid.toLatin1()+" FROM users");
 
                 while (query2.next()) {
                    //  userid = query2.value(1).toString(); //not encrypted with user password
-                    if (euserid.toLatin1() == query2.value(1).toString()){
+                    qDebug() << query2.value(1).toString();
+                    if (euserid.toLatin1() == simpledecrypt(query2.value(1).toString().toLatin1(),masterkey.toLatin1(),QCryptographicHash::Sha512)){
                         userid = query2.value(1).toString();
-                        qDebug() << 'matches' << euserid.toLatin1() ;
-                    } else{
-                    qDebug() << 'not proper userid';
-                    }
+                        qDebug() << "matches" << euserid.toLatin1() ;
 
-                     ekey = query2.value(6).toString();
-                   //  userid = query.value(1);
-                //    datetime = query2.value(6).toString()
-                    validatepassword = query2.value(3).toString();
-                    qDebug() << euserid.toLatin1() << "pass " << validatepassword << "ekey " << ekey;
+                        ekey = query2.value(6).toString();
+                      //  userid = query.value(1);
+                   //    datetime = query2.value(6).toString()
+                       validatepassword = query2.value(3).toString();
+                       qDebug() << euserid.toLatin1() << "pass " << validatepassword << "ekey " << ekey;
+                    }// else{
+                   // qDebug() << 'not proper userid';
+                   // }
+
+
                   //  return yeardb;
                 }
           //      QSqlDatabase::database().commit();
@@ -1075,43 +1074,62 @@ qDebug() << "searching valid id";
                       userid = simpledecrypt(euserid,masterkey,QCryptographicHash::Sha512);
                       trycount++;
                       qDebug() << "was public encrypted userid because no match found";
-                      if ( validateID(userid) == 1 ) { //retry with encrypted
-                          vpublickey = 1;
-                    }else{
-                    return 0;
-                    }
+                  //    if ( validateID(userid) == 1 ) { //retry with encrypted
+                    //      vpublickey = 1;
+                   // }else{
+                   // return 0;
+                  //  }
             }
 QString yeardb2;
             if (vpublickey==1){
                     QString decrypted = simpledecrypt(euserid.toLatin1(),validatepassword,QCryptographicHash::Sha512);
                     userid=decrypted;
             }else{
-                qDebug() << "decrypt to get year";
-                QString decrypted = simpledecrypt(euserid.toLatin1(),masterkey,QCryptographicHash::Sha512);
-                yeardb2 = simpledecrypt(decrypted,masterkey,QCryptographicHash::Sha512);
+//                qDebug() << "decrypt to get year";
+//                QString decrypted = simpledecrypt(euserid.toLatin1(),masterkey,QCryptographicHash::Sha512);
+//                yeardb2 = simpledecrypt(decrypted,masterkey,QCryptographicHash::Sha512);
             }
 
 
-    yeardb = yeardb2;
+  //  yeardb = yeardb2;
     // yeardb= yeardb.mid(0,4);
-    yeardb = yeardb.left(4);
+    yeardb = euserid.left(4);
     qDebug() << yeardb;
 
 
 //verify decrypted id
-        qDebug() << "searching yeardb for valid id";
+
 
         db.setDatabaseName("./db/"+yeardb.toLatin1()+".sqlite");
-        db.open();
+     //   db.open();
+        if(db.open())
+        {
+           qDebug()<<"Successful database connection";
+        }
+        else
+        {
+           qDebug()<<"Error: failed database connection";
+        }
+                qDebug() << "searching yeardb for valid id";
          //   QSqlDatabase::database().transaction();
             QSqlQuery query;
-            query.exec("SELECT * FROM users WHERE userid = " "'" + userid.toLatin1() + "'");
+           // query.exec("SELECT * FROM users WHERE userid = " "'" + euserid.toLatin1() + "'");
+            query.exec("SELECT * FROM sqlite_master WHERE type='table'");
             while (query.next()) {
                // yeardb =
-                qDebug() << "found user in yeardb" << query.value(0).toInt();
+               // qDebug() << query.value("sql").toString();
+             //   if (query.value("type").toString() == "table")
+             //      qDebug() << query.value("name");
+qDebug() <<query.value(0).toString().toLatin1();
+qDebug() <<query.value(1).toString().toLatin1();
+                 //qDebug() << query2.value(0).toString().toLatin1() ;
+                if (euserid.toLatin1() == simpledecrypt(query.value(1).toString().toLatin1(),masterkey.toLatin1(),QCryptographicHash::Sha512)){
+                     qDebug() << "found user in yeardb" ;
+                             return "1";
+                }
 
                // return yeardb.toLatin1();
-                return "1";
+
             }
         //    QSqlDatabase::database().commit();
         db.close();
