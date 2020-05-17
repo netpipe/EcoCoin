@@ -206,7 +206,9 @@ for (int i=0; i < coins.size(); i++){
     signedcoins << test ;
        i2++;
     qDebug() << "valid coins" << validateCOINsign( coins.at(i).toString(), euserid.toLatin1() ).toLatin1();
-    } else {if (i2 >= ammount.toInt() ) {break;}} //{ i--;}
+    } else {
+        if (i2 >= ammount.toInt() ) {break;}
+    } //{ i--;}
 }
 // if ( validateCOINsign(coins.at(i).toString()) == "valid"){
 //        qDebug() << "coin is already signed"
@@ -457,7 +459,7 @@ qDebug() << "verify coin in rcoins";
      //   QSqlDatabase::database().transaction();
         QSqlQuery query3;
        // query3.exec("SELECT * FROM coins WHERE addr =" "'" + coin.toLatin1() + "'"); // match and contains // collate binary
-        query3.exec("SELECT addr FROM coins WHERE addr like " "'" + coin.toLatin1() + "'");
+        query3.exec("SELECT addr FROM coins WHERE addr like " "'" + coin.toLatin1() + "'""ORDER BY random()");
        //  query3.exec("SELECT addr FROM coins");
         while (query3.next()) {
  qDebug() << "tcoin " << query3.value(0).toString();
@@ -466,13 +468,14 @@ qDebug() << "verify coin in rcoins";
            if ( query3.value(0).toString().toLatin1() ==  coin.toLatin1() ){
                //      yeardb = query.value(0).toInt();
             qDebug() << "coin " << query3.value(0).toString();
+                db.close();
             return  query3.value(0).toString();
-           } else { qDebug() << "no valid coin"; return 0;}
+           }
          //  return  query3.value(0).toString();
-
         }
     //    QSqlDatabase::database().commit();
     db.close();
+  qDebug() << "no valid coin"; return "";
 
 //if coin already in yeardb return "valid" else return encrypted coinid
 //    db.setDatabaseName("./db/"+yeardb.toLatin1()+".sqlite");
