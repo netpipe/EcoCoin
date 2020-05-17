@@ -460,6 +460,7 @@ void MainWindow::on_pushButton_clicked() //generate coins button
                                           QMessageBox::Yes|QMessageBox::No);
             if (reply == QMessageBox::Yes) {
               qDebug() << "Yes was clicked";
+              cleartablesusers();
            //   QApplication::quit();
             } else {
               qDebug() << "no";
