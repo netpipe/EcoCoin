@@ -201,11 +201,12 @@ for (int i=0; i < coins.size(); i++){
 
     for (int i=0; i < ammount.toInt(); i++){
     QString test = validateCOINsign( coins.at(i2).toString(), euserid.toLatin1() ).toLatin1();
-        i2++;
+
     if (test != ""){ // coin not from rcoins needs decryption first
     signedcoins << test ;
+       i2++;
     qDebug() << "valid coins" << validateCOINsign( coins.at(i).toString(), euserid.toLatin1() ).toLatin1();
-    } else { i--;}
+    } else {if (i2 >= ammount.toInt() ) {break;}} //{ i--;}
 }
 // if ( validateCOINsign(coins.at(i).toString()) == "valid"){
 //        qDebug() << "coin is already signed"
