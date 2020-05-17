@@ -184,7 +184,7 @@ QString extracoins=QString::number(ammount.toInt()+30);
     db.setDatabaseName("rcoins.sqlite");
     db.open();
         QSqlQuery query;
-        query.exec("SELECT * FROM coins ORDER BY random() LIMIT "+extracoins.toLatin1());
+        query.exec("SELECT * FROM coins ORDER BY random() LIMIT "+ammount.toLatin1());
         while (query.next()) {
         coins << query.value(2).toString();
         qDebug() << "picked coins" << query.value(2).toString();
@@ -196,18 +196,18 @@ QString extracoins=QString::number(ammount.toInt()+30);
 //verify coins and insert into yearly userid
 QVariantList signedcoins;
 qDebug() << "validate coins";
-int i2=0;
+//int i2=0;
 for (int i=0; i < coins.size(); i++){
 
-    for (int i=0; i < ammount.toInt(); i++){
-    QString test = validateCOINsign( coins.at(i2).toString(), euserid.toLatin1() ).toLatin1();
+    for (int i=0; i < coins.size(); i++){
+    QString test = validateCOINsign( coins.at(i).toString(), euserid.toLatin1() ).toLatin1();
 
     if (test != ""){ // coin not from rcoins needs decryption first
     signedcoins << test ;
-       i2++;
+     //  i2++;
     qDebug() << "valid coins" << validateCOINsign( coins.at(i).toString(), euserid.toLatin1() ).toLatin1();
     } else {
-        if (i2 >= ammount.toInt() ) {break;}
+       // if (i2 >= ammount.toInt() ) {break;}
     } //{ i--;}
 }
 // if ( validateCOINsign(coins.at(i).toString()) == "valid"){
@@ -475,7 +475,8 @@ qDebug() << "verify coin in rcoins";
         }
     //    QSqlDatabase::database().commit();
     db.close();
-  qDebug() << "no valid coin"; return "";
+  qDebug() << "no valid coin";
+  return "";
 
 //if coin already in yeardb return "valid" else return encrypted coinid
 //    db.setDatabaseName("./db/"+yeardb.toLatin1()+".sqlite");
