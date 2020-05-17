@@ -197,7 +197,7 @@ QString extracoins=QString::number(ammount.toInt()+30);
 QVariantList signedcoins;
 qDebug() << "validate coins";
 //int i2=0;
-for (int i=0; i < coins.size(); i++){
+//for (int i=0; i < coins.size(); i++){
 
     for (int i=0; i < ammount.toInt(); i++){
     QString test = validateCOINsign( coins.at(i).toString(), euserid.toLatin1() ).toLatin1();
@@ -210,7 +210,7 @@ for (int i=0; i < coins.size(); i++){
     } else {
        // if (i2 >= ammount.toInt() ) {break;}
     } //{ i--;}
-}
+//}
 // if ( validateCOINsign(coins.at(i).toString()) == "valid"){
 //        qDebug() << "coin is already signed"
 //                    return 1;
