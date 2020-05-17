@@ -198,8 +198,8 @@ QVariantList signedcoins;
 qDebug() << "validate coins";
 for (int i=0; i < coins.size(); i++){
 //if (coin > 8) // coin not from rcoins needs decryption first
-    signedcoins << validateCOINsign( coins.at(i).toString(), euserid.toLatin1() );
-qDebug() << "valid coins" << validateCOINsign( coins.at(i).toString(), euserid.toLatin1() ).toLatin1();
+    signedcoins << validateCOINsign( coins.at(i).toString(), euserid.toLatin1() ).toLatin1();
+    qDebug() << "valid coins" << validateCOINsign( coins.at(i).toString(), euserid.toLatin1() ).toLatin1();
 // if ( validateCOINsign(coins.at(i).toString()) == "valid"){
 //        qDebug() << "coin is already signed"
 //                    return 1;
@@ -212,6 +212,7 @@ qDebug() << "valid coins" << validateCOINsign( coins.at(i).toString(), euserid.t
     qDebug()<< "inserting coins into yeardb";
     //sqlite create randomized availablecoins
     qDebug() << yeardb;
+
     db.setDatabaseName("./db/"+ yeardb.toLatin1() +".sqlite");
     if(db.open())
     {
@@ -223,7 +224,7 @@ qDebug() << "valid coins" << validateCOINsign( coins.at(i).toString(), euserid.t
     }
     db.transaction();
 
-    QString query2 = "INSERT INTO ""'"+euserid.toLatin1()+"'""(origid,addr,class) VALUES (1,?,0)";
+    QString query2 = "INSERT INTO ""'"+euserid.toLatin1()+"'""(addr,datetime,class) VALUES (?,1,0)";
 
 //    qDebug() << query;
     QSqlQuery insert;
@@ -244,6 +245,7 @@ qDebug() << "valid coins" << validateCOINsign( coins.at(i).toString(), euserid.t
    // index.clear();
     coins.clear();
     insert.clear();
+    signedcoins.clear();
     db.close();
 
 
@@ -446,11 +448,20 @@ qDebug() << "verify coin in rcoins";
     db.open();
      //   QSqlDatabase::database().transaction();
         QSqlQuery query3;
-        query3.exec("SELECT * FROM coins WHERE addr = " "'" + coin.toLatin1() + "'"); // match and contains
+       // query3.exec("SELECT * FROM coins WHERE addr =" "'" + coin.toLatin1() + "'"); // match and contains // collate binary
+        query3.exec("SELECT addr FROM coins WHERE addr like " "'" + coin.toLatin1() + "'");
+       //  query3.exec("SELECT addr FROM coins");
         while (query3.next()) {
-         //   yeardb = query.value(0).toInt();
+ qDebug() << "tcoin " << query3.value(0).toString();
+  qDebug() << "tcoin " << coin.toLatin1();
+
+           if ( query3.value(0).toString().toLatin1() ==  coin.toLatin1() ){
+               //      yeardb = query.value(0).toInt();
             qDebug() << "coin " << query3.value(0).toString();
             return  query3.value(0).toString();
+           } else { qDebug() << "no valid coin"; return 0;}
+         //  return  query3.value(0).toString();
+
         }
     //    QSqlDatabase::database().commit();
     db.close();
@@ -470,6 +481,7 @@ qDebug() << "verify coin in rcoins";
 //    db.close();
 
     //sign coins
+
 }
 
 
@@ -480,14 +492,10 @@ qDebug() << "verify coin in rcoins";
 QString MainWindow::validateID(QString userid){ // can validate public encrypted and master encrypted ID's
 //also sets QString yeardb globally for other functions
 
-
-            //search for user in database.sqlite first ? double might be better then use encryption key to find userid in yeardb ?
 QString ekey;
-       // int euserid;
-//QString password;
 QString euserid;
-
 QString datetime;
+
 vpublickey = 0;
 
 if (euserid.length() <= 12){ //check if encrypted
@@ -532,7 +540,6 @@ qDebug() << "searching valid id" << userid;
                    // qDebug() << 'not proper userid';
                    // }
 
-
                   //  return yeardb;
                 }
           //      QSqlDatabase::database().commit();
@@ -550,7 +557,7 @@ qDebug() << "searching valid id" << userid;
                    // return 0;
                   //  }
             }
-QString yeardb2;
+
             if (vpublickey==1){
                     QString decrypted = simpledecrypt(euserid.toLatin1(),validatepassword,QCryptographicHash::Sha512);
                     userid=decrypted;
@@ -597,9 +604,7 @@ qDebug() <<query.value(1).toString().toLatin1();
                      qDebug() << "found user in yeardb" ;
                              return query.value(1).toString().toLatin1();
                 }
-
                // return yeardb.toLatin1();
-
             }
         //    QSqlDatabase::database().commit();
         db.close();
