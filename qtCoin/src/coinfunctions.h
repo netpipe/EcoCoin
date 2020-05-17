@@ -86,80 +86,80 @@ void MainWindow::on_SendCoins_clicked()
     //    QString decrypted = simpledecrypt(crypted,"test2",QCryptographicHash::Sha512);
     //    qDebug() << decrypted;
 trycount=0;
-        QString result = validateID(ui->givecoinsid->text().toLatin1()).toLatin1();
+        QString result = validateID(ui->givecoinsid->text().toLatin1()).toLatin1(); // result will be unencrypted id
         qDebug() << "validate" << result;
 
-        float balance = checkBalance(ui->givecoinsid->text().toLatin1(), result.toLatin1());
+        float balance = checkBalance(result.toLatin1());
         qDebug() << "balance:" << balance;
 
 
         //    //find random coin and insert it ammount times
-        //generateTXfile(result, etxcoins);
-        placeCoins(result,ui->givecoinsammount->text()); // use generated tx
+        //generateTXfile(result, etxcoins);  // use generated tx
+        placeCoins(result.toLatin1(),ui->givecoinsammount->text()); // send encrypted id
 
 
-        //    //validate coins have been moved successfully and are valid in coins and id matches place coins into yearly usersdb
-            float balance2 = checkBalance(ui->givecoinsid->text().toLatin1(), result.toLatin1());
-            float total = ui->givecoinsid->text().toFloat() + balance;
+//        //    //validate coins have been moved successfully and are valid in coins and id matches place coins into yearly usersdb
+//            float balance2 = checkBalance(ui->givecoinsid->text().toLatin1(), yeardb);
+//            float total = ui->givecoinsid->text().toFloat() + balance;
 
-            //removeCoins();
-            //for each coin in list
-        //    QString::number(balance2-total).toInt() ;
+//            //removeCoins();
+//            //for each coin in list
+//        //    QString::number(balance2-total).toInt() ;
 
-            if( fabs(balance2-total) < 1 ){ //remove coins from rcoins
-                    db.setDatabaseName("rcoins.sqlite");
-                    db.open();
-                   //     QSqlDatabase::database().transaction();
-//                        QSqlQuery query2;
-//                        query2.exec("SELECT * FROM employee WHERE name = ''");
-//                        while (query2.next()) {
-//        //                    int employeeId = query.value(0).toInt();
+//            if( fabs(balance2-total) < 1 ){ //remove coins from rcoins
+//                    db.setDatabaseName("rcoins.sqlite");
+//                    db.open();
+//                   //     QSqlDatabase::database().transaction();
+////                        QSqlQuery query2;
+////                        query2.exec("SELECT * FROM employee WHERE name = ''");
+////                        while (query2.next()) {
+////        //                    int employeeId = query.value(0).toInt();
 
-//        //                    query.exec("INSERT INTO project (id, name, ownerid) "
-//        //                               "VALUES (201, '', "
-//        //                               + QString::number(employeeId) + ')');
-//                        }
-                   //     QSqlDatabase::database().commit();
-                    db.close();
-            } else{
-                qDebug() << "coins not removed from rcoins";
-                //placeCoins back into rcoins reverse tx
-            }
+////        //                    query.exec("INSERT INTO project (id, name, ownerid) "
+////        //                               "VALUES (201, '', "
+////        //                               + QString::number(employeeId) + ')');
+////                        }
+//                   //     QSqlDatabase::database().commit();
+//                    db.close();
+//            } else{
+//                qDebug() << "coins not removed from rcoins";
+//                //placeCoins back into rcoins reverse tx
+//            }
 
 
 
-    }else {
+//    }else {
 
-        //do this later
-     //   QString crypted = simplecrypt( ui->givecoinsid->text().toLatin1(), masterkey.toLatin1(), QCryptographicHash::Sha512);
-    //    qDebug() << crypted;
-    //    QString decrypted = simpledecrypt(crypted,"test2",QCryptographicHash::Sha512);
-    //    qDebug() << decrypted;
+//        //do this later
+//     //   QString crypted = simplecrypt( ui->givecoinsid->text().toLatin1(), masterkey.toLatin1(), QCryptographicHash::Sha512);
+//    //    qDebug() << crypted;
+//    //    QString decrypted = simpledecrypt(crypted,"test2",QCryptographicHash::Sha512);
+//    //    qDebug() << decrypted;
 
-     //   result2 = validateID(crypted.toLatin1()).toLatin1(); //returns year
-     //   db.setDatabaseName("./"+ result2 +".sqlite");
+//     //   result2 = validateID(crypted.toLatin1()).toLatin1(); //returns year
+//     //   db.setDatabaseName("./"+ result2 +".sqlite");
     }
 
 
-//    update ammount in database
-//    db.setDatabaseName("database.sqlite");
-//    db.open();
-//        QSqlDatabase::database().transaction();
-//        QSqlQuery query2;
-//        query.exec("SELECT id FROM users WHERE name = ''");
-//        if (query.next()) {
-//            int employeeId = query.value(0).toInt();
-//            query.exec("UPDATE INTO coins (id, name, ownerid) "
-//                       "VALUES (201, '', "
-//                       + QString::number(employeeId) + ')');
-//        }
-//        QSqlDatabase::database().commit();
-//    db.close();
+////    update ammount in database
+////    db.setDatabaseName("database.sqlite");
+////    db.open();
+////        QSqlDatabase::database().transaction();
+////        QSqlQuery query2;
+////        query.exec("SELECT id FROM users WHERE name = ''");
+////        if (query.next()) {
+////            int employeeId = query.value(0).toInt();
+////            query.exec("UPDATE INTO coins (id, name, ownerid) "
+////                       "VALUES (201, '', "
+////                       + QString::number(employeeId) + ')');
+////        }
+////        QSqlDatabase::database().commit();
+////    db.close();
 
 
-//    QMessageBox Msgbox;
-//        Msgbox.setText("coins sent ");
-//        Msgbox.exec();
+////    QMessageBox Msgbox;
+////        Msgbox.setText("coins sent ");
+////        Msgbox.exec();
 }
  //    //find user in yearly db pull coins out and verify validity then place back into rcoins
  //    //re-md5sum file
@@ -167,10 +167,9 @@ trycount=0;
 }
 
 void MainWindow::placeCoins(QString euserid,QString ammount) //free coins from coins.db
-{
-// place into client walled based on yearly tables when created ID
+{// place into client walled based on yearly tables when created ID
+
 ///////////////////
-    //https://doc.qt.io/qt-5/qcryptographichash.html
 //    QString test=md5Checksum("testing123");//
 //    qDebug() << "md5sum:" << test.toLatin1();
 
@@ -180,15 +179,15 @@ void MainWindow::placeCoins(QString euserid,QString ammount) //free coins from c
 //////////////////////
 
 //ui->givecoinsammount.text().toLatin1()
-    //pull from rcoins db and remove coin after placing in tmp text file
-//QString coin;
-        QVariantList coins;
+
+    QVariantList coins;
     db.setDatabaseName("rcoins.sqlite");
     db.open();
         QSqlQuery query;
-        query.exec("SELECT * FROM coins ORDER RAND() LIMIT "+ammount);
+        query.exec("SELECT * FROM coins BY random() LIMIT "+ammount.toLatin1());
         while (query.next()) {
-        coins << query.value(0).toString();
+        coins << query.value(2).toString();
+        qDebug() << "picked coins" << query.value(2).toString();
   //  place into textfile
         }
     db.close();
@@ -196,11 +195,11 @@ void MainWindow::placeCoins(QString euserid,QString ammount) //free coins from c
 
 //verify coins and insert into yearly userid
 QVariantList signedcoins;
-
-for (int i=0; i > coins.length(); i++){
+qDebug() << "validate coins";
+for (int i=0; i < coins.length(); i++){
 //if (coin > 8) // coin not from rcoins needs decryption first
     signedcoins << validateCOINsign( coins.at(i).toString(), euserid.toLatin1() );
-
+qDebug() << validateCOINsign( coins.at(i).toString(), euserid.toLatin1() ).toLatin1();
 // if ( validateCOINsign(coins.at(i).toString()) == "valid"){
 //        qDebug() << "coin is already signed"
 //                    return 1;
@@ -213,7 +212,7 @@ for (int i=0; i > coins.length(); i++){
     qDebug()<< "inserting coins into yeardb";
     //sqlite create randomized availablecoins
     qDebug() << yeardb;
-    db.setDatabaseName("./"+ yeardb +".sqlite");
+    db.setDatabaseName("./db/"+ yeardb.toLatin1() +".sqlite");
     if(db.open())
     {
         qDebug()<<"Successful coin database connection";
@@ -224,7 +223,7 @@ for (int i=0; i > coins.length(); i++){
     }
     db.transaction();
 
-    QString query2 = "INSERT INTO ""'"+euserid+"'""(origid,addr,class) VALUES (?,?,0)";
+    QString query2 = "INSERT INTO ""'"+euserid.toLatin1()+"'""(origid,addr,class) VALUES (1,?,0)";
 
 //    qDebug() << query;
     QSqlQuery insert;
@@ -398,7 +397,7 @@ QString MainWindow::validateCOINsign(QString coin,QString euserID){ // for getti
              ekey = query2.value(0).toString();
             password = query2.value(4).toString();
             datetime = query2.value(6).toString(); //datetime
-            qDebug() << euserID.toLatin1() << "pass " << password << "ekey " << ekey;
+          //  qDebug() << euserID.toLatin1() << "pass " << password << "ekey " << ekey;
             //qDebug() << datetime;
           //  return yeardb;
         }
@@ -418,7 +417,7 @@ QString MainWindow::validateCOINsign(QString coin,QString euserID){ // for getti
     db.open();
      //   QSqlDatabase::database().transaction();
         QSqlQuery query;
-        query.exec("SELECT * FROM users WHERE name = " "'" + euserID.toLatin1() + "'" " AND addr = "+coin.toLatin1());
+        query.exec("SELECT * FROM users WHERE name = " "'" + euserID.toLatin1() + "'" " AND addr = ""'"+coin.toLatin1()+"'");
         while (query.next()) {
          //   yeardb = query.value(0).toInt();
             qDebug() << "coin " << query2.value(0).toString();
@@ -445,7 +444,7 @@ QString MainWindow::validateCOINsign(QString coin,QString euserID){ // for getti
     //return ecoin;
 }
 
-QString MainWindow::validateID(QString euserid){ // can validate public encrypted and master encrypted ID's
+QString MainWindow::validateID(QString userid){ // can validate public encrypted and master encrypted ID's
 //also sets QString yeardb globally for other functions
 
 
@@ -453,29 +452,29 @@ QString MainWindow::validateID(QString euserid){ // can validate public encrypte
 QString ekey;
        // int euserid;
 //QString password;
-QString userid;
+QString euserid;
 
 QString datetime;
 vpublickey = 0;
 
 if (euserid.length() <= 12){ //check if encrypted
-    qDebug() << "userid" << euserid.toLatin1() ;
+    qDebug() << "userid" << userid.toLatin1() ;
    // QString crypted = simplecrypt(ui->lineEditName->text().toLatin1(),masterkey.toLatin1(),QCryptographicHash::Sha512);
    // euserid = crypted.toLatin1();
-qDebug() << "userid now encrypted" << euserid.toLatin1() ;
+qDebug() << "userid now encrypted" << userid.toLatin1() ;
 // QString decrypted = simpledecrypt(euserid.toLatin1(),"password",QCryptographicHash::Sha512);
  //euserid = simpledecrypt(decrypted,masterkey,QCryptographicHash::Sha512);
 // euserid = simpledecrypt(euserid,masterkey,QCryptographicHash::Sha512);
            // QString decrypted2="";
 }else{
-    qDebug() << "userid encrypted" << euserid ;
+    qDebug() << "userid encrypted" << userid ;
 
     // QString decrypted = simpledecrypt(euserid.toLatin1(),masterkey,QCryptographicHash::Sha512);
-    euserid = simpledecrypt(euserid,masterkey.toLatin1(),QCryptographicHash::Sha512);
+    euserid = simpledecrypt(userid,masterkey.toLatin1(),QCryptographicHash::Sha512);
 }
 
 
-qDebug() << "searching valid id" << euserid;
+qDebug() << "searching valid id" << userid;
             db.setDatabaseName("database.sqlite");
             db.open();
             //    QSqlDatabase::database().transaction();
@@ -487,8 +486,8 @@ qDebug() << "searching valid id" << euserid;
                 while (query2.next()) {
                    //  userid = query2.value(1).toString(); //not encrypted with user password
                     qDebug() << query2.value(1).toString();
-                    if (euserid.toLatin1() == simpledecrypt(query2.value(1).toString().toLatin1(),masterkey.toLatin1(),QCryptographicHash::Sha512)){
-                        userid = query2.value(1).toString();
+                    if (userid.toLatin1() == simpledecrypt(query2.value(1).toString().toLatin1(),masterkey.toLatin1(),QCryptographicHash::Sha512)){
+                        euserid = query2.value(1).toString();
                         qDebug() << "matches" << euserid.toLatin1() ;
 
                         ekey = query2.value(6).toString();
@@ -531,7 +530,7 @@ QString yeardb2;
 
   //  yeardb = yeardb2;
     // yeardb= yeardb.mid(0,4);
-    yeardb = euserid.left(4);
+    yeardb = userid.left(4);
     qDebug() << yeardb;
 
 
@@ -561,7 +560,7 @@ QString yeardb2;
 qDebug() <<query.value(0).toString().toLatin1();
 qDebug() <<query.value(1).toString().toLatin1();
                  //qDebug() << query2.value(0).toString().toLatin1() ;
-                if (euserid.toLatin1() == simpledecrypt(query.value(1).toString().toLatin1(),masterkey.toLatin1(),QCryptographicHash::Sha512)){
+                if (userid.toLatin1() == simpledecrypt(query.value(1).toString().toLatin1(),masterkey.toLatin1(),QCryptographicHash::Sha512)){
                      qDebug() << "found user in yeardb" ;
                              return query.value(1).toString().toLatin1();
                 }
@@ -575,7 +574,7 @@ qDebug() <<query.value(1).toString().toLatin1();
     return "";
 }
 
-float MainWindow::checkBalance(QString euserID,QString yeardb){
+float MainWindow::checkBalance(QString euserID){
 //iterate and count coins from userid from yeardb
     float balance=0;
 
@@ -584,7 +583,7 @@ float MainWindow::checkBalance(QString euserID,QString yeardb){
      //   QSqlDatabase::database().transaction();
         QSqlQuery query;
       //  query.exec("SELECT * FROM coins WHERE name = ""'"+euserID+"'");
-        query.exec("SELECT * FROM ""'"+euserID+"'");
+        query.exec("SELECT * FROM ""'"+euserID.toLatin1()+"'");
         if (query.next()) {
             balance++;
         }

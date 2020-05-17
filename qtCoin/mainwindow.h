@@ -80,7 +80,7 @@ public:
 void generateRXfile(QString euserid,QString etxcoins);
 void generateTXfile(QString euserid,QString etxcoins);
 QString validateCOINsign(QString coin,QString euserID);
-float checkBalance(QString euserID,QString yeardb);
+float checkBalance(QString euserID);
 QString validateID(QString userid);
 int checkAvailableCoins(QString db,QString needed);
 int smtpsend(QString toemail,QString Message);
