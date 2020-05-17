@@ -178,14 +178,81 @@ int MainWindow::placeCoins(QString euserid,QString ammount) //free coins from co
 //    qDebug() << QString(array.toHex());
 //////////////////////
 //ui->givecoinsammount.text().toLatin1()
-    if (euserid== ""){
+    if (euserid.toLatin1() == "receive"){
+//get ammount of usercoins, verify then decrypt and add to rcoins and remove from user table
+        QVariantList coins;
+        //ui->receiveid->text().toLatin1()
+        if (ui->receiveid->text().size() > 12){
+            //decrypt
+
+        }
+        db.setDatabaseName("./db/"+ yeardb.toLatin1() +".sqlite");
+        db.open();
+            QSqlQuery query;
+            query.exec("SELECT * FROM ""'"+ ui->receiveid->text().toLatin1()+"'"" LIMIT "+ammount.toLatin1());
+            while (query.next()) {
+                coins << query.value(2).toString();
+                qDebug() << "picked coins" << query.value(2).toString();
+            }
+        db.close();
+
         //check all coins valid then place back into rcoins
         // if ( validateCOINsign(coins.at(i).toString()) == "valid"){
         //        qDebug() << "coin is already signed"
         //                    return 1;
         //}else {
         //                    qDebug << signedcoin; };
-    } else{
+
+
+//        for (int i=0; i < ammount.toInt();i++){
+//            //unsigncoin();
+//        }
+
+
+        qDebug()<< "inserting coins into rcoins";
+        //sqlite create randomized availablecoins
+        qDebug() << yeardb;
+
+        QVariantList signedcoins;
+        int missingcoin=0;
+        qDebug() << "unsign and validate coins";
+        //int i2=0;
+        //for (int i=0; i < coins.size(); i++){
+
+            for (int i=0; i < ammount.toInt(); i++){
+            QString test = validateCOINsign( coins.at(i).toString(), "" ).toLatin1(); //validate without id and get from textbox
+            if (test != ""){ // coin not from rcoins needs decryption first
+            signedcoins << test ;
+            } else { missingcoin = 1;}
+            }
+
+
+        db.setDatabaseName("rcoins.sqlite");
+        if(db.open())        {            qDebug()<<"Successful coin database connection";        }
+        else        {            qDebug()<<"Error: failed database connection";        }
+
+        db.transaction();
+
+        QString query2 = "INSERT INTO coins(addr,datetime,class) VALUES (?,1,0)";
+
+    //    qDebug() << query;
+        QSqlQuery insert;
+        insert.prepare(query2);
+      //  insert.addBindValue(index);
+        insert.addBindValue(signedcoins);
+
+        if(insert.execBatch())
+        {            qDebug() << "Coin is properly inserted";        }
+        else        {            qDebug()<<"ERROR! "<< insert.lastError();      }
+        db.commit();
+       // index.clear();
+     //   coins.clear();
+        insert.clear();
+        signedcoins.clear();
+        db.close();
+
+
+    } else{ //send coins to yeardb wallet
 
     QVariantList coins;
     db.setDatabaseName("rcoins.sqlite");
@@ -290,20 +357,6 @@ qDebug() << "validate coins";
                   // "ALTER TABLE name ADD COLUMN test TEXT" or char(50)
                      // "ALTER TABLE name DROP COLUMN name"
 
-}
-
-void MainWindow::on_placeCoins_clicked()
-{
-    //if any incorrect flag account for checking also disable other transactions.
-    int verified = 0;//md5verifydb();
-
-    placeCoins("","");
-
-    if (verified == 1){
-    QMessageBox Msgbox;
-        Msgbox.setText("coins sent ");
-        Msgbox.exec();
-    }
 }
 
 void MainWindow::generateTXfile(QString euserid,QString etxcoins){ //file to send from client
@@ -520,22 +573,22 @@ QString euserid;
 QString datetime;
 
 vpublickey = 0;
-
-if (euserid.length() <= 12){ //check if encrypted
+//match the public ekey to get the userid
+if (userid.length() <= 12){ //check if encrypted
     qDebug() << "userid" << userid.toLatin1() ;
    // QString crypted = simplecrypt(ui->lineEditName->text().toLatin1(),masterkey.toLatin1(),QCryptographicHash::Sha512);
    // euserid = crypted.toLatin1();
-qDebug() << "userid now encrypted" << userid.toLatin1() ;
+//qDebug() << "userid now encrypted" << userid.toLatin1() ;
 // QString decrypted = simpledecrypt(euserid.toLatin1(),"password",QCryptographicHash::Sha512);
  //euserid = simpledecrypt(decrypted,masterkey,QCryptographicHash::Sha512);
 // euserid = simpledecrypt(euserid,masterkey,QCryptographicHash::Sha512);
            // QString decrypted2="";
 }else{
     qDebug() << "userid encrypted" << userid ;
-
     // QString decrypted = simpledecrypt(euserid.toLatin1(),masterkey,QCryptographicHash::Sha512);
     euserid = simpledecrypt(userid,masterkey.toLatin1(),QCryptographicHash::Sha512);
 }
+
 
 
 qDebug() << "searching valid id" << userid;
@@ -550,45 +603,30 @@ qDebug() << "searching valid id" << userid;
                 while (query2.next()) {
                    //  userid = query2.value(1).toString(); //not encrypted with user password
                     qDebug() << query2.value(1).toString();
+
+                    validatepassword = query2.value(3).toString();
+
+                    if (userid.toLatin1() == query2.value(7).toString().toLatin1()){ // check if userid matches ekey or public key
+                        userid = simpledecrypt(userid,ekey.toLatin1(),QCryptographicHash::Sha512);
+                    }
+
                     if (userid.toLatin1() == simpledecrypt(query2.value(1).toString().toLatin1(),masterkey.toLatin1(),QCryptographicHash::Sha512)){
                         euserid = query2.value(1).toString();
                         qDebug() << "matches" << euserid.toLatin1() ;
 
-                        ekey = query2.value(6).toString();
+                        ekey = query2.value(7).toString();
                       //  userid = query.value(1);
                    //    datetime = query2.value(6).toString()
-                       validatepassword = query2.value(3).toString();
-                       qDebug() << euserid.toLatin1() << "pass " << validatepassword << "ekey " << ekey;
-                    }// else{
-                   // qDebug() << 'not proper userid';
-                   // }
+
+                       qDebug() << userid.toLatin1() << "pass " << validatepassword << "ekey " << ekey;
+                    } else{
+                    qDebug() << 'not proper userid';
+                    }
 
                   //  return yeardb;
                 }
           //      QSqlDatabase::database().commit();
             db.close();
-
-
-            // if (ui->encrypted_yes->text() == 1){ //extra encryption check
-            if (userid == "" && trycount < 10) { //public key check revalidate with decrypted if not found
-                      userid = simpledecrypt(euserid,masterkey,QCryptographicHash::Sha512);
-                      trycount++;
-                      qDebug() << "was public encrypted userid because no match found";
-                  //    if ( validateID(userid) == 1 ) { //retry with encrypted
-                    //      vpublickey = 1;
-                   // }else{
-                   // return 0;
-                  //  }
-            }
-
-            if (vpublickey==1){
-                    QString decrypted = simpledecrypt(euserid.toLatin1(),validatepassword,QCryptographicHash::Sha512);
-                    userid=decrypted;
-            }else{
-//                qDebug() << "decrypt to get year";
-//                QString decrypted = simpledecrypt(euserid.toLatin1(),masterkey,QCryptographicHash::Sha512);
-//                yeardb2 = simpledecrypt(decrypted,masterkey,QCryptographicHash::Sha512);
-            }
 
 
   //  yeardb = yeardb2;

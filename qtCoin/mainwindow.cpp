@@ -634,7 +634,9 @@ void MainWindow::on_placeCoins_clicked()
     //if any incorrect flag account for checking also disable other transactions.
     int verified = 0;//md5verifydb();
 
-    placeCoins("","");
+
+
+    placeCoins("receive",ui->receiveammount->text().toLatin1());
 
     if (verified == 1){
     QMessageBox Msgbox;
