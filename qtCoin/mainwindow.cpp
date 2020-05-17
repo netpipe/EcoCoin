@@ -240,8 +240,8 @@ void MainWindow::ListUSB(){
 
 
         if (storage.rootPath().contains(usbstring)){
-            //qDebug() << "yep" << "/n";
-            usbpath = storage.rootPath().contains(usbstring);
+        //   qDebug() << "yep" << "/n";
+            usbpath = storage.rootPath();
 
             if (storage.isReadOnly())
                 qDebug() << "isReadOnly:" << storage.isReadOnly();
@@ -251,16 +251,19 @@ void MainWindow::ListUSB(){
                 qDebug() << "size:" << storage.bytesTotal()/1000/1000 << "MB";
                 qDebug() << "availableSize:" << storage.bytesAvailable()/1000/1000 << "MB";
         } else {
-            usbpath="";
+          //  usbpath="";
         }
 
-        if (usbpath.toLatin1() == "")
-        {
-            QMessageBox Msgbox;
-                Msgbox.setText("drive not found: ");
-                Msgbox.exec();
-        }
+
      }
+
+    if (usbpath.toLatin1() == "")
+    {
+        QMessageBox Msgbox;
+            Msgbox.setText("drive not found: ");
+            Msgbox.exec();
+    }
+
 }
 
 void MainWindow::BackUptoUSB(){
@@ -393,6 +396,7 @@ void MainWindow::createyearly(QString eownerID)
 
     query.append("CREATE TABLE IF NOT EXISTS ""'"+eownerID.toLatin1()+"'""("
                     "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    "origid VARCHAR(100),"
                     "addr VARCHAR(100),"
                     "datetime INTEGER,"
                     "class INTEGER"
@@ -777,9 +781,14 @@ void MainWindow::getkeys(){ //for coldstorage server or standalone server which 
     //verify md5sum of keys file from 2 or 3 locations possibly encrypted
 
     //simple strings found on google have same md5sums or bruteforce could match it.
-
+        QString path;
     //load keys if sum is correct
-    QFile MyFile(usbpath.toLatin1()+"keys.txt");
+    if ( usbpath.toLatin1() != ""){
+    path = usbpath.toLatin1()+"keys.txt";
+    } else {
+    path = "./keys.txt";
+    }
+    QFile MyFile(path);
     MyFile.open(QIODevice::ReadWrite);
     QTextStream in (&MyFile);
     QString line;

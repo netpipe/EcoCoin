@@ -260,22 +260,28 @@ void MainWindow::on_gencoininfo_btn_clicked()
               stream << "matureyear:" << ui->matureyear->text() <<'\n';
               stream << "maturetime:" << ui->maturetime->time().hour() << "|" << ui->maturetime->time().minute() <<'\n';
               stream << "maturedescription:" << ui->maturedescription->toPlainText()<<'\n';
-              stream << "usbdrivename:" << ui->usbdrivename->text(); //place into keys instead
+              stream << "usbdrivename:" << ui->usbdrivename->text() <<'\n' ; //place into keys instead
               file.close();
           }
-//check if usbdrive inserted
 
-          QFile file2(usbpath.toLatin1()+"keys.txt");
+          ListUSB();
+        //qDebug() << "usb path " << usbpath.toLatin1();
+          QString path;
+if(usbpath.toLatin1() != "" ){
+path =     usbpath.toLatin1()+"/keys.txt";
+}else{
+path = "./keys.txt";
+}
+          QFile file2(path);
             //    if(file.open(QIODevice::WriteOnly | QIODevice::Text))
                 if(file2.open(QIODevice::ReadWrite | QIODevice::Text))
                 {
                     QTextStream stream(&file2);
-                    stream << "masterkey:" << masterkey.toLatin1();
-                    stream << "coinkey:" << coinkey.toLatin1();
+                    stream << "masterkey:" << masterkey.toLatin1() <<'\n';
+                    stream << "coinkey:" << coinkey.toLatin1() <<'\n';
                   //  stream << "usbdrivename:" << ui->usbdrivename->text();
                     file2.close();
                 }
-       //   md5sum keys file
 }
 
 void MainWindow::on_actionOpenCoin_triggered()
@@ -444,7 +450,7 @@ void MainWindow::on_actionOpenCoin_triggered()
                  ui->maturedescription->toPlainText();
                     qDebug("%s", qUtf8Printable(maturedescription));
                  QString usbdrivename=nums.at(16);
-                 ui->usbdrivename->setText("usbdrivename");
+                 ui->usbdrivename->setText(usbdrivename.toLatin1());
                     qDebug("%s", qUtf8Printable(usbdrivename));
 }
 

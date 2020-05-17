@@ -180,9 +180,10 @@ int MainWindow::placeCoins(QString euserid,QString ammount) //free coins from co
 //    qDebug() << QString(array.toHex());
 //////////////////////
 //ui->givecoinsammount.text().toLatin1()
-    if (euserid.toLatin1() == "receive"){
+    if (euserid.toLatin1() == "receive"){ //receiving coins
 //get ammount of usercoins, verify then decrypt and add to rcoins and remove from user table
         QVariantList coins;
+        QVariantList origindex;
         //ui->receiveid->text().toLatin1()
         if (ui->receiveid->text().size() > 12){
             //decrypt
@@ -194,7 +195,8 @@ int MainWindow::placeCoins(QString euserid,QString ammount) //free coins from co
             QSqlQuery query;
             query.exec("SELECT * FROM ""'"+ ui->receiveid->text().toLatin1()+"'"" LIMIT "+ammount.toLatin1());
             while (query.next()) {
-                coins << query.value(2).toString();
+                origindex << query.value(1).toString();
+                coins << query.value(3).toString();
                 qDebug() << "picked coins" << query.value(2).toString();
             }
             db.commit();
@@ -237,12 +239,12 @@ int MainWindow::placeCoins(QString euserid,QString ammount) //free coins from co
 
         db.transaction();
 
-        QString query2 = "INSERT INTO coins(addr,datetime,class) VALUES (?,1,0)";
+        QString query2 = "INSERT INTO coins(origindex,addr,datetime,class) VALUES (?,?,1,0)";
 
     //    qDebug() << query;
         QSqlQuery insert;
         insert.prepare(query2);
-      //  insert.addBindValue(index);
+        insert.addBindValue(origindex);
         insert.addBindValue(signedcoins);
 
         if(insert.execBatch())
@@ -256,9 +258,10 @@ int MainWindow::placeCoins(QString euserid,QString ammount) //free coins from co
         db.close();
 
 
-    } else{ //send coins to yeardb wallet
+    } else{ ///send coins to yeardb wallet
 
     QVariantList coins;
+    QVariantList origindex;
     db.setDatabaseName("rcoins.sqlite");
     QSqlDatabase::database().transaction();
     db.open();
@@ -266,8 +269,8 @@ int MainWindow::placeCoins(QString euserid,QString ammount) //free coins from co
         query.exec("SELECT * FROM coins ORDER BY random() LIMIT "+ammount.toLatin1());
         while (query.next()) {
         coins << query.value(2).toString();
+        origindex << query.value(0).toString();
         qDebug() << "picked coins" << query.value(2).toString();
-  //  place into textfile
         }
         QSqlDatabase::database().commit();
     db.close();
@@ -306,12 +309,12 @@ qDebug() << "validate coins";
     }
     db.transaction();
 
-    QString query2 = "INSERT INTO ""'"+euserid.toLatin1()+"'""(addr,datetime,class) VALUES (?,1,0)";
+    QString query2 = "INSERT INTO ""'"+euserid.toLatin1()+"'""(origindex,addr,datetime,class) VALUES (?,?,1,0)";
 
 //    qDebug() << query;
     QSqlQuery insert;
     insert.prepare(query2);
-  //  insert.addBindValue(index);
+    insert.addBindValue(origindex);
     insert.addBindValue(signedcoins);
 
     if(insert.execBatch())
@@ -328,6 +331,7 @@ qDebug() << "validate coins";
  //   coins.clear();
     insert.clear();
     signedcoins.clear();
+    origindex.clear();
     db.close();
 
     if ( missingcoin == 0 ) { // if no missing coins validated then remove from rcoins
