@@ -446,7 +446,7 @@ qDebug() << "verify coin in rcoins";
     db.open();
      //   QSqlDatabase::database().transaction();
         QSqlQuery query3;
-        query3.exec("SELECT * FROM coins WHERE addr = " "'"+coin.toLatin1()+"'");
+        query3.exec("SELECT * FROM coins WHERE addr = " "'" + coin.toLatin1() + "'"); // match and contains
         while (query3.next()) {
          //   yeardb = query.value(0).toInt();
             qDebug() << "coin " << query3.value(0).toString();
