@@ -159,6 +159,8 @@ private slots:
 
     void on_smtptestmessage_clicked();
 
+    void on_saveuserinfo_clicked();
+
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db;
