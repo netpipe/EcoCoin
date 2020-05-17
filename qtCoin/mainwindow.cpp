@@ -56,6 +56,10 @@ MainWindow::MainWindow(QWidget *parent) :
     player->setMedia(QMediaContent(), buffer);
     player->play();
 
+    qDebug() << "db exists" << QDir("db").exists();
+    if (!QDir("db").exists()){
+        QDir().mkdir("db");
+    }
 
 ui->smtppassword->setEchoMode(QLineEdit::Password);
 
