@@ -629,6 +629,19 @@ void MainWindow::on_pushButtonInsertUser_clicked()
 }
 
 
+void MainWindow::on_placeCoins_clicked()
+{
+    //if any incorrect flag account for checking also disable other transactions.
+    int verified = 0;//md5verifydb();
+
+    placeCoins("","");
+
+    if (verified == 1){
+    QMessageBox Msgbox;
+        Msgbox.setText("coins sent ");
+        Msgbox.exec();
+    }
+}
 
 void MainWindow::on_actionSyncUSB_triggered()
 {

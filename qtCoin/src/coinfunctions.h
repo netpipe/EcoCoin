@@ -177,9 +177,16 @@ int MainWindow::placeCoins(QString euserid,QString ammount) //free coins from co
 //    array.append("ABCDEF12343");
 //    qDebug() << QString(array.toHex());
 //////////////////////
-
 //ui->givecoinsammount.text().toLatin1()
-QString extracoins=QString::number(ammount.toInt()+30);
+    if (euserid== ""){
+        //check all coins valid then place back into rcoins
+        // if ( validateCOINsign(coins.at(i).toString()) == "valid"){
+        //        qDebug() << "coin is already signed"
+        //                    return 1;
+        //}else {
+        //                    qDebug << signedcoin; };
+    } else{
+
     QVariantList coins;
     db.setDatabaseName("rcoins.sqlite");
     db.open();
@@ -202,21 +209,11 @@ qDebug() << "validate coins";
 
     for (int i=0; i < ammount.toInt(); i++){
     QString test = validateCOINsign( coins.at(i).toString(), euserid.toLatin1() ).toLatin1();
-
     if (test != ""){ // coin not from rcoins needs decryption first
     signedcoins << test ;
-  //  qDebug() << "validated coin ammount" << i;
-     //  i2++;
-   // qDebug() << "valid coins" << validateCOINsign( coins.at(i).toString(), euserid.toLatin1() ).toLatin1();
-    } else { missingcoin = 1;
-       // if (i2 >= ammount.toInt() ) {break;}
-    } //{ i--;}
-//}
-// if ( validateCOINsign(coins.at(i).toString()) == "valid"){
-//        qDebug() << "coin is already signed"
-//                    return 1;
-//}else {
-//                    qDebug << signedcoin; };
+    } else { missingcoin = 1;}
+
+
 
 }
 
@@ -260,8 +257,8 @@ qDebug() << "validate coins";
     signedcoins.clear();
     db.close();
 
-if ( missingcoin == 0 ) { // if no missing coins validated then remove from rcoins
-qDebug() << "no missing coins validated removing coins from rcoins.db";
+    if ( missingcoin == 0 ) { // if no missing coins validated then remove from rcoins
+    qDebug() << "no missing coins validated removing coins from rcoins.db";
 
      db.setDatabaseName("rcoins.sqlite");
        db.open();
@@ -281,9 +278,11 @@ qDebug() << "no missing coins validated removing coins from rcoins.db";
         db.close();
         coins.clear();
         query3.clear();
-} else{
-qDebug() << "missing coins not removing from db";
-return 0;
+    } else{
+    qDebug() << "missing coins not removing from db";
+    return 0;
+    }
+
 }
                //   "DELETE FROM euserid WHERE addr = "+ "OR StudentId = 12;"
                   // "UPDATE coins SET lastupdated WHERE userid=11"
@@ -298,7 +297,7 @@ void MainWindow::on_placeCoins_clicked()
     //if any incorrect flag account for checking also disable other transactions.
     int verified = 0;//md5verifydb();
 
-    placeCoins("1","1");
+    placeCoins("","");
 
     if (verified == 1){
     QMessageBox Msgbox;
