@@ -521,8 +521,8 @@ qDebug() << "looking for coin" << coin.toLatin1();
           db.close();
 
 
-    }else{
-        //check user exists and get signing info
+    }else{        //check user exists and get signing info
+
     db.setDatabaseName("database.sqlite");
     db.open();
         QSqlDatabase::database().transaction();

@@ -396,7 +396,7 @@ void MainWindow::createyearly(QString eownerID)
 
     query.append("CREATE TABLE IF NOT EXISTS ""'"+eownerID.toLatin1()+"'""("
                     "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    "origid VARCHAR(100),"
+                    "origindex VARCHAR(100),"
                     "addr VARCHAR(100),"
                     "datetime INTEGER,"
                     "class INTEGER"
