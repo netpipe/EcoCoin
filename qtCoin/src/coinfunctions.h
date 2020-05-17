@@ -196,10 +196,10 @@ void MainWindow::placeCoins(QString euserid,QString ammount) //free coins from c
 //verify coins and insert into yearly userid
 QVariantList signedcoins;
 qDebug() << "validate coins";
-for (int i=0; i < coins.length(); i++){
+for (int i=0; i < coins.size(); i++){
 //if (coin > 8) // coin not from rcoins needs decryption first
     signedcoins << validateCOINsign( coins.at(i).toString(), euserid.toLatin1() );
-qDebug() << validateCOINsign( coins.at(i).toString(), euserid.toLatin1() ).toLatin1();
+qDebug() << "valid coins" << validateCOINsign( coins.at(i).toString(), euserid.toLatin1() ).toLatin1();
 // if ( validateCOINsign(coins.at(i).toString()) == "valid"){
 //        qDebug() << "coin is already signed"
 //                    return 1;
@@ -378,26 +378,55 @@ QString MainWindow::validateCOINsign(QString coin,QString euserID){ // for getti
     //get user info to verify coin from yearlydb
     //check for coin in coins.sqlite
     //encrypt coin during validation with user password then return coin address
-
+qDebug() << "looking for coin" << coin.toLatin1();
     QString ekey;
            // int euserid;
     QString password;
     QString datetime;
 
     if (euserID.toLatin1() == ""){ // only check rcoins and coins
+        //check indexes match in coinsdb and rcoins
+          db.setDatabaseName("coins.sqlite");
+          db.open();
+              QSqlDatabase::database().transaction();
+              QSqlQuery query4;
+              query4.exec("SELECT * FROM users WHERE name = " "'" + euserID.toLatin1() + "'" " AND addr = "+coin.toLatin1());
+              while (query4.next()) {
+               //   yeardb = query.value(0).toInt();
+                  qDebug() << "coin " << query4.value(0).toString();
+                 // return yeardb.toLatin1();
+              }
+              QSqlDatabase::database().commit();
+          db.close();
+
+
+          db.setDatabaseName("rcoins.sqlite");
+          db.open();
+           //   QSqlDatabase::database().transaction();
+              QSqlQuery query5;
+              query5.exec("SELECT * FROM coins WHERE addr=""'"+coin.toLatin1()+"'");
+              while (query5.next()) {
+               //   yeardb = query.value(0).toInt();
+                  qDebug() << "coin " << query5.value(0).toString();
+                  return  "valid";
+              }
+          //    QSqlDatabase::database().commit();
+          db.close();
+
 
     }else{
+        //check user exists and get signing info
     db.setDatabaseName("database.sqlite");
     db.open();
      //   QSqlDatabase::database().transaction();
         QSqlQuery query2;
         query2.exec("SELECT * FROM users WHERE userid = ""'"+euserID.toLatin1()+"'");
         while (query2.next()) {
-            // euserid = query.value(0).toInt(); //not encrypted with user password
-             ekey = query2.value(0).toString();
+             //userid = query.value(1).; //not encrypted with user password
+             ekey = query2.value(5).toString();
             password = query2.value(4).toString();
             datetime = query2.value(6).toString(); //datetime
-          //  qDebug() << euserID.toLatin1() << "pass " << password << "ekey " << ekey;
+            qDebug() << "user " << euserID.toLatin1() << " pass " << password << "ekey " << ekey;
             //qDebug() << datetime;
           //  return yeardb;
         }
@@ -412,34 +441,38 @@ QString MainWindow::validateCOINsign(QString coin,QString euserID){ // for getti
   //  qDebug() <<    datetime.mid(0,4);
   //  qDebug() <<     datetime.left(4);
 
-//if coin already in yeardb return "valid" else return encrypted coinid
-    db.setDatabaseName("./db/"+yeardb.toLatin1()+".sqlite");
+qDebug() << "verify coin in rcoins";
+    db.setDatabaseName("rcoins.sqlite");
     db.open();
      //   QSqlDatabase::database().transaction();
-        QSqlQuery query;
-        query.exec("SELECT * FROM users WHERE name = " "'" + euserID.toLatin1() + "'" " AND addr = ""'"+coin.toLatin1()+"'");
-        while (query.next()) {
+        QSqlQuery query3;
+        query3.exec("SELECT * FROM coins WHERE addr = " "'"+coin.toLatin1()+"'");
+        while (query3.next()) {
          //   yeardb = query.value(0).toInt();
-            qDebug() << "coin " << query2.value(0).toString();
-           // return yeardb.toLatin1();
+            qDebug() << "coin " << query3.value(0).toString();
+            return  query3.value(0).toString();
         }
     //    QSqlDatabase::database().commit();
     db.close();
+
+//if coin already in yeardb return "valid" else return encrypted coinid
+//    db.setDatabaseName("./db/"+yeardb.toLatin1()+".sqlite");
+//    db.open();
+//     //   QSqlDatabase::database().transaction();
+//        QSqlQuery query6;
+//        query6.exec("SELECT * FROM users WHERE name = " "'" + euserID.toLatin1() + "'" " AND addr = ""'"+coin.toLatin1()+"'");
+//        while (query6.next()) {
+//         //   yeardb = query6.value(0).toInt();
+//            qDebug() << "coin " << query6.value(0).toString();
+//           // return "valid";
+//        }
+//    //    QSqlDatabase::database().commit();
+//    db.close();
+
+    //sign coins
 }
 
-  //check indexes match in coinsdb and rcoins
-//    db.setDatabaseName("coins.sqlite");
-//    db.open();
-//        QSqlDatabase::database().transaction();
-//        QSqlQuery query;
-//        query.exec("SELECT * FROM users WHERE name = " "'" + euserID.toLatin1() + "'" " AND addr = "+coin.toLatin1());
-//        while (query.next()) {
-//         //   yeardb = query.value(0).toInt();
-//            qDebug() << "coin " << query2.value(0).toString();
-//           // return yeardb.toLatin1();
-//        }
-//        QSqlDatabase::database().commit();
-//    db.close();
+
 //possibly get coin ready to place back into rcoins decrypted
     //return ecoin;
 }
