@@ -737,7 +737,7 @@ int MainWindow::getkeys(){ //for coldstorage server or standalone server which c
 
     //verify md5sum of keys file from 2 or 3 locations possibly encrypted
     //simple strings found on google have same md5sums or bruteforce could match it.
-    bool keyexists;
+    bool keyexists=0;
     QString path;
     if (ui->usbdrivename->text().toLatin1() != ""){
         ListUSB();
@@ -821,7 +821,7 @@ int MainWindow::smtpsend(QString toemail,QString Message){
 
     MimeText text;
   //  text.setText("Hi,\nThis is a simple email message.\n");
-    text.setText("Hi,\nThis is a simple email message.\n");
+    text.setText(Message.toLatin1());
     // Now add it to the mail
     message.addPart(&text);
 

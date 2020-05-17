@@ -343,30 +343,6 @@ qDebug() << "validate coins";
 
 }
 
-//doublessearch{
-
-//    db.setDatabaseName("rcoins.sqlite");
-//      db.open();
-//          QSqlQuery query3;
-//       for (int i=0; i < ammount.toInt(); i++ ) {
-//         //  query3.exec("SELECT * FROM coins WHERE addr LIKE " "'" + coins.at(i).toString().toLatin1() + "'" "ORDER BY random()");
-//           query3.exec("SELECT addr FROM coins WHERE trim(addr)= " "'" + coins.at(i).toString().toLatin1() + "'");
-//           while (query3.next()) {
-//              //  qDebug() << "rcoin " << query3.value(2).toString();
-//              //  qDebug() << "rcoin2 " << coins.at(i).toString().toLatin1();
-//             // if ( query3.value(2).toString().toLatin1() ==  coins.at(i).toString().toLatin1() ){
-//               //    qDebug() << "index" << query3.value(0).toString() << "removing coin from rcoins " << query3.value(2).toString();
-//               //    query3.exec("DELETE FROM coins WHERE id =" "'"+query3.value(0).toString()+"'");
-//                   query3.exec("DELETE FROM coins WHERE trim(addr) =" "'"+query3.value(0).toString()+"'");
-//             // }
-//           }
-//        //  query3.clear();
-//       }
-//       db.close();
-//       coins.clear();
-//       query3.clear();
-//}
-
 int MainWindow::processRXTXfile(QString file){
 
     //check if client or admin
