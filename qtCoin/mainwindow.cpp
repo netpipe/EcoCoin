@@ -14,14 +14,13 @@
 #include "./src/smtp/SmtpMime"
 
 //#include <QtCore>
-
+//references and links
 //https://doc.qt.io/qt-5/sql-sqlstatements.html
 //https://www.techonthenet.com/mysql/select.php
-
 //http://ismacs.net/singer_sewing_machine_company/why-two-serial-numbers.html some of the first serial numbers
 //https://patents.google.com/patent/US3988571A/en
 
-    //encrypt with usbdrivename
+//encrypt with usbdrivename
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -36,51 +35,19 @@ MainWindow::MainWindow(QWidget *parent) :
     db = QSqlDatabase::addDatabase("QSQLITE");    
     db.setDatabaseName("database.sqlite");
 
-    //createUserTable();
-    //selectUsers();
-
     player=new QMediaPlayer();
-   // player->setMedia(QUrl("qrc:/sounds/ec1_mono.ogg"));
-   // player->setMedia(QUrl::fromLocalFile("./paddle_hit.wav"));
-    //or play from memory
-     QFile file("Resource/sounds/ec1_mono.ogg");
-     file.open(QIODevice::ReadOnly);
-     QByteArray* arr = new QByteArray(file.readAll());
-     file.close();
-     QBuffer* buffer = new QBuffer(arr);
-     buffer->open(QIODevice::ReadOnly);
-     buffer->seek(0);
+    playsound("Resource/sounds/ec1_mono.ogg");
 
-     player->setVolume(10);
-//    media->setMedia("sound.mp3");
-    player->setMedia(QMediaContent(), buffer);
-    player->play();
-
-    qDebug() << "db exists" << QDir("db").exists();
-    if (!QDir("db").exists()){
-        QDir().mkdir("db");
-    }
-
-ui->smtppassword->setEchoMode(QLineEdit::Password);
+    qDebug() << "db exists" << QDir("db").exists();    if (!QDir("db").exists()){        QDir().mkdir("db");    }
 
     ui->createyear->setValue(year.toInt());
-    //if (QDate::currentDate().month()="January")
-
-    //ui->createmonth->(QDate::currentDate().month());
-ui->createmonth->setCurrentIndex(QDate::currentDate().month()-1);
-ui->maturemonth->setCurrentIndex(QDate::currentDate().month()-1);
-
-QTime starttime(QTime::currentTime().hour(),QTime::currentTime().minute()); //12:00AM
-
-ui->createtime->setTime(starttime);
+    ui->createmonth->setCurrentIndex(QDate::currentDate().month()-1);
+    ui->maturemonth->setCurrentIndex(QDate::currentDate().month()-1);
+    QTime starttime(QTime::currentTime().hour(),QTime::currentTime().minute()); //12:00AM
+    ui->createtime->setTime(starttime);
 
     //load settings
-    QFile Fout("settings.txt");
-    if(Fout.exists())
-    {
-        on_actionOpenCoin_triggered();
-    }
-    Fout.close();
+    QFile Fout("settings.txt");    if(Fout.exists())    {        on_actionOpenCoin_triggered();    }    Fout.close();
 
     themeInit();
 
@@ -95,7 +62,7 @@ ui->createtime->setTime(starttime);
     //    QDate::currentDate().month();
     //    QDate::currentDate().year();
 
-//convert to days then set progressbar
+    //convert to days then set progressbar
     ui->matureyear->text();
     ui->maturemonth->currentText();
 
@@ -103,9 +70,7 @@ ui->createtime->setTime(starttime);
     QDate createdate(ui->createyear->text().toInt(), ui->createmonth->currentIndex()+1, ui->createday->text().toInt());
     QDate maturedate(ui->matureyear->text().toInt(), ui->maturemonth->currentIndex()+1, ui->matureday->text().toInt());
     qDebug() << ui->matureyear->text().toInt()<< ui->maturemonth->currentIndex()+1<< ui->matureday->text().toInt();
-
     qDebug() << "leap year detector" << QDate::isLeapYear(year.toInt());
-
     qDebug() << "Today is" << dNow.toString("dd.MM.yyyy")
                 << "maturedate is" << maturedate.toString("dd.MM.yyyy")
              << "days to maturing: "
@@ -120,9 +85,6 @@ ui->createtime->setTime(starttime);
   // qDebug() << percent2 << fixed << qSetRealNumberPrecision(2);
     ui->progress->setValue( test4);
 
-    //ui->createmonth->setValue();comboBox->currentIndex();
-  //  qDebug()<< pcreate*24;
-
 //    rsaTester = new Rsa();
 //    rsaTester->publish_keys(m_e, m_n);
 
@@ -134,7 +96,6 @@ ui->createtime->setTime(starttime);
         coinkey = "testing1234567";
     }
 
-    qDebug()<< fileName.toLatin1() ;
     //if client only mode
 
 //ui->settingstab->setEnabled(false);
@@ -154,6 +115,23 @@ MainWindow::~MainWindow()
     //QSqlDatabase::removeDatabase( QSqlDatabase::defaultConnection );
 }
 
+void MainWindow::playsound(QString test){
+    // player->setMedia(QUrl("qrc:/sounds/ec1_mono.ogg"));
+    // player->setMedia(QUrl::fromLocalFile("./paddle_hit.wav"));
+     //or play from memory
+      QFile file(test.toLatin1());
+      file.open(QIODevice::ReadOnly);
+      QByteArray* arr = new QByteArray(file.readAll());
+      file.close();
+      QBuffer* buffer = new QBuffer(arr);
+      buffer->open(QIODevice::ReadOnly);
+      buffer->seek(0);
+
+      player->setVolume(10);
+ //    media->setMedia("sound.mp3");
+     player->setMedia(QMediaContent(), buffer);
+     player->play();
+}
 void MainWindow::SQLTest(QString dbname,QString Query)
 {
     db.setDatabaseName(dbname.toLatin1());

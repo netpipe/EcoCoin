@@ -86,7 +86,7 @@ QString validateID(QString userid);
 int checkAvailableCoins(QString db,QString needed);
 int smtpsend(QString toemail,QString Message);
 int getkeys();
-
+void playsound(QString);
     //encryption
     QString encryptxor(QString test,QString key);
     QString decryptxor(QString string,QString key);

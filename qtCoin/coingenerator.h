@@ -267,11 +267,11 @@ void MainWindow::on_gencoininfo_btn_clicked()
           ListUSB();
         //qDebug() << "usb path " << usbpath.toLatin1();
           QString path;
-if(usbpath.toLatin1() != "" ){
-path =     usbpath.toLatin1()+"/keys.txt";
-}else{
-path = "./keys.txt";
-}
+            if(usbpath.toLatin1() != "" ){
+            path =     usbpath.toLatin1()+"/keys.txt";
+            }else{
+            path = "./keys.txt";
+            }
           QFile file2(path);
             //    if(file.open(QIODevice::WriteOnly | QIODevice::Text))
                 if(file2.open(QIODevice::ReadWrite | QIODevice::Text))
@@ -823,8 +823,8 @@ QString MainWindow::GetRandomString(int length,QString chars)
    QString possibleCharacters(chars.toLatin1());
    const int randomStringLength = length; //12 // assuming you want random strings of 12 characters
 
- QTime time = QTime::currentTime();
-qsrand((uint)time.msec());
+    QTime time = QTime::currentTime();
+    qsrand((uint)time.msec());
 
    QString randomString;
    for(int i=0; i<randomStringLength; ++i)
@@ -848,28 +848,28 @@ void MainWindow::GenerateCoins2() //not used
     long double max_perms = 0;
     string final;
     /* create last possible password based on max. password length
- * and alphabet,  i.e. 'zzzz' for an alphabet [a-z] with 4 chars
- */
+     * and alphabet,  i.e. 'zzzz' for an alphabet [a-z] with 4 chars
+     */
     for (int k=0; k<max_pw_len; k++) final+=alphabet[alphabet.length()-1];
-/* calculate number of permutations to run by interpreting the
- * final password as polynomial. Be careful, this is where an integer
- * overflow can occur by exceeding the max. password length and/or the alphabet
- */
+    /* calculate number of permutations to run by interpreting the
+     * final password as polynomial. Be careful, this is where an integer
+     * overflow can occur by exceeding the max. password length and/or the alphabet
+     */
     for (int n=0; n < (int) final.length(); n++)
      max_perms += (long double) ( (long double) (alphabet.find_first_of(string(1, final[n]))+1) * powl(alphabet.length(), final.length()-n-1));
-/* Print out calculated information and set password
- * to first char in alphabet
- */
+    /* Print out calculated information and set password
+     * to first char in alphabet
+     */
     cout << "Last password: " << final << endl << "Permutations:  " << max_perms << endl << endl;
     cout << "Starting bruteforce:" << endl;
     memset(pw, '\0', sizeof(pw));
     pw[0] = alphabet[0];
-/* bruteforce until previously calculated max. number
- * of permutations is exceeded */
+    /* bruteforce until previously calculated max. number
+    * of permutations is exceeded */
     while (count < max_perms) {
-  /* iterate last password index separately, as we know its number
-   * of iterations matches the alphabet's length
-   */
+    /* iterate last password index separately, as we know its number
+     * of iterations matches the alphabet's length
+     */
          for (int a=0;  a < (int) alphabet.length(); a++) {
             pw[pos] = alphabet[a];
             cout << pw << endl;
