@@ -142,7 +142,8 @@ ui->createtime->setTime(starttime);
    yeardb= yeardb.left(4);
    qDebug() << yeardb;
 
-
+   QString tester1 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+qDebug() << GetRandomString(tester1.size(),tester1.toLatin1());
     //if client only mode
 
 //ui->settingstab->setEnabled(false);
@@ -361,6 +362,9 @@ void MainWindow::cleartablesusers()
     if (reply == QMessageBox::Yes) {
       qDebug() << "Yes was clicked";
       QFile::remove("./db/"+year+".sqlite");
+
+//      QDir dir("./db/");
+//      dir.removeRecursively();
 
       QFile::remove("coins.txt");
       QFile::remove("coins.sqlite");

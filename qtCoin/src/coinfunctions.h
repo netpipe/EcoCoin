@@ -442,7 +442,7 @@ void MainWindow::generateRXfile(QString euserid,QString etxcoins){ //rxfile to g
  //   db.setDatabaseName("./"+ result +".sqlite");
 
        db.open();
-           QSqlDatabase::database().transaction();
+           db.transaction();
            QSqlQuery query;
          //  query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
           // query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
@@ -451,7 +451,7 @@ void MainWindow::generateRXfile(QString euserid,QString etxcoins){ //rxfile to g
              //  rcoins <<      //decrypt coins and reencrypt for new user
                //can place into text file to be sure then delete here// verify enough is available
            }
-           QSqlDatabase::database().commit();
+           db.commit();
        db.close();
 
        QFile MyFile("tx.txt");
@@ -491,7 +491,7 @@ qDebug() << "looking for coin" << coin.toLatin1();
         //check indexes match in coinsdb and rcoins
           db.setDatabaseName("coins.sqlite");
           db.open();
-              QSqlDatabase::database().transaction();
+          db.transaction();
               QSqlQuery query4;
               query4.exec("SELECT * FROM users WHERE name = " "'" + euserID.toLatin1() + "'" " AND addr = "+coin.toLatin1());
               while (query4.next()) {
@@ -499,13 +499,13 @@ qDebug() << "looking for coin" << coin.toLatin1();
                   qDebug() << "coin " << query4.value(0).toString();
                  // return yeardb.toLatin1();
               }
-              QSqlDatabase::database().commit();
+          db.commit();
           db.close();
 
 
           db.setDatabaseName("rcoins.sqlite");
           db.open();
-              QSqlDatabase::database().transaction();
+          QSqlDatabase::database().transaction();
               QSqlQuery query5;
               query5.exec("SELECT * FROM coins WHERE addr=""'"+coin.toLatin1()+"'");
               while (query5.next()) {
@@ -513,7 +513,7 @@ qDebug() << "looking for coin" << coin.toLatin1();
                   qDebug() << "coin " << query5.value(0).toString();
                   return  "valid";
               }
-              QSqlDatabase::database().commit();
+          QSqlDatabase::database().commit();
           db.close();
 
 
