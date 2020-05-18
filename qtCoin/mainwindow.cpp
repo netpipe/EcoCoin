@@ -85,6 +85,7 @@ MainWindow::MainWindow(QWidget *parent) :
   // qDebug() << percent2 << fixed << qSetRealNumberPrecision(2);
     ui->progress->setValue( test4);
 
+    //enable these if you want to test rsa+aes encryption in the onpushbutton_3_clicked function.
 //    rsaTester = new Rsa();
 //    rsaTester->publish_keys(m_e, m_n);
 
@@ -799,8 +800,8 @@ void MainWindow::on_randomSearch_clicked()
 void MainWindow::on_test_clicked()
 {
     QString test = rot13("test");
-    qDebug() << test;
-    qDebug() << rot13(test.toLatin1());
+    qDebug() << "encrypted rot13:" << test;
+    qDebug() << "decrypted rot13:" << rot13(test.toLatin1());
 }
 
 int MainWindow::smtpsend(QString toemail,QString Message){

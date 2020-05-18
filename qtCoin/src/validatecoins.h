@@ -28,10 +28,10 @@ int MainWindow::processRXTXfile(QString file){
     //if client just add rx into wallet
     //server must process tx files to validate
 
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open rx/tx"), "./", tr("rx/tx files (*.rx *.tx *.txt)"));
-    qDebug()<< fileName.toLatin1() ;
+//    QString fileName = QFileDialog::getOpenFileName(this, tr("Open rx/tx"), "./", tr("rx/tx files (*.rx *.tx *.txt)"));
+//    qDebug()<< fileName.toLatin1() ;
 
-    QFile MyFile(fileName.toLatin1());
+    QFile MyFile(file.toLatin1());
     MyFile.open(QIODevice::ReadWrite);
     QTextStream in (&MyFile);
     QString line;
@@ -61,16 +61,16 @@ void MainWindow::generateTXfile(QString suserid,QString ruserid,QString etxcoins
     QString fileName = QFileDialog::getSaveFileName(this,  tr("Save TX"), "",  tr("SaveRX/TX File (*.txt);;All Files (*)"));
 
  //   db.setDatabaseName("./"+ result +".sqlite");
-       db.open();
-           QSqlDatabase::database().transaction();
-           QSqlQuery query;
-         //  query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
-          // query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
-           while (query.next()) {
-               int employeeId = query.value(0).toInt();
-           }
-           QSqlDatabase::database().commit();
-       db.close();
+//       db.open();
+//           QSqlDatabase::database().transaction();
+//           QSqlQuery query;
+//         //  query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
+//          // query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
+//           while (query.next()) {
+//               int employeeId = query.value(0).toInt();
+//           }
+//           QSqlDatabase::database().commit();
+//       db.close();
 
        //append md5sum
 

@@ -201,6 +201,10 @@ int MainWindow::placeCoins(QString euserid,QString ammount) //free coins from co
         signedcoins.clear();
         db.close();
 
+//        float balance2 = checkBalance(ui->receiveid->text().toLatin1());
+//        float total = ui->receiveammount->text().toFloat() - balance;
+
+        //remove coins
 
     } else{ ///send coins to yeardb wallet
 
@@ -229,13 +233,12 @@ qDebug() << "validate coins";
 
     for (int i=0; i < ammount.toInt(); i++){
     QString test = validateCOINsign( coins.at(i).toString(), euserid.toLatin1() ).toLatin1();
-    if (test != ""){ // coin not from rcoins needs decryption first
-    signedcoins << test ;
-    } else { missingcoin = 1;}
+        if (test != ""){ // coin not from rcoins needs decryption first
+            signedcoins << test ;
+        } else { missingcoin = 1;}
+    }
 
 
-
-}
 
     //valid user so it must have table already in yeardb
     qDebug()<< "inserting coins into yeardb";
@@ -277,6 +280,13 @@ qDebug() << "validate coins";
     signedcoins.clear();
     origindex.clear();
     db.close();
+
+
+    //        float balance2 = checkBalance(ui->receiveid->text().toLatin1());
+    //        float total = ui->receiveammount->text().toFloat() - balance;
+//if (total == ammount - balance2 && missingcoin==0){
+//missingcoin=0;
+//} else { missingcoin=1; }
 
     if ( missingcoin == 0 ) { // if no missing coins validated then remove from rcoins
     qDebug() << "no missing coins validated removing coins from rcoins.db";

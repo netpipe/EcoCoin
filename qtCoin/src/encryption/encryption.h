@@ -69,6 +69,11 @@ QString MainWindow::simpledecrypt(QString string,QString key,QCryptographicHash:
 
 QString MainWindow::rot13( const QString & input )
 {//https://doc.qt.io/archives/3.3/rot-example.html
+    //example use
+    //QString test = rot13("test"); //encrypted
+    //qDebug() << test;
+    //qDebug() << rot13(test.toLatin1()); //decrypted
+
     QString r = input;
     int i = r.length();
     while( i-- ) {
@@ -156,7 +161,7 @@ QString MainWindow::aesdec(QByteArray string2,QString skey,QString siv )
     return decodedString;
 }
 
-QString MainWindow::encdec2(QString string2,int encdec)
+QString MainWindow::encdec2(QString string2,int encdec=0)
 {
 //    if (encdec == 0){
 //    string2=rsadec(string2);
