@@ -18,7 +18,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="app">
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tab_3">
        <attribute name="title">
@@ -107,7 +107,7 @@
             <item row="0" column="0">
              <widget class="QTabWidget" name="wallet">
               <property name="currentIndex">
-               <number>1</number>
+               <number>2</number>
               </property>
               <widget class="QWidget" name="tab_8">
                <attribute name="title">
@@ -579,7 +579,7 @@
         <item row="0" column="0">
          <widget class="QTabWidget" name="tabWidget_2">
           <property name="currentIndex">
-           <number>2</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tab">
            <attribute name="title">
@@ -941,7 +941,7 @@
              </widget>
             </item>
             <item row="11" column="1">
-             <widget class="QPushButton" name="pushButton_4">
+             <widget class="QPushButton" name="validatecoins">
               <property name="text">
                <string>Validate Coins - compare coins.db freecoins.db and clientcoins.db</string>
               </property>

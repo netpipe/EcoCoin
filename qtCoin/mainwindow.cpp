@@ -5,12 +5,12 @@
 #include "src/downloadmanager.h"
 #include "src/loadtheme.h"
 #include <QFileDialog>
-#include <coingenerator.h>
+#include <src/coingenerator.h>
 #include <QDebug>
 #include <QMessageBox>
 #include <QClipboard>
 #include <src/coinfunctions.h>
-
+#include <src/validatecoins.h>
 #include "./src/smtp/SmtpMime"
 
 //#include <QtCore>
@@ -866,3 +866,4 @@ void MainWindow::on_placeCoinsopenfile_clicked()
 
     processRXTXfile(fileName);
 }
+

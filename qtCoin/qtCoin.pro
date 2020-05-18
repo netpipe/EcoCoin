@@ -46,7 +46,6 @@ HEADERS  += mainwindow.h \
     src/encryption/rsa/Rsa.h \
     src/encryption/Qt-AES/qaesencryption.h \
     src/encryption/encryption.h \
-    coingenerator.h \
     src/smtp/SmtpMime \
     src/smtp/smtpexports.h \
     src/smtp/smtpclient.h \
@@ -62,7 +61,9 @@ HEADERS  += mainwindow.h \
     src/smtp/mimeattachment.h \
     src/smtp/emailaddress.h \
     src/encryption/simpleCrypt/simplecrypt.h \
-    src/coinfunctions.h
+    src/coinfunctions.h \
+    src/validatecoins.h \
+    src/coingenerator.h
 
 
 FORMS    += mainwindow.ui
