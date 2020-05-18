@@ -27,3 +27,7 @@ void QStyleSheetManager::loadStyleSheet(const QString& sheet_name, QWidget* widg
 
     widget->setStyleSheet(styleSheet);
 }
+
+//void QStyleSheetManager::modifyStyle(QString Gradient){
+
+//}

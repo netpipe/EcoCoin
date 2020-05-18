@@ -11,17 +11,24 @@
 #include <QMessageBox>
 #include <QFile>
 #include <QDebug>
-
+#include <QDirIterator>
 
 void MainWindow::themeInit(){
 
-    QDir directory("./");
+    QDir directory("./Resource/themes/");
     QStringList themes = directory.entryList(QStringList() << "*.qss" << "*.qss",QDir::Files);
 
     for (int i=0;i < themes.size(); i++){
         QString themetmp = themes.at(i);
         ui->cmbTheme->addItem((themetmp.toLatin1() ));
         qDebug()<<themetmp << "/n";
+    }
+
+
+    QDirIterator it("./Resource/themes/", QStringList() << "*.qss", QDir::Files, QDirIterator::Subdirectories);
+    while (it.hasNext()){
+      //  QFileInfo fileInfo(f.fileName());
+        ui->cmbTheme->addItem(it.next().toLatin1());
     }
 
     //        QFile file("themes.txt");
