@@ -15,22 +15,6 @@
 
 void MainWindow::themeInit(){
 
-//    QDir directory("./Resource/themes/");
-//    QStringList themes = directory.entryList(QStringList() << "*.qss" << "*.qss",QDir::Files);
-
-//    for (int i=0;i < themes.size(); i++){
-//        QString themetmp = themes.at(i);
-//        ui->cmbTheme->addItem((themetmp.toLatin1() ));
-//        qDebug()<<themetmp << "/n";
-//    }
-
-
-    QDirIterator it("./Resource/themes/", QStringList() << "*.qss", QDir::Files, QDirIterator::Subdirectories);
-    while (it.hasNext()){
-      //  QFileInfo fileInfo(f.fileName());
-        ui->cmbTheme->addItem(it.next().toLatin1());
-    }
-
 
 
     QFile MyFile("themes.txt");
@@ -42,9 +26,17 @@ void MainWindow::themeInit(){
     QStringList nums;
     QRegExp rx("[:]");
     line = in.readLine();
+
     if (line.contains(":")) {
         list = line.split(rx);
+            qDebug() << "theme" <<  list.at(1).toLatin1();
        QStyleSheetManager::loadStyleSheet( list.at(1).toLatin1());
+    }
+
+    QDirIterator it("./Resource/themes/", QStringList() << "*.qss", QDir::Files, QDirIterator::Subdirectories);
+    while (it.hasNext()){
+      //  QFileInfo fileInfo(f.fileName());
+        ui->cmbTheme->addItem(it.next().toLatin1());
     }
 //    do {
 
@@ -52,12 +44,10 @@ void MainWindow::themeInit(){
 
     //    ui->cmbTheme->itemText(ui->cmbTheme->count());
 
-
 //    if (ui->cmbTheme->currentText().toLatin1() != ""){
 //        //QStyleSheetManager::loadStyleSheet( ui->cmbTheme->currentText().toLatin1());
 //        QStyleSheetManager::loadStyleSheet(  ui->cmbTheme->itemText(ui->cmbTheme->count()-1));
 //    } else {}
-
 
 }
 
@@ -110,12 +100,12 @@ void MainWindow::on_scantheme_clicked()
 
 void MainWindow::on_btnApply_clicked() //theme
 {
-
     QFile file("themes.txt");
         if(file.open(QIODevice::ReadWrite | QIODevice::Text))// QIODevice::Append |
         {
                 QTextStream stream(&file);
                 file.seek(0);
+               stream << "theme:" << ui->cmbTheme->currentText().toLatin1()<< endl;
                 for (int i = 0; i < ui->cmbTheme->count(); i++)
                 {
                  stream << "theme:" << ui->cmbTheme->itemText(i) << endl;
@@ -127,8 +117,6 @@ void MainWindow::on_btnApply_clicked() //theme
     if (ui->cmbTheme->currentText().toLatin1() != ""){
         QStyleSheetManager::loadStyleSheet( ui->cmbTheme->currentText().toLatin1());
     }
-
-
 }
 
 

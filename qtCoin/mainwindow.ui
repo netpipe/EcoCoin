@@ -1118,30 +1118,6 @@
                    </layout>
                   </widget>
                  </item>
-                 <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout_38">
-                   <item>
-                    <widget class="QLabel" name="label_314">
-                     <property name="text">
-                      <string>Theme from DB</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QComboBox" name="cmbThemeDB"/>
-                   </item>
-                   <item>
-                    <widget class="QPushButton" name="btnApplyDB">
-                     <property name="enabled">
-                      <bool>true</bool>
-                     </property>
-                     <property name="text">
-                      <string>Apply</string>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
                 </layout>
                </widget>
               </item>
