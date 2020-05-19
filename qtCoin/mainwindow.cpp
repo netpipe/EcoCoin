@@ -699,14 +699,6 @@ void MainWindow::on_pushButton_3_clicked() //search button
     db.close();
 }
 
-void MainWindow::on_btnApply_clicked() //theme
-{
-    if (ui->cmbTheme->currentText().toLatin1() != ""){
-        QStyleSheetManager::loadStyleSheet( ui->cmbTheme->currentText().toLatin1());
-    }
-}
-
-
 void MainWindow::on_matureradio_yes_clicked()
 {
 ui->matureradio_no->setChecked(0);
@@ -867,4 +859,6 @@ void MainWindow::on_placeCoinsopenfile_clicked()
 
     processRXTXfile(fileName);
 }
+
+
 

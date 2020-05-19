@@ -31,38 +31,34 @@ void MainWindow::themeInit(){
         ui->cmbTheme->addItem(it.next().toLatin1());
     }
 
-    //        QFile file("themes.txt");
-    //        if (file.open(QIODevice::ReadOnly))
-    //        {
-    //           QTextStream stream(&file);
-    //           QString entry = stream.readLine();
-    //           while (!(stream.atEnd()))
-    //           {
-    //              ui->cmbTheme->addItem(entry);
-    //              entry = stream.readLine();
-    //           }
-    //           ui->cmbTheme->addItem(entry);
-    //           file.close();
-    //        }
+
+
+    QFile MyFile("themes.txt");
+    MyFile.open(QIODevice::ReadWrite);
+    QTextStream in (&MyFile);
+    QString line;
+    QStringList list;
+     //   QList<QString> nums;
+    QStringList nums;
+    QRegExp rx("[:]");
+    line = in.readLine();
+    if (line.contains(":")) {
+        list = line.split(rx);
+       QStyleSheetManager::loadStyleSheet( list.at(1).toLatin1());
+    }
+//    do {
+
+//    } while (!line.isNull());
 
     //    ui->cmbTheme->itemText(ui->cmbTheme->count());
 
-    if (ui->cmbTheme->currentText().toLatin1() != ""){
-        //QStyleSheetManager::loadStyleSheet( ui->cmbTheme->currentText().toLatin1());
-        QStyleSheetManager::loadStyleSheet(  ui->cmbTheme->itemText(ui->cmbTheme->count()-1));
-    }
 
-    QFile file("themes.txt");
-        if(file.open(QIODevice::ReadWrite | QIODevice::Text))// QIODevice::Append |
-        {
-                QTextStream stream(&file);
-                for (int i = 0; i < ui->cmbTheme->count(); i++)
-                {
-                 stream << ui->cmbTheme->itemText(i) << endl;
-                }
-            //                file.write("\n");
-               file.close();
-        }
+//    if (ui->cmbTheme->currentText().toLatin1() != ""){
+//        //QStyleSheetManager::loadStyleSheet( ui->cmbTheme->currentText().toLatin1());
+//        QStyleSheetManager::loadStyleSheet(  ui->cmbTheme->itemText(ui->cmbTheme->count()-1));
+//    } else {}
+
+
 }
 
 void MainWindow::on_btnAddThemeFromFile_clicked()
@@ -74,9 +70,10 @@ void MainWindow::on_btnAddThemeFromFile_clicked()
         if(file.open(QIODevice::ReadWrite | QIODevice::Text))// QIODevice::Append |
         {
                 QTextStream stream(&file);
+                file.seek(0);
                 for (int i = 0; i < ui->cmbTheme->count(); i++)
                 {
-                 stream << ui->cmbTheme->itemText(i) << endl;
+                 stream << "theme:" << ui->cmbTheme->itemText(i) << endl;
                 }
             //                file.write("\n");
                file.close();
@@ -90,6 +87,7 @@ void MainWindow::on_btnRemoveThemeFromFile_clicked()
     if(file.open(QIODevice::ReadWrite | QIODevice::Text))// QIODevice::Append |
     {
         QTextStream stream(&file);
+        file.seek(0);
         for (int i = 0; i < ui->cmbTheme->count(); i++)
         {
             stream << ui->cmbTheme->itemText(i) << endl;
@@ -97,6 +95,40 @@ void MainWindow::on_btnRemoveThemeFromFile_clicked()
      //file.write("\n");
      file.close();
      }
+}
+
+void MainWindow::on_scantheme_clicked()
+{
+    QDirIterator it("./Resource/themes/", QStringList() << "*.qss", QDir::Files, QDirIterator::Subdirectories);
+    while (it.hasNext()){
+      //  QFileInfo fileInfo(f.fileName());
+        ui->cmbTheme->addItem(it.next().toLatin1());
+    }
+    on_btnApply_clicked(); //save files
+
+}
+
+void MainWindow::on_btnApply_clicked() //theme
+{
+
+    QFile file("themes.txt");
+        if(file.open(QIODevice::ReadWrite | QIODevice::Text))// QIODevice::Append |
+        {
+                QTextStream stream(&file);
+                file.seek(0);
+                for (int i = 0; i < ui->cmbTheme->count(); i++)
+                {
+                 stream << "theme:" << ui->cmbTheme->itemText(i) << endl;
+                }
+            //                file.write("\n");
+               file.close();
+        }
+
+    if (ui->cmbTheme->currentText().toLatin1() != ""){
+        QStyleSheetManager::loadStyleSheet( ui->cmbTheme->currentText().toLatin1());
+    }
+
+
 }
 
 

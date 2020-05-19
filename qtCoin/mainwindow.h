@@ -166,6 +166,8 @@ private slots:
 
     void on_validatecoins_clicked();
 
+    void on_scantheme_clicked();
+
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db;

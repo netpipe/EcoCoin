@@ -1063,6 +1063,13 @@
                     <widget class="QComboBox" name="cmbTheme"/>
                    </item>
                    <item>
+                    <widget class="QPushButton" name="scantheme">
+                     <property name="text">
+                      <string>scan</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
                     <widget class="QPushButton" name="btnApply">
                      <property name="text">
                       <string>Apply</string>

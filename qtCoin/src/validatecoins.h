@@ -18,7 +18,7 @@
 
 void MainWindow::on_validatecoins_clicked()
 {
-
+// in order to validate all coins we need to first start with the databases then rcoins and compare to coins.sqlite to see if all are accounted for.
 }
 
 
@@ -72,6 +72,14 @@ void MainWindow::generateTXfile(QString suserid,QString ruserid,QString etxcoins
 //           QSqlDatabase::database().commit();
 //       db.close();
 
+    QFile file(fileName);
+       if(file.open(QIODevice::ReadWrite | QIODevice::Text))
+       {
+           QTextStream stream(&file);
+
+        file.close();
+       }
+
        //append md5sum
 
 }
@@ -100,7 +108,7 @@ void MainWindow::generateRXfile(QString ruserid,QString suserid,QString etxcoins
 //           db.commit();
 //       db.close();
 
-    QFile file("settings.txt");
+    QFile file(fileName);
        if(file.open(QIODevice::ReadWrite | QIODevice::Text))
        {
            QTextStream stream(&file);
