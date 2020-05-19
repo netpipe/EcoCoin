@@ -15,14 +15,14 @@
 
 void MainWindow::themeInit(){
 
-    QDir directory("./Resource/themes/");
-    QStringList themes = directory.entryList(QStringList() << "*.qss" << "*.qss",QDir::Files);
+//    QDir directory("./Resource/themes/");
+//    QStringList themes = directory.entryList(QStringList() << "*.qss" << "*.qss",QDir::Files);
 
-    for (int i=0;i < themes.size(); i++){
-        QString themetmp = themes.at(i);
-        ui->cmbTheme->addItem((themetmp.toLatin1() ));
-        qDebug()<<themetmp << "/n";
-    }
+//    for (int i=0;i < themes.size(); i++){
+//        QString themetmp = themes.at(i);
+//        ui->cmbTheme->addItem((themetmp.toLatin1() ));
+//        qDebug()<<themetmp << "/n";
+//    }
 
 
     QDirIterator it("./Resource/themes/", QStringList() << "*.qss", QDir::Files, QDirIterator::Subdirectories);

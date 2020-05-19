@@ -17,10 +17,11 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    QStyleSheetManager::loadStyleSheet("style4.qss");
-//    QFile file("style4.qss");    // Modified by RCU 2016.07.17
+    QStyleSheetManager::loadStyleSheet("Resource/themes/style4.qss");
+//    QFile file("style4.qss");
 //    file.open(QFile::ReadOnly);
 //    QString styleSheet = QLatin1String(file.readAll());
+
 
 
         QPixmap m("./Resource/qtcoin.png");
