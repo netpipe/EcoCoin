@@ -48,7 +48,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //load settings
     QFile Fout("settings.txt");    if(Fout.exists())    {        on_actionOpenCoin_triggered();    }    Fout.close();
-
+    this->setWindowTitle(ui->coinname->text());
     themeInit();
 
     //set global current year
