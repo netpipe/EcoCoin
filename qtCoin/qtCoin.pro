@@ -68,8 +68,7 @@ HEADERS  += mainwindow.h \
 
 FORMS    += mainwindow.ui
 
-RESOURCES += \
-    itas_js.qrc
+RESOURCES +=
 
 DISTFILES += \
     qtCoin.ico
