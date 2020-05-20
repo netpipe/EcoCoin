@@ -63,7 +63,8 @@ HEADERS  += mainwindow.h \
     src/encryption/simpleCrypt/simplecrypt.h \
     src/coinfunctions.h \
     src/validatecoins.h \
-    src/coingenerator.h
+    src/coingenerator.h \
+    src/wallet.h
 
 
 FORMS    += mainwindow.ui

@@ -1,19 +1,19 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QFileDialog>
+#include <QDebug>
+#include <QMessageBox>
+#include <QClipboard>
+//#include <QtCore>
+#include <src/coingenerator.h>
+#include <src/coinfunctions.h>
+#include <src/validatecoins.h>
+#include "src/smtp/SmtpMime"
 #include "src/encryption/encryption.h"
 #include "src/encryption/rsa/Rsa.h"
 #include "src/downloadmanager.h"
 #include "src/loadtheme.h"
-#include <QFileDialog>
-#include <src/coingenerator.h>
-#include <QDebug>
-#include <QMessageBox>
-#include <QClipboard>
-#include <src/coinfunctions.h>
-#include <src/validatecoins.h>
-#include "./src/smtp/SmtpMime"
 
-//#include <QtCore>
 //references and links
 //https://doc.qt.io/qt-5/sql-sqlstatements.html
 //https://www.techonthenet.com/mysql/select.php
