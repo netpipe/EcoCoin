@@ -18,19 +18,12 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     QStyleSheetManager::loadStyleSheet("Resource/themes/style4.qss");
-//    QFile file("style4.qss");
-//    file.open(QFile::ReadOnly);
-//    QString styleSheet = QLatin1String(file.readAll());
 
-
-
-        QPixmap m("./Resource/qtcoin.png");
-
-
-    MainWindow w;
-
+    QPixmap m("./Resource/qtcoin.png");
     QSplashScreen splash(m);
     splash.show();
+
+    MainWindow w;
 
     splash.finish(&w);
     //     QThread::sleep(10);
