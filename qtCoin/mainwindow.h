@@ -110,6 +110,7 @@ void playsound(QString);
     QString fileName;
     bool loaded=false; //theme
 
+
     QString encdec(QString ,int );
     QString encdec2(QString ,int );
     QString rsaenc(QString input, Rsa *rsa = NULL);
@@ -121,7 +122,7 @@ void playsound(QString);
 
 void GenerateQRCode(QString);
 void EAN13(QString productname,QString country,QString ean);
-
+QString decodeqr(QString image);
 private slots:
     void on_pushButtonInsertUser_clicked();
 
