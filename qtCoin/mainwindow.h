@@ -119,6 +119,7 @@ void playsound(QString);
     QString DecryptMsg(QByteArray encryptedMsg, Rsa *rsa,QString aeskey1,QString aeskey2);
 
 void GenerateQRCode(QString);
+void EAN13(QString productname,QString country,QString ean);
 
 private slots:
     void on_pushButtonInsertUser_clicked();

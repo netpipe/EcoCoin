@@ -38,7 +38,8 @@ SOURCES += main.cpp\
     src/smtp/mimecontentformatter.cpp \
     src/smtp/mimeattachment.cpp \
     src/smtp/emailaddress.cpp \
-    src/QRCode/QrCode.cpp
+    src/QRCode/QrCode.cpp \
+    src/Barcode/functii.cpp
 
 HEADERS  += mainwindow.h \
     src/qstylesheetmanager.h \
@@ -66,7 +67,8 @@ HEADERS  += mainwindow.h \
     src/validatecoins.h \
     src/coingenerator.h \
     src/wallet.h \
-    src/QRCode/QrCode.hpp
+    src/QRCode/QrCode.hpp \
+    src/Barcode/functii.h
 
 
 FORMS    += mainwindow.ui

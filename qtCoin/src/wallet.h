@@ -16,6 +16,8 @@
 #include <iostream>
 #include <fstream>
 #include <QGraphicsSvgItem>
+#include "Barcode/functii.h"
+
 using qrcodegen::QrCode;
 //minimum 2 coin verify for transactions
 //client wallet.sqlite
@@ -51,11 +53,45 @@ void MainWindow::GenerateQRCode(QString test) {
         write << qr.toSvgString(4);
 
 
+        QImage *img_object = new QImage();
+        img_object->load("./tmp.svg");
+        QPixmap image = QPixmap::fromImage(*img_object);
+        QPixmap scaled_img = image.scaled(ui->graphicsView->width(), ui->graphicsView->height(), Qt::KeepAspectRatio);
         QGraphicsScene *scene= new QGraphicsScene();
-        scene->addItem(new QGraphicsSvgItem("./tmp.svg"));
+       // scene->addItem(new QGraphicsSvgItem("./tmp.svg"));
+        scene->addPixmap(scaled_img);
+        scene->setSceneRect(scaled_img.rect());
         ui->graphicsView->setScene(scene);
         ui->graphicsView->show();
 
+
+}
+
+
+void MainWindow::EAN13(QString productname,QString country,QString ean){ //barcode
+
+//    std::string code13 = EAN13::appendChecksum("123", "123456789"); //countrycode 3 letters,European Article Number 9 digits no spaces
+//    std::string svg = EAN13::createSvg("productName test", code13);
+
+    std::string code13 = EAN13::appendChecksum(country.toLatin1(), ean.toLatin1()); //countrycode 3 letters,European Article Number 9 digits no spaces
+    std::string svg = EAN13::createSvg(productname.toStdString(), code13);
+
+    ofstream write;
+    std::string   filename = "tmp.svg";
+    write.open(filename.c_str(), ios::out | ios::binary);
+    write << svg.c_str();
+
+    QImage *img_object = new QImage();
+    img_object->load("./tmp.svg");
+    QPixmap image = QPixmap::fromImage(*img_object);
+ //   QPixmap scaled_img = image.scaled(this->width(), this->height(), Qt::KeepAspectRatio);
+    QPixmap scaled_img = image.scaled(ui->graphicsView->width(), ui->graphicsView->height(), Qt::KeepAspectRatio);
+    QGraphicsScene *scene= new QGraphicsScene();
+   // scene->addItem(new QGraphicsSvgItem("./tmp.svg"));
+    scene->addPixmap(scaled_img);
+    scene->setSceneRect(scaled_img.rect());
+    ui->graphicsView->setScene(scene);
+    ui->graphicsView->show();
 
 }
 
