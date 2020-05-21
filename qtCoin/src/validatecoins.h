@@ -58,7 +58,7 @@ void MainWindow::generateTXfile(QString suserid,QString ruserid,QString etxcoins
     //encrypt with masterkey encrypted userID and user encryption key and datetime to validate coins from their wallet
 
     //might only need ammount and userid and other usersid for tx's because users are not sending coins directly to other users
-    QString fileName = QFileDialog::getSaveFileName(this,  tr("Save TX"), "",  tr("SaveRX/TX File (*.txt);;All Files (*)"));
+    QString fileName2 = QFileDialog::getSaveFileName(this,  tr("Save TX"), "",  tr("SaveRX/TX File (*.txt);;All Files (*)"));
 
  //   db.setDatabaseName("./"+ result +".sqlite");
 //       db.open();
@@ -72,7 +72,7 @@ void MainWindow::generateTXfile(QString suserid,QString ruserid,QString etxcoins
 //           QSqlDatabase::database().commit();
 //       db.close();
 
-    QFile file(fileName);
+    QFile file(fileName2);
        if(file.open(QIODevice::ReadWrite | QIODevice::Text))
        {
            QTextStream stream(&file);
@@ -91,7 +91,7 @@ void MainWindow::generateRXfile(QString ruserid,QString suserid,QString etxcoins
     //verify with time encrypted password verify and send time info password encrypted with userid
     // do they get their actual userid or an encrypted version based on masterkey and their password
 
-    QString fileName = QFileDialog::getSaveFileName(this,  tr("Save TX"), "",  tr("SaveRX/TX File (*.txt);;All Files (*)"));
+    QString fileName2 = QFileDialog::getSaveFileName(this,  tr("Save TX"), "",  tr("SaveRX/TX File (*.txt);;All Files (*)"));
 
 
 //       db.setDatabaseName("./"+ result +".sqlite");
@@ -108,7 +108,7 @@ void MainWindow::generateRXfile(QString ruserid,QString suserid,QString etxcoins
 //           db.commit();
 //       db.close();
 
-    QFile file(fileName);
+    QFile file(fileName2);
        if(file.open(QIODevice::ReadWrite | QIODevice::Text))
        {
            QTextStream stream(&file);

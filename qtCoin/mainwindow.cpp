@@ -862,3 +862,33 @@ void MainWindow::on_placeCoinsopenfile_clicked()
 
 
 
+
+void MainWindow::on_cmbTheme_currentIndexChanged(const QString &arg1)
+{
+    if (loaded==true)
+    {
+    fileName=ui->cmbTheme->currentText();
+    QFile file(fileName);
+
+    QStyleSheetManager::loadStyleSheet(ui->cmbTheme->currentText());
+
+    QFile file2("themes.txt");
+        if(file2.open(QIODevice::ReadWrite | QIODevice::Text))// QIODevice::Append |
+        {
+                QTextStream stream(&file2);
+                file2.seek(0);
+               stream << "theme:" << ui->cmbTheme->currentText().toLatin1()<< endl;
+                for (int i = 0; i < ui->cmbTheme->count(); i++)
+                {
+                 stream << "theme:" << ui->cmbTheme->itemText(i) << endl;
+                }
+            //                file.write("\n");
+               file2.close();
+        }
+
+    if (ui->cmbTheme->currentText().toLatin1() != ""){
+      //   ui->cmbTheme->currentText().toLatin1();
+    }
+}
+
+}
