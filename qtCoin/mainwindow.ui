@@ -21,7 +21,7 @@
        <enum>QTabWidget::Triangular</enum>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab_3">
        <attribute name="title">
@@ -103,7 +103,7 @@
            <enum>QTabWidget::Triangular</enum>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>3</number>
           </property>
           <widget class="QWidget" name="tab_6">
            <attribute name="title">
@@ -116,7 +116,7 @@
                <enum>QTabWidget::Triangular</enum>
               </property>
               <property name="currentIndex">
-               <number>0</number>
+               <number>2</number>
               </property>
               <widget class="QWidget" name="tab_8">
                <attribute name="title">
@@ -302,6 +302,7 @@
                <attribute name="title">
                 <string>wallet</string>
                </attribute>
+               <layout class="QGridLayout" name="gridLayout_14"/>
               </widget>
              </widget>
             </item>
@@ -569,6 +570,85 @@
              <string>Save info to text for user</string>
             </property>
            </widget>
+          </widget>
+          <widget class="QWidget" name="tab_13">
+           <attribute name="title">
+            <string>Wallet</string>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout_16">
+            <item row="0" column="0">
+             <widget class="QTabWidget" name="tabWidget">
+              <property name="currentIndex">
+               <number>1</number>
+              </property>
+              <widget class="QWidget" name="tab_14">
+               <attribute name="title">
+                <string>Coins</string>
+               </attribute>
+               <layout class="QGridLayout" name="gridLayout_15">
+                <item row="0" column="0">
+                 <layout class="QHBoxLayout" name="horizontalLayout_5">
+                  <item>
+                   <widget class="QLabel" name="label_2">
+                    <property name="text">
+                     <string>Balance</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="lineEdit"/>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="pushButton_4">
+                    <property name="text">
+                     <string>Refresh</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QTableWidget" name="tableWidgetUsers_3">
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <column>
+                   <property name="text">
+                    <string>CoinAddress</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>owner</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>Class</string>
+                   </property>
+                  </column>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+              <widget class="QWidget" name="tab_15">
+               <attribute name="title">
+                <string>Settings</string>
+               </attribute>
+               <widget class="QGraphicsView" name="graphicsView">
+                <property name="geometry">
+                 <rect>
+                  <x>140</x>
+                  <y>120</y>
+                  <width>256</width>
+                  <height>192</height>
+                 </rect>
+                </property>
+               </widget>
+              </widget>
+             </widget>
+            </item>
+           </layout>
           </widget>
          </widget>
         </item>

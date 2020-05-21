@@ -13,6 +13,7 @@
 #include "src/encryption/rsa/Rsa.h"
 #include "src/downloadmanager.h"
 #include "src/loadtheme.h"
+#include "src/wallet.h"
 
 //references and links
 //https://doc.qt.io/qt-5/sql-sqlstatements.html

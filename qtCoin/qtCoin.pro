@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui sql network printsupport  multimedia
+QT       += core gui sql network printsupport  multimedia svg
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -37,7 +37,8 @@ SOURCES += main.cpp\
     src/smtp/mimefile.cpp \
     src/smtp/mimecontentformatter.cpp \
     src/smtp/mimeattachment.cpp \
-    src/smtp/emailaddress.cpp
+    src/smtp/emailaddress.cpp \
+    src/QRCode/QrCode.cpp
 
 HEADERS  += mainwindow.h \
     src/qstylesheetmanager.h \
@@ -64,7 +65,8 @@ HEADERS  += mainwindow.h \
     src/coinfunctions.h \
     src/validatecoins.h \
     src/coingenerator.h \
-    src/wallet.h
+    src/wallet.h \
+    src/QRCode/QrCode.hpp
 
 
 FORMS    += mainwindow.ui

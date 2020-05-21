@@ -118,7 +118,7 @@ void playsound(QString);
     QByteArray EncryptMsg(QString plainMsg,QString aeskey1,QString aeskey2);
     QString DecryptMsg(QByteArray encryptedMsg, Rsa *rsa,QString aeskey1,QString aeskey2);
 
-
+void GenerateQRCode(QString);
 
 private slots:
     void on_pushButtonInsertUser_clicked();
