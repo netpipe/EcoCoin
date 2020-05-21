@@ -31,6 +31,7 @@ public:
     void GenerateCoins3(int length,int total);
     void combinationUtil(QString arr, int n, int r, int index, QString data, int i);
     QString GetRandomString(int length,QString chars);
+    QString GetReallyRandomString(int length,QString chars);
     QString getClientAddress();
     QString year;
     QString yeardb;//for extracting year from ID's

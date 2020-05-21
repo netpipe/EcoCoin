@@ -1,6 +1,3 @@
-#pragma once
-
-
 #include        <iostream>
 #include        <QtCore/QThread>
 #include        <QtCore/QtCore>

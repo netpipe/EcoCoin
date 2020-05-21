@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui sql network printsupport  multimedia svg
+QT       += core gui sql network printsupport  multimedia svg dbus
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -68,7 +68,8 @@ HEADERS  += mainwindow.h \
     src/coingenerator.h \
     src/wallet.h \
     src/QRCode/QrCode.hpp \
-    src/Barcode/functii.h
+    src/Barcode/functii.h \
+    src/dbus/dbushandler.h
 
 
 FORMS    += mainwindow.ui

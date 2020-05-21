@@ -820,7 +820,8 @@ void MainWindow::combinationUtil(QString arr, int n, int r, int index, QString d
 
 QString MainWindow::GetRandomString(int length,QString chars)
 { //https://stackoverflow.com/questions/18862963/qt-c-random-string-generation/18866593
-   QString possibleCharacters(chars.toLatin1());
+// "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
+    QString possibleCharacters(chars.toLatin1());
    const int randomStringLength = length; //12 // assuming you want random strings of 12 characters
 
     QTime time = QTime::currentTime();
@@ -836,6 +837,27 @@ QString MainWindow::GetRandomString(int length,QString chars)
    }
    return randomString;
 }
+
+QString MainWindow::GetReallyRandomString(int length,QString chars)
+{ //https://stackoverflow.com/questions/18862963/qt-c-random-string-generation/18866593
+   QString possibleCharacters(chars.toLatin1());
+   const int randomStringLength = length; //12 // assuming you want random strings of 12 characters
+
+//    QTime time = QTime::currentTime();
+//    qsrand((uint)time.msec());
+
+   QString randomString;
+   for(int i=0; i<randomStringLength; ++i)
+   {
+       int index = qrand() % possibleCharacters.length();
+       QChar nextChar = possibleCharacters.at(index);
+     //  possibleCharacters.remove(index,1); //line.replace(QString(nextChar), QString(""));
+       randomString.append(nextChar);
+   }
+   return randomString;
+}
+
+
 
 
 void MainWindow::GenerateCoins2() //not used
