@@ -38,6 +38,7 @@ void MainWindow::themeInit(){
       //  QFileInfo fileInfo(f.fileName());
         ui->cmbTheme->addItem(it.next().toLatin1());
     }
+    loaded=true;
 //    do {
 
 //    } while (!line.isNull());
@@ -89,6 +90,7 @@ void MainWindow::on_btnRemoveThemeFromFile_clicked()
 
 void MainWindow::on_scantheme_clicked()
 {
+    ui->cmbTheme->clear();
     QDirIterator it("./Resource/themes/", QStringList() << "*.qss", QDir::Files, QDirIterator::Subdirectories);
     while (it.hasNext()){
       //  QFileInfo fileInfo(f.fileName());

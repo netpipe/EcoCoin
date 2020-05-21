@@ -6,63 +6,28 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>847</width>
-    <height>879</height>
+    <width>829</width>
+    <height>871</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
-  </property>
-  <property name="styleSheet">
-   <string notr="true"/>
+   <string>qtCoin</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout_5">
     <item row="0" column="0">
      <widget class="QTabWidget" name="app">
+      <property name="tabShape">
+       <enum>QTabWidget::Triangular</enum>
+      </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab_3">
        <attribute name="title">
         <string>Status</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_6">
-        <item row="0" column="0">
-         <widget class="QLabel" name="status_11">
-          <property name="text">
-           <string>Status</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QLineEdit" name="lineEdit_7">
-          <property name="text">
-           <string>Online / Offline Storage</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_12">
-          <property name="text">
-           <string>Progress</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QProgressBar" name="progress">
-          <property name="value">
-           <number>24</number>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="2">
-         <widget class="QLabel" name="label_13">
-          <property name="text">
-           <string>Date</string>
-          </property>
-         </widget>
-        </item>
         <item row="2" column="0" colspan="3">
          <widget class="QTableWidget" name="tableWidgetUsers_2">
           <property name="styleSheet">
@@ -90,6 +55,41 @@
           </column>
          </widget>
         </item>
+        <item row="1" column="1">
+         <widget class="QProgressBar" name="progress">
+          <property name="value">
+           <number>24</number>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="status_11">
+          <property name="text">
+           <string>Status</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QLabel" name="label_13">
+          <property name="text">
+           <string>Date</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="lineEdit_7">
+          <property name="text">
+           <string>Online / Offline Storage</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_12">
+          <property name="text">
+           <string>Progress</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="accountingtab">
@@ -99,8 +99,11 @@
        <layout class="QGridLayout" name="gridLayout_8">
         <item row="0" column="1">
          <widget class="QTabWidget" name="transfers2">
+          <property name="tabShape">
+           <enum>QTabWidget::Triangular</enum>
+          </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>3</number>
           </property>
           <widget class="QWidget" name="tab_6">
            <attribute name="title">
@@ -109,6 +112,9 @@
            <layout class="QGridLayout" name="gridLayout_13">
             <item row="0" column="0">
              <widget class="QTabWidget" name="wallet">
+              <property name="tabShape">
+               <enum>QTabWidget::Triangular</enum>
+              </property>
               <property name="currentIndex">
                <number>2</number>
               </property>
@@ -122,13 +128,20 @@
                   <x>10</x>
                   <y>0</y>
                   <width>301</width>
-                  <height>151</height>
+                  <height>201</height>
                  </rect>
                 </property>
                 <property name="title">
                  <string>Send Coin</string>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_7">
+                 <item row="3" column="1">
+                  <widget class="QPushButton" name="SendCoins">
+                   <property name="text">
+                    <string>GiveCoins</string>
+                   </property>
+                  </widget>
+                 </item>
                  <item row="0" column="0">
                   <widget class="QLabel" name="label_24">
                    <property name="text">
@@ -150,26 +163,13 @@
                   <widget class="QLineEdit" name="givecoinsammount"/>
                  </item>
                  <item row="2" column="1">
-                  <widget class="QPushButton" name="SendCoins">
+                  <widget class="QPushButton" name="generatetx">
                    <property name="text">
-                    <string>GiveCoins</string>
+                    <string>Generate TX file</string>
                    </property>
                   </widget>
                  </item>
                 </layout>
-               </widget>
-               <widget class="QPushButton" name="generatetx">
-                <property name="geometry">
-                 <rect>
-                  <x>130</x>
-                  <y>250</y>
-                  <width>131</width>
-                  <height>28</height>
-                 </rect>
-                </property>
-                <property name="text">
-                 <string>Generate TX file</string>
-                </property>
                </widget>
                <widget class="QLineEdit" name="givecoinsid2">
                 <property name="geometry">
@@ -200,8 +200,8 @@
                <widget class="QLabel" name="label_34">
                 <property name="geometry">
                  <rect>
-                  <x>360</x>
-                  <y>80</y>
+                  <x>560</x>
+                  <y>40</y>
                   <width>221</width>
                   <height>30</height>
                  </rect>
@@ -214,7 +214,7 @@
                 <property name="geometry">
                  <rect>
                   <x>20</x>
-                  <y>140</y>
+                  <y>190</y>
                   <width>271</width>
                   <height>30</height>
                  </rect>
@@ -302,6 +302,7 @@
                <attribute name="title">
                 <string>wallet</string>
                </attribute>
+               <layout class="QGridLayout" name="gridLayout_14"/>
               </widget>
              </widget>
             </item>
@@ -413,16 +414,6 @@
                </property>
               </widget>
              </item>
-             <item row="0" column="1" colspan="2">
-              <widget class="QLineEdit" name="lineEditName">
-               <property name="enabled">
-                <bool>false</bool>
-               </property>
-               <property name="text">
-                <string>autogenerated</string>
-               </property>
-              </widget>
-             </item>
              <item row="6" column="2">
               <widget class="QLineEdit" name="createclass">
                <property name="text">
@@ -496,13 +487,6 @@
                </property>
               </widget>
              </item>
-             <item row="1" column="1" colspan="2">
-              <widget class="QLineEdit" name="lineEditSurname">
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
              <item row="3" column="3">
               <widget class="QLabel" name="label_29">
                <property name="text">
@@ -541,6 +525,23 @@
                </property>
               </widget>
              </item>
+             <item row="1" column="2">
+              <widget class="QLineEdit" name="lineEditSurname">
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="2">
+              <widget class="QLineEdit" name="lineEditName">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="text">
+                <string>autogenerated</string>
+               </property>
+              </widget>
+             </item>
             </layout>
            </widget>
            <widget class="QPushButton" name="pushButtonInsertUser">
@@ -559,7 +560,7 @@
            <widget class="QPushButton" name="saveuserinfo">
             <property name="geometry">
              <rect>
-              <x>10</x>
+              <x>20</x>
               <y>360</y>
               <width>585</width>
               <height>28</height>
@@ -569,6 +570,85 @@
              <string>Save info to text for user</string>
             </property>
            </widget>
+          </widget>
+          <widget class="QWidget" name="tab_13">
+           <attribute name="title">
+            <string>Wallet</string>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout_16">
+            <item row="0" column="0">
+             <widget class="QTabWidget" name="tabWidget">
+              <property name="currentIndex">
+               <number>1</number>
+              </property>
+              <widget class="QWidget" name="tab_14">
+               <attribute name="title">
+                <string>Coins</string>
+               </attribute>
+               <layout class="QGridLayout" name="gridLayout_15">
+                <item row="0" column="0">
+                 <layout class="QHBoxLayout" name="horizontalLayout_5">
+                  <item>
+                   <widget class="QLabel" name="label_2">
+                    <property name="text">
+                     <string>Balance</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="lineEdit"/>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="pushButton_4">
+                    <property name="text">
+                     <string>Refresh</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QTableWidget" name="tableWidgetUsers_3">
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <column>
+                   <property name="text">
+                    <string>CoinAddress</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>owner</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>Class</string>
+                   </property>
+                  </column>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+              <widget class="QWidget" name="tab_15">
+               <attribute name="title">
+                <string>Settings</string>
+               </attribute>
+               <widget class="QGraphicsView" name="graphicsView">
+                <property name="geometry">
+                 <rect>
+                  <x>140</x>
+                  <y>120</y>
+                  <width>256</width>
+                  <height>192</height>
+                 </rect>
+                </property>
+               </widget>
+              </widget>
+             </widget>
+            </item>
+           </layout>
           </widget>
          </widget>
         </item>
@@ -581,6 +661,9 @@
        <layout class="QGridLayout" name="gridLayout_3">
         <item row="0" column="0">
          <widget class="QTabWidget" name="tabWidget_2">
+          <property name="tabShape">
+           <enum>QTabWidget::Triangular</enum>
+          </property>
           <property name="currentIndex">
            <number>1</number>
           </property>
@@ -1280,7 +1363,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>847</width>
+     <width>829</width>
      <height>24</height>
     </rect>
    </property>

@@ -1,19 +1,20 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QFileDialog>
+#include <QDebug>
+#include <QMessageBox>
+#include <QClipboard>
+//#include <QtCore>
+#include <src/coingenerator.h>
+#include <src/coinfunctions.h>
+#include <src/validatecoins.h>
+#include "src/smtp/SmtpMime"
 #include "src/encryption/encryption.h"
 #include "src/encryption/rsa/Rsa.h"
 #include "src/downloadmanager.h"
 #include "src/loadtheme.h"
-#include <QFileDialog>
-#include <src/coingenerator.h>
-#include <QDebug>
-#include <QMessageBox>
-#include <QClipboard>
-#include <src/coinfunctions.h>
-#include <src/validatecoins.h>
-#include "./src/smtp/SmtpMime"
+#include "src/wallet.h"
 
-//#include <QtCore>
 //references and links
 //https://doc.qt.io/qt-5/sql-sqlstatements.html
 //https://www.techonthenet.com/mysql/select.php
@@ -48,7 +49,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //load settings
     QFile Fout("settings.txt");    if(Fout.exists())    {        on_actionOpenCoin_triggered();    }    Fout.close();
-
+    this->setWindowTitle(ui->coinname->text());
     themeInit();
 
     //set global current year
@@ -862,3 +863,33 @@ void MainWindow::on_placeCoinsopenfile_clicked()
 
 
 
+
+void MainWindow::on_cmbTheme_currentIndexChanged(const QString &arg1)
+{
+    if (loaded==true)
+    {
+    fileName=ui->cmbTheme->currentText();
+    QFile file(fileName);
+
+    QStyleSheetManager::loadStyleSheet(ui->cmbTheme->currentText());
+
+    QFile file2("themes.txt");
+        if(file2.open(QIODevice::ReadWrite | QIODevice::Text))// QIODevice::Append |
+        {
+                QTextStream stream(&file2);
+                file2.seek(0);
+               stream << "theme:" << ui->cmbTheme->currentText().toLatin1()<< endl;
+                for (int i = 0; i < ui->cmbTheme->count(); i++)
+                {
+                 stream << "theme:" << ui->cmbTheme->itemText(i) << endl;
+                }
+            //                file.write("\n");
+               file2.close();
+        }
+
+    if (ui->cmbTheme->currentText().toLatin1() != ""){
+      //   ui->cmbTheme->currentText().toLatin1();
+    }
+}
+
+}

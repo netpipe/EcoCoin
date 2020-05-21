@@ -1,7 +1,6 @@
 QWidget{
     background: white;
 }
-
 QTextEdit {
      border: 1px solid #4580fa;
      background: white;
@@ -11,35 +10,28 @@ QTextEdit {
 QTextEdit:hover{
      border: 1px solid #7eb4ea;
 }
-
 QLineEdit {
      border: 1px solid #4580fa;
      background: white;
      selection-background-color: #a0b4e6;
-
      font-size: 11pt;
 }
 QLineEdit:hover{
      border: 1px solid #7eb4ea;
 }
-
 QSpinBox {
      border: 1px solid #4580fa;
      background: white;
      selection-background-color: #a0b4e6;
-
      font-size: 11pt;
 }
 QSpinBox:hover{
      border: 1px solid #7eb4ea;
 }
-
-
 QScrollArea {
      border: 1px solid #4580fa;
      background: white;
 }
-
 QComboBox {
      border: 1px solid #4580fa;
      background: white;
@@ -59,7 +51,7 @@ QComboBox::drop-down {
      background: white;
 }
 QComboBox::down-arrow {
-     image: url(:/ITAS_JS/Resource/cbm_downArrow.png);
+     image: url(Resource/cbm_downArrow.png);
 }
 QComboBox::down-arrow:on { /* shift the arrow when popup is open */
      top: 1px;
@@ -70,7 +62,6 @@ QComboBox QAbstractItemView {
       background: white;
      selection-background-color: #4580fa;
 }
-
 QPushButton {
     border: none;
     width: 85px;
@@ -99,7 +90,6 @@ QPushButton:disabled {
     background-color: white;
     color: #bababa;
 }
-
 QAbstractScrollArea QScrollBar:vertical{
     border-top:none;
     border-right:none;
@@ -107,7 +97,6 @@ QAbstractScrollArea QScrollBar:vertical{
     border-left-width: 1px;
     border-left-color: #4580fa;
     border-left-style: solid;
-
     background: white;
     width: 16px;
     margin: 14px 0 14px 0;
@@ -148,24 +137,24 @@ QAbstractScrollArea QScrollBar::sub-line:vertical {
 QAbstractScrollArea QScrollBar::up-arrow:vertical{
     width: 14px;
     height: 14px;
-    background: url(:/ITAS_JS/Resource/upArrow.png)
+    background: url(Resource/upArrow.png)
 }
 QAbstractScrollArea QScrollBar::up-arrow:vertical:hover{
-    background: url(:/ITAS_JS/Resource/upArrow_hover.png)
+    background: url(Resource/upArrow_hover.png)
 }
 QAbstractScrollArea QScrollBar::up-arrow:vertical:pressed{
-    background: url(:/ITAS_JS/Resource/upArrow_pressed.png)
+    background: url(Resource/upArrow_pressed.png)
 }
 QAbstractScrollArea QScrollBar::down-arrow:vertical {
     width: 14px;
     height: 14px;
-    background: url(:/ITAS_JS/Resource/downArrow.png)
+    background: url(Resource/downArrow.png)
 }
 QAbstractScrollArea QScrollBar::down-arrow:vertical:hover{
-    background: url(:/ITAS_JS/Resource/downArrow_hover.png)
+    background: url(Resource/downArrow_hover.png)
 }
 QAbstractScrollArea QScrollBar::down-arrow:vertical:pressed{
-    background: url(:/ITAS_JS/Resource/downArrow_pressed.png)
+    background: url(Resource/downArrow_pressed.png)
 }
 QAbstractScrollArea QScrollBar::add-page:vertical, QAbstractScrollArea QScrollBar::sub-page:vertical {
     background: white;
@@ -215,45 +204,41 @@ QAbstractScrollArea QScrollBar::sub-line:horizontal {
 QAbstractScrollArea QScrollBar::left-arrow:horizontal{
     width: 14px;
     height: 14px;
-    background: url(:/ITAS_JS/Resource/leftArrow.png);
+    background: url(Resource/leftArrow.png);
 }
 QAbstractScrollArea QScrollBar::left-arrow:horizontal:hover{
-    background: url(:/ITAS_JS/Resource/leftArrow_hover.png);
+    background: url(Resource/leftArrow_hover.png);
 }
 QAbstractScrollArea QScrollBar::left-arrow:horizontal:pressed{
-    background: url(:/ITAS_JS/Resource/leftArrow_pressed.png);
+    background: url(Resource/leftArrow_pressed.png);
 }
 QAbstractScrollArea QScrollBar::right-arrow:horizontal {
     width: 14px;
     height: 14px;
-    background: url(:/ITAS_JS/Resource/rightArrow.png); 
+    background: url(Resource/rightArrow.png); 
 }
 QAbstractScrollArea QScrollBar::right-arrow:horizontal:hover{
-    background: url(:/ITAS_JS/Resource/rightArrow_hover.png); 
+    background: url(Resource/rightArrow_hover.png); 
 }
 QAbstractScrollArea QScrollBar::right-arrow:horizontal:pressed{
-    background: url(:/ITAS_JS/Resource/rightArrow_pressed.png); 
+    background: url(Resource/rightArrow_pressed.png); 
 }
 QAbstractScrollArea QScrollBar::add-page:horizontal, QAbstractScrollArea QScrollBar::sub-page:horizontal {
     background: white;
 }
-
 QLabel {
    color: #black;
    font-size: 11pt;
 }
-
 QTableWidget {
     border: 1px solid #4580fa;
     background-color:white;
-
     font-size: 11pt;
 }
 QTableWidget::item:selected {
     background: #e1f0fd;
     color: #000000;
 }
-
 QTableWidget>QHeaderView::section {
     background-color: #4580fa;
     color: white;
@@ -269,7 +254,6 @@ QTableWidget>QHeaderView::section {
     text-align: center;
     padding: 0px 0px 0px 3px;
 }
-
 QTabWidget {
     background: rgb(255, 255, 255);
     border: 2px solid #4580fa;
@@ -277,11 +261,9 @@ QTabWidget {
     font-size: 11pt;
     text-align: center;
 }
-
 QTabWidget::pane { /* The tab widget frame */
      border-top: 2px solid #4580fa;
  }
-
 QTabBar::tab {
 	font: 11pt;
 	border-top:2px solid #4580fa; 
@@ -290,56 +272,47 @@ QTabBar::tab {
 	min-height: 16px;
             padding: 5px;
 }
-
 QTabBar::tab:!selected {
 	color:rgb(255,255,255);
 	background: #4580fa;
             margin-bottom: 0px; 
 }
-
 QTabBar::tab:selected {
 	color:blue;
 }
 QTabBar::tab:disabled {
     color: none;
 }
-
 QMessageBox{
    background-color:white;
 }
-
 QToolTip{
     font: 20pt;
 }
-
 QToolBox
 {
 	background-color:white;
 }
-
 QToolBox::tab {
     background: #4580fa;
     color: white;
 }
-
 QToolBox::tab:selected { /* italicize selected tabs */
 	background:blue;
     font-weight: bold;
     color: white;
 }
-
 QGroupBox {
      border: 1px solid #4580fa;
 	 padding:15px;
      font-weight: bold;
      color: #4580fa;
 }
-
 QWidget#TShowDlgClass{
-   background: url(":/ITAS_JS/pback.png");
+   background: url("Resource/pback.png");
 }
 QWidget#TJudgmentClass{
-   background: url(":/ITAS_JS/back.png");
+   background: url("Resource/back.png");
    font-family: "KP CheonRiMa";
 }
 QWidget#ITAS_JSClass{
@@ -362,7 +335,6 @@ QWidget#TJudgeResultClass {
     background: white;
     font-family: "KP CheonRiMa";
 }
-
 QWidget#TShowDlgClass {
     background: white;
     font-family: "KP CheonRiMa";
@@ -379,12 +351,10 @@ QWidget#PShowClass {
     background: white;
     font-family: "KP CheonRiMa";
 }
-
 QWidget#TOrderClass {
     background: white;
     font-family: "KP CheonRiMa";
 }
-
 QTextEdit {
      border: 1px solid #4580fa;
      background: white;
@@ -395,7 +365,6 @@ QTextEdit {
 QTextEdit:hover{
      border: 1px solid #7eb4ea;
 }
-
 QLineEdit {
      border: 1px solid #4580fa;
      background: white;
@@ -406,7 +375,6 @@ QLineEdit {
 QLineEdit:hover{
      border: 1px solid #7eb4ea;
 }
-
 QSpinBox {
      border: 1px solid #4580fa;
      background: white;
@@ -417,13 +385,10 @@ QSpinBox {
 QSpinBox:hover{
      border: 1px solid #7eb4ea;
 }
-
-
 QScrollArea {
      border: 1px solid #4580fa;
      background: white;
 }
-
 QComboBox {
      border: 1px solid #4580fa;
      background: white;
@@ -444,7 +409,7 @@ QComboBox::drop-down {
      background: white;
 }
 QComboBox::down-arrow {
-     image: url(:/ITAS_JS/cbm_downArrow.png);
+     image: url(Resource/cbm_downArrow.png);
 }
 QComboBox::down-arrow:on { /* shift the arrow when popup is open */
      top: 1px;
@@ -455,7 +420,6 @@ QComboBox QAbstractItemView {
       background: white;
      selection-background-color: #4580fa;
 }
-
 QPushButton {
     border: none;
     width: 85px;
@@ -485,7 +449,6 @@ QPushButton:disabled {
     background-color: white;
     color: #bababa;
 }
-
 QAbstractScrollArea QScrollBar:vertical{
     border-top:none;
     border-right:none;
@@ -493,7 +456,6 @@ QAbstractScrollArea QScrollBar:vertical{
     border-left-width: 1px;
     border-left-color: #4580fa;
     border-left-style: solid;
-
     background: white;
     width: 16px;
     margin: 14px 0 14px 0;
@@ -534,24 +496,24 @@ QAbstractScrollArea QScrollBar::sub-line:vertical {
 QAbstractScrollArea QScrollBar::up-arrow:vertical{
     width: 14px;
     height: 14px;
-    background: url(:/ITAS_JS/upArrow.png)
+    background: url(Resource/upArrow.png)
 }
 QAbstractScrollArea QScrollBar::up-arrow:vertical:hover{
-    background: url(:/ITAS_JS/upArrow_hover.png)
+    background: url(Resource/upArrow_hover.png)
 }
 QAbstractScrollArea QScrollBar::up-arrow:vertical:pressed{
-    background: url(:/ITAS_JS/upArrow_pressed.png)
+    background: url(Resource/upArrow_pressed.png)
 }
 QAbstractScrollArea QScrollBar::down-arrow:vertical {
     width: 14px;
     height: 14px;
-    background: url(:/ITAS_JS/downArrow.png)
+    background: url(Resource/downArrow.png)
 }
 QAbstractScrollArea QScrollBar::down-arrow:vertical:hover{
-    background: url(:/ITAS_JS/downArrow_hover.png)
+    background: url(Resource/downArrow_hover.png)
 }
 QAbstractScrollArea QScrollBar::down-arrow:vertical:pressed{
-    background: url(:/ITAS_JS/downArrow_pressed.png)
+    background: url(Resource/downArrow_pressed.png)
 }
 QAbstractScrollArea QScrollBar::add-page:vertical, QAbstractScrollArea QScrollBar::sub-page:vertical {
     background: white;
@@ -601,29 +563,28 @@ QAbstractScrollArea QScrollBar::sub-line:horizontal {
 QAbstractScrollArea QScrollBar::left-arrow:horizontal{
     width: 14px;
     height: 14px;
-    background: url(:/ITAS_JS/leftArrow.png);
+    background: url(Resource/leftArrow.png);
 }
 QAbstractScrollArea QScrollBar::left-arrow:horizontal:hover{
-    background: url(:/ITAS_JS/leftArrow_hover.png);
+    background: url(Resource/leftArrow_hover.png);
 }
 QAbstractScrollArea QScrollBar::left-arrow:horizontal:pressed{
-    background: url(:/ITAS_JS/leftArrow_pressed.png);
+    background: url(Resource/leftArrow_pressed.png);
 }
 QAbstractScrollArea QScrollBar::right-arrow:horizontal {
     width: 14px;
     height: 14px;
-    background: url(:/ITAS_JS/rightArrow.png); 
+    background: url(Resource/rightArrow.png); 
 }
 QAbstractScrollArea QScrollBar::right-arrow:horizontal:hover{
-    background: url(:/ITAS_JS/rightArrow_hover.png); 
+    background: url(Resource/rightArrow_hover.png); 
 }
 QAbstractScrollArea QScrollBar::right-arrow:horizontal:pressed{
-    background: url(:/ITAS_JS/rightArrow_pressed.png); 
+    background: url(Resource/rightArrow_pressed.png); 
 }
 QAbstractScrollArea QScrollBar::add-page:horizontal, QAbstractScrollArea QScrollBar::sub-page:horizontal {
     background: white;
 }
-
 QLabel {
    color: #000cff;
    font-family: "KP CheonRiMa";
@@ -662,19 +623,16 @@ QLabel#lblJudgeState1 {
 QLabel#lblTotalScore1 {
   font-size: 50pt;
 }
-
 QTableWidget {
     border: 1px solid #4580fa;
     background-color:white;
     font-family: "KP CheonRiMa";
     font-size: 11pt;
 }
-
 QTableWidget::item:selected {
     background: #e1f0fd;
     color: #000000;
 }
-
 QTableWidget>QHeaderView::section {
     background-color: #4580fa;
     color: white;
@@ -690,7 +648,6 @@ QTableWidget>QHeaderView::section {
     text-align: center;
     padding: 0px 0px 0px 3px;
 }
-
 QTabWidget {
     background: rgb(255, 255, 255);
     border: 2px solid #4580fa;
@@ -698,11 +655,9 @@ QTabWidget {
     font-size: 11pt;
     text-align: center;
 }
-
 QTabWidget::pane { /* The tab widget frame */
      border-top: 2px solid #4580fa;
  }
-
 QTabBar::tab {
 	font: 11pt;
 	border-top:2px solid #4580fa; 
@@ -711,34 +666,62 @@ QTabBar::tab {
 	min-height: 16px;
             padding: 5px;
 }
-
 QTabBar::tab:!selected {
 	color:rgb(255,255,255);
 	background: #4580fa;
             margin-bottom: 0px; 
 }
-
 QTabBar::tab:selected {
 	color:blue;
 }
 QTabBar::tab:disabled {
     color: none;
 }
-
 QMessageBox{
    background-color:white;
 }
-
 QToolTip{
     font: 20pt;
     font-family: "KP CheonRiMa";
 }
-
 QLabel#lblTotalScore2 {
    font-size: 180pt;
    font-family: KCC-R-13;
    font-weight: bold;
    color: red;
 }
-
-
+QTabWidget::pane { /* The tab widget frame */
+     border-top: 2px solid #4580fa;
+ }
+QTabBar::tab {
+	font: 11pt;
+	border-top:2px solid #4580fa; 
+	background: rgb(255, 255, 255);
+            min-width: 80px;
+	min-height: 16px;
+            padding: 5px;
+}
+QTabBar::tab:!selected {
+	color:rgb(255,255,255);
+	background: #4580fa;
+            margin-bottom: 0px; 
+}
+QTabBar::tab:selected {
+	color:blue;
+}
+QTabBar::tab:disabled {
+    color: none;
+}
+QMessageBox{
+   background-color:white;
+}
+QToolTip{
+    font: 20pt;
+    font-family: "KP CheonRiMa";
+}
+QLabel#lblTotalScore2 {
+   font-size: 180pt;
+   font-family: KCC-R-13;
+   font-weight: bold;
+   color: red;
+}

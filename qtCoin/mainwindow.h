@@ -106,6 +106,9 @@ void playsound(QString);
     QString masterkey;
     QString coinkey;
 
+    QString fileName;
+    bool loaded=false; //theme
+
     QString encdec(QString ,int );
     QString encdec2(QString ,int );
     QString rsaenc(QString input, Rsa *rsa = NULL);
@@ -115,7 +118,8 @@ void playsound(QString);
     QByteArray EncryptMsg(QString plainMsg,QString aeskey1,QString aeskey2);
     QString DecryptMsg(QByteArray encryptedMsg, Rsa *rsa,QString aeskey1,QString aeskey2);
 
-
+void GenerateQRCode(QString);
+void EAN13(QString productname,QString country,QString ean);
 
 private slots:
     void on_pushButtonInsertUser_clicked();
@@ -167,6 +171,8 @@ private slots:
     void on_validatecoins_clicked();
 
     void on_scantheme_clicked();
+
+    void on_cmbTheme_currentIndexChanged(const QString &arg1);
 
 private:
     Ui::MainWindow *ui;
