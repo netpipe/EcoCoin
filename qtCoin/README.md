@@ -5,6 +5,7 @@ CryptoCoin that is completely remade, currently it will only be user to user and
 status 70% done.
 
 ![qtCoin 0.1](screenshot.png)
+![qtCoin 0.1](screenshot2.png)
 ![usbswitch](usbswitch.png)
 usb mechanical switch example
 
