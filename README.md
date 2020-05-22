@@ -1,6 +1,24 @@
 # EcoCoin
 eco friendly cryptocoin
 
+CryptoCoin that is completely remade, currently it will only be user to user and centralized.
+
+status 70% done.
+
+![qtCoin 0.1](qtCoin/screenshot.png)
+![qtCoin 0.1](qtCoin/screenshot2.png)
+![qtCoin 0.1](qtCoin/website/Simple/screenshot.png)
+![qtCoin 0.1](qtCoin/website/BitcoinExchange/Screenshot-1.png)
+test exchange, the simple
+![usbswitch](qtCoin/usbswitch.png)
+usb mechanical switch example
+
+
+
+
+
+
+
 Digital currency for low energy low impact
 
 perfect for writing iou’s, having personal stock or coins
