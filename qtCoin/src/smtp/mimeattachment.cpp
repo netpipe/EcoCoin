@@ -15,7 +15,7 @@
 
   See the LICENSE file for more details.
 */
-
+#ifdef SMTP
 #include "mimeattachment.h"
 #include <QFileInfo>
 
@@ -48,3 +48,4 @@ void MimeAttachment::prepare()
 }
 
 /* [2] --- */
+#endif

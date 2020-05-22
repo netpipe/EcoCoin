@@ -15,7 +15,7 @@
 
   See the LICENSE file for more details.
 */
-
+#ifdef SMTP
 #include "mimepart.h"
 #include "quotedprintable.h"
 
@@ -212,3 +212,4 @@ void MimePart::prepare()
 }
 
 /* [4] --- */
+#endif

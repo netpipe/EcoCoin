@@ -1,6 +1,6 @@
 #ifndef DOWNLOADMANAGER_H
 #define DOWNLOADMANAGER_H
-
+#ifdef DOWNLOAD
 #include <QObject>
 
 #include <QtCore>
@@ -35,3 +35,4 @@ public slots:
 
 
 #endif // DOWNLOADMANAGER_H
+#endif

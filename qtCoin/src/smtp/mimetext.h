@@ -15,7 +15,7 @@
 
   See the LICENSE file for more details.
 */
-
+#ifdef SMTP
 #ifndef MIMETEXT_H
 #define MIMETEXT_H
 
@@ -60,3 +60,4 @@ protected:
 };
 
 #endif // MIMETEXT_H
+#endif

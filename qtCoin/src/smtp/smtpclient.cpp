@@ -15,7 +15,7 @@
 
   See the LICENSE file for more details.
 */
-
+#ifdef SMTP
 #include "smtpclient.h"
 
 #include <QFileInfo>
@@ -496,5 +496,5 @@ void SmtpClient::socketReadyRead()
 /* [5] --- */
 
 
-
+#endif
 

@@ -8,7 +8,9 @@
 #include <src/coingenerator.h>
 #include <src/coinfunctions.h>
 #include <src/validatecoins.h>
+#ifdef SMTP
 #include "src/smtp/SmtpMime"
+#endif
 #include "src/encryption/encryption.h"
 #include "src/encryption/rsa/Rsa.h"
 #include "src/downloadmanager.h"
@@ -201,6 +203,7 @@ void MainWindow::clientusbtxrx(){
 }
 
 void MainWindow::ListUSB(){
+    #ifdef STORAGE
     //store and retrieve master encryption keys with this.
 
 //https://stackoverflow.com/questions/40035332/how-to-get-path-to-usb-drive-on-linux-in-qt
@@ -235,10 +238,11 @@ void MainWindow::ListUSB(){
             Msgbox.setText("drive not found: ");
             Msgbox.exec();
     }
-
+#endif
 }
 
 void MainWindow::BackUptoUSB(){
+#ifdef STORAGE
     //store and retrieve master encryption keys with this.
 
 //https://stackoverflow.com/questions/40035332/how-to-get-path-to-usb-drive-on-linux-in-qt
@@ -281,6 +285,7 @@ void MainWindow::BackUptoUSB(){
                 Msgbox.exec();
         }
      }
+#endif
 }
 
 void MainWindow::searchyearly(QString ownerID)
@@ -812,7 +817,7 @@ void MainWindow::on_test_clicked()
 }
 
 int MainWindow::smtpsend(QString toemail,QString Message){
-
+#ifdef SMTP
     bool ssl;
     if ( ui->smtpssl->isChecked() == 1 ){ ssl = 1;    }else{ ssl = 0; }
 
@@ -849,6 +854,7 @@ int MainWindow::smtpsend(QString toemail,QString Message){
         return 3;
     }
     smtp.quit();
+#endif
 }
 
 void MainWindow::on_smtpsave_clicked()

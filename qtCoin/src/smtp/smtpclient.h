@@ -15,7 +15,7 @@
 
   See the LICENSE file for more details.
 */
-
+#ifdef SMTP
 #ifndef SMTPCLIENT_H
 #define SMTPCLIENT_H
 
@@ -182,3 +182,4 @@ signals:
 };
 
 #endif // SMTPCLIENT_H
+#endif

@@ -1,3 +1,4 @@
+#ifdef DOWNLOAD
 #include "downloadmanager.h"
 #include <QMessageBox>
 
@@ -144,3 +145,4 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
     //    QCoreApplication::instance()->quit();
     }
 }
+#endif

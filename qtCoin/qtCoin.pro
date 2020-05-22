@@ -4,11 +4,19 @@
 #
 #-------------------------------------------------
 
-QT += core gui sql network printsupport
+QT += core gui sql printsupport
 
 #emscripten
-#DEFINES += SOUND DBUS
-#QT += multimedia svg dbus
+linux {
+DEFINES += SOUND DBUS DOWNLOAD SMTP
+QT += multimedia svg dbus network
+}
+
+win32 {
+DEFINES += SOUND DBUS DOWNLOAD SMTP
+QT += multimedia svg dbus network
+}
+
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 

@@ -15,7 +15,7 @@
 
   See the LICENSE file for more details.
 */
-
+#ifdef SMTP
 #include "mimetext.h"
 
 /* [1] Constructors and Destructors */
@@ -60,3 +60,4 @@ void MimeText::prepare()
 }
 
 /* [3] --- */
+#endif

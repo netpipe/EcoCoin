@@ -15,7 +15,7 @@
 
   See the LICENSE file for more details.
 */
-
+#ifdef SMTP
 #ifndef QUOTEDPRINTABLE_H
 #define QUOTEDPRINTABLE_H
 
@@ -37,3 +37,4 @@ private:
 };
 
 #endif // QUOTEDPRINTABLE_H
+#endif

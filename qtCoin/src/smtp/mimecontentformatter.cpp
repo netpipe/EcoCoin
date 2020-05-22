@@ -15,7 +15,7 @@
 
   See the LICENSE file for more details.
 */
-
+#ifdef SMTP
 #include "mimecontentformatter.h"
 
 MimeContentFormatter::MimeContentFormatter(int max_length) :
@@ -64,3 +64,4 @@ void MimeContentFormatter::setMaxLength(int l) {
 int MimeContentFormatter::getMaxLength() const {
     return max_length;
 }
+#endif
