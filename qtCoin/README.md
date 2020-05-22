@@ -6,6 +6,9 @@ status 70% done.
 
 ![qtCoin 0.1](screenshot.png)
 ![qtCoin 0.1](screenshot2.png)
+![qtCoin 0.1](website/Simple/screenshot.png)
+![qtCoin 0.1](website/BitcoinExchange/Screenshot-1.png)
+test exchange, the simple
 ![usbswitch](usbswitch.png)
 usb mechanical switch example
 
