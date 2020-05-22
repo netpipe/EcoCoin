@@ -24,6 +24,8 @@ coinexample names
 food coin - sell food, buy 1 get one free when the investment matures
 house coin - build houses based on selling them buy one get one free after they initial houses sell
 123stockcoin
+reunioncoin - get everyone to pay 10 dollars each month then put on a reunion
+treecoin - plant a tree then get money back during harvest
 
 
 
