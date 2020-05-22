@@ -21,7 +21,7 @@
        <enum>QTabWidget::Triangular</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="accountingtab">
        <attribute name="title">
@@ -31,7 +31,7 @@
         <item row="0" column="1">
          <widget class="QTabWidget" name="tabWidget">
           <property name="currentIndex">
-           <number>6</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tab_5">
            <attribute name="title">
@@ -668,693 +668,6 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="settingstab">
-       <attribute name="title">
-        <string>Settings</string>
-       </attribute>
-       <layout class="QGridLayout" name="gridLayout_3">
-        <item row="0" column="0">
-         <widget class="QTabWidget" name="tabWidget_2">
-          <property name="tabShape">
-           <enum>QTabWidget::Triangular</enum>
-          </property>
-          <property name="currentIndex">
-           <number>0</number>
-          </property>
-          <widget class="QWidget" name="tab">
-           <attribute name="title">
-            <string>Coin Settings</string>
-           </attribute>
-           <layout class="QGridLayout" name="gridLayout_2">
-            <item row="3" column="1">
-             <layout class="QHBoxLayout" name="horizontalLayout_4">
-              <item>
-               <widget class="QSpinBox" name="createday">
-                <property name="minimum">
-                 <number>1</number>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QComboBox" name="createmonth">
-                <item>
-                 <property name="text">
-                  <string>Jan</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Feb</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Mar</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>April</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>May</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>June</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>July</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Aug</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>September</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>October</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>November</string>
-                 </property>
-                </item>
-               </widget>
-              </item>
-              <item>
-               <widget class="QSpinBox" name="createyear">
-                <property name="maximum">
-                 <number>15000</number>
-                </property>
-                <property name="value">
-                 <number>2020</number>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QTimeEdit" name="createtime"/>
-              </item>
-             </layout>
-            </item>
-            <item row="4" column="1">
-             <widget class="QLabel" name="label_16">
-              <property name="text">
-               <string>Coin Value based on Local Currency or something like Gold / silver / bitcoin / cookies / votes / lottery etc...</string>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="0">
-             <widget class="QLabel" name="label_17">
-              <property name="text">
-               <string>Type</string>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="1">
-             <widget class="QLineEdit" name="valuetype">
-              <property name="text">
-               <string>CAD</string>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="0">
-             <widget class="QLabel" name="label_21">
-              <property name="text">
-               <string>Coin Value</string>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="1">
-             <widget class="QLineEdit" name="coinvalue">
-              <property name="text">
-               <string>.25</string>
-              </property>
-             </widget>
-            </item>
-            <item row="7" column="0">
-             <widget class="QLabel" name="label_8">
-              <property name="text">
-               <string>Encrypted-RSA+AES</string>
-              </property>
-             </widget>
-            </item>
-            <item row="7" column="1">
-             <layout class="QHBoxLayout" name="horizontalLayout_7">
-              <item>
-               <widget class="QRadioButton" name="encrypted_yes">
-                <property name="text">
-                 <string>Yes</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QRadioButton" name="encrypted_no">
-                <property name="text">
-                 <string>No</string>
-                </property>
-                <property name="checked">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item row="8" column="0" colspan="2">
-             <widget class="QGroupBox" name="groupBox">
-              <property name="title">
-               <string>Matures</string>
-              </property>
-              <layout class="QGridLayout" name="gridLayout">
-               <item row="4" column="1">
-                <layout class="QHBoxLayout" name="horizontalLayout_3">
-                 <item>
-                  <widget class="QLabel" name="label_10">
-                   <property name="text">
-                    <string>MaturingDate</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QSpinBox" name="matureday">
-                   <property name="minimum">
-                    <number>1</number>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QComboBox" name="maturemonth">
-                   <item>
-                    <property name="text">
-                     <string>Jan</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>Feb</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>Mar</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>April</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>May</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>June</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>July</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>Aug</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>September</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>October</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>November</string>
-                    </property>
-                   </item>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QSpinBox" name="matureyear">
-                   <property name="maximum">
-                    <number>15000</number>
-                   </property>
-                   <property name="value">
-                    <number>2020</number>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QTimeEdit" name="maturetime"/>
-                 </item>
-                </layout>
-               </item>
-               <item row="2" column="1">
-                <layout class="QHBoxLayout" name="horizontalLayout">
-                 <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout_2">
-                   <item>
-                    <widget class="QRadioButton" name="matureradio_yes">
-                     <property name="text">
-                      <string>Yes</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QRadioButton" name="matureradio_no">
-                     <property name="text">
-                      <string>No</string>
-                     </property>
-                     <property name="checked">
-                      <bool>true</bool>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                 <item>
-                  <widget class="QLabel" name="label_9">
-                   <property name="text">
-                    <string>CoinPayout </string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QDoubleSpinBox" name="coinpayout">
-                   <property name="value">
-                    <double>1.000000000000000</double>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLabel" name="label_20">
-                   <property name="text">
-                    <string>Investment Multiplier: 2 is double</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-               <item row="5" column="1">
-                <layout class="QHBoxLayout" name="horizontalLayout_6">
-                 <item>
-                  <widget class="QLabel" name="label_18">
-                   <property name="text">
-                    <string>Description</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QPlainTextEdit" name="maturedescription">
-                   <property name="plainText">
-                    <string>What the investment will be based on</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-               <item row="6" column="1">
-                <layout class="QHBoxLayout" name="horizontalLayout_8">
-                 <item>
-                  <widget class="QLabel" name="label_22">
-                   <property name="text">
-                    <string>USB Drive Name only, leaveblank to store on HD</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLineEdit" name="usbdrivename">
-                   <property name="text">
-                    <string/>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-               <item row="8" column="1">
-                <widget class="QSpinBox" name="matureday_2">
-                 <property name="minimum">
-                  <number>1</number>
-                 </property>
-                 <property name="maximum">
-                  <number>10000</number>
-                 </property>
-                 <property name="value">
-                  <number>50</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="7" column="1">
-                <widget class="QLabel" name="label_1155">
-                 <property name="text">
-                  <string>Inactive Account Expires if not used for this many years, coins return db account gets deleted</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item row="10" column="1">
-             <widget class="QPushButton" name="pushButton">
-              <property name="text">
-               <string>GenerateCoin</string>
-              </property>
-             </widget>
-            </item>
-            <item row="11" column="1">
-             <widget class="QPushButton" name="validatecoins">
-              <property name="text">
-               <string>Validate Coins - compare coins.db freecoins.db and clientcoins.db</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_19">
-              <property name="text">
-               <string>Coin Name</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QLineEdit" name="coinname">
-              <property name="text">
-               <string>CookieCoin</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="label_5">
-              <property name="text">
-               <string>CoinCount</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QLineEdit" name="coincount">
-              <property name="text">
-               <string>10000</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="label_655">
-              <property name="text">
-               <string>CoinAddressLength</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1">
-             <widget class="QLineEdit" name="coinlength">
-              <property name="text">
-               <string>8</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="0">
-             <widget class="QLabel" name="label_755">
-              <property name="text">
-               <string>DateCreated</string>
-              </property>
-             </widget>
-            </item>
-            <item row="9" column="1">
-             <widget class="QPushButton" name="gencoininfo_btn">
-              <property name="text">
-               <string>SaveInfo - (developer use only)</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-          <widget class="QWidget" name="tab_2">
-           <attribute name="title">
-            <string>App Settings</string>
-           </attribute>
-           <layout class="QGridLayout" name="gridLayout_4">
-            <item row="0" column="0">
-             <layout class="QVBoxLayout" name="verticalLayout_8">
-              <item>
-               <widget class="QGroupBox" name="groupBox_39">
-                <property name="title">
-                 <string>Settings</string>
-                </property>
-                <layout class="QVBoxLayout" name="verticalLayout_4">
-                 <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout_31">
-                   <item>
-                    <widget class="QLabel" name="label_313">
-                     <property name="text">
-                      <string>Theme from File</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QComboBox" name="cmbTheme"/>
-                   </item>
-                   <item>
-                    <widget class="QPushButton" name="scantheme">
-                     <property name="text">
-                      <string>scan</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QPushButton" name="btnApply">
-                     <property name="text">
-                      <string>Apply</string>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                 <item>
-                  <widget class="QGroupBox" name="groupBox_40">
-                   <property name="title">
-                    <string>FlatFile</string>
-                   </property>
-                   <layout class="QHBoxLayout" name="horizontalLayout_39">
-                    <item>
-                     <spacer name="horizontalSpacer_29">
-                      <property name="orientation">
-                       <enum>Qt::Horizontal</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0">
-                       <size>
-                        <width>180</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
-                    <item>
-                     <layout class="QHBoxLayout" name="horizontalLayout_36">
-                      <item>
-                       <widget class="QPushButton" name="btnAddThemeFromFile">
-                        <property name="text">
-                         <string>Add Theme</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QPushButton" name="btnRemoveThemeFromFile">
-                        <property name="text">
-                         <string>Remove Theme</string>
-                        </property>
-                       </widget>
-                      </item>
-                     </layout>
-                    </item>
-                   </layout>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QGroupBox" name="groupBox_655">
-                   <property name="title">
-                    <string>SMTP Settings</string>
-                   </property>
-                   <layout class="QGridLayout" name="gridLayout_12">
-                    <item row="0" column="0">
-                     <widget class="QLabel" name="label_2234">
-                      <property name="text">
-                       <string>host</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="0" column="1" colspan="2">
-                     <widget class="QLineEdit" name="smtphost">
-                      <property name="text">
-                       <string>smtp.gmail.com</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="1" column="0">
-                     <widget class="QLabel" name="label_3234">
-                      <property name="text">
-                       <string>port</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="1" column="1" colspan="2">
-                     <widget class="QLineEdit" name="smtpport">
-                      <property name="text">
-                       <string>465</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="2" column="0">
-                     <widget class="QLabel" name="label_6234">
-                      <property name="text">
-                       <string>email</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="2" column="1" colspan="2">
-                     <widget class="QLineEdit" name="smtpemail">
-                      <property name="text">
-                       <string>your_username@gmail.com</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="3" column="0">
-                     <widget class="QLabel" name="label_7234">
-                      <property name="text">
-                       <string>password</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="3" column="1" colspan="2">
-                     <widget class="QLineEdit" name="smtppassword">
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="echoMode">
-                       <enum>QLineEdit::Password</enum>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="4" column="0" colspan="2">
-                     <widget class="QCheckBox" name="smtpssl">
-                      <property name="text">
-                       <string>encrypted</string>
-                      </property>
-                      <property name="checked">
-                       <bool>true</bool>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="4" column="2">
-                     <widget class="QPushButton" name="smtpsave">
-                      <property name="text">
-                       <string>saveSettings</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="5" column="2">
-                     <widget class="QPushButton" name="smtptestmessage">
-                      <property name="text">
-                       <string>testmessage</string>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-              <item>
-               <spacer name="verticalSpacer_3">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>40</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
-            </item>
-           </layout>
-          </widget>
-          <widget class="QWidget" name="tab_10">
-           <attribute name="title">
-            <string>Updates</string>
-           </attribute>
-           <widget class="QPushButton" name="pushButton_2">
-            <property name="geometry">
-             <rect>
-              <x>20</x>
-              <y>350</y>
-              <width>411</width>
-              <height>28</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>clear tables/users - development only, creating newcoin does this</string>
-            </property>
-           </widget>
-           <widget class="QGroupBox" name="groupBox_4">
-            <property name="geometry">
-             <rect>
-              <x>20</x>
-              <y>10</y>
-              <width>443</width>
-              <height>322</height>
-             </rect>
-            </property>
-            <property name="title">
-             <string>Updates / Change Log</string>
-            </property>
-            <layout class="QGridLayout" name="gridLayout_36">
-             <item row="0" column="0">
-              <widget class="QLineEdit" name="lineEdit_107"/>
-             </item>
-             <item row="2" column="0">
-              <widget class="QListWidget" name="listWidget_8"/>
-             </item>
-             <item row="4" column="0">
-              <widget class="QPushButton" name="updateChangelog">
-               <property name="text">
-                <string>Update</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="0">
-              <widget class="QLabel" name="label_61">
-               <property name="text">
-                <string>Change Log</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </widget>
-         </widget>
-        </item>
-       </layout>
-      </widget>
       <widget class="QWidget" name="tab_6">
        <attribute name="title">
         <string>Admin</string>
@@ -1630,8 +943,699 @@
           </widget>
           <widget class="QWidget" name="tab_17">
            <attribute name="title">
-            <string>Page</string>
+            <string>GenerateCoin</string>
            </attribute>
+           <layout class="QGridLayout" name="gridLayout_16">
+            <item row="0" column="0">
+             <widget class="QGroupBox" name="groupBox_11">
+              <property name="title">
+               <string>Coin Settings</string>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_2">
+               <item row="2" column="0" colspan="2">
+                <widget class="QLabel" name="label_655">
+                 <property name="text">
+                  <string>CoinAddressLength</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="2">
+                <widget class="QLineEdit" name="coinlength">
+                 <property name="text">
+                  <string>8</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="2">
+                <widget class="QLineEdit" name="coinvalue">
+                 <property name="text">
+                  <string>.25</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="7" column="2">
+                <layout class="QHBoxLayout" name="horizontalLayout_15">
+                 <item>
+                  <widget class="QRadioButton" name="encrypted_yes_2">
+                   <property name="text">
+                    <string>Yes</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QRadioButton" name="encrypted_no_2">
+                   <property name="text">
+                    <string>No</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item row="5" column="0">
+                <widget class="QLabel" name="label_17">
+                 <property name="text">
+                  <string>Type</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="2">
+                <widget class="QLineEdit" name="coincount">
+                 <property name="text">
+                  <string>10000</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="0">
+                <widget class="QLabel" name="label_21">
+                 <property name="text">
+                  <string>Coin Value</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="2">
+                <widget class="QLineEdit" name="coinname">
+                 <property name="text">
+                  <string>CookieCoin</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="7" column="0" colspan="2">
+                <widget class="QLabel" name="label_8">
+                 <property name="text">
+                  <string>Encrypted-RSA+AES</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_5">
+                 <property name="text">
+                  <string>CoinCount</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="2">
+                <widget class="QLineEdit" name="valuetype">
+                 <property name="text">
+                  <string>CAD</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_19">
+                 <property name="text">
+                  <string>Coin Name</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0">
+                <widget class="QLabel" name="label_755">
+                 <property name="text">
+                  <string>DateCreated</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="0" colspan="3">
+                <widget class="QLabel" name="label_16">
+                 <property name="text">
+                  <string>Coin Value based on Local Currency or something like Gold / silver / bitcoin / cookies / votes / lottery etc...</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="2">
+                <layout class="QHBoxLayout" name="horizontalLayout_14">
+                 <item>
+                  <widget class="QSpinBox" name="createday_7">
+                   <property name="minimum">
+                    <number>1</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="createmonth_7">
+                   <item>
+                    <property name="text">
+                     <string>Jan</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Feb</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Mar</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>April</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>May</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>June</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>July</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Aug</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>September</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>October</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>November</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QSpinBox" name="createyear_7">
+                   <property name="maximum">
+                    <number>15000</number>
+                   </property>
+                   <property name="value">
+                    <number>2020</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QTimeEdit" name="createtime_7"/>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QGroupBox" name="groupBox">
+              <property name="title">
+               <string>Matures</string>
+              </property>
+              <layout class="QGridLayout" name="gridLayout">
+               <item row="4" column="1">
+                <layout class="QHBoxLayout" name="horizontalLayout_3">
+                 <item>
+                  <widget class="QLabel" name="label_10">
+                   <property name="text">
+                    <string>MaturingDate</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QSpinBox" name="matureday">
+                   <property name="minimum">
+                    <number>1</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="maturemonth">
+                   <item>
+                    <property name="text">
+                     <string>Jan</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Feb</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Mar</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>April</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>May</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>June</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>July</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Aug</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>September</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>October</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>November</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QSpinBox" name="matureyear">
+                   <property name="maximum">
+                    <number>15000</number>
+                   </property>
+                   <property name="value">
+                    <number>2020</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QTimeEdit" name="maturetime"/>
+                 </item>
+                </layout>
+               </item>
+               <item row="2" column="1">
+                <layout class="QHBoxLayout" name="horizontalLayout">
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_2">
+                   <item>
+                    <widget class="QRadioButton" name="matureradio_yes">
+                     <property name="text">
+                      <string>Yes</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QRadioButton" name="matureradio_no">
+                     <property name="text">
+                      <string>No</string>
+                     </property>
+                     <property name="checked">
+                      <bool>true</bool>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_9">
+                   <property name="text">
+                    <string>CoinPayout </string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QDoubleSpinBox" name="coinpayout">
+                   <property name="value">
+                    <double>1.000000000000000</double>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_20">
+                   <property name="text">
+                    <string>Investment Multiplier: 2 is double</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item row="5" column="1">
+                <layout class="QHBoxLayout" name="horizontalLayout_6">
+                 <item>
+                  <widget class="QLabel" name="label_18">
+                   <property name="text">
+                    <string>Description</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPlainTextEdit" name="maturedescription">
+                   <property name="plainText">
+                    <string>What the investment will be based on</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item row="6" column="1">
+                <layout class="QHBoxLayout" name="horizontalLayout_8">
+                 <item>
+                  <widget class="QLabel" name="label_22">
+                   <property name="text">
+                    <string>USB Drive Name only, leaveblank to store on HD</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="usbdrivename">
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item row="8" column="1">
+                <widget class="QSpinBox" name="matureday_2">
+                 <property name="minimum">
+                  <number>1</number>
+                 </property>
+                 <property name="maximum">
+                  <number>10000</number>
+                 </property>
+                 <property name="value">
+                  <number>50</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="7" column="1">
+                <widget class="QLabel" name="label_1155">
+                 <property name="text">
+                  <string>Inactive Account Expires if not used for this many years, coins return db account gets deleted</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QPushButton" name="gencoininfo_btn">
+              <property name="text">
+               <string>SaveInfo - (developer use only)</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QPushButton" name="pushButton">
+              <property name="text">
+               <string>GenerateCoin</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="0">
+             <widget class="QPushButton" name="validatecoins">
+              <property name="text">
+               <string>Validate Coins - compare coins.db freecoins.db and clientcoins.db</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="settingstab">
+       <attribute name="title">
+        <string>Settings</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_3">
+        <item row="0" column="0">
+         <widget class="QTabWidget" name="tabWidget_2">
+          <property name="tabShape">
+           <enum>QTabWidget::Triangular</enum>
+          </property>
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <widget class="QWidget" name="tab_2">
+           <attribute name="title">
+            <string>App Settings</string>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout_4">
+            <item row="0" column="0">
+             <layout class="QVBoxLayout" name="verticalLayout_8">
+              <item>
+               <widget class="QGroupBox" name="groupBox_39">
+                <property name="title">
+                 <string>Settings</string>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_4">
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_31">
+                   <item>
+                    <widget class="QLabel" name="label_313">
+                     <property name="text">
+                      <string>Theme from File</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QComboBox" name="cmbTheme"/>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="scantheme">
+                     <property name="text">
+                      <string>scan</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="btnApply">
+                     <property name="text">
+                      <string>Apply</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <widget class="QGroupBox" name="groupBox_40">
+                   <property name="title">
+                    <string>FlatFile</string>
+                   </property>
+                   <layout class="QHBoxLayout" name="horizontalLayout_39">
+                    <item>
+                     <spacer name="horizontalSpacer_29">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>180</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                    <item>
+                     <layout class="QHBoxLayout" name="horizontalLayout_36">
+                      <item>
+                       <widget class="QPushButton" name="btnAddThemeFromFile">
+                        <property name="text">
+                         <string>Add Theme</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="btnRemoveThemeFromFile">
+                        <property name="text">
+                         <string>Remove Theme</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QGroupBox" name="groupBox_655">
+                   <property name="title">
+                    <string>SMTP Settings</string>
+                   </property>
+                   <layout class="QGridLayout" name="gridLayout_12">
+                    <item row="0" column="0">
+                     <widget class="QLabel" name="label_2234">
+                      <property name="text">
+                       <string>host</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="1" colspan="2">
+                     <widget class="QLineEdit" name="smtphost">
+                      <property name="text">
+                       <string>smtp.gmail.com</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="1" column="0">
+                     <widget class="QLabel" name="label_3234">
+                      <property name="text">
+                       <string>port</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="1" column="1" colspan="2">
+                     <widget class="QLineEdit" name="smtpport">
+                      <property name="text">
+                       <string>465</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="2" column="0">
+                     <widget class="QLabel" name="label_6234">
+                      <property name="text">
+                       <string>email</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="2" column="1" colspan="2">
+                     <widget class="QLineEdit" name="smtpemail">
+                      <property name="text">
+                       <string>your_username@gmail.com</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="3" column="0">
+                     <widget class="QLabel" name="label_7234">
+                      <property name="text">
+                       <string>password</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="3" column="1" colspan="2">
+                     <widget class="QLineEdit" name="smtppassword">
+                      <property name="text">
+                       <string/>
+                      </property>
+                      <property name="echoMode">
+                       <enum>QLineEdit::Password</enum>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="4" column="0" colspan="2">
+                     <widget class="QCheckBox" name="smtpssl">
+                      <property name="text">
+                       <string>encrypted</string>
+                      </property>
+                      <property name="checked">
+                       <bool>true</bool>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="4" column="2">
+                     <widget class="QPushButton" name="smtpsave">
+                      <property name="text">
+                       <string>saveSettings</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="5" column="2">
+                     <widget class="QPushButton" name="smtptestmessage">
+                      <property name="text">
+                       <string>testmessage</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <spacer name="verticalSpacer_3">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tab_10">
+           <attribute name="title">
+            <string>Updates</string>
+           </attribute>
+           <widget class="QPushButton" name="pushButton_2">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>350</y>
+              <width>411</width>
+              <height>28</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>clear tables/users - development only, creating newcoin does this</string>
+            </property>
+           </widget>
+           <widget class="QGroupBox" name="groupBox_4">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>10</y>
+              <width>443</width>
+              <height>322</height>
+             </rect>
+            </property>
+            <property name="title">
+             <string>Updates / Change Log</string>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_36">
+             <item row="0" column="0">
+              <widget class="QLineEdit" name="lineEdit_107"/>
+             </item>
+             <item row="2" column="0">
+              <widget class="QListWidget" name="listWidget_8"/>
+             </item>
+             <item row="4" column="0">
+              <widget class="QPushButton" name="updateChangelog">
+               <property name="text">
+                <string>Update</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_61">
+               <property name="text">
+                <string>Change Log</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
           </widget>
          </widget>
         </item>
