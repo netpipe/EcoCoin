@@ -36,10 +36,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     db = QSqlDatabase::addDatabase("QSQLITE");    
     db.setDatabaseName("database.sqlite");
-
+#ifdef SOUND
     player=new QMediaPlayer();
     playsound("Resource/sounds/ec1_mono.ogg");
-
+#endif
     qDebug() << "db exists" << QDir("db").exists();    if (!QDir("db").exists()){        QDir().mkdir("db");    }
 
     ui->createyear->setValue(year.toInt());
@@ -98,18 +98,18 @@ MainWindow::MainWindow(QWidget *parent) :
         masterkey = GetRandomString(12,tester1.toLatin1());
         coinkey = "testing1234567";
     }
-    auto model = new QStandardItemModel();
+//    auto model = new QStandardItemModel();
 
-ui->treeView->setModel(model);
-    model->appendRow(new QStandardItem ("test"));
-        model->appendRow(new QStandardItem ("test"));
-            model->appendRow(new QStandardItem ("test"));
+//ui->treeView->setModel(model);
+//    model->appendRow(new QStandardItem ("test"));
+//        model->appendRow(new QStandardItem ("test"));
+//            model->appendRow(new QStandardItem ("test"));
 
-QList<QStandardItem*> test;
-QStandardItem *test34 =new QStandardItem ("test");
-test.append(test34);
-        model->item(1)->appendRows(test);
-        ui->treeView->expandAll();
+//QList<QStandardItem*> test;
+//QStandardItem *test34 =new QStandardItem ("test");
+//test.append(test34);
+//        model->item(1)->appendRows(test);
+//        ui->treeView->expandAll();
     //if client only mode
 
 //ui->settingstab->setEnabled(false);
@@ -130,6 +130,7 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::playsound(QString test){
+#ifdef SOUND
     // player->setMedia(QUrl("qrc:/sounds/ec1_mono.ogg"));
     // player->setMedia(QUrl::fromLocalFile("./paddle_hit.wav"));
      //or play from memory
@@ -145,6 +146,7 @@ void MainWindow::playsound(QString test){
  //    media->setMedia("sound.mp3");
      player->setMedia(QMediaContent(), buffer);
      player->play();
+#endif
 }
 void MainWindow::SQLTest(QString dbname,QString Query)
 {

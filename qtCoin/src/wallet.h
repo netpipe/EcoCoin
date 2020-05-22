@@ -15,16 +15,19 @@
 
 #include <iostream>
 #include <fstream>
+#ifdef BARCODE
 #include <QGraphicsSvgItem>
 #include "Barcode/functii.h"
 #include "Barcode/quirc/tests/inspect.h"
-
+#endif
+#ifdef BARCODE
 using qrcodegen::QrCode;
+#endif
 //minimum 2 coin verify for transactions
 //client wallet.sqlite
 
 void MainWindow::GenerateQRCode(QString test) {
-
+#ifdef BARCODE
     std::wstring text ( test.toStdWString() );
 
     //char *text2 = text.c_str();
@@ -64,13 +67,13 @@ void MainWindow::GenerateQRCode(QString test) {
         scene->setSceneRect(scaled_img.rect());
         ui->graphicsView->setScene(scene);
         ui->graphicsView->show();
-
+#endif
 
 }
 
 
 void MainWindow::EAN13(QString productname,QString country,QString ean){ //barcode
-
+#ifdef BARCODE
 //    std::string code13 = EAN13::appendChecksum("123", "123456789"); //countrycode 3 letters,European Article Number 9 digits no spaces
 //    std::string svg = EAN13::createSvg("productName test", code13);
 
@@ -93,7 +96,7 @@ void MainWindow::EAN13(QString productname,QString country,QString ean){ //barco
     scene->setSceneRect(scaled_img.rect());
     ui->graphicsView->setScene(scene);
     ui->graphicsView->show();
-
+#endif
 }
 
 

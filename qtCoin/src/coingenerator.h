@@ -818,48 +818,6 @@ void MainWindow::combinationUtil(QString arr, int n, int r, int index, QString d
     combinationUtil(arr, n, r, index, data, i+1);
 }
 
-QString MainWindow::GetRandomString(int length,QString chars)
-{ //https://stackoverflow.com/questions/18862963/qt-c-random-string-generation/18866593
-// "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
-    QString possibleCharacters(chars.toLatin1());
-   const int randomStringLength = length; //12 // assuming you want random strings of 12 characters
-
-    QTime time = QTime::currentTime();
-    qsrand((uint)time.msec());
-
-   QString randomString;
-   for(int i=0; i<randomStringLength; ++i)
-   {
-       int index = qrand() % possibleCharacters.length();
-       QChar nextChar = possibleCharacters.at(index);
-       possibleCharacters.remove(index,1); //line.replace(QString(nextChar), QString(""));
-       randomString.append(nextChar);
-   }
-   return randomString;
-}
-
-QString MainWindow::GetReallyRandomString(int length,QString chars)
-{ //https://stackoverflow.com/questions/18862963/qt-c-random-string-generation/18866593
-   QString possibleCharacters(chars.toLatin1());
-   const int randomStringLength = length; //12 // assuming you want random strings of 12 characters
-
-//    QTime time = QTime::currentTime();
-//    qsrand((uint)time.msec());
-
-   QString randomString;
-   for(int i=0; i<randomStringLength; ++i)
-   {
-       int index = qrand() % possibleCharacters.length();
-       QChar nextChar = possibleCharacters.at(index);
-     //  possibleCharacters.remove(index,1); //line.replace(QString(nextChar), QString(""));
-       randomString.append(nextChar);
-   }
-   return randomString;
-}
-
-
-
-
 void MainWindow::GenerateCoins2() //not used
 { //basic demo-bruteforce algorithm in C++ from hacksenkessel.com
     const string alphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"; // can randomize string and record as part of the unique coin signature ?

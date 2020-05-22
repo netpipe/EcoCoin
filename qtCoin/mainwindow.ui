@@ -484,173 +484,147 @@
            <attribute name="title">
             <string>Addresses</string>
            </attribute>
-           <widget class="QGroupBox" name="groupBox_6">
-            <property name="geometry">
-             <rect>
-              <x>460</x>
-              <y>310</y>
-              <width>282</width>
-              <height>228</height>
-             </rect>
-            </property>
-            <property name="title">
-             <string>Addresses</string>
-            </property>
-            <layout class="QGridLayout" name="gridLayout_17">
-             <item row="0" column="0">
-              <widget class="QTreeView" name="treeView"/>
-             </item>
-            </layout>
-           </widget>
-           <widget class="QTableWidget" name="tableWidgetUsers_5">
-            <property name="geometry">
-             <rect>
-              <x>10</x>
-              <y>10</y>
-              <width>431</width>
-              <height>621</height>
-             </rect>
-            </property>
-            <property name="styleSheet">
-             <string notr="true"/>
-            </property>
-            <column>
-             <property name="text">
-              <string>Address</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>ammount</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>class</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>Date</string>
-             </property>
-            </column>
-           </widget>
-           <widget class="QGroupBox" name="groupBox_19">
-            <property name="geometry">
-             <rect>
-              <x>460</x>
-              <y>20</y>
-              <width>248</width>
-              <height>100</height>
-             </rect>
-            </property>
-            <property name="title">
-             <string>GroupBox</string>
-            </property>
-            <layout class="QGridLayout" name="gridLayout_30">
-             <item row="0" column="0">
-              <widget class="QPushButton" name="pushButton_14">
+           <layout class="QGridLayout" name="gridLayout_21">
+            <item row="0" column="0" colspan="2">
+             <widget class="QTableWidget" name="tableWidgetUsers_5">
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
+              <column>
                <property name="text">
-                <string>add</string>
+                <string>Address</string>
                </property>
-              </widget>
-             </item>
-             <item row="0" column="1">
-              <widget class="QPushButton" name="pushButton_15">
+              </column>
+              <column>
                <property name="text">
-                <string>remove</string>
+                <string>ammount</string>
                </property>
-              </widget>
-             </item>
-             <item row="1" column="0">
-              <widget class="QPushButton" name="pushButton_16">
+              </column>
+              <column>
                <property name="text">
-                <string>search</string>
+                <string>class</string>
                </property>
-              </widget>
-             </item>
-             <item row="1" column="1">
-              <widget class="QLineEdit" name="lineEdit_5"/>
-             </item>
-            </layout>
-           </widget>
+              </column>
+              <column>
+               <property name="text">
+                <string>Date</string>
+               </property>
+              </column>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QGroupBox" name="groupBox_6">
+              <property name="title">
+               <string>Addresses</string>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_17">
+               <item row="0" column="0">
+                <widget class="QTreeView" name="treeView"/>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QGroupBox" name="groupBox_19">
+              <property name="title">
+               <string>GroupBox</string>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_30">
+               <item row="0" column="0">
+                <widget class="QPushButton" name="pushButton_14">
+                 <property name="text">
+                  <string>add</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QPushButton" name="pushButton_15">
+                 <property name="text">
+                  <string>remove</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QPushButton" name="pushButton_16">
+                 <property name="text">
+                  <string>search</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QLineEdit" name="lineEdit_5"/>
+               </item>
+              </layout>
+             </widget>
+            </item>
+           </layout>
           </widget>
           <widget class="QWidget" name="tab_12">
            <attribute name="title">
             <string>Contacts</string>
            </attribute>
-           <widget class="QTableWidget" name="tableWidgetUsers_4">
-            <property name="geometry">
-             <rect>
-              <x>0</x>
-              <y>10</y>
-              <width>431</width>
-              <height>621</height>
-             </rect>
-            </property>
-            <property name="styleSheet">
-             <string notr="true"/>
-            </property>
-            <column>
-             <property name="text">
-              <string>Email</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>owner</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>class</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>Date</string>
-             </property>
-            </column>
-           </widget>
-           <widget class="QGroupBox" name="groupBox_18">
-            <property name="geometry">
-             <rect>
-              <x>440</x>
-              <y>20</y>
-              <width>248</width>
-              <height>100</height>
-             </rect>
-            </property>
-            <property name="title">
-             <string>GroupBox</string>
-            </property>
-            <layout class="QGridLayout" name="gridLayout_29">
-             <item row="0" column="0">
-              <widget class="QPushButton" name="pushButton_5">
+           <layout class="QGridLayout" name="gridLayout_22">
+            <item row="0" column="0">
+             <widget class="QTableWidget" name="tableWidgetUsers_4">
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
+              <column>
                <property name="text">
-                <string>add</string>
+                <string>Email</string>
                </property>
-              </widget>
-             </item>
-             <item row="0" column="1">
-              <widget class="QPushButton" name="pushButton_7">
+              </column>
+              <column>
                <property name="text">
-                <string>remove</string>
+                <string>owner</string>
                </property>
-              </widget>
-             </item>
-             <item row="1" column="0">
-              <widget class="QPushButton" name="pushButton_8">
+              </column>
+              <column>
                <property name="text">
-                <string>search</string>
+                <string>class</string>
                </property>
-              </widget>
-             </item>
-             <item row="1" column="1">
-              <widget class="QLineEdit" name="lineEdit_2"/>
-             </item>
-            </layout>
-           </widget>
+              </column>
+              <column>
+               <property name="text">
+                <string>Date</string>
+               </property>
+              </column>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QGroupBox" name="groupBox_18">
+              <property name="title">
+               <string>GroupBox</string>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_29">
+               <item row="0" column="0">
+                <widget class="QPushButton" name="pushButton_5">
+                 <property name="text">
+                  <string>add</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QPushButton" name="pushButton_7">
+                 <property name="text">
+                  <string>remove</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QPushButton" name="pushButton_8">
+                 <property name="text">
+                  <string>search</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QLineEdit" name="lineEdit_2"/>
+               </item>
+              </layout>
+             </widget>
+            </item>
+           </layout>
           </widget>
           <widget class="QWidget" name="tab_15">
            <attribute name="title">
@@ -669,7 +643,7 @@
         <item row="0" column="0">
          <widget class="QTabWidget" name="tabWidget_3">
           <property name="currentIndex">
-           <number>2</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tab_8">
            <attribute name="title">
@@ -1366,6 +1340,11 @@
              </widget>
             </item>
            </layout>
+          </widget>
+          <widget class="QWidget" name="tab">
+           <attribute name="title">
+            <string>Page</string>
+           </attribute>
           </widget>
          </widget>
         </item>

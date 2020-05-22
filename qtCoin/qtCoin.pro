@@ -4,7 +4,11 @@
 #
 #-------------------------------------------------
 
-QT       += core gui sql network printsupport  multimedia svg dbus
+QT += core gui sql network printsupport
+
+#emscripten
+#DEFINES += SOUND DBUS
+#QT += multimedia svg dbus
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -20,10 +24,10 @@ ICON = ./qtCoin.ico
 CONFIG += console
 
 
-unix:!macx:CONFIG += console
+#unix:!macx:CONFIG += barcodescan
 barcodescan{
 LIBS+= -lpng -ljpeg
-DEFINES += barcodescan
+DEFINES += barcodescan BARCODE
 }
 
 DEFINES += QT_DEPRECATED_WARNINGS

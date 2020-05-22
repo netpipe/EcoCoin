@@ -5,7 +5,9 @@
 #include <QtSql/QSqlDatabase>
 #include <QtSql/QSqlQuery>
 #include <QtSql/QSqlError>
+#ifdef SOUND
 #include <QMediaPlayer>
+#endif
 #include "src/encryption/rsa/Rsa.h"
 #include <QEvent>
 #include <QThread>
@@ -69,8 +71,9 @@ public:
     QList<QString> _coins;
 
     void ListUSB();
+#ifdef SOUND
     QMediaPlayer*player;
-
+#endif
     void SQLTest(QString dbname,QString Query);
     //coingenerator3
     int _count;
