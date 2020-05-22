@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>829</width>
-    <height>879</height>
+    <height>915</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,7 +21,7 @@
        <enum>QTabWidget::Triangular</enum>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="accountingtab">
        <attribute name="title">
@@ -976,14 +976,14 @@
                <item row="7" column="2">
                 <layout class="QHBoxLayout" name="horizontalLayout_15">
                  <item>
-                  <widget class="QRadioButton" name="encrypted_yes_2">
+                  <widget class="QRadioButton" name="encrypted_yes">
                    <property name="text">
                     <string>Yes</string>
                    </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QRadioButton" name="encrypted_no_2">
+                  <widget class="QRadioButton" name="encrypted_no">
                    <property name="text">
                     <string>No</string>
                    </property>
@@ -1067,14 +1067,14 @@
                <item row="3" column="2">
                 <layout class="QHBoxLayout" name="horizontalLayout_14">
                  <item>
-                  <widget class="QSpinBox" name="createday_7">
+                  <widget class="QSpinBox" name="createday">
                    <property name="minimum">
                     <number>1</number>
                    </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QComboBox" name="createmonth_7">
+                  <widget class="QComboBox" name="createmonth">
                    <item>
                     <property name="text">
                      <string>Jan</string>
@@ -1133,7 +1133,7 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QSpinBox" name="createyear_7">
+                  <widget class="QSpinBox" name="createyear">
                    <property name="maximum">
                     <number>15000</number>
                    </property>
@@ -1143,7 +1143,7 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QTimeEdit" name="createtime_7"/>
+                  <widget class="QTimeEdit" name="createtime"/>
                  </item>
                 </layout>
                </item>
