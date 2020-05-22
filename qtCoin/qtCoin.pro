@@ -17,6 +17,11 @@ DEFINES += SOUND DBUS DOWNLOAD SMTP
 QT += multimedia svg dbus network
 }
 
+wasm-emscripten {
+LIBS += -lidbfs.js -lnodefs.js -lworkerfs.js
+#-lnodefs.js, -lidbfs.js', -lworkerfs.js, -lproxyfs.js
+}
+
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
