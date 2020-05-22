@@ -788,7 +788,7 @@ int MainWindow::getkeys(){ //for coldstorage server or standalone server which c
 
 }
 
-void MainWindow::on_pushButton_2_clicked()
+void MainWindow::on_pushButton_2_clicked() //clearall databases
 {
     cleartablesusers();
 }
@@ -870,6 +870,9 @@ void MainWindow::on_placeCoinsopenfile_clicked()
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open rx/tx"), "./", tr("rx/tx files (*.rx *.tx *.txt)"));
     qDebug()<< fileName.toLatin1() ;
 
+    //check extension to see if image to decode qrcode.
+    //save qrdata to tmp file set filename and process
+
     processRXTXfile(fileName);
 }
 
@@ -904,4 +907,9 @@ void MainWindow::on_cmbTheme_currentIndexChanged(const QString &arg1)
     }
 }
 
+}
+
+void MainWindow::on_GenerateRequest_clicked()
+{
+    //could be sent via smtp
 }

@@ -18,7 +18,9 @@ ICON = ./qtCoin.ico
 
 #CONFIG += c++11
 CONFIG += console
-#CONFIG+=barcodescan
+
+
+unix:!macx:CONFIG += console
 barcodescan{
 LIBS+= -lpng -ljpeg
 DEFINES += barcodescan
