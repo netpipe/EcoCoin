@@ -17,6 +17,7 @@
 #include <fstream>
 #include <QGraphicsSvgItem>
 #include "Barcode/functii.h"
+#include "Barcode/quirc/tests/inspect.h"
 
 using qrcodegen::QrCode;
 //minimum 2 coin verify for transactions

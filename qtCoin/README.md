@@ -1,5 +1,14 @@
 GPL project
+
+CryptoCoin that is completely remade, currently it will only be user to user and centralized.
+
+status 70% done.
+
 ![qtCoin 0.1](screenshot.png)
+![qtCoin 0.1](screenshot2.png)
+![qtCoin 0.1](website/Simple/screenshot.png)
+![qtCoin 0.1](website/BitcoinExchange/Screenshot-1.png)
+test exchange, the simple
 ![usbswitch](usbswitch.png)
 usb mechanical switch example
 
@@ -11,49 +20,10 @@ majority share lottery or random pick
 goal directed coin for production also buyback of products produced could extend time for payouts
 voting system
 
-
-extra options
-encrypted and non encrypted options for less inclined people that need to be able access it if usb key gets lost
-extended maturity payout information for coin 1000 shares per month after for example per person
-quantity based coins instead of cents could have extra option on value
-
-
-
 coinexample names
-food coin
+food coin - sell food, buy 1 get one free when the investment matures
 house coin - build houses based on selling them buy one get one free after they initial houses sell
+123stockcoin
 
-
-outline
-
-coin addresses will be valued at .25 or .50 cents to keep the addresses fewer 1 million coin at 25 cents could net you quarter of a million dollars
-
-2 master keys name and coin key, one used to protect customers names after account creation incase of server theft also coin key used to verify coins being spent. the name key is only needed during account creation or maintenance to verify someone has lost their coins.
-
-randomize coin locations after generating bruteforce combinations and use index number as part of encryption.
-
-name is double encrypted with rsa and aes, to protect customers incase of theft. can use a new encryption key each year if desired to further increase security.
-
-year dated 2020ABC45678 8 alphanumeric accountnumber idea so the database knows where to look for account might be encrypted based on name for coin verification.
-
-coins will be encrypted from encrypted users name with a user generated rsa+aes key also the master coin key.
-
-ledger/coin address generator based on set ammount of coins . account number can be year+ random 8 letter/number address encrypted with rsa+aes
-
-3 databases valid coins and customer holdings and available coins also possability to split the holdings databases by year to keep size lower and faster to search. use verify method to double check all coins accounted for. also md5sums
-
-decrypt when spent to verify validity in valid coins database.
-
-to be spent on a centralized system
-
-validation false count to disable account (call for service) 
-
-offline coldstorage validation through custom usb switch with electronic controller to switch thumbdrive between 2 computers hourly/daily/timed interval
-
-frontend(online computer) and/or clients card keeps account balances for querry's and quick checks
-
-functions
-	transfer between accounts
-	verify coins - get total holdings
 
 
