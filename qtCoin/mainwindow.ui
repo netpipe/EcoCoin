@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>829</width>
-    <height>871</height>
+    <height>879</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -97,13 +97,13 @@
         <string>Accounting</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_8">
-        <item row="0" column="1">
+        <item row="0" column="0">
          <widget class="QTabWidget" name="transfers2">
           <property name="tabShape">
            <enum>QTabWidget::Triangular</enum>
           </property>
           <property name="currentIndex">
-           <number>3</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tab_6">
            <attribute name="title">
@@ -116,7 +116,7 @@
                <enum>QTabWidget::Triangular</enum>
               </property>
               <property name="currentIndex">
-               <number>2</number>
+               <number>1</number>
               </property>
               <widget class="QWidget" name="tab_8">
                <attribute name="title">
@@ -223,6 +223,24 @@
                  <string>candidates/votes use the uer field</string>
                 </property>
                </widget>
+               <widget class="QGroupBox" name="groupBox_9">
+                <property name="geometry">
+                 <rect>
+                  <x>220</x>
+                  <y>270</y>
+                  <width>282</width>
+                  <height>228</height>
+                 </rect>
+                </property>
+                <property name="title">
+                 <string>QrCode</string>
+                </property>
+                <layout class="QGridLayout" name="gridLayout_20">
+                 <item row="0" column="0">
+                  <widget class="QGraphicsView" name="sendqrcode"/>
+                 </item>
+                </layout>
+               </widget>
               </widget>
               <widget class="QWidget" name="tab_9">
                <attribute name="title">
@@ -287,8 +305,8 @@
                <widget class="QLabel" name="label_28">
                 <property name="geometry">
                  <rect>
-                  <x>20</x>
-                  <y>190</y>
+                  <x>30</x>
+                  <y>260</y>
                   <width>361</width>
                   <height>28</height>
                  </rect>
@@ -297,12 +315,146 @@
                  <string>if just opening file no need to fill in user id and ammount</string>
                 </property>
                </widget>
-              </widget>
-              <widget class="QWidget" name="tab_11">
-               <attribute name="title">
-                <string>wallet</string>
-               </attribute>
-               <layout class="QGridLayout" name="gridLayout_14"/>
+               <widget class="QGroupBox" name="groupBox_7">
+                <property name="geometry">
+                 <rect>
+                  <x>210</x>
+                  <y>290</y>
+                  <width>282</width>
+                  <height>228</height>
+                 </rect>
+                </property>
+                <property name="title">
+                 <string>QrCode</string>
+                </property>
+                <layout class="QGridLayout" name="gridLayout_18">
+                 <item row="0" column="0">
+                  <widget class="QGraphicsView" name="graphicsView"/>
+                 </item>
+                </layout>
+               </widget>
+               <widget class="QGroupBox" name="groupBox_8">
+                <property name="geometry">
+                 <rect>
+                  <x>250</x>
+                  <y>90</y>
+                  <width>491</width>
+                  <height>171</height>
+                 </rect>
+                </property>
+                <property name="title">
+                 <string>Description</string>
+                </property>
+                <layout class="QGridLayout" name="gridLayout_19">
+                 <item row="0" column="0">
+                  <widget class="QPlainTextEdit" name="plainTextEdit"/>
+                 </item>
+                </layout>
+               </widget>
+               <widget class="QWidget" name="layoutWidget">
+                <property name="geometry">
+                 <rect>
+                  <x>400</x>
+                  <y>30</y>
+                  <width>324</width>
+                  <height>38</height>
+                 </rect>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_9">
+                 <item>
+                  <widget class="QSpinBox" name="createday_2">
+                   <property name="minimum">
+                    <number>1</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="createmonth_2">
+                   <item>
+                    <property name="text">
+                     <string>Jan</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Feb</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Mar</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>April</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>May</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>June</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>July</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Aug</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>September</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>October</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>November</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QSpinBox" name="createyear_2">
+                   <property name="maximum">
+                    <number>15000</number>
+                   </property>
+                   <property name="value">
+                    <number>2020</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QTimeEdit" name="createtime_2"/>
+                 </item>
+                </layout>
+               </widget>
+               <widget class="QLabel" name="label_3">
+                <property name="geometry">
+                 <rect>
+                  <x>270</x>
+                  <y>40</y>
+                  <width>101</width>
+                  <height>18</height>
+                 </rect>
+                </property>
+                <property name="text">
+                 <string>Request Expires</string>
+                </property>
+               </widget>
               </widget>
              </widget>
             </item>
@@ -579,7 +731,7 @@
             <item row="0" column="0">
              <widget class="QTabWidget" name="tabWidget">
               <property name="currentIndex">
-               <number>1</number>
+               <number>0</number>
               </property>
               <widget class="QWidget" name="tab_14">
                <attribute name="title">
@@ -627,24 +779,126 @@
                     <string>Class</string>
                    </property>
                   </column>
+                  <column>
+                   <property name="text">
+                    <string>Date</string>
+                   </property>
+                  </column>
                  </widget>
                 </item>
                </layout>
+              </widget>
+              <widget class="QWidget" name="tab_16">
+               <attribute name="title">
+                <string>Addresses</string>
+               </attribute>
+               <widget class="QGroupBox" name="groupBox_6">
+                <property name="geometry">
+                 <rect>
+                  <x>460</x>
+                  <y>310</y>
+                  <width>282</width>
+                  <height>228</height>
+                 </rect>
+                </property>
+                <property name="title">
+                 <string>Addresses</string>
+                </property>
+                <layout class="QGridLayout" name="gridLayout_17">
+                 <item row="0" column="0">
+                  <widget class="QTreeView" name="treeView"/>
+                 </item>
+                </layout>
+               </widget>
+               <widget class="QTableWidget" name="tableWidgetUsers_5">
+                <property name="geometry">
+                 <rect>
+                  <x>10</x>
+                  <y>10</y>
+                  <width>431</width>
+                  <height>621</height>
+                 </rect>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true"/>
+                </property>
+                <column>
+                 <property name="text">
+                  <string>Address</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>ammount</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>class</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Date</string>
+                 </property>
+                </column>
+               </widget>
+              </widget>
+              <widget class="QWidget" name="tab_12">
+               <attribute name="title">
+                <string>Contacts</string>
+               </attribute>
+               <widget class="QPushButton" name="pushButton_5">
+                <property name="geometry">
+                 <rect>
+                  <x>540</x>
+                  <y>40</y>
+                  <width>88</width>
+                  <height>28</height>
+                 </rect>
+                </property>
+                <property name="text">
+                 <string>PushButton</string>
+                </property>
+               </widget>
+               <widget class="QTableWidget" name="tableWidgetUsers_4">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>10</y>
+                  <width>431</width>
+                  <height>621</height>
+                 </rect>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true"/>
+                </property>
+                <column>
+                 <property name="text">
+                  <string>Email</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>owner</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>class</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Date</string>
+                 </property>
+                </column>
+               </widget>
               </widget>
               <widget class="QWidget" name="tab_15">
                <attribute name="title">
                 <string>Settings</string>
                </attribute>
-               <widget class="QGraphicsView" name="graphicsView">
-                <property name="geometry">
-                 <rect>
-                  <x>140</x>
-                  <y>120</y>
-                  <width>256</width>
-                  <height>192</height>
-                 </rect>
-                </property>
-               </widget>
               </widget>
              </widget>
             </item>
@@ -665,7 +919,7 @@
            <enum>QTabWidget::Triangular</enum>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tab">
            <attribute name="title">

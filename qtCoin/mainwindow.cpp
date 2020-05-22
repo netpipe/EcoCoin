@@ -14,6 +14,7 @@
 #include "src/downloadmanager.h"
 #include "src/loadtheme.h"
 #include "src/wallet.h"
+#include <QStandardItemModel>
 
 //references and links
 //https://doc.qt.io/qt-5/sql-sqlstatements.html
@@ -97,7 +98,18 @@ MainWindow::MainWindow(QWidget *parent) :
         masterkey = GetRandomString(12,tester1.toLatin1());
         coinkey = "testing1234567";
     }
+    auto model = new QStandardItemModel();
 
+ui->treeView->setModel(model);
+    model->appendRow(new QStandardItem ("test"));
+        model->appendRow(new QStandardItem ("test"));
+            model->appendRow(new QStandardItem ("test"));
+
+QList<QStandardItem*> test;
+QStandardItem *test34 =new QStandardItem ("test");
+test.append(test34);
+        model->item(1)->appendRows(test);
+        ui->treeView->expandAll();
     //if client only mode
 
 //ui->settingstab->setEnabled(false);
