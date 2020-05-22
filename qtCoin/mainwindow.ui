@@ -21,17 +21,17 @@
        <enum>QTabWidget::Triangular</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="accountingtab">
        <attribute name="title">
         <string>Wallet</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_8">
-        <item row="0" column="1">
+        <item row="0" column="0">
          <widget class="QTabWidget" name="tabWidget">
           <property name="currentIndex">
-           <number>5</number>
+           <number>6</number>
           </property>
           <widget class="QWidget" name="tab_5">
            <attribute name="title">
@@ -41,48 +41,48 @@
             <item row="0" column="0">
              <widget class="QGroupBox" name="groupBox_10">
               <property name="title">
-               <string>History</string>
+               <string>Coin Status and Transactions</string>
               </property>
               <layout class="QGridLayout" name="gridLayout_6">
-               <item row="3" column="1">
+               <item row="1" column="5">
                 <widget class="QProgressBar" name="progress_2">
                  <property name="value">
                   <number>24</number>
                  </property>
                 </widget>
                </item>
-               <item row="0" column="1">
-                <widget class="QLineEdit" name="lineEdit_7">
-                 <property name="text">
-                  <string>Online / Offline Storage</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="0">
+               <item row="1" column="4">
                 <widget class="QLabel" name="label_13">
                  <property name="text">
                   <string>Avalability</string>
                  </property>
                 </widget>
                </item>
-               <item row="1" column="1">
+               <item row="1" column="0">
+                <widget class="QLabel" name="status_11">
+                 <property name="text">
+                  <string>Status</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="3">
                 <widget class="QProgressBar" name="progress">
                  <property name="value">
                   <number>24</number>
                  </property>
                 </widget>
                </item>
-               <item row="1" column="0">
+               <item row="1" column="2">
                 <widget class="QLabel" name="label_12">
                  <property name="text">
                   <string>Maturing Progress</string>
                  </property>
                 </widget>
                </item>
-               <item row="0" column="0">
-                <widget class="QLabel" name="status_11">
+               <item row="1" column="1">
+                <widget class="QLineEdit" name="lineEdit_7">
                  <property name="text">
-                  <string>Status</string>
+                  <string>Online / Offline Storage</string>
                  </property>
                 </widget>
                </item>
@@ -112,61 +112,6 @@
               <column>
                <property name="text">
                 <string>Ammount</string>
-               </property>
-              </column>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-          <widget class="QWidget" name="tab_14">
-           <attribute name="title">
-            <string>Coins</string>
-           </attribute>
-           <layout class="QGridLayout" name="gridLayout_15">
-            <item row="0" column="0">
-             <layout class="QHBoxLayout" name="horizontalLayout_5">
-              <item>
-               <widget class="QLabel" name="label_2">
-                <property name="text">
-                 <string>Balance</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLineEdit" name="lineEdit"/>
-              </item>
-              <item>
-               <widget class="QPushButton" name="pushButton_4">
-                <property name="text">
-                 <string>Refresh</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item row="1" column="0">
-             <widget class="QTableWidget" name="tableWidgetUsers_3">
-              <property name="styleSheet">
-               <string notr="true"/>
-              </property>
-              <column>
-               <property name="text">
-                <string>CoinAddress</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>owner</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>Class</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>Date</string>
                </property>
               </column>
              </widget>
@@ -604,6 +549,61 @@
                 <widget class="QLineEdit" name="lineEdit_2"/>
                </item>
               </layout>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tab_14">
+           <attribute name="title">
+            <string>Coins</string>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout_15">
+            <item row="0" column="0">
+             <layout class="QHBoxLayout" name="horizontalLayout_5">
+              <item>
+               <widget class="QLabel" name="label_2">
+                <property name="text">
+                 <string>Balance</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="lineEdit"/>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButton_4">
+                <property name="text">
+                 <string>Refresh</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item row="1" column="0">
+             <widget class="QTableWidget" name="tableWidgetUsers_3">
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
+              <column>
+               <property name="text">
+                <string>CoinAddress</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>owner</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Class</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Date</string>
+               </property>
+              </column>
              </widget>
             </item>
            </layout>
@@ -1175,7 +1175,7 @@
                     <string>Description</string>
                    </property>
                   </widget>
-                  <widget class="QWidget" name="">
+                  <widget class="QWidget" name="layoutWidget">
                    <property name="geometry">
                     <rect>
                      <x>10</x>
@@ -1229,7 +1229,7 @@
                     </item>
                    </layout>
                   </widget>
-                  <widget class="QWidget" name="">
+                  <widget class="QWidget" name="layoutWidget">
                    <property name="geometry">
                     <rect>
                      <x>490</x>
@@ -1375,10 +1375,10 @@
         <item row="0" column="0">
          <widget class="QTabWidget" name="tabWidget_2">
           <property name="tabShape">
-           <enum>QTabWidget::Triangular</enum>
+           <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tab_2">
            <attribute name="title">
