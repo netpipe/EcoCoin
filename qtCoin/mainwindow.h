@@ -81,9 +81,14 @@ public:
     int _length;
     bool _state;
 
-void createWalletTable();
+void createWalletTable(QString ID);
 void createWalletCoinsTable();
-void WalletAddressInsert();
+void WalletAddressInsert(QString address);
+void walletCoinInsert(QString address);
+void createWalletCoinsTable(QString address);
+
+void createWalletHistoryTable();
+void HistoryInsert(QString datetime,QString RXTX,QString ID,QString Ammount,QString contactname) ;
 
 void generateRXfile(QString suserid,QString ruserid,QString etxcoins);
 void generateTXfile(QString suserid,QString ruserid,QString etxcoins);
@@ -189,6 +194,8 @@ private slots:
     void on_GenerateRequest_clicked();
 
     void on_coinsrefresh_clicked();
+
+    void on_walletCreateAddress_clicked();
 
 private:
     Ui::MainWindow *ui;

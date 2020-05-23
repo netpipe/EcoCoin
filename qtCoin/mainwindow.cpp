@@ -878,3 +878,9 @@ void MainWindow::on_coinsrefresh_clicked()  // set global userid for testing
     query.clear();
     db.close();
 }
+
+
+void MainWindow::on_walletCreateAddress_clicked()
+{
+
+}

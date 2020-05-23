@@ -26,15 +26,15 @@ void MainWindow::on_pushButtonInsertUser_clicked()
 
     //fix later
     if (validateID(ownerid) == 0 ){
-    for (int i=0;i < 100 ; i++) { //100 tries
-        if (validateID(ownerid) == 1 ){
+        for (int i=0;i < 100 ; i++) { //100 tries
+            if (validateID(ownerid) == 1 ){
 
-        }else {
-            break;
+            }else {
+                break;
+            }
+            QString temp = GetRandomString(8,"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890");
+            ownerid=ui->lineEditName->text().toLatin1();
         }
-        QString temp = GetRandomString(8,"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890");
-        ownerid=ui->lineEditName->text().toLatin1();
-    }
     }
 
 // use password first to make more secure so no need to store in plaintext
@@ -53,13 +53,9 @@ void MainWindow::on_pushButtonInsertUser_clicked()
     createyearly(crypted2);
 
   //  createyearly(crypted2); //the /n causes issues
-
   //  qDebug() << "lineeditname " << ui->lineEditName->text();
 
     insertUser();
-
-
-
 
     //selectUsersCoins(temp.toLatin1(),year.toLatin1());
 
@@ -104,27 +100,27 @@ void MainWindow::insertUser() //strictly a db to hold all userid's for verificat
 
     query.append("INSERT INTO users("
                  "userid,"
-                    "name,"
-                    "password,"
-                    "phone,"//
+                 "name,"
+                 "password,"
+                 "phone,"//
                  "datetime,"
                  "ekey,"
                  "total,"
                  "extra,"
-                    "class)"
-                    "VALUES("
-                    "'"+euserid.toLatin1()+"',"
-                    "'"+ui->lineEditSurname->text().toLatin1()+"',"
-                    "'"+ui->lineEditPassword->text().toLatin1()+"',"
-                  "'"+ui->lineEditPhone->text().toLatin1()+"',"
-                "'"+ui->createuserdatetime->text()+"',"
+                 "class)"
+                 "VALUES("
+                 "'"+euserid.toLatin1()+"',"
+                 "'"+ui->lineEditSurname->text().toLatin1()+"',"
+                 "'"+ui->lineEditPassword->text().toLatin1()+"',"
+                 "'"+ui->lineEditPhone->text().toLatin1()+"',"
+                 "'"+ui->createuserdatetime->text()+"',"
                  "'""'," //ekey
                  "'""'," //ammount
-                    "'"+ui->createextra->text().toLatin1()+"',"
+                 "'"+ui->createextra->text().toLatin1()+"',"
                  "'"+ui->createclass->text()+"'"
-                    ");");
+                 ");");
 
-     qDebug()<< euserid.toLatin1();
+    qDebug()<< euserid.toLatin1();
 
     QSqlQuery insert;
     insert.prepare(query);
