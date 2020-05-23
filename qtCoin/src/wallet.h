@@ -195,7 +195,7 @@ void MainWindow::createWalletCoinsTable(QString address) //place to hold users c
     db.close();
 }
 
-void MainWindow::walletCoinInsert() //strictly a db to hold all userid's for verification
+void MainWindow::walletCoinInsert(QString ID) //strictly a db to hold all userid's for verification
 {
     createWalletCoinsTable();
 
