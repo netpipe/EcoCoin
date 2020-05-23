@@ -39,7 +39,7 @@
 #define SVG_LINE_WIDTH          2
 #define SVG_HEIGHT              50
 #define SVG_QUIET_ZONE_WIDTH    (QUIET_ZONE_WIDTH * SVG_LINE_WIDTH)
-#define SVG_WIDTH               (N_LINES*SVG_LINE_WIDTH + SVG_QUIET_ZONE_WIDTH)
+#define SVG_WIDTH               (N_LINES*SVG_LINE_WIDTH + SVG_QUIET_ZONE_WIDTH+20)
 
 namespace EAN13
 {

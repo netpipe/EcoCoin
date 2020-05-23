@@ -147,6 +147,7 @@ QString MainWindow::validateCOINsign(QString coin,QString euserID){ // for getti
           db.close();
 
 
+
           db.setDatabaseName("rcoins.sqlite");
           db.open();
           QSqlDatabase::database().transaction();

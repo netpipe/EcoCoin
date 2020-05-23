@@ -208,6 +208,10 @@ int MainWindow::placeCoins(QString euserid,QString ammount) //free coins from co
 
     } else{ ///send coins to yeardb wallet
 
+
+
+
+
     QVariantList coins;
     QVariantList origindex;
     db.setDatabaseName("rcoins.sqlite");

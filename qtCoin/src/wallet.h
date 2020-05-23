@@ -26,6 +26,156 @@ using qrcodegen::QrCode;
 //minimum 2 coin verify for transactions
 //client wallet.sqlite
 
+
+void MainWindow::createWalletTable()
+{
+    db.setDatabaseName("wallet.sqlite");
+    if(db.open())
+    {
+       qDebug()<<"Successful database connection";
+    }
+    else
+    {
+       qDebug()<<"Error: failed database connection";
+    }
+    QString query;
+
+    query.append("CREATE TABLE IF NOT EXISTS address("
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    "userid VARCHAR(100),"
+                    "name VARCHAR(100),"
+                    "password VARCHAR(100),"
+                    "phone INTEGER,"//                    "phone INTEGER NOT NULL,"
+                    "datetime INTEGER NOT NULL,"
+                    "ekey VARCHAR(100),"
+                    "total VARCHAR(100),"
+                    "extra VARCHAR(100),"
+                    "class INTEGER"
+                    ");");
+
+
+    QSqlQuery create;
+    create.prepare(query);
+
+    if (create.exec())
+    {
+        qDebug()<<"Table exists or has been created";
+    }
+    else
+    {
+        qDebug()<<"Table not exists or has not been created";
+        qDebug()<<"ERROR! "<< create.lastError();
+    }
+    query.clear();
+    db.close();
+}
+
+void MainWindow::createWalletCoinsTable()
+{
+    db.setDatabaseName("wallet.sqlite");
+    if(db.open())
+    {
+       qDebug()<<"Successful database connection";
+    }
+    else
+    {
+       qDebug()<<"Error: failed database connection";
+    }
+    QString query;
+
+    query.append("CREATE TABLE IF NOT EXISTS wallet("
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    "userid VARCHAR(100),"
+          //      "phone INTEGER NOT NULL," //incase lost ?
+                    "datetime INTEGER NOT NULL,"
+                    "ekey VARCHAR(100),"
+                    "total VARCHAR(100),"
+                    "extra VARCHAR(100),"
+                    "class INTEGER"
+                    ");");
+
+
+    QSqlQuery create;
+    create.prepare(query);
+
+    if (create.exec())
+    {
+        qDebug()<<"Table exists or has been created";
+    }
+    else
+    {
+        qDebug()<<"Table not exists or has not been created";
+        qDebug()<<"ERROR! "<< create.lastError();
+    }
+    query.clear();
+    db.close();
+}
+
+void MainWindow::WalletAddressInsert() //strictly a db to hold all userid's for verification
+{
+    createUserTable();
+
+    db.setDatabaseName("wallet.sqlite");
+    if(db.open())
+    {
+       qDebug()<<"Successful database connection";
+    }
+    else
+    {
+       qDebug()<<"Error: failed database connection";
+    }
+
+    QString query;
+
+      QString euserid = ui->lineEditName->text();
+
+//    QByteArray bFname = EncryptMsg(ui->lineEditName->text(),"123456789", "your-IV-vector");
+//    QString mykey1 = BigInt2Str(m_e); //rsa keys
+//    QString mykey2 = BigInt2Str(m_n); //rsa keys
+
+    query.append("INSERT INTO users("
+                 "userid,"
+                    "name,"
+                    "password,"
+                    "phone,"//
+                 "datetime,"
+                 "ekey,"
+                 "total,"
+                 "extra,"
+                    "class)"
+                    "VALUES("
+                    "'"+euserid.toLatin1()+"',"
+                    "'"+ui->lineEditSurname->text().toLatin1()+"',"
+                    "'"+ui->lineEditPassword->text().toLatin1()+"',"
+                  "'"+ui->lineEditPhone->text().toLatin1()+"',"
+                "'"+ui->createuserdatetime->text()+"',"
+                 "'""'," //ekey
+                 "'""'," //ammount
+                    "'"+ui->createextra->text().toLatin1()+"',"
+                 "'"+ui->createclass->text()+"'"
+                    ");");
+
+     qDebug()<< euserid.toLatin1();
+
+    QSqlQuery insert;
+    insert.prepare(query);
+
+    if (insert.exec())
+    {
+        qDebug()<<"The user is properly inserted";
+    }
+    else
+    {
+        qDebug()<<"The user is not inserted correctly";
+        qDebug()<<"ERROR! "<< insert.lastError();
+    }
+
+    query.clear();
+    db.close();
+
+}
+
+
 void MainWindow::GenerateQRCode(QString test) {
 #ifdef BARCODE
     std::wstring text ( test.toStdWString() );
@@ -72,7 +222,7 @@ void MainWindow::GenerateQRCode(QString test) {
 }
 
 
-void MainWindow::EAN13(QString productname,QString country,QString ean){ //barcode
+void MainWindow::EAN13(QString productname,QString country,QString ean){ //barcode not used
 #ifdef BARCODE
 //    std::string code13 = EAN13::appendChecksum("123", "123456789"); //countrycode 3 letters,European Article Number 9 digits no spaces
 //    std::string svg = EAN13::createSvg("productName test", code13);

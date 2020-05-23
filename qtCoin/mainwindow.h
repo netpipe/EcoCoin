@@ -81,6 +81,10 @@ public:
     int _length;
     bool _state;
 
+void createWalletTable();
+void createWalletCoinsTable();
+void WalletAddressInsert();
+
 void generateRXfile(QString suserid,QString ruserid,QString etxcoins);
 void generateTXfile(QString suserid,QString ruserid,QString etxcoins);
 int processRXTXfile(QString file);
@@ -91,6 +95,7 @@ int checkAvailableCoins(QString db,QString needed);
 int smtpsend(QString toemail,QString Message);
 int getkeys();
 void playsound(QString);
+
     //encryption
     QString encryptxor(QString test,QString key);
     QString decryptxor(QString string,QString key);
@@ -126,6 +131,8 @@ void playsound(QString);
 void GenerateQRCode(QString);
 void EAN13(QString productname,QString country,QString ean);
 QString decodeqr(QString image);
+
+
 private slots:
     void on_pushButtonInsertUser_clicked();
 
@@ -180,6 +187,8 @@ private slots:
     void on_cmbTheme_currentIndexChanged(const QString &arg1);
 
     void on_GenerateRequest_clicked();
+
+    void on_coinsrefresh_clicked();
 
 private:
     Ui::MainWindow *ui;

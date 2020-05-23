@@ -106,7 +106,8 @@ HEADERS  += mainwindow.h \
     src/Barcode/quirc/lib/quirc.h \
     src/Barcode/quirc/lib/quirc_internal.h \
     src/Barcode/quirc/tests/dbgutil.h \
-    src/Barcode/quirc/tests/inspect.h
+    src/Barcode/quirc/tests/inspect.h \
+    src/admin.h
 
 
 FORMS    += mainwindow.ui
