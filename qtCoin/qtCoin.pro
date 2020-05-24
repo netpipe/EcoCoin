@@ -109,7 +109,7 @@ HEADERS  += mainwindow.h \
     src/Barcode/quirc/tests/dbgutil.h \
     src/Barcode/quirc/tests/inspect.h \
     src/admin.h \
-    src/pouch.h
+    src/wallet.h
 
 
 FORMS    += mainwindow.ui

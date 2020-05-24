@@ -6,11 +6,6 @@
 #include <QClipboard>
 #include <QStandardItemModel>
 //#include <QtCore>
-#include "src/pouch.h"
-#include "src/admin.h"
-
-
-
 #include <src/coingenerator.h>
 #include <src/coinfunctions.h>
 #include <src/validatecoins.h>
@@ -21,7 +16,8 @@
 #include "src/encryption/rsa/Rsa.h"
 #include "src/downloadmanager.h"
 #include "src/loadtheme.h"
-
+#include "src/wallet.h"
+#include "src/admin.h"
 
 
 
@@ -713,5 +709,5 @@ void MainWindow::on_balancetest_clicked()
 {
     QString test = "1234";
  //   walletCoinInsert("123id","1234add"," ","1","123");
-    //walletCoinInsert(test.toLatin1(),test.toLatin1(),test.toLatin1(),test.toLatin1(),test.toLatin1());
+    walletCoinInsert(test.toLatin1(),test.toLatin1(),test.toLatin1(),test.toLatin1(),test.toLatin1());
 }
