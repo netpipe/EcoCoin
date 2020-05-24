@@ -82,24 +82,29 @@ public:
     int _length;
     bool _state;
 
-void createWalletTable(QString ID);
-void createWalletCoinsTable(QString ID);
-void WalletAddressInsert(QString Email,QString Name,QString classid,QString datetime,QString address);
-void walletCoinInsert(QString ID,QString CoinAddress,QString Owner,QString classid,QString date);
+    QString mainID;
+    QString mainEKEY;
+    QString mainAmmount;
 
-void createWalletHistoryTable();
-void HistoryInsert(QString datetime,QString RXTX,QString ID,QString Ammount,QString contactname) ;
+    void createWalletTable(QString ID);
+    void createWalletCoinsTable(QString ID);
+    void WalletAddressInsert(QString Email,QString Name,QString classid,QString datetime,QString address);
+    void walletCoinInsert(QString ID,QString CoinAddress,QString Owner,QString classid,QString date);
 
-void generateRXfile(QString suserid,QString ruserid,QString etxcoins);
-void generateTXfile(QString suserid,QString ruserid,QString etxcoins);
-int processRXTXfile(QString file);
-QString validateCOINsign(QString coin,QString euserID);
-float checkBalance(QString euserID);
-QString validateID(QString userid);
-int checkAvailableCoins(QString db,QString needed);
-int smtpsend(QString toemail,QString Message);
-int getkeys();
-void playsound(QString);
+    void createWalletHistoryTable();
+    void HistoryInsert(QString datetime,QString RXTX,QString ID,QString Ammount,QString contactname) ;
+    QString decodetxQR();
+
+    QString generateRXfile(QString suserid,QString ruserid,QString etxcoins);
+    QString generateTXfile(QString suserid,QString ruserid,QString etxcoins);
+    int processRXTXfile(QString file);
+    QString validateCOINsign(QString coin,QString euserID);
+    float checkBalance(QString euserID);
+    QString validateID(QString userid);
+    int checkAvailableCoins(QString db,QString needed);
+    int smtpsend(QString toemail,QString Message);
+    int getkeys();
+    void playsound(QString);
 
     //encryption
     QString encryptxor(QString test,QString key);
@@ -200,6 +205,8 @@ private slots:
     void on_receivesaveqr_clicked();
 
     void on_sendSaveqr_clicked();
+
+    void on_generatetx_clicked();
 
 private:
     Ui::MainWindow *ui;

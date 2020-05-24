@@ -54,7 +54,7 @@ int MainWindow::processRXTXfile(QString file){
 }
 
 
-void MainWindow::generateTXfile(QString suserid,QString ruserid,QString etxcoins){ //file to send from client
+QString MainWindow::generateTXfile(QString suserid,QString ruserid,QString etxcoins){ //file to send from client
     //encrypt with masterkey encrypted userID and user encryption key and datetime to validate coins from their wallet
 
     //might only need ammount and userid and other usersid for tx's because users are not sending coins directly to other users
@@ -84,7 +84,7 @@ void MainWindow::generateTXfile(QString suserid,QString ruserid,QString etxcoins
 
 }
 
-void MainWindow::generateRXfile(QString ruserid,QString suserid,QString etxcoins){ //rxfile to give client encrypted coins to put in wallet might not be needed. for client only cold server
+QString MainWindow::generateRXfile(QString ruserid,QString suserid,QString etxcoins){ //rxfile to give client encrypted coins to put in wallet might not be needed. for client only cold server
 
     //etxcoins is either tmptxtfile with encryptedcoins or to make more secure use memory
     //encrypt coin addresses with mastercoinkey and userid to send the coins to their wallets if so desired (upto the user for extra security also gives ability to send between user accounts)

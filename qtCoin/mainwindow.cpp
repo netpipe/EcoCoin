@@ -795,10 +795,7 @@ void MainWindow::on_cmbTheme_currentIndexChanged(const QString &arg1)
 
 }
 
-void MainWindow::on_GenerateRequest_clicked()
-{
-    //could be sent via smtp
-}
+
 
 
 void MainWindow::on_coinsrefresh_clicked()  // set global userid for testing
@@ -903,4 +900,24 @@ void MainWindow::on_sendSaveqr_clicked()
             QPixmap pixMap = this->ui->sendSaveqr->grab();
             pixMap.save(fileName);
         }
+}
+
+QString MainWindow::decodetxQR(){
+
+}
+
+void MainWindow::on_generatetx_clicked()
+{
+    //GenerateQRCode()
+
+}
+
+void MainWindow::on_GenerateRequest_clicked()
+{
+    //could be sent via smtp
+    //ui->receiveid.text().toLatin1()+ui->rece
+    QString result = generateRXfile(mainID.toLatin1(),ui->receiveid->text().toLatin1(),ui->receiveammount->text().toLatin1());
+    //QString requeststring= ;
+
+//GenerateQRCode(requeststring.toLatin1())
 }

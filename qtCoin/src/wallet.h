@@ -170,7 +170,7 @@ void MainWindow::createWalletCoinsTable(QString address) //place to hold users c
     }
     QString query;
 
-    query.append("CREATE TABLE IF NOT EXISTS address(" //put address here
+    query.append("CREATE TABLE IF NOT EXISTS "+address.toLatin1()+"(" //put address here
                  "id INTEGER PRIMARY KEY AUTOINCREMENT,"
                  "CoinAddress VARCHAR(100),"
                  "Owner VARCHAR(100),"
@@ -198,7 +198,7 @@ void MainWindow::createWalletCoinsTable(QString address) //place to hold users c
 
 void MainWindow::walletCoinInsert(QString ID,QString CoinAddress,QString Owner,QString classid,QString date) //strictly a db to hold all userid's for verification
 {
-    createWalletCoinsTable();
+    createWalletCoinsTable(ID);
 
     db.setDatabaseName("wallet.sqlite");
     if(db.open())
