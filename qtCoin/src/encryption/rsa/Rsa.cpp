@@ -1,3 +1,4 @@
+#ifdef ENCRYPTION
 #include "Rsa.h"
 #include <QString>
 #include <cstdlib>
@@ -740,4 +741,4 @@ void Rsa::publish_keys(BigInt& a, BigInt& b){
 	b = n;
 }
 
-
+#endif

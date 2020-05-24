@@ -1,30 +1,86 @@
-#ifndef WALLET_H
-#define WALLET_H
+#ifndef POUCH_H
+#define POUCH_H
+
+//had to rename to pouch because wallet was causing compile errors
+
 #include <mainwindow.h>
 #include "ui_mainwindow.h"
-#include <math.h>
-#include <QCoreApplication>
+
+//#include <QCoreApplication>
 #include <QFile>
 #include <QDebug>
 #include <QCryptographicHash>
 #include <QMessageBox>
 #include <QTextCodec>
 #include <QFileDialog>
-#include "QRCode/QrCode.hpp"
 
-#include <iostream>
-#include <fstream>
 #ifdef BARCODE
-#include <QGraphicsSvgItem>
-#include <QGraphicsView>
-#include "Barcode/functii.h"
-#include "Barcode/quirc/tests/inspect.h"
+    #include <iostream>
+    #include <fstream>
+    #include "QRCode/QrCode.hpp"
+    #include <QGraphicsSvgItem>
+    #include <QGraphicsView>
+    #include "Barcode/functii.h"
+    #include "Barcode/quirc/tests/inspect.h"
+    using qrcodegen::QrCode;
 #endif
-#ifdef BARCODE
-using qrcodegen::QrCode;
-#endif
+
 //minimum 2 coin verify for transactions
 //client wallet.sqlite
+
+
+
+void MainWindow::walletCoinInsert(QString ID,QString CoinAddress,QString Owner,QString cid,QString date) //QString ID,QString CoinAddress,QString Owner,QString cid,QString date
+{
+
+    createWalletCoinsTable(ID);
+
+    db.setDatabaseName("wallet.sqlite");
+    if(db.open())
+    {
+       qDebug()<<"Successful database connection";
+    }
+    else
+    {
+       qDebug()<<"Error: failed database connection";
+    }
+
+    QString query;
+
+    QString euserid = ui->lineEditName->text();
+
+    query.append("INSERT INTO "+ID.toLatin1()+"("
+                 "userid,"
+                 "CoinAddress,"
+                 "Owner,"
+                 "Class,"//
+                 "DateTime)" "VALUES("
+                 "'"+ID.toLatin1()+"',"
+                 "'"+CoinAddress.toLatin1()+"',"
+                 "'"+Owner.toLatin1()+"',"
+                 "'"+cid.toLatin1()+"',"
+                 "'"+date.toLatin1()+"'"
+                 ");");
+
+    qDebug()<< euserid.toLatin1();
+
+    QSqlQuery insert;
+    insert.prepare(query);
+
+    if (insert.exec())
+    {
+        qDebug()<<"The user is properly inserted";
+    }
+    else
+    {
+        qDebug()<<"The user is not inserted correctly";
+        qDebug()<<"ERROR! "<< insert.lastError();
+    }
+
+    query.clear();
+    db.close();
+
+}
 
 void MainWindow::createWalletHistoryTable()
 {
@@ -46,7 +102,6 @@ void MainWindow::createWalletHistoryTable()
                     "ID VARCHAR(100),"
                     "Ammount VARCHAR(100),"
                     "ContactName VARCHAR(100)"
-             //       "phone INTEGER,"//                    "phone INTEGER NOT NULL,"
                     ");");
 
 
@@ -133,7 +188,6 @@ void MainWindow::createWalletTable(QString ID)
     query.append("CREATE TABLE IF NOT EXISTS "+ID.toLatin1()+"("
                     "id INTEGER PRIMARY KEY AUTOINCREMENT,"
                     "userid VARCHAR(100),"
-          //      "phone INTEGER NOT NULL," //incase lost ?
                     "datetime INTEGER NOT NULL,"
                     "ekey VARCHAR(100),"
                     "total VARCHAR(100),"
@@ -177,7 +231,6 @@ void MainWindow::createWalletCoinsTable(QString ID) //place to hold users coins
                  "Owner VARCHAR(100),"
                  "Class VARCHAR(100),"
                  "Date INTEGER NOT NULL"
-             //       "phone INTEGER,"//                    "phone INTEGER NOT NULL,"
                  ");");
 
 
@@ -197,58 +250,6 @@ void MainWindow::createWalletCoinsTable(QString ID) //place to hold users coins
     db.close();
 }
 
-void MainWindow::walletCoinInsert(QString ID,QString CoinAddress,QString Owner,QString classid,QString date)
-{
-    createWalletCoinsTable(ID);
-
-    db.setDatabaseName("wallet.sqlite");
-    if(db.open())
-    {
-       qDebug()<<"Successful database connection";
-    }
-    else
-    {
-       qDebug()<<"Error: failed database connection";
-    }
-
-    QString query;
-
-    QString euserid = ui->lineEditName->text();
-
-    query.append("INSERT INTO "+ID.toLatin1()+"("
-                 "userid,"
-                 "CoinAddress,"
-                 "Owner,"
-                 "Class,"//
-                 "DateTime,"
-                 "class)"
-                 "VALUES("
-                 "'"+ID.toLatin1()+"',"
-                 "'"+CoinAddress.toLatin1()+"',"
-                 "'"+Owner.toLatin1()+"',"
-                 "'"+classid.toLatin1()+"',"
-                 "'"+date.toLatin1()+"'"
-                 ");");
-
-    qDebug()<< euserid.toLatin1();
-
-    QSqlQuery insert;
-    insert.prepare(query);
-
-    if (insert.exec())
-    {
-        qDebug()<<"The user is properly inserted";
-    }
-    else
-    {
-        qDebug()<<"The user is not inserted correctly";
-        qDebug()<<"ERROR! "<< insert.lastError();
-    }
-
-    query.clear();
-    db.close();
-
-}
 
 
 
@@ -274,7 +275,6 @@ void MainWindow::WalletAddressInsert(QString Email,QString Name,QString classid,
                  "Email,"
                  "Name,"
                  "class,"
-              //   "phone,"//
                  "datetime,"
                  "address,"
                  "class)""VALUES("

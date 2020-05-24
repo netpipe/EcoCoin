@@ -21,7 +21,7 @@
        <enum>QTabWidget::Triangular</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="accountingtab">
        <attribute name="title">
@@ -31,7 +31,7 @@
         <item row="0" column="0">
          <widget class="QTabWidget" name="tabWidget">
           <property name="currentIndex">
-           <number>1</number>
+           <number>5</number>
           </property>
           <widget class="QWidget" name="tab_5">
            <attribute name="title">
@@ -579,6 +579,13 @@
               </item>
               <item>
                <widget class="QLineEdit" name="lineEdit"/>
+              </item>
+              <item>
+               <widget class="QPushButton" name="balancetest">
+                <property name="text">
+                 <string>PushButton</string>
+                </property>
+               </widget>
               </item>
               <item>
                <widget class="QPushButton" name="coinsrefresh">

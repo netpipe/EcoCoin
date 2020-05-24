@@ -1,5 +1,5 @@
 #pragma once
-
+#ifdef ENCRYPTION
 #include <QString>
 #include <vector>
 #include <iostream>
@@ -116,3 +116,4 @@ private:
 
 };
 
+#endif

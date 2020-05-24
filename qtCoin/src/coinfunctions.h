@@ -3,7 +3,7 @@
 #include <mainwindow.h>
 #include "ui_mainwindow.h"
 #include  <math.h>
-#include <QCoreApplication>
+//#include <QCoreApplication>
 #include <QFile>
 #include <QDebug>
 //#include <QMainWindow>

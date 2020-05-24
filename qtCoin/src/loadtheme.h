@@ -4,7 +4,7 @@
 //#include <QWidget>
 #include <mainwindow.h>
 #include "ui_mainwindow.h"
-#include <QCoreApplication>
+//#include <QCoreApplication>
 #include "src/qstylesheetmanager.h"
 #include <QFileDialog>
 #include <QDebug>

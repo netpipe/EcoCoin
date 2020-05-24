@@ -4,7 +4,13 @@
 #include <QDebug>
 #include <QMessageBox>
 #include <QClipboard>
+#include <QStandardItemModel>
 //#include <QtCore>
+#include "src/pouch.h"
+#include "src/admin.h"
+
+
+
 #include <src/coingenerator.h>
 #include <src/coinfunctions.h>
 #include <src/validatecoins.h>
@@ -15,9 +21,10 @@
 #include "src/encryption/rsa/Rsa.h"
 #include "src/downloadmanager.h"
 #include "src/loadtheme.h"
-#include <src/admin.h>
-#include "src/wallet.h"
-#include <QStandardItemModel>
+
+
+
+
 
 
 //references and links
@@ -153,6 +160,125 @@ void MainWindow::playsound(QString test){
 #endif
 }
 
+void MainWindow::on_randomSearch_clicked()
+{//for picking lucky users
+    //repurposed temporarly for sqltest
+    QString sql = "SELECT * FROM users ORDER BY random()";
+
+    SQLTest("database.sqlite",sql.toLatin1());
+
+}
+
+
+int MainWindow::getkeys(){ //for coldstorage server or standalone server which contains all the infos
+
+    qDebug() << "getting keys";
+    //if keys are stored in the local folder and checkout then use those
+
+    //verify md5sum of keys file from 2 or 3 locations possibly encrypted
+    //simple strings found on google have same md5sums or bruteforce could match it.
+    bool keyexists=0;
+    QString path;
+    if (ui->usbdrivename->text().toLatin1() != ""){
+        ListUSB();
+        QString path2;
+        path2 = usbpath.toLatin1()+"/keys.txt";
+        QFile MyFile2(path2);
+        if ( MyFile2.exists() ){        keyexists= true;        path = usbpath.toLatin1()+"/keys.txt";    }
+    } else {
+        QString path3;
+        path3 = "./keys.txt";
+        QFile MyFile3(path3);
+        if ( MyFile3.exists() ){    keyexists= true;   path = "./keys.txt"; }
+    }
+
+    QFile MyFile(path);
+
+    if(MyFile.exists() && keyexists ){
+    MyFile.open(QIODevice::ReadWrite);
+    QTextStream in (&MyFile);
+    QString line;
+    QStringList list;
+     //   QList<QString> nums;
+    QStringList nums;
+    QRegExp rx("[:]");
+    do {
+        line = in.readLine();
+        if (line.contains(":")) {
+            list = line.split(rx);
+            nums.append(list.at(1).toLatin1());
+        }
+    } while (!line.isNull());
+
+    masterkey=nums.at(0);
+    qDebug() << "masterkey" << masterkey;
+    coinkey=nums.at(1);
+    qDebug() << "coinkey" << coinkey;
+    return 1;
+
+    }else {
+        return 0;
+    }
+
+}
+
+void MainWindow::on_pushButtonInsertUser_clicked()
+{
+    //QString temp = GenerateClientAddress(8);
+    QString temp = GetRandomString(8,"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890");
+    ui->lineEditName->setText(year.toLatin1()+temp.toLatin1());
+    //ui->lineEditName->setText(temp.toLatin1()); //testing
+    QString ownerid=ui->lineEditName->text().toLatin1();
+    QString password=ui->lineEditPassword->text();
+
+    //fix later
+    if (validateID(ownerid) == 0 ){
+        for (int i=0;i < 100 ; i++) { //100 tries
+            if (validateID(ownerid) == 1 ){
+
+            }else {
+                break;
+            }
+            QString temp = GetRandomString(8,"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890");
+            ownerid=ui->lineEditName->text().toLatin1();
+        }
+    }
+
+// use password first to make more secure so no need to store in plaintext
+ //   QString crypted = simplecrypt(ownerid.toLatin1(),ui->lineEditPassword->text(),QCryptographicHash::Sha512);
+  //  QString crypted2 = simplecrypt(crypted.toLatin1(),masterkey.toLatin1(),QCryptographicHash::Sha512);
+         qDebug() << ownerid.toLatin1() ;
+    QString crypted2 = simplecrypt(ownerid.toLatin1(),masterkey.toLatin1(),QCryptographicHash::Sha512);
+   // QString decrypted = simpledecrypt(crypted,"test2",QCryptographicHash::Sha512);
+     qDebug() << crypted2 ;
+//  crypted2 = simplecrypt(ownerid.toLatin1(),masterkey.toLatin1(),QCryptographicHash::Sha512);
+// qDebug() << crypted2 ;
+//   crypted2 = simplecrypt(ownerid.toLatin1(),masterkey.toLatin1(),QCryptographicHash::Sha512);
+//  qDebug() << crypted2 ;
+    ui->lineEditName->setText(crypted2.toLatin1());
+
+    createyearly(crypted2);
+
+  //  createyearly(crypted2); //the /n causes issues
+  //  qDebug() << "lineeditname " << ui->lineEditName->text();
+
+    insertUser();
+
+    //selectUsersCoins(temp.toLatin1(),year.toLatin1());
+
+    //combine user year+userid to give to user
+//ui->createuserdatetime->text();
+//ui->createuserdatetime->setText();
+
+    ui->lineEditName->setText(ownerid.toLatin1());
+    ui->lineEditName->setEnabled(1);
+
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(ui->lineEditName->text());
+
+    // selectUsers(); //refresh user table
+
+}
 
 
 void MainWindow::serverusbtxrx(){
@@ -464,7 +590,7 @@ void MainWindow::on_coinsrefresh_clicked()  // set global userid for testing
         QString query;
 
         //testing save the keys maybe shorten the encryption length ?
-
+#ifdef ENCRYPTION
     if (ui->encrypted_yes->text() == "Yes" ){
             QByteArray bFname = EncryptMsg(ui->userid->text(),"123456789", "your-IV-vector");
             QString mykey1 = BigInt2Str(m_e); //rsa keys
@@ -473,8 +599,11 @@ void MainWindow::on_coinsrefresh_clicked()  // set global userid for testing
             query.append("SELECT * FROM users WHERE name =" "'" + bFname  + "'" );
 
     }else {
+#endif
         query.append("SELECT * FROM users WHERE name =" "'" + ui->userid->text()  + "'" );
+#ifdef ENCRYPTION
     }
+#endif
 
     //search for coin owner / validity
 
@@ -493,7 +622,7 @@ void MainWindow::on_coinsrefresh_clicked()  // set global userid for testing
 
     int row = 0;
     ui->tableWidgetUsers->setRowCount(0);
-
+#ifdef ENCRYPTION
     QString mykey1 = BigInt2Str(m_e); //rsa keys
     QString mykey2 = BigInt2Str(m_n); //rsa keys
 
@@ -514,6 +643,7 @@ void MainWindow::on_coinsrefresh_clicked()  // set global userid for testing
             row++;
         }
     }else{
+        #endif
         while (select.next())
         {
             ui->tableWidgetUsers->insertRow(row);
@@ -523,7 +653,9 @@ void MainWindow::on_coinsrefresh_clicked()  // set global userid for testing
             ui->tableWidgetUsers->setItem(row,3,new QTableWidgetItem(select.value(4).toByteArray().constData()));
             row++;
         }
+        #ifdef ENCRYPTION
     }
+     #endif
     query.clear();
     db.close();
 }
@@ -556,7 +688,7 @@ void MainWindow::on_sendSaveqr_clicked()
 
 QString MainWindow::decodetxQR(){
 
-
+qDebug() << "test";
 
 }
 
@@ -575,4 +707,11 @@ void MainWindow::on_GenerateRequest_clicked()
     //QString requeststring= ;
  //   generateRXfile();
 //GenerateQRCode(requeststring.toLatin1())
+}
+
+void MainWindow::on_balancetest_clicked()
+{
+    QString test = "1234";
+ //   walletCoinInsert("123id","1234add"," ","1","123");
+    //walletCoinInsert(test.toLatin1(),test.toLatin1(),test.toLatin1(),test.toLatin1(),test.toLatin1());
 }

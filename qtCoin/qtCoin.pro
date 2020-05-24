@@ -8,15 +8,15 @@ QT += core gui sql printsupport
 
 #emscripten
 linux {
-DEFINES += SOUND DBUS DOWNLOAD SMTP
+#DEFINES += SOUND DBUS DOWNLOAD SMTP
 QT += multimedia svg dbus network
-CONFIG += barcodescan
+#CONFIG += barcodescan
 }
 
 win32 {
 DEFINES += SOUND DBUS DOWNLOAD SMTP
 QT += multimedia svg dbus network
-CONFIG += barcodescan
+#CONFIG += barcodescan
 }
 
 wasm-emscripten {
@@ -101,7 +101,6 @@ HEADERS  += mainwindow.h \
     src/coinfunctions.h \
     src/validatecoins.h \
     src/coingenerator.h \
-    src/wallet.h \
     src/QRCode/QrCode.hpp \
     src/Barcode/functii.h \
     src/dbus/dbushandler.h \
@@ -109,7 +108,8 @@ HEADERS  += mainwindow.h \
     src/Barcode/quirc/lib/quirc_internal.h \
     src/Barcode/quirc/tests/dbgutil.h \
     src/Barcode/quirc/tests/inspect.h \
-    src/admin.h
+    src/admin.h \
+    src/pouch.h
 
 
 FORMS    += mainwindow.ui

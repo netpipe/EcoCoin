@@ -8,7 +8,7 @@
 #ifdef SOUND
 #include <QMediaPlayer>
 #endif
-#include "src/encryption/rsa/Rsa.h"
+//#include "src/encryption/rsa/Rsa.h"
 #include <QEvent>
 #include <QThread>
 #include <QDebug>
@@ -86,13 +86,6 @@ public:
     QString mainEKEY;
     QString mainAmmount;
 
-    void createWalletTable(QString ID);
-    void createWalletCoinsTable(QString ID);
-    void WalletAddressInsert(QString Email,QString Name,QString classid,QString datetime,QString address);
-    void walletCoinInsert(QString ID,QString CoinAddress,QString Owner,QString classid,QString date);
-
-    void createWalletHistoryTable();
-    void HistoryInsert(QString datetime,QString RXTX,QString ID,QString Ammount,QString contactname) ;
     QString decodetxQR();
 
     QString generateRXfile(QString suserid,QString ruserid,QString etxcoins);
@@ -117,9 +110,12 @@ public:
     QString simplecrypt(QString string,QString key,QCryptographicHash::Algorithm hash);
     QString simpledecrypt(QString string,QString key,QCryptographicHash::Algorithm hash);
 
+#ifdef ENCRYPTION
     Rsa *rsaTester;
     BigInt m_e, m_n;
     QString aesKey;
+
+#endif
     QString currentUser;
 
     QString masterkey;
@@ -131,17 +127,27 @@ public:
 
     QString encdec(QString ,int );
     QString encdec2(QString ,int );
+    #ifdef ENCRYPTION
     QString rsaenc(QString input, Rsa *rsa = NULL);
     QString rsadec(QString input, Rsa *rsa);
+    #endif
     QByteArray aesenc(QString input,QString,QString);
     QString aesdec(QByteArray input,QString,QString);
-    QByteArray EncryptMsg(QString plainMsg,QString aeskey1,QString aeskey2);
-    QString DecryptMsg(QByteArray encryptedMsg, Rsa *rsa,QString aeskey1,QString aeskey2);
 
+    QByteArray EncryptMsg(QString plainMsg,QString aeskey1,QString aeskey2);
+    #ifdef ENCRYPTION
+    QString DecryptMsg(QByteArray encryptedMsg, Rsa *rsa,QString aeskey1,QString aeskey2);
+#endif
     void GenerateQRCode(QString data,QGraphicsView *view);
     void EAN13(QString productname,QString country,QString ean,QGraphicsView *graphicsView);
     QString decodeqr(QString image);
 
+    void createWalletTable(QString ID);
+    void createWalletCoinsTable(QString ID);
+    void WalletAddressInsert(QString Email,QString Name,QString classid,QString datetime,QString address);
+    void walletCoinInsert(QString ID,QString CoinAddress,QString Owner,QString cid,QString date);
+    void createWalletHistoryTable();
+    void HistoryInsert(QString datetime,QString RXTX,QString ID,QString Ammount,QString contactname) ;
 
 private slots:
     void on_pushButtonInsertUser_clicked();
@@ -207,6 +213,9 @@ private slots:
     void on_generatetx_clicked();
 
     void on_userssearch_clicked();
+
+
+    void on_balancetest_clicked();
 
 private:
     Ui::MainWindow *ui;
