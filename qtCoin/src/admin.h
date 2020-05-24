@@ -268,6 +268,35 @@ void MainWindow::createyearly(QString eownerID)
 }
 
 
+void MainWindow::cleartablesusers()
+{
+    // removes databases/users to start fresh
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, "Are you sure ?", "remova all tables/users ?",
+                                  QMessageBox::Yes|QMessageBox::No);
+    if (reply == QMessageBox::Yes) {
+      qDebug() << "Yes was clicked";
+      QFile::remove("./db/"+year+".sqlite");
+
+//      QDir dir("./db/");
+//      dir.removeRecursively();
+
+      QFile::remove("coins.txt");
+      QFile::remove("database.sqlite");
+      QFile::remove("coins.sqlite");
+      QFile::remove("availableCoins.sqlite");
+      QFile::remove("rcoins.sqlite");
+      QFile::remove("hashes.txt");
+   //   QApplication::quit();
+    } else {
+      qDebug() << "no";
+      return;
+    }
+
+}
+
+
+
 void MainWindow::createUserTable()
 {
     db.setDatabaseName("database.sqlite");

@@ -19,10 +19,6 @@
 #include "src/wallet.h"
 #include "src/admin.h"
 
-
-
-
-
 //references and links
 //https://doc.qt.io/qt-5/sql-sqlstatements.html
 //https://www.techonthenet.com/mysql/select.php
@@ -205,55 +201,6 @@ void MainWindow::BackUptoUSB(){
 #endif
 }
 
-
-
-void MainWindow::cleartablesusers()
-{
-    // removes databases/users to start fresh
-    QMessageBox::StandardButton reply;
-    reply = QMessageBox::question(this, "Are you sure ?", "remova all tables/users ?",
-                                  QMessageBox::Yes|QMessageBox::No);
-    if (reply == QMessageBox::Yes) {
-      qDebug() << "Yes was clicked";
-      QFile::remove("./db/"+year+".sqlite");
-
-//      QDir dir("./db/");
-//      dir.removeRecursively();
-
-      QFile::remove("coins.txt");
-      QFile::remove("database.sqlite");
-      QFile::remove("coins.sqlite");
-      QFile::remove("availableCoins.sqlite");
-      QFile::remove("rcoins.sqlite");
-      QFile::remove("hashes.txt");
-   //   QApplication::quit();
-    } else {
-      qDebug() << "no";
-      return;
-    }
-
-}
-
-
-
-
-
-void MainWindow::on_placeCoins_clicked()
-{
-    //if any incorrect flag account for checking also disable other transactions.
-    int verified = 0;//md5verifydb();
-
-
-
-    placeCoins("receive",ui->receiveammount->text().toLatin1());
-
-    if (verified == 1){
-    QMessageBox Msgbox;
-        Msgbox.setText("coins sent ");
-        Msgbox.exec();
-    }
-}
-
 void MainWindow::on_actionSyncUSB_triggered()
 {
     ListUSB();
@@ -299,6 +246,55 @@ void MainWindow::on_test_clicked()
     qDebug() << "decrypted rot13:" << rot13(test.toLatin1());
 }
 
+void MainWindow::on_smtpsave_clicked()
+{
+
+}
+
+void MainWindow::on_smtptestmessage_clicked()
+{
+
+}
+
+
+void MainWindow::on_saveuserinfo_clicked()
+{
+
+}
+
+void MainWindow::on_placeCoinsopenfile_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open rx/tx"), "./", tr("rx/tx files (*.rx *.tx *.txt)"));
+    qDebug()<< fileName.toLatin1() ;
+
+    //check extension to see if image to decode qrcode.
+    //save qrdata to tmp file set filename and process
+
+    processRXTXfile(fileName);
+}
+
+
+
+void MainWindow::on_receivesaveqr_clicked()
+{
+    QString fileName= QFileDialog::getSaveFileName(this, "Save image", QCoreApplication::applicationDirPath(), "BMP Files (*.bmp);;JPEG (*.JPEG);;PNG (*.png)" );
+        if (!fileName.isNull())
+        {
+            QPixmap pixMap = this->ui->ReceiveQR->grab();
+            pixMap.save(fileName);
+        }
+}
+
+void MainWindow::on_sendSaveqr_clicked()
+{
+    QString fileName= QFileDialog::getSaveFileName(this, "Save image", QCoreApplication::applicationDirPath(), "BMP Files (*.bmp);;JPEG (*.JPEG);;PNG (*.png)" );
+        if (!fileName.isNull())
+        {
+            QPixmap pixMap = this->ui->sendSaveqr->grab();
+            pixMap.save(fileName);
+        }
+}
+
 int MainWindow::smtpsend(QString toemail,QString Message){
 #ifdef SMTP
     bool ssl;
@@ -338,207 +334,4 @@ int MainWindow::smtpsend(QString toemail,QString Message){
     }
     smtp.quit();
 #endif
-}
-
-void MainWindow::on_smtpsave_clicked()
-{
-
-}
-
-void MainWindow::on_smtptestmessage_clicked()
-{
-
-}
-
-
-void MainWindow::on_saveuserinfo_clicked()
-{
-
-}
-
-void MainWindow::on_placeCoinsopenfile_clicked()
-{
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open rx/tx"), "./", tr("rx/tx files (*.rx *.tx *.txt)"));
-    qDebug()<< fileName.toLatin1() ;
-
-    //check extension to see if image to decode qrcode.
-    //save qrdata to tmp file set filename and process
-
-    processRXTXfile(fileName);
-}
-
-
-
-
-void MainWindow::on_cmbTheme_currentIndexChanged(const QString &arg1)
-{
-    if (loaded==true)
-    {
-    fileName=ui->cmbTheme->currentText();
-    QFile file(fileName);
-
-    QStyleSheetManager::loadStyleSheet(ui->cmbTheme->currentText());
-
-    QFile file2("themes.txt");
-        if(file2.open(QIODevice::ReadWrite | QIODevice::Text))// QIODevice::Append |
-        {
-                QTextStream stream(&file2);
-                file2.seek(0);
-               stream << "theme:" << ui->cmbTheme->currentText().toLatin1()<< endl;
-                for (int i = 0; i < ui->cmbTheme->count(); i++)
-                {
-                 stream << "theme:" << ui->cmbTheme->itemText(i) << endl;
-                }
-            //                file.write("\n");
-               file2.close();
-        }
-
-    if (ui->cmbTheme->currentText().toLatin1() != ""){
-      //   ui->cmbTheme->currentText().toLatin1();
-    }
-}
-
-}
-
-
-
-
-void MainWindow::on_coinsrefresh_clicked()  // set global userid for testing
-{
-    db.setDatabaseName("database.sqlite");
-    if(db.open())
-    {
-       qDebug()<<"Successful database connection";
-    }
-    else
-    {
-       qDebug()<<"Error: failed database connection";
-    }
-        QString query;
-
-        //testing save the keys maybe shorten the encryption length ?
-#ifdef ENCRYPTION
-    if (ui->encrypted_yes->text() == "Yes" ){
-            QByteArray bFname = EncryptMsg(ui->userid->text(),"123456789", "your-IV-vector");
-            QString mykey1 = BigInt2Str(m_e); //rsa keys
-            QString mykey2 = BigInt2Str(m_n); //rsa keys
-
-            query.append("SELECT * FROM users WHERE name =" "'" + bFname  + "'" );
-
-    }else {
-#endif
-        query.append("SELECT * FROM users WHERE name =" "'" + ui->userid->text()  + "'" );
-#ifdef ENCRYPTION
-    }
-#endif
-
-    //search for coin owner / validity
-
-    QSqlQuery select;
-    select.prepare(query);
-
-    if (select.exec())
-    {
-        qDebug()<<"The user is properly selected";
-    }
-    else
-    {
-        qDebug()<<"The user is not selected correctly";
-        qDebug()<<"ERROR! "<< select.lastError();
-    }
-
-    int row = 0;
-    ui->tableWidgetUsers->setRowCount(0);
-#ifdef ENCRYPTION
-    QString mykey1 = BigInt2Str(m_e); //rsa keys
-    QString mykey2 = BigInt2Str(m_n); //rsa keys
-
-    if (ui->encrypted_yes->text() == "Yes" ){
-
-        while (select.next())
-        {
-            Rsa *rsa = new Rsa(BigInt(mykey1.toStdString()), BigInt(mykey2.toStdString()));
-            QString strMsg = DecryptMsg(select.value(1).toByteArray().constData(), rsa,"123456789", "your-IV-vector");
-           // QString strDate = DecryptMsg(bFname, rsa,"123456789", "your-IV-vector");
-            delete rsa;
-
-            ui->tableWidgetUsers->insertRow(row);
-            ui->tableWidgetUsers->setItem(row,0,new QTableWidgetItem(strMsg));
-            ui->tableWidgetUsers->setItem(row,1,new QTableWidgetItem(select.value(2).toByteArray().constData()));
-            ui->tableWidgetUsers->setItem(row,2,new QTableWidgetItem(select.value(3).toByteArray().constData()));
-            ui->tableWidgetUsers->setItem(row,3,new QTableWidgetItem(select.value(4).toByteArray().constData()));
-            row++;
-        }
-    }else{
-        #endif
-        while (select.next())
-        {
-            ui->tableWidgetUsers->insertRow(row);
-            ui->tableWidgetUsers->setItem(row,0,new QTableWidgetItem(select.value(1).toByteArray().constData()));
-            ui->tableWidgetUsers->setItem(row,1,new QTableWidgetItem(select.value(2).toByteArray().constData()));
-            ui->tableWidgetUsers->setItem(row,2,new QTableWidgetItem(select.value(3).toByteArray().constData()));
-            ui->tableWidgetUsers->setItem(row,3,new QTableWidgetItem(select.value(4).toByteArray().constData()));
-            row++;
-        }
-        #ifdef ENCRYPTION
-    }
-     #endif
-    query.clear();
-    db.close();
-}
-
-
-void MainWindow::on_walletCreateAddress_clicked()
-{
-
-}
-
-void MainWindow::on_receivesaveqr_clicked()
-{
-    QString fileName= QFileDialog::getSaveFileName(this, "Save image", QCoreApplication::applicationDirPath(), "BMP Files (*.bmp);;JPEG (*.JPEG);;PNG (*.png)" );
-        if (!fileName.isNull())
-        {
-            QPixmap pixMap = this->ui->ReceiveQR->grab();
-            pixMap.save(fileName);
-        }
-}
-
-void MainWindow::on_sendSaveqr_clicked()
-{
-    QString fileName= QFileDialog::getSaveFileName(this, "Save image", QCoreApplication::applicationDirPath(), "BMP Files (*.bmp);;JPEG (*.JPEG);;PNG (*.png)" );
-        if (!fileName.isNull())
-        {
-            QPixmap pixMap = this->ui->sendSaveqr->grab();
-            pixMap.save(fileName);
-        }
-}
-
-QString MainWindow::decodetxQR(){
-
-qDebug() << "test";
-
-}
-
-void MainWindow::on_generatetx_clicked()
-{
-    //GenerateQRCode()
-    QString result = generateRXfile(mainID.toLatin1(),ui->receiveid->text().toLatin1(),ui->receiveammount->text().toLatin1());
-    //generateTXfile()
-}
-
-void MainWindow::on_GenerateRequest_clicked()
-{
-    //could be sent via smtp
-    //ui->receiveid.text().toLatin1()+ui->rece
-    QString result = generateRXfile(mainID.toLatin1(),ui->receiveid->text().toLatin1(),ui->receiveammount->text().toLatin1());
-    //QString requeststring= ;
- //   generateRXfile();
-//GenerateQRCode(requeststring.toLatin1())
-}
-
-void MainWindow::on_balancetest_clicked()
-{
-    QString test = "1234";
-    walletCoinInsert("123id","1234add"," ","1","123");
-  //  walletCoinInsert(test.toLatin1(),test.toLatin1(),test.toLatin1(),test.toLatin1(),test.toLatin1());
 }

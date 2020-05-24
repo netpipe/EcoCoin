@@ -14,6 +14,29 @@
 
 
 
+QString MainWindow::decodetxQR(){
+
+qDebug() << "test";
+
+}
+
+void MainWindow::on_generatetx_clicked()
+{
+    //GenerateQRCode()
+    QString result = generateRXfile(mainID.toLatin1(),ui->receiveid->text().toLatin1(),ui->receiveammount->text().toLatin1());
+    //generateTXfile()
+}
+
+void MainWindow::on_GenerateRequest_clicked()
+{
+    //could be sent via smtp
+    //ui->receiveid.text().toLatin1()+ui->rece
+    QString result = generateRXfile(mainID.toLatin1(),ui->receiveid->text().toLatin1(),ui->receiveammount->text().toLatin1());
+    //QString requeststring= ;
+ //   generateRXfile();
+//GenerateQRCode(requeststring.toLatin1())
+}
+
 
 
 void MainWindow::on_validatecoins_clicked()

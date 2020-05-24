@@ -28,6 +28,121 @@
 //minimum 2 coin verify for transactions
 //client wallet.sqlite
 
+void MainWindow::on_balancetest_clicked()
+{
+    QString test = "1234";
+    walletCoinInsert("123id","1234add"," ","1","123");
+  //  walletCoinInsert(test.toLatin1(),test.toLatin1(),test.toLatin1(),test.toLatin1(),test.toLatin1());
+}
+
+
+
+void MainWindow::on_walletCreateAddress_clicked()
+{
+
+}
+
+
+
+void MainWindow::on_placeCoins_clicked()
+{
+    //if any incorrect flag account for checking also disable other transactions.
+    int verified = 0;//md5verifydb();
+
+
+
+    placeCoins("receive",ui->receiveammount->text().toLatin1());
+
+    if (verified == 1){
+    QMessageBox Msgbox;
+        Msgbox.setText("coins sent ");
+        Msgbox.exec();
+    }
+}
+
+void MainWindow::on_coinsrefresh_clicked()  // set global userid for testing
+{
+    db.setDatabaseName("database.sqlite");
+    if(db.open())
+    {
+       qDebug()<<"Successful database connection";
+    }
+    else
+    {
+       qDebug()<<"Error: failed database connection";
+    }
+        QString query;
+
+        //testing save the keys maybe shorten the encryption length ?
+#ifdef ENCRYPTION
+    if (ui->encrypted_yes->text() == "Yes" ){
+            QByteArray bFname = EncryptMsg(ui->userid->text(),"123456789", "your-IV-vector");
+            QString mykey1 = BigInt2Str(m_e); //rsa keys
+            QString mykey2 = BigInt2Str(m_n); //rsa keys
+
+            query.append("SELECT * FROM users WHERE name =" "'" + bFname  + "'" );
+
+    }else {
+#endif
+        query.append("SELECT * FROM users WHERE name =" "'" + ui->userid->text()  + "'" );
+#ifdef ENCRYPTION
+    }
+#endif
+
+    //search for coin owner / validity
+
+    QSqlQuery select;
+    select.prepare(query);
+
+    if (select.exec())
+    {
+        qDebug()<<"The user is properly selected";
+    }
+    else
+    {
+        qDebug()<<"The user is not selected correctly";
+        qDebug()<<"ERROR! "<< select.lastError();
+    }
+
+    int row = 0;
+    ui->tableWidgetUsers->setRowCount(0);
+#ifdef ENCRYPTION
+    QString mykey1 = BigInt2Str(m_e); //rsa keys
+    QString mykey2 = BigInt2Str(m_n); //rsa keys
+
+    if (ui->encrypted_yes->text() == "Yes" ){
+
+        while (select.next())
+        {
+            Rsa *rsa = new Rsa(BigInt(mykey1.toStdString()), BigInt(mykey2.toStdString()));
+            QString strMsg = DecryptMsg(select.value(1).toByteArray().constData(), rsa,"123456789", "your-IV-vector");
+           // QString strDate = DecryptMsg(bFname, rsa,"123456789", "your-IV-vector");
+            delete rsa;
+
+            ui->tableWidgetUsers->insertRow(row);
+            ui->tableWidgetUsers->setItem(row,0,new QTableWidgetItem(strMsg));
+            ui->tableWidgetUsers->setItem(row,1,new QTableWidgetItem(select.value(2).toByteArray().constData()));
+            ui->tableWidgetUsers->setItem(row,2,new QTableWidgetItem(select.value(3).toByteArray().constData()));
+            ui->tableWidgetUsers->setItem(row,3,new QTableWidgetItem(select.value(4).toByteArray().constData()));
+            row++;
+        }
+    }else{
+        #endif
+        while (select.next())
+        {
+            ui->tableWidgetUsers->insertRow(row);
+            ui->tableWidgetUsers->setItem(row,0,new QTableWidgetItem(select.value(1).toByteArray().constData()));
+            ui->tableWidgetUsers->setItem(row,1,new QTableWidgetItem(select.value(2).toByteArray().constData()));
+            ui->tableWidgetUsers->setItem(row,2,new QTableWidgetItem(select.value(3).toByteArray().constData()));
+            ui->tableWidgetUsers->setItem(row,3,new QTableWidgetItem(select.value(4).toByteArray().constData()));
+            row++;
+        }
+        #ifdef ENCRYPTION
+    }
+     #endif
+    query.clear();
+    db.close();
+}
 
 
 void MainWindow::walletCoinInsert(QString ID,QString CoinAddress,QString Owner,QString cid,QString date) //QString ID,QString CoinAddress,QString Owner,QString cid,QString date

@@ -10,7 +10,7 @@ QT += core gui sql printsupport
 linux {
 DEFINES += SOUND DBUS DOWNLOAD SMTP
 QT += multimedia svg dbus network
-#CONFIG += barcodescan
+CONFIG += barcodescan
 }
 
 win32 {
