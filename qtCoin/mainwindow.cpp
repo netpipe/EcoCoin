@@ -322,6 +322,10 @@ int MainWindow::smtpsend(QString toemail,QString Message){
 void MainWindow::on_CreateWallet_clicked()
 {
 
+  //could create wallet from server generated tx file or send one with first transaction online account registration
+
+
 //qDebug () << WordListGenerator(8,"./Resource/wordlists/english.txt");
 
 }
+
