@@ -15,7 +15,7 @@
 
   See the LICENSE file for more details.
 */
-
+#ifdef SMTP
 #ifndef MIMEINLINEFILE_H
 #define MIMEINLINEFILE_H
 
@@ -54,3 +54,4 @@ protected:
 };
 
 #endif // MIMEINLINEFILE_H
+#endif

@@ -20,7 +20,7 @@
  *   out of or in connection with the Software or the use or other dealings in the
  *   Software.
  */
-
+#ifdef BARCODE
 #pragma once
 
 #include <array>
@@ -554,3 +554,4 @@ class BitBuffer final : public std::vector<bool> {
 };
 
 }
+#endif

@@ -15,7 +15,7 @@
 
   See the LICENSE file for more details.
 */
-
+#ifdef SMTP
 #ifndef MIMECONTENTFORMATTER_H
 #define MIMECONTENTFORMATTER_H
 
@@ -41,3 +41,4 @@ protected:
 };
 
 #endif // MIMECONTENTFORMATTER_H
+#endif

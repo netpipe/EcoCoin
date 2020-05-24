@@ -15,7 +15,7 @@
 
   See the LICENSE file for more details.
 */
-
+#ifdef SMTP
 #include "mimehtml.h"
 
 /* [1] Constructors and Destructors */
@@ -55,3 +55,4 @@ void MimeHtml::prepare()
 }
 
 /* [3] --- */
+#endif

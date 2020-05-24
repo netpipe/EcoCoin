@@ -15,7 +15,7 @@
 
   See the LICENSE file for more details.
 */
-
+#ifdef SMTP
 #include "mimemultipart.h"
 #include <QTime>
 #include <QCryptographicHash>
@@ -76,3 +76,4 @@ void MimeMultiPart::setMimeType(const MultiPartType type) {
 MimeMultiPart::MultiPartType MimeMultiPart::getMimeType() const {
     return type;
 }
+#endif

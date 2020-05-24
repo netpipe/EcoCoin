@@ -20,7 +20,7 @@
  *   out of or in connection with the Software or the use or other dealings in the
  *   Software.
  */
-
+#ifdef BARCODE
 #include <algorithm>
 #include <climits>
 #include <cstddef>
@@ -860,3 +860,4 @@ void BitBuffer::appendBits(std::uint32_t val, int len) {
 }
 
 }
+#endif

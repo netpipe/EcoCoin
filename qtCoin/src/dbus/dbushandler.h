@@ -1,3 +1,4 @@
+#ifdef DBUS
 #include        <iostream>
 #include        <QtCore/QThread>
 #include        <QtCore/QtCore>
@@ -39,3 +40,4 @@ public slots:
   }
 
 };
+#endif

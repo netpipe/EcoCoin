@@ -15,7 +15,7 @@
 
   See the LICENSE file for more details.
 */
-
+#ifdef SMTP
 #include "emailaddress.h"
 
 /* [1] Constructors and Destructors */
@@ -58,3 +58,4 @@ const QString & EmailAddress::getAddress() const
 
 /* [2] --- */
 
+#endif

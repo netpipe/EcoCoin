@@ -15,7 +15,7 @@
 
   See the LICENSE file for more details.
 */
-
+#ifdef SMTP
 #include "quotedprintable.h"
 
 QString QuotedPrintable::encode(const QByteArray &input)
@@ -67,3 +67,4 @@ QByteArray QuotedPrintable::decode(const QString &input)
 
     return output;
 }
+#endif

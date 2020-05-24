@@ -15,7 +15,7 @@
 
   See the LICENSE file for more details.
 */
-
+#ifdef SMTP
 #ifndef MIMEATTACHMENT_H
 #define MIMEATTACHMENT_H
 
@@ -49,3 +49,4 @@ protected:
 };
 
 #endif // MIMEATTACHMENT_H
+#endif

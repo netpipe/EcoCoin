@@ -5,12 +5,15 @@
 #include <QtSql/QSqlDatabase>
 #include <QtSql/QSqlQuery>
 #include <QtSql/QSqlError>
+#ifdef SOUND
 #include <QMediaPlayer>
-#include "src/encryption/rsa/Rsa.h"
+#endif
+//#include "src/encryption/rsa/Rsa.h"
 #include <QEvent>
 #include <QThread>
 #include <QDebug>
 #include <QCryptographicHash>
+#include <QGraphicsView>
 
 namespace Ui {
 class MainWindow;
@@ -69,8 +72,9 @@ public:
     QList<QString> _coins;
 
     void ListUSB();
+#ifdef SOUND
     QMediaPlayer*player;
-
+#endif
     void SQLTest(QString dbname,QString Query);
     //coingenerator3
     int _count;
@@ -78,16 +82,34 @@ public:
     int _length;
     bool _state;
 
-void generateRXfile(QString suserid,QString ruserid,QString etxcoins);
-void generateTXfile(QString suserid,QString ruserid,QString etxcoins);
-int processRXTXfile(QString file);
-QString validateCOINsign(QString coin,QString euserID);
-float checkBalance(QString euserID);
-QString validateID(QString userid);
-int checkAvailableCoins(QString db,QString needed);
-int smtpsend(QString toemail,QString Message);
-int getkeys();
-void playsound(QString);
+    QString mainID;
+    QString mainEKEY;
+    QString mainAmmount;
+
+    void createWalletTable(QString ID);
+    void createWalletCoinsTable(QString ID);
+    void WalletAddressInsert(QString Email,QString Name,QString classid,QString datetime,QString address);
+    void walletCoinInsert(QString ID,QString CoinAddress,QString Owner,QString cid,QString date);
+    void createWalletHistoryTable();
+    void HistoryInsert(QString datetime,QString RXTX,QString ID,QString Ammount,QString contactname) ;
+    void listwalletcoins(QString ID);
+    QString WordListGenerator(int,QString);
+    void createEmailTable();
+    void EmailInsertWallet();
+
+    QString decodetxQR();
+
+    QString generateRXfile(QString suserid,QString ruserid,QString etxcoins);
+    QString generateTXfile(QString suserid,QString ruserid,QString etxcoins);
+    int processRXTXfile(QString file);
+    QString validateCOINsign(QString coin,QString euserID);
+    float checkBalance(QString euserID);
+    QString validateID(QString userid);
+    int checkAvailableCoins(QString db,QString needed);
+    int smtpsend(QString toemail,QString Message);
+    int getkeys();
+    void playsound(QString);
+
     //encryption
     QString encryptxor(QString test,QString key);
     QString decryptxor(QString string,QString key);
@@ -99,9 +121,12 @@ void playsound(QString);
     QString simplecrypt(QString string,QString key,QCryptographicHash::Algorithm hash);
     QString simpledecrypt(QString string,QString key,QCryptographicHash::Algorithm hash);
 
+#ifdef ENCRYPTION
     Rsa *rsaTester;
     BigInt m_e, m_n;
     QString aesKey;
+
+#endif
     QString currentUser;
 
     QString masterkey;
@@ -113,16 +138,22 @@ void playsound(QString);
 
     QString encdec(QString ,int );
     QString encdec2(QString ,int );
+    #ifdef ENCRYPTION
     QString rsaenc(QString input, Rsa *rsa = NULL);
     QString rsadec(QString input, Rsa *rsa);
+    #endif
     QByteArray aesenc(QString input,QString,QString);
     QString aesdec(QByteArray input,QString,QString);
-    QByteArray EncryptMsg(QString plainMsg,QString aeskey1,QString aeskey2);
-    QString DecryptMsg(QByteArray encryptedMsg, Rsa *rsa,QString aeskey1,QString aeskey2);
 
-void GenerateQRCode(QString);
-void EAN13(QString productname,QString country,QString ean);
-QString decodeqr(QString image);
+    QByteArray EncryptMsg(QString plainMsg,QString aeskey1,QString aeskey2);
+    #ifdef ENCRYPTION
+    QString DecryptMsg(QByteArray encryptedMsg, Rsa *rsa,QString aeskey1,QString aeskey2);
+#endif
+    void GenerateQRCode(QString data,QGraphicsView *view);
+    void EAN13(QString productname,QString country,QString ean,QGraphicsView *graphicsView);
+    QString decodeqr(QString image);
+
+
 private slots:
     void on_pushButtonInsertUser_clicked();
 
@@ -135,8 +166,6 @@ private slots:
     void on_actionSyncUSB_triggered();
 
     void on_actionExit_triggered();
-
-    void on_pushButton_3_clicked();
 
     void on_btnApply_clicked();
 
@@ -177,6 +206,23 @@ private slots:
     void on_cmbTheme_currentIndexChanged(const QString &arg1);
 
     void on_GenerateRequest_clicked();
+
+    void on_coinsrefresh_clicked();
+
+    void on_walletCreateAddress_clicked();
+
+    void on_receivesaveqr_clicked();
+
+    void on_sendSaveqr_clicked();
+
+    void on_generatetx_clicked();
+
+    void on_userssearch_clicked();
+
+
+    void on_balancetest_clicked();
+
+    void on_CreateWallet_clicked();
 
 private:
     Ui::MainWindow *ui;

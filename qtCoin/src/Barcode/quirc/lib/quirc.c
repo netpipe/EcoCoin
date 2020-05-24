@@ -13,7 +13,7 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
-#ifdef barcodescan
+#ifdef BARCODE
 #include <stdlib.h>
 #include <string.h>
 #include "quirc_internal.h"

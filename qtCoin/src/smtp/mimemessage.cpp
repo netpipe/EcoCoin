@@ -15,7 +15,7 @@
 
   See the LICENSE file for more details.
 */
-
+#ifdef SMTP
 #include "mimemessage.h"
 
 #include <QDateTime>
@@ -305,3 +305,4 @@ QString MimeMessage::toString()
 }
 
 /* [3] --- */
+#endif

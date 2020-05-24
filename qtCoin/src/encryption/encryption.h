@@ -10,6 +10,7 @@
 #include "../../mainwindow.h"
 #include "simpleCrypt/simplecrypt.h"
 #include <QTextCodec>
+#include <QTime>
 
 //https://doc.qt.io/qt-5/qcryptographichash.html
 //void addressencrypt
@@ -113,17 +114,60 @@ QByteArray MainWindow::fileChecksum(const QString &fileName,QCryptographicHash::
         return QByteArray();
 }
 
+QString MainWindow::GetRandomString(int length,QString chars)
+{ //https://stackoverflow.com/questions/18862963/qt-c-random-string-generation/18866593
+// "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
+    QString possibleCharacters(chars.toLatin1());
+   const int randomStringLength = length; //12 // assuming you want random strings of 12 characters
+
+    QTime time = QTime::currentTime();
+    qsrand((uint)time.msec());
+
+   QString randomString;
+   for(int i=0; i<randomStringLength; ++i)
+   {
+       int index = qrand() % possibleCharacters.length();
+       QChar nextChar = possibleCharacters.at(index);
+       possibleCharacters.remove(index,1); //line.replace(QString(nextChar), QString(""));
+       randomString.append(nextChar);
+   }
+   return randomString;
+}
+
+QString MainWindow::GetReallyRandomString(int length,QString chars)
+{ //https://stackoverflow.com/questions/18862963/qt-c-random-string-generation/18866593
+   QString possibleCharacters(chars.toLatin1());
+   const int randomStringLength = length; //12 // assuming you want random strings of 12 characters
+
+    QTime time = QTime::currentTime();
+    qsrand((uint)time.msec());
+
+   QString randomString;
+   for(int i=0; i<randomStringLength; ++i)
+   {
+       int index = qrand() % possibleCharacters.length();
+       QChar nextChar = possibleCharacters.at(index);
+     //  possibleCharacters.remove(index,1); //line.replace(QString(nextChar), QString(""));
+       randomString.append(nextChar);
+   }
+   return randomString;
+}
+
+#ifdef ENCRYPTION
 QString MainWindow::rsaenc(QString string2, Rsa *rsa)
 {
+
     qDebug()<<"Encryption Start";
 
     string plainMsg=string2.toStdString();
     string encryptedMsg=rsaTester->rsa_MSG_encryp(plainMsg);
     return QString::fromStdString(encryptedMsg);
+
 }
 
 QString MainWindow::rsadec(QString string2, Rsa *rsa)
 {
+
     qDebug()<<"Decryption Start";
 
     string encMsg = string2.toStdString();
@@ -131,7 +175,7 @@ QString MainWindow::rsadec(QString string2, Rsa *rsa)
     return QString(decryptedMsg.c_str());
 
  }
-
+#endif
 
 QByteArray MainWindow::aesenc(QString string2,QString skey,QString siv)
 {
@@ -179,6 +223,7 @@ QString MainWindow::encdec2(QString string2,int encdec=0)
 
 QString MainWindow::encdec(QString string2,int encdec)
 {
+#ifdef ENCRYPTION
     qDebug()<<"Encryption Start";
 
     string plainMsg=string2.toStdString();
@@ -218,17 +263,20 @@ QString MainWindow::encdec(QString string2,int encdec)
     string decryptedMsg=rsaTester.rsa_MSG_decryp(decoded);
     qDebug()<<"aes->rsa decrypted message"<<QString(decryptedMsg.c_str());
     return (decryptedMsg.c_str());
+#endif
 }
 
 QByteArray MainWindow::EncryptMsg(QString plainMsg,QString aeskey1,QString aeskey2)
 {
+#ifdef ENCRYPTION
     qDebug()<<"Encryption Started";
     QString enc1 = rsaenc(plainMsg);
    // QByteArray enc2 = aesenc(enc1, "123456789", "your-IV-vector");
     QByteArray enc2 = aesenc(enc1, aeskey1.toLatin1(), aeskey2.toLatin1());
     return enc2.toHex();
+#endif
 }
-
+#ifdef ENCRYPTION
 QString MainWindow::DecryptMsg(QByteArray encryptedMsg, Rsa *rsa,QString aeskey1,QString aeskey2)
 {
     qDebug()<<"Decryption Started";
@@ -237,7 +285,7 @@ QString MainWindow::DecryptMsg(QByteArray encryptedMsg, Rsa *rsa,QString aeskey1
     QString dec2 = rsadec(dec1, rsa);
     return dec2;
 }
-
+#endif
 
 
 

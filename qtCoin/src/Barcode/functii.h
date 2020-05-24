@@ -6,7 +6,7 @@
 //  License GPLv3.0 -- see License File
 //  Modified by Alex Bettarini on 7 Feb 2019
 //
-
+#ifdef BARCODE
 /**
  * Created on: 3 dec. 2016
  * @author: Stefan Halus
@@ -31,3 +31,4 @@ namespace EAN13
 
 #endif
 /* FUNCTII_H_ */
+#endif
