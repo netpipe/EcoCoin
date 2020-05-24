@@ -884,3 +884,23 @@ void MainWindow::on_walletCreateAddress_clicked()
 {
 
 }
+
+void MainWindow::on_receivesaveqr_clicked()
+{
+    QString fileName= QFileDialog::getSaveFileName(this, "Save image", QCoreApplication::applicationDirPath(), "BMP Files (*.bmp);;JPEG (*.JPEG);;PNG (*.png)" );
+        if (!fileName.isNull())
+        {
+            QPixmap pixMap = this->ui->ReceiveQR->grab();
+            pixMap.save(fileName);
+        }
+}
+
+void MainWindow::on_sendSaveqr_clicked()
+{
+    QString fileName= QFileDialog::getSaveFileName(this, "Save image", QCoreApplication::applicationDirPath(), "BMP Files (*.bmp);;JPEG (*.JPEG);;PNG (*.png)" );
+        if (!fileName.isNull())
+        {
+            QPixmap pixMap = this->ui->sendSaveqr->grab();
+            pixMap.save(fileName);
+        }
+}

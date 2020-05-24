@@ -13,6 +13,7 @@
 #include <QThread>
 #include <QDebug>
 #include <QCryptographicHash>
+#include <QGraphicsView>
 
 namespace Ui {
 class MainWindow;
@@ -82,10 +83,9 @@ public:
     bool _state;
 
 void createWalletTable(QString ID);
-void createWalletCoinsTable();
-void WalletAddressInsert(QString address);
-void walletCoinInsert(QString address);
-void createWalletCoinsTable(QString address);
+void createWalletCoinsTable(QString ID);
+void WalletAddressInsert(QString Email,QString Name,QString classid,QString datetime,QString address);
+void walletCoinInsert(QString ID,QString CoinAddress,QString Owner,QString classid,QString date);
 
 void createWalletHistoryTable();
 void HistoryInsert(QString datetime,QString RXTX,QString ID,QString Ammount,QString contactname) ;
@@ -133,9 +133,9 @@ void playsound(QString);
     QByteArray EncryptMsg(QString plainMsg,QString aeskey1,QString aeskey2);
     QString DecryptMsg(QByteArray encryptedMsg, Rsa *rsa,QString aeskey1,QString aeskey2);
 
-void GenerateQRCode(QString);
-void EAN13(QString productname,QString country,QString ean);
-QString decodeqr(QString image);
+    void GenerateQRCode(QString data,QGraphicsView *view);
+    void EAN13(QString productname,QString country,QString ean,QGraphicsView *graphicsView);
+    QString decodeqr(QString image);
 
 
 private slots:
@@ -196,6 +196,10 @@ private slots:
     void on_coinsrefresh_clicked();
 
     void on_walletCreateAddress_clicked();
+
+    void on_receivesaveqr_clicked();
+
+    void on_sendSaveqr_clicked();
 
 private:
     Ui::MainWindow *ui;

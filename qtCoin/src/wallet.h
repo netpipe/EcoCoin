@@ -16,6 +16,7 @@
 #include <fstream>
 #ifdef BARCODE
 #include <QGraphicsSvgItem>
+#include <QGraphicsView>
 #include "Barcode/functii.h"
 #include "Barcode/quirc/tests/inspect.h"
 #endif
@@ -174,7 +175,7 @@ void MainWindow::createWalletCoinsTable(QString address) //place to hold users c
                  "CoinAddress VARCHAR(100),"
                  "Owner VARCHAR(100),"
                  "Class VARCHAR(100),"
-                 "Date INTEGER NOT NULL,"
+                 "Date INTEGER NOT NULL"
              //       "phone INTEGER,"//                    "phone INTEGER NOT NULL,"
                  ");");
 
@@ -195,7 +196,7 @@ void MainWindow::createWalletCoinsTable(QString address) //place to hold users c
     db.close();
 }
 
-void MainWindow::walletCoinInsert(QString ID) //strictly a db to hold all userid's for verification
+void MainWindow::walletCoinInsert(QString ID,QString CoinAddress,QString Owner,QString classid,QString date) //strictly a db to hold all userid's for verification
 {
     createWalletCoinsTable();
 
@@ -217,19 +218,19 @@ void MainWindow::walletCoinInsert(QString ID) //strictly a db to hold all userid
 //    QString mykey1 = BigInt2Str(m_e); //rsa keys
 //    QString mykey2 = BigInt2Str(m_n); //rsa keys
 
-    query.append("INSERT INTO users("
+    query.append("INSERT INTO "+ID.toLatin1()+"("
                  "userid,"
-                 "name,"
-                 "password,"
-                 "phone,"//
-                 "datetime,"
+                 "CoinAddress,"
+                 "Owner,"
+                 "Class,"//
+                 "DateTime,"
                  "class)"
                  "VALUES("
-                 "'"+euserid.toLatin1()+"',"
-                 "'"+ui->lineEditSurname->text().toLatin1()+"',"
-                 "'"+ui->lineEditPassword->text().toLatin1()+"',"
-                 "'"+ui->lineEditPhone->text().toLatin1()+"',"
-                 "'"+ui->createclass->text()+"'"
+                 "'"+ID.toLatin1()+"',"
+                 "'"+CoinAddress.toLatin1()+"',"
+                 "'"+Owner.toLatin1()+"',"
+                 "'"+classid.toLatin1()+"',"
+                 "'"+date.toLatin1()+"'"
                  ");");
 
     qDebug()<< euserid.toLatin1();
@@ -254,9 +255,9 @@ void MainWindow::walletCoinInsert(QString ID) //strictly a db to hold all userid
 
 
 
-void MainWindow::WalletAddressInsert(QString address) //strictly a db to hold all userid's for verification
+void MainWindow::WalletAddressInsert(QString Email,QString Name,QString classid,QString datetime,QString address) //strictly a db to hold all userid's for verification
 {
- //   createWalletTable();
+    //createWalletTable();
 
     db.setDatabaseName("wallet.sqlite");
     if(db.open())
@@ -319,9 +320,9 @@ void MainWindow::WalletAddressInsert(QString address) //strictly a db to hold al
 }
 
 
-void MainWindow::GenerateQRCode(QString test) {
+void MainWindow::GenerateQRCode(QString data,QGraphicsView *view) {
 #ifdef BARCODE
-    std::wstring text ( test.toStdWString() );
+    std::wstring text ( data.toStdWString() );
 
     //char *text2 = text.c_str();
     const wchar_t* wstr = text.c_str() ;
@@ -353,19 +354,19 @@ void MainWindow::GenerateQRCode(QString test) {
         QImage *img_object = new QImage();
         img_object->load("./tmp.svg");
         QPixmap image = QPixmap::fromImage(*img_object);
-        QPixmap scaled_img = image.scaled(ui->graphicsView->width(), ui->graphicsView->height(), Qt::KeepAspectRatio);
+        QPixmap scaled_img = image.scaled(view->width(), view->height(), Qt::KeepAspectRatio);
         QGraphicsScene *scene= new QGraphicsScene();
        // scene->addItem(new QGraphicsSvgItem("./tmp.svg"));
         scene->addPixmap(scaled_img);
         scene->setSceneRect(scaled_img.rect());
-        ui->graphicsView->setScene(scene);
-        ui->graphicsView->show();
+        view->setScene(scene);
+        view->show();
 #endif
 
 }
 
 
-void MainWindow::EAN13(QString productname,QString country,QString ean){ //barcode not used
+void MainWindow::EAN13(QString productname,QString country,QString ean,QGraphicsView *graphicsView){ //barcode not used
 #ifdef BARCODE
 //    std::string code13 = EAN13::appendChecksum("123", "123456789"); //countrycode 3 letters,European Article Number 9 digits no spaces
 //    std::string svg = EAN13::createSvg("productName test", code13);
@@ -382,13 +383,13 @@ void MainWindow::EAN13(QString productname,QString country,QString ean){ //barco
     img_object->load("./tmp.svg");
     QPixmap image = QPixmap::fromImage(*img_object);
  //   QPixmap scaled_img = image.scaled(this->width(), this->height(), Qt::KeepAspectRatio);
-    QPixmap scaled_img = image.scaled(ui->graphicsView->width(), ui->graphicsView->height(), Qt::KeepAspectRatio);
+    QPixmap scaled_img = image.scaled(graphicsView->width(), graphicsView->height(), Qt::KeepAspectRatio);
     QGraphicsScene *scene= new QGraphicsScene();
    // scene->addItem(new QGraphicsSvgItem("./tmp.svg"));
     scene->addPixmap(scaled_img);
     scene->setSceneRect(scaled_img.rect());
-    ui->graphicsView->setScene(scene);
-    ui->graphicsView->show();
+    graphicsView->setScene(scene);
+    graphicsView->show();
 #endif
 }
 

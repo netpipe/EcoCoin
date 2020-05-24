@@ -10,11 +10,13 @@ QT += core gui sql printsupport
 linux {
 DEFINES += SOUND DBUS DOWNLOAD SMTP
 QT += multimedia svg dbus network
+CONFIG += barcodescan
 }
 
 win32 {
 DEFINES += SOUND DBUS DOWNLOAD SMTP
 QT += multimedia svg dbus network
+CONFIG += barcodescan
 }
 
 wasm-emscripten {
