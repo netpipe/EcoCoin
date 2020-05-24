@@ -9,9 +9,6 @@
 #include <src/coingenerator.h>
 #include <src/coinfunctions.h>
 #include <src/validatecoins.h>
-#ifdef SMTP
-#include "src/smtp/SmtpMime"
-#endif
 #include "src/encryption/encryption.h"
 #include "src/encryption/rsa/Rsa.h"
 #include "src/downloadmanager.h"
@@ -19,6 +16,7 @@
 
 #include "src/admin.h"
 #include "src/wallet.h"
+#include "src/email.h"
 
 
 
@@ -94,8 +92,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->progress->setValue( test4);
 
     //enable these if you want to test rsa+aes encryption in the onpushbutton_3_clicked function.
-//    rsaTester = new Rsa();
-//    rsaTester->publish_keys(m_e, m_n);
+#ifdef ENCRYPTION
+    rsaTester = new Rsa();
+    rsaTester->publish_keys(m_e, m_n);
+#endif
 
     if(getkeys() == 1){
       //
@@ -249,15 +249,6 @@ void MainWindow::on_test_clicked()
     qDebug() << "decrypted rot13:" << rot13(test.toLatin1());
 }
 
-void MainWindow::on_smtpsave_clicked()
-{
-
-}
-
-void MainWindow::on_smtptestmessage_clicked()
-{
-
-}
 
 
 void MainWindow::on_saveuserinfo_clicked()
@@ -278,46 +269,6 @@ void MainWindow::on_placeCoinsopenfile_clicked()
 
 
 
-int MainWindow::smtpsend(QString toemail,QString Message){
-#ifdef SMTP
-    bool ssl;
-    if ( ui->smtpssl->isChecked() == 1 ){ ssl = 1;    }else{ ssl = 0; }
-
-    SmtpClient smtp (ui->smtphost->text().toLatin1(), ui->smtpport->text().toInt(), ssl ? SmtpClient::SslConnection : SmtpClient::TcpConnection);
-    smtp.setUser(ui->smtpemail->text());
-    smtp.setPassword(ui->smtppassword->text());
-
-    MimeMessage message;
-    EmailAddress sender(ui->smtpemail->text(), ui->smtpemail->text()); //email,name
-    message.setSender(&sender);
-    EmailAddress to(toemail.toLatin1(), toemail.toLatin1()); // email, name
-    message.addRecipient(&to);
-    message.setSubject(ui->coinname->text());
-
-    MimeText text;
-  //  text.setText("Hi,\nThis is a simple email message.\n");
-    text.setText(Message.toLatin1());
-    // Now add it to the mail
-    message.addPart(&text);
-
-    // Now we can send the mail
-    if (!smtp.connectToHost()) {
-        qDebug() << "Failed to connect to host!" << endl;
-        return 1;
-    }
-
-    if (!smtp.login()) {
-        qDebug() << "Failed to login!" << endl;
-        return 2;
-    }
-
-    if (!smtp.sendMail(message)) {
-        qDebug() << "Failed to send mail!" << endl;
-        return 3;
-    }
-    smtp.quit();
-#endif
-}
 
 void MainWindow::on_CreateWallet_clicked()
 {

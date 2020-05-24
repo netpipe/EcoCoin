@@ -94,6 +94,8 @@ public:
     void HistoryInsert(QString datetime,QString RXTX,QString ID,QString Ammount,QString contactname) ;
     void listwalletcoins(QString ID);
     QString WordListGenerator(int,QString);
+    void createEmailTable();
+    void EmailInsertWallet();
 
     QString decodetxQR();
 
