@@ -156,8 +156,6 @@ private slots:
 
     void on_actionExit_triggered();
 
-    void on_pushButton_3_clicked();
-
     void on_btnApply_clicked();
 
     void on_btnAddThemeFromFile_clicked();
@@ -207,6 +205,8 @@ private slots:
     void on_sendSaveqr_clicked();
 
     void on_generatetx_clicked();
+
+    void on_userssearch_clicked();
 
 private:
     Ui::MainWindow *ui;

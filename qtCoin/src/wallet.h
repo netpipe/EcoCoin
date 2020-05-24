@@ -44,7 +44,8 @@ void MainWindow::createWalletHistoryTable()
                     "DateTime INTEGER NOT NULL,"
                     "RXTX VARCHAR(50),"
                     "ID VARCHAR(100),"
-                    "Ammount VARCHAR(100)"
+                    "Ammount VARCHAR(100),"
+                    "ContactName VARCHAR(100)"
              //       "phone INTEGER,"//                    "phone INTEGER NOT NULL,"
                     ");");
 
@@ -129,7 +130,7 @@ void MainWindow::createWalletTable(QString ID)
 
     QString query;
 
-    query.append("CREATE TABLE IF NOT EXISTS wallet("
+    query.append("CREATE TABLE IF NOT EXISTS "+ID.toLatin1()+"("
                     "id INTEGER PRIMARY KEY AUTOINCREMENT,"
                     "userid VARCHAR(100),"
           //      "phone INTEGER NOT NULL," //incase lost ?
@@ -157,7 +158,7 @@ void MainWindow::createWalletTable(QString ID)
     db.close();
 }
 
-void MainWindow::createWalletCoinsTable(QString address) //place to hold users coins
+void MainWindow::createWalletCoinsTable(QString ID) //place to hold users coins
 {
     db.setDatabaseName("wallet.sqlite");
     if(db.open())
@@ -170,7 +171,7 @@ void MainWindow::createWalletCoinsTable(QString address) //place to hold users c
     }
     QString query;
 
-    query.append("CREATE TABLE IF NOT EXISTS "+address.toLatin1()+"(" //put address here
+    query.append("CREATE TABLE IF NOT EXISTS "+ID.toLatin1()+"(" //put address here
                  "id INTEGER PRIMARY KEY AUTOINCREMENT,"
                  "CoinAddress VARCHAR(100),"
                  "Owner VARCHAR(100),"
@@ -196,7 +197,7 @@ void MainWindow::createWalletCoinsTable(QString address) //place to hold users c
     db.close();
 }
 
-void MainWindow::walletCoinInsert(QString ID,QString CoinAddress,QString Owner,QString classid,QString date) //strictly a db to hold all userid's for verification
+void MainWindow::walletCoinInsert(QString ID,QString CoinAddress,QString Owner,QString classid,QString date)
 {
     createWalletCoinsTable(ID);
 
@@ -212,11 +213,7 @@ void MainWindow::walletCoinInsert(QString ID,QString CoinAddress,QString Owner,Q
 
     QString query;
 
-      QString euserid = ui->lineEditName->text();
-
-//    QByteArray bFname = EncryptMsg(ui->lineEditName->text(),"123456789", "your-IV-vector");
-//    QString mykey1 = BigInt2Str(m_e); //rsa keys
-//    QString mykey2 = BigInt2Str(m_n); //rsa keys
+    QString euserid = ui->lineEditName->text();
 
     query.append("INSERT INTO "+ID.toLatin1()+"("
                  "userid,"
@@ -255,7 +252,7 @@ void MainWindow::walletCoinInsert(QString ID,QString CoinAddress,QString Owner,Q
 
 
 
-void MainWindow::WalletAddressInsert(QString Email,QString Name,QString classid,QString datetime,QString address) //strictly a db to hold all userid's for verification
+void MainWindow::WalletAddressInsert(QString Email,QString Name,QString classid,QString datetime,QString address)
 {
     //createWalletTable();
 
@@ -271,32 +268,21 @@ void MainWindow::WalletAddressInsert(QString Email,QString Name,QString classid,
 
     QString query;
 
-      QString euserid = ui->lineEditName->text();
+    QString euserid = ui->lineEditName->text();
 
-//    QByteArray bFname = EncryptMsg(ui->lineEditName->text(),"123456789", "your-IV-vector");
-//    QString mykey1 = BigInt2Str(m_e); //rsa keys
-//    QString mykey2 = BigInt2Str(m_n); //rsa keys
-
-    query.append("INSERT INTO users("
-                 "userid,"
-                 "name,"
-                 "password,"
-                 "phone,"//
+    query.append("INSERT INTO addresses("
+                 "Email,"
+                 "Name,"
+                 "class,"
+              //   "phone,"//
                  "datetime,"
-                 "ekey,"
-                 "total,"
-                 "extra,"
-                 "class)"
-                 "VALUES("
-                 "'"+euserid.toLatin1()+"',"
-                 "'"+ui->lineEditSurname->text().toLatin1()+"',"
-                 "'"+ui->lineEditPassword->text().toLatin1()+"',"
-                 "'"+ui->lineEditPhone->text().toLatin1()+"',"
-                 "'"+ui->createuserdatetime->text()+"',"
-                 "'""'," //ekey
-                 "'""'," //ammount
-                 "'"+ui->createextra->text().toLatin1()+"',"
-                 "'"+ui->createclass->text()+"'"
+                 "address,"
+                 "class)""VALUES("
+                 "'"+Email.toLatin1()+"',"
+                 "'"+Name.toLatin1()+"',"
+                 "'"+classid.toLatin1()+"',"
+                 "'"+datetime.toLatin1()+"',"
+                 "'"+address.toLatin1()+"',"
                  ");");
 
     qDebug()<< euserid.toLatin1();

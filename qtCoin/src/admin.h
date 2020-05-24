@@ -15,6 +15,314 @@
 #include "QRCode/QrCode.hpp"
 
 
+
+void MainWindow::searchyearly(QString ownerID)
+{
+    db.setDatabaseName("database.sqlite");
+    if(db.open())
+    {
+       qDebug()<<"Successful database connection";
+    }
+    else
+    {
+       qDebug()<<"Error: failed database connection";
+    }
+
+    QString query;
+    query.append("SELECT * FROM "+ownerID);
+
+    QSqlQuery select;
+    select.prepare(query);
+
+    if (select.exec())
+    {
+        qDebug()<<"The user is properly selected";
+    }
+    else
+    {
+        qDebug()<<"The user is not selected correctly";
+        qDebug()<<"ERROR! "<< select.lastError();
+    }
+
+    int row = 0;
+    ui->tableWidgetUsers->setRowCount(0);
+
+    while (select.next())
+    {
+        ui->tableWidgetUsers->insertRow(row);
+        ui->tableWidgetUsers->setItem(row,0,new QTableWidgetItem(select.value(1).toByteArray().constData()));
+        ui->tableWidgetUsers->setItem(row,1,new QTableWidgetItem(select.value(2).toByteArray().constData()));
+        ui->tableWidgetUsers->setItem(row,2,new QTableWidgetItem(select.value(3).toByteArray().constData()));
+        ui->tableWidgetUsers->setItem(row,3,new QTableWidgetItem(select.value(4).toByteArray().constData()));
+        row++;
+    }
+
+    query.clear();
+    db.close();
+}
+
+void MainWindow::createyearly(QString eownerID)
+{
+    //holds users generated from each new year and their coins pulled from rcoins.sqlite
+
+    db.setDatabaseName("./db/"+year+".sqlite");
+
+    if(db.open())    {       qDebug()<<"Successful database connection";    }
+    else    {       qDebug()<<"Error: failed database connection";    }
+
+    QString query;
+
+    qDebug() << "test" << eownerID.toLatin1();
+
+    query.append("CREATE TABLE IF NOT EXISTS ""'"+eownerID.toLatin1()+"'""("
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    "origindex VARCHAR(100)," //rcoins index then coins.sqlite is stored on usbdrive as part of key/verify
+                    "addr VARCHAR(100),"
+                    "datetime INTEGER,"
+                    "class INTEGER"
+                    ");");
+
+
+    QSqlQuery create;
+    create.prepare(query);
+
+    if (create.exec())
+    {
+        qDebug()<<"Table exists or has been created";
+    }
+    else
+    {
+        qDebug()<<"Table not exists or has not been created";
+        qDebug()<<"ERROR! "<< create.lastError();
+    }
+    query.clear();
+    db.close();
+}
+
+
+void MainWindow::createUserTable()
+{
+    db.setDatabaseName("database.sqlite");
+    if(db.open())
+    {
+       qDebug()<<"Successful database connection";
+    }
+    else
+    {
+       qDebug()<<"Error: failed database connection";
+    }
+    QString query;
+
+    query.append("CREATE TABLE IF NOT EXISTS users("
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    "userid VARCHAR(100),"
+                    "name VARCHAR(100),"
+                    "password VARCHAR(100),"
+                    "phone INTEGER,"//                    "phone INTEGER NOT NULL,"
+                     "datetime INTEGER NOT NULL,"
+                     "ekey VARCHAR(100),"
+                      "total VARCHAR(100),"
+                     "extra VARCHAR(100),"
+                    "class INTEGER"
+                    ");");
+
+
+    QSqlQuery create;
+    create.prepare(query);
+
+    if (create.exec())
+    {
+        qDebug()<<"Table exists or has been created";
+    }
+    else
+    {
+        qDebug()<<"Table not exists or has not been created";
+        qDebug()<<"ERROR! "<< create.lastError();
+    }
+    query.clear();
+    db.close();
+}
+
+
+void MainWindow::selectUsers()
+{
+    db.setDatabaseName("database.sqlite");
+    if(db.open())
+    {
+       qDebug()<<"Successful database connection";
+    }
+    else
+    {
+       qDebug()<<"Error: failed database connection";
+    }
+
+
+    QString query;
+    query.append("SELECT * FROM users");
+
+    QSqlQuery select;
+    select.prepare(query);
+
+    if (select.exec())
+    {
+        qDebug()<<"The user is properly selected";
+    }
+    else
+    {
+        qDebug()<<"The user is not selected correctly";
+        qDebug()<<"ERROR! "<< select.lastError();
+    }
+
+    int row = 0;
+    ui->tableWidgetUsers->setRowCount(0);
+
+    while (select.next())
+    {
+        ui->tableWidgetUsers->insertRow(row);
+        ui->tableWidgetUsers->setItem(row,0,new QTableWidgetItem(select.value(1).toByteArray().constData()));
+        ui->tableWidgetUsers->setItem(row,1,new QTableWidgetItem(select.value(2).toByteArray().constData()));
+        ui->tableWidgetUsers->setItem(row,2,new QTableWidgetItem(select.value(3).toByteArray().constData()));
+        ui->tableWidgetUsers->setItem(row,3,new QTableWidgetItem(select.value(4).toByteArray().constData()));
+        row++;
+    }
+
+    query.clear();
+    db.close();
+}
+
+
+void MainWindow::on_userssearch_clicked() //search button
+{
+    db.setDatabaseName("database.sqlite");
+    if(db.open())
+    {
+       qDebug()<<"Successful database connection";
+    }
+    else
+    {
+       qDebug()<<"Error: failed database connection";
+    }
+        QString query;
+
+        //testing save the keys maybe shorten the encryption length ?
+
+    if (ui->encrypted_yes->text() == "Yes" ){
+            QByteArray bFname = EncryptMsg(ui->userid->text(),"123456789", "your-IV-vector");
+            QString mykey1 = BigInt2Str(m_e); //rsa keys
+            QString mykey2 = BigInt2Str(m_n); //rsa keys
+
+            query.append("SELECT * FROM users WHERE name =" "'" + bFname  + "'" );
+
+    }else {
+        query.append("SELECT * FROM users WHERE name =" "'" + ui->userid->text()  + "'" );
+}
+
+    //search for coin owner / validity
+
+    QSqlQuery select;
+    select.prepare(query);
+
+    if (select.exec())
+    {
+        qDebug()<<"The user is properly selected";
+    }
+    else
+    {
+        qDebug()<<"The user is not selected correctly";
+        qDebug()<<"ERROR! "<< select.lastError();
+    }
+
+    int row = 0;
+    ui->tableWidgetUsers->setRowCount(0);
+
+    QString mykey1 = BigInt2Str(m_e); //rsa keys
+    QString mykey2 = BigInt2Str(m_n); //rsa keys
+
+    if (ui->encrypted_yes->text() == "Yes" ){
+
+        while (select.next())
+        {
+            Rsa *rsa = new Rsa(BigInt(mykey1.toStdString()), BigInt(mykey2.toStdString()));
+            QString strMsg = DecryptMsg(select.value(1).toByteArray().constData(), rsa,"123456789", "your-IV-vector");
+           // QString strDate = DecryptMsg(bFname, rsa,"123456789", "your-IV-vector");
+            delete rsa;
+
+            ui->tableWidgetUsers->insertRow(row);
+            ui->tableWidgetUsers->setItem(row,0,new QTableWidgetItem(strMsg));
+            ui->tableWidgetUsers->setItem(row,1,new QTableWidgetItem(select.value(2).toByteArray().constData()));
+            ui->tableWidgetUsers->setItem(row,2,new QTableWidgetItem(select.value(3).toByteArray().constData()));
+            ui->tableWidgetUsers->setItem(row,3,new QTableWidgetItem(select.value(4).toByteArray().constData()));
+            row++;
+        }
+    }else{
+        while (select.next())
+        {
+            ui->tableWidgetUsers->insertRow(row);
+            ui->tableWidgetUsers->setItem(row,0,new QTableWidgetItem(select.value(1).toByteArray().constData()));
+            ui->tableWidgetUsers->setItem(row,1,new QTableWidgetItem(select.value(2).toByteArray().constData()));
+            ui->tableWidgetUsers->setItem(row,2,new QTableWidgetItem(select.value(3).toByteArray().constData()));
+            ui->tableWidgetUsers->setItem(row,3,new QTableWidgetItem(select.value(4).toByteArray().constData()));
+            row++;
+        }
+    }
+    query.clear();
+    db.close();
+}
+
+
+void MainWindow::SQLTest(QString dbname,QString Query)
+{
+    db.setDatabaseName(dbname.toLatin1());
+    if(db.open())
+    {       qDebug()<<"Successful database connection";    }
+    else
+    {       qDebug()<<"Error: failed database connection";    }
+
+    QString query;
+    query.append(Query.toLatin1());
+
+    QSqlQuery select;
+    select.prepare(query);
+
+    if (select.exec())
+    {
+        qDebug()<<"The user is properly selected";
+    }
+    else
+    {
+        qDebug()<<"The user is not selected correctly";
+        qDebug()<<"ERROR! "<< select.lastError();
+    }
+
+    int row = 0;
+    ui->tableWidgetUsers->setRowCount(0);
+
+    while (select.next())
+    {
+        ui->tableWidgetUsers->insertRow(row);
+        ui->tableWidgetUsers->setItem(row,0,new QTableWidgetItem(select.value(0).toByteArray().constData()));
+        ui->tableWidgetUsers->setItem(row,1,new QTableWidgetItem(""));
+        ui->tableWidgetUsers->setItem(row,2,new QTableWidgetItem(""));
+        ui->tableWidgetUsers->setItem(row,3,new QTableWidgetItem(""));
+        row++;
+    }
+
+    query.clear();
+    db.close();
+}
+
+void MainWindow::on_randomSearch_clicked()
+{//for picking lucky users
+    //repurposed temporarly for sqltest
+    QString sql = "SELECT * FROM users ORDER BY random()";
+
+    SQLTest("database.sqlite",sql.toLatin1());
+
+}
+
+
+
+
 void MainWindow::on_pushButtonInsertUser_clicked()
 {
     //QString temp = GenerateClientAddress(8);
@@ -141,5 +449,56 @@ void MainWindow::insertUser() //strictly a db to hold all userid's for verificat
 }
 
 
+int MainWindow::getkeys(){ //for coldstorage server or standalone server which contains all the infos
+
+    qDebug() << "getting keys";
+    //if keys are stored in the local folder and checkout then use those
+
+    //verify md5sum of keys file from 2 or 3 locations possibly encrypted
+    //simple strings found on google have same md5sums or bruteforce could match it.
+    bool keyexists=0;
+    QString path;
+    if (ui->usbdrivename->text().toLatin1() != ""){
+        ListUSB();
+        QString path2;
+        path2 = usbpath.toLatin1()+"/keys.txt";
+        QFile MyFile2(path2);
+        if ( MyFile2.exists() ){        keyexists= true;        path = usbpath.toLatin1()+"/keys.txt";    }
+    } else {
+        QString path3;
+        path3 = "./keys.txt";
+        QFile MyFile3(path3);
+        if ( MyFile3.exists() ){    keyexists= true;   path = "./keys.txt"; }
+    }
+
+    QFile MyFile(path);
+
+    if(MyFile.exists() && keyexists ){
+    MyFile.open(QIODevice::ReadWrite);
+    QTextStream in (&MyFile);
+    QString line;
+    QStringList list;
+     //   QList<QString> nums;
+    QStringList nums;
+    QRegExp rx("[:]");
+    do {
+        line = in.readLine();
+        if (line.contains(":")) {
+            list = line.split(rx);
+            nums.append(list.at(1).toLatin1());
+        }
+    } while (!line.isNull());
+
+    masterkey=nums.at(0);
+    qDebug() << "masterkey" << masterkey;
+    coinkey=nums.at(1);
+    qDebug() << "coinkey" << coinkey;
+    return 1;
+
+    }else {
+        return 0;
+    }
+
+}
 
 #endif // WALLET_H
