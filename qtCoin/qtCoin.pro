@@ -8,7 +8,7 @@ QT += core gui sql printsupport
 
 #emscripten
 linux {
-#DEFINES += SOUND DBUS DOWNLOAD SMTP
+DEFINES += SOUND DBUS DOWNLOAD SMTP
 QT += multimedia svg dbus network
 #CONFIG += barcodescan
 }
@@ -16,7 +16,7 @@ QT += multimedia svg dbus network
 win32 {
 DEFINES += SOUND DBUS DOWNLOAD SMTP
 QT += multimedia svg dbus network
-#CONFIG += barcodescan
+CONFIG += barcodescan
 }
 
 wasm-emscripten {
