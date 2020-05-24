@@ -30,14 +30,11 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = qtCoin
 TEMPLATE = app
 
-
-
 RC_FILE = ./qtCoin.rc
 ICON = ./qtCoin.ico
 
 #CONFIG += c++11
 CONFIG += console
-
 
 #unix:!macx:CONFIG += barcodescan
 barcodescan{
@@ -46,9 +43,6 @@ DEFINES += barcodescan BARCODE
 }
 
 DEFINES += QT_DEPRECATED_WARNINGS
-
-
-
 
 SOURCES += main.cpp\
         mainwindow.cpp \
