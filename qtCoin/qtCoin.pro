@@ -8,7 +8,7 @@ QT += core gui sql printsupport
 
 #emscripten
 linux {
-DEFINES += SOUND DBUS DOWNLOAD SMTP
+DEFINES += SOUND DBUS DOWNLOAD SMTP STORAGE
 QT += multimedia svg dbus network
 CONFIG += barcodescan
 #unix:!macx:CONFIG += barcodescan
@@ -20,7 +20,7 @@ DEFINES += BARCODE
 }
 
 win32 {
-DEFINES += SOUND DBUS DOWNLOAD SMTP
+DEFINES += SOUND DBUS DOWNLOAD SMTP STORAGE
 QT += multimedia svg dbus network
 CONFIG += barcodescan
 }
