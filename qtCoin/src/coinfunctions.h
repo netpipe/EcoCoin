@@ -399,6 +399,35 @@ int MainWindow::checkAvailableCoins(QString db2,QString needed){
   return coins;
 }
 
+QString MainWindow::WordListGenerator(int length, QString wordlist){
+
+
+    QFile MyFile(wordlist);
+    MyFile.open(QIODevice::ReadOnly);
+    QTextStream in (&MyFile);
+    QString line;
+    QStringList wordList;
+        qDebug() << "reading wordlist";
+     do {
+        line = in.readLine();
+            wordList << line.toLatin1();
+           //  qDebug() << line.toLatin1();
+    } while (!line.isNull());
+
+    QTime time = QTime::currentTime();
+    qsrand((uint)time.msec());
+
+    QString generated;
+
+    for (int i=0; i < length;i++ ){
+        int test = qrand() % wordList.count();
+        QString word =  wordList.at( test );
+        generated.append(  word.toLatin1()+"," );
+        qDebug() << generated;
+        wordList.removeAt( test );
+    }
+return generated;
+}
 
 //void MainWindow::DeleteColFromTable(QString DbName, QString TableName, QString ColName){ //https://stackoverflow.com/questions/8442147/how-to-delete-or-add-column-in-sqlite
 //    SQLiteDatabase db = openOrCreateDatabase(""+DbName+"", Context.MODE_PRIVATE, null);

@@ -92,6 +92,8 @@ public:
     void walletCoinInsert(QString ID,QString CoinAddress,QString Owner,QString cid,QString date);
     void createWalletHistoryTable();
     void HistoryInsert(QString datetime,QString RXTX,QString ID,QString Ammount,QString contactname) ;
+    void listwalletcoins(QString ID);
+    QString WordListGenerator(int,QString);
 
     QString decodetxQR();
 
@@ -217,6 +219,8 @@ private slots:
 
 
     void on_balancetest_clicked();
+
+    void on_CreateWallet_clicked();
 
 private:
     Ui::MainWindow *ui;

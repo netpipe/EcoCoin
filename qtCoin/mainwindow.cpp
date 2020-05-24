@@ -318,3 +318,10 @@ int MainWindow::smtpsend(QString toemail,QString Message){
     smtp.quit();
 #endif
 }
+
+void MainWindow::on_CreateWallet_clicked()
+{
+
+//qDebug () << WordListGenerator(8,"./Resource/wordlists/english.txt");
+
+}
