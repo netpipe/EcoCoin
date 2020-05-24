@@ -31,7 +31,7 @@
         <item row="0" column="0">
          <widget class="QTabWidget" name="tabWidget">
           <property name="currentIndex">
-           <number>5</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tab_5">
            <attribute name="title">
@@ -90,7 +90,7 @@
              </widget>
             </item>
             <item row="1" column="0">
-             <widget class="QTableWidget" name="tableWidgetUsers_2">
+             <widget class="QTableWidget" name="HistoryList">
               <property name="styleSheet">
                <string notr="true"/>
               </property>
@@ -418,7 +418,7 @@
            </attribute>
            <layout class="QGridLayout" name="gridLayout_21">
             <item row="0" column="0" colspan="2">
-             <widget class="QTableWidget" name="tableWidgetUsers_5">
+             <widget class="QTableWidget" name="AddressesList">
               <property name="styleSheet">
                <string notr="true"/>
               </property>
@@ -497,7 +497,7 @@
            </attribute>
            <layout class="QGridLayout" name="gridLayout_22">
             <item row="0" column="0">
-             <widget class="QTableWidget" name="tableWidgetUsers_4">
+             <widget class="QTableWidget" name="ContactList">
               <property name="styleSheet">
                <string notr="true"/>
               </property>
@@ -597,7 +597,7 @@
              </layout>
             </item>
             <item row="1" column="0">
-             <widget class="QTableWidget" name="tableWidgetUsers_3">
+             <widget class="QTableWidget" name="coinsList">
               <property name="styleSheet">
                <string notr="true"/>
               </property>

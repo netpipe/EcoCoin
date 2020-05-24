@@ -13,16 +13,17 @@
 #include <QMessageBox>
 #include <QTextCodec>
 #include <QFileDialog>
+#include <iostream>
+#include <fstream>
+
 
 #ifdef BARCODE
-    #include <iostream>
-    #include <fstream>
     #include "QRCode/QrCode.hpp"
     #include <QGraphicsSvgItem>
     #include <QGraphicsView>
-    #include "Barcode/functii.h"
     #include "Barcode/quirc/tests/inspect.h"
     using qrcodegen::QrCode;
+#include "Barcode/functii.h"
 #endif
 
 //minimum 2 coin verify for transactions
@@ -44,6 +45,26 @@ void MainWindow::on_walletCreateAddress_clicked()
 
 
 
+void MainWindow::on_receivesaveqr_clicked()
+{
+    QString fileName= QFileDialog::getSaveFileName(this, "Save image", QCoreApplication::applicationDirPath(), "BMP Files (*.bmp);;JPEG (*.JPEG);;PNG (*.png)" );
+        if (!fileName.isNull())
+        {
+            QPixmap pixMap = this->ui->ReceiveQR->grab();
+            pixMap.save(fileName);
+        }
+}
+
+void MainWindow::on_sendSaveqr_clicked()
+{
+    QString fileName= QFileDialog::getSaveFileName(this, "Save image", QCoreApplication::applicationDirPath(), "BMP Files (*.bmp);;JPEG (*.JPEG);;PNG (*.png)" );
+        if (!fileName.isNull())
+        {
+            QPixmap pixMap = this->ui->sendSaveqr->grab();
+            pixMap.save(fileName);
+        }
+}
+
 void MainWindow::on_placeCoins_clicked()
 {
     //if any incorrect flag account for checking also disable other transactions.
@@ -59,6 +80,7 @@ void MainWindow::on_placeCoins_clicked()
         Msgbox.exec();
     }
 }
+
 
 void MainWindow::on_coinsrefresh_clicked()  // set global userid for testing
 {
@@ -84,7 +106,8 @@ void MainWindow::on_coinsrefresh_clicked()  // set global userid for testing
 
     }else {
 #endif
-        query.append("SELECT * FROM users WHERE name =" "'" + ui->userid->text()  + "'" );
+        //query.append("SELECT * FROM users WHERE name =" "'" + ui->userid->text()  + "'" );
+         query.append("SELECT * FROM "+mainID.toLatin1() );
 #ifdef ENCRYPTION
     }
 #endif
@@ -105,7 +128,7 @@ void MainWindow::on_coinsrefresh_clicked()  // set global userid for testing
     }
 
     int row = 0;
-    ui->tableWidgetUsers->setRowCount(0);
+    ui->coinsList->setRowCount(0);
 #ifdef ENCRYPTION
     QString mykey1 = BigInt2Str(m_e); //rsa keys
     QString mykey2 = BigInt2Str(m_n); //rsa keys
@@ -130,11 +153,11 @@ void MainWindow::on_coinsrefresh_clicked()  // set global userid for testing
         #endif
         while (select.next())
         {
-            ui->tableWidgetUsers->insertRow(row);
-            ui->tableWidgetUsers->setItem(row,0,new QTableWidgetItem(select.value(1).toByteArray().constData()));
-            ui->tableWidgetUsers->setItem(row,1,new QTableWidgetItem(select.value(2).toByteArray().constData()));
-            ui->tableWidgetUsers->setItem(row,2,new QTableWidgetItem(select.value(3).toByteArray().constData()));
-            ui->tableWidgetUsers->setItem(row,3,new QTableWidgetItem(select.value(4).toByteArray().constData()));
+            ui->coinsList->insertRow(row);
+//            ui->coinsList->setItem(row,0,new QTableWidgetItem(select.value(1).toByteArray().constData()));
+//            ui->coinsList->setItem(row,1,new QTableWidgetItem(select.value(2).toByteArray().constData()));
+//            ui->coinsList->setItem(row,2,new QTableWidgetItem(select.value(3).toByteArray().constData()));
+//            ui->coinsList->setItem(row,3,new QTableWidgetItem(select.value(4).toByteArray().constData()));
             row++;
         }
         #ifdef ENCRYPTION
@@ -422,7 +445,7 @@ void MainWindow::WalletAddressInsert(QString Email,QString Name,QString classid,
 
 
 void MainWindow::GenerateQRCode(QString data,QGraphicsView *view) {
-#ifdef BARCODE
+#ifdef BARCODESCAN
     std::wstring text ( data.toStdWString() );
 
     //char *text2 = text.c_str();

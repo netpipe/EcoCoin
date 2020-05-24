@@ -13,7 +13,7 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
-#ifdef barcodescan
+#ifdef BARCODE
 #include "quirc_internal.h"
 
 const struct quirc_version_info quirc_version_db[QUIRC_MAX_VERSION + 1] = {

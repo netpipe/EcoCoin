@@ -16,8 +16,11 @@
 #include "src/encryption/rsa/Rsa.h"
 #include "src/downloadmanager.h"
 #include "src/loadtheme.h"
-#include "src/wallet.h"
+
 #include "src/admin.h"
+#include "src/wallet.h"
+
+
 
 //references and links
 //https://doc.qt.io/qt-5/sql-sqlstatements.html
@@ -274,26 +277,6 @@ void MainWindow::on_placeCoinsopenfile_clicked()
 }
 
 
-
-void MainWindow::on_receivesaveqr_clicked()
-{
-    QString fileName= QFileDialog::getSaveFileName(this, "Save image", QCoreApplication::applicationDirPath(), "BMP Files (*.bmp);;JPEG (*.JPEG);;PNG (*.png)" );
-        if (!fileName.isNull())
-        {
-            QPixmap pixMap = this->ui->ReceiveQR->grab();
-            pixMap.save(fileName);
-        }
-}
-
-void MainWindow::on_sendSaveqr_clicked()
-{
-    QString fileName= QFileDialog::getSaveFileName(this, "Save image", QCoreApplication::applicationDirPath(), "BMP Files (*.bmp);;JPEG (*.JPEG);;PNG (*.png)" );
-        if (!fileName.isNull())
-        {
-            QPixmap pixMap = this->ui->sendSaveqr->grab();
-            pixMap.save(fileName);
-        }
-}
 
 int MainWindow::smtpsend(QString toemail,QString Message){
 #ifdef SMTP

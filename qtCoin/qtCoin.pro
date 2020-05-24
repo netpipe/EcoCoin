@@ -11,6 +11,12 @@ linux {
 DEFINES += SOUND DBUS DOWNLOAD SMTP
 QT += multimedia svg dbus network
 CONFIG += barcodescan
+#unix:!macx:CONFIG += barcodescan
+barcodescan{
+LIBS+= -lpng -ljpeg
+DEFINES += BARCODE
+}
+
 }
 
 win32 {
@@ -35,12 +41,6 @@ ICON = ./qtCoin.ico
 
 #CONFIG += c++11
 CONFIG += console
-
-#unix:!macx:CONFIG += barcodescan
-barcodescan{
-LIBS+= -lpng -ljpeg
-DEFINES += barcodescan BARCODE
-}
 
 DEFINES += QT_DEPRECATED_WARNINGS
 

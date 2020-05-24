@@ -14,23 +14,29 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
-#ifdef barcodescan
+
+#ifdef BARCODE
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <stdio.h>
 #include <string.h>
-#include "../lib/quirc_internal.h"
+
+
 #include "dbgutil.h"
 #include <QDebug>
 #include <QString>
 #include <iostream>
 #include <sstream>  // std::ostringstream
-
-using namespace std;
 #include <jpeglib.h>
 #include <png.h>
-
 #include "../lib/quirc.h"
+#include "../lib/quirc_internal.h"
+
+
+using namespace std;
+
+
+
 
 #include "dbgutil.h"
 

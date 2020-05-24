@@ -86,6 +86,13 @@ public:
     QString mainEKEY;
     QString mainAmmount;
 
+    void createWalletTable(QString ID);
+    void createWalletCoinsTable(QString ID);
+    void WalletAddressInsert(QString Email,QString Name,QString classid,QString datetime,QString address);
+    void walletCoinInsert(QString ID,QString CoinAddress,QString Owner,QString cid,QString date);
+    void createWalletHistoryTable();
+    void HistoryInsert(QString datetime,QString RXTX,QString ID,QString Ammount,QString contactname) ;
+
     QString decodetxQR();
 
     QString generateRXfile(QString suserid,QString ruserid,QString etxcoins);
@@ -142,12 +149,6 @@ public:
     void EAN13(QString productname,QString country,QString ean,QGraphicsView *graphicsView);
     QString decodeqr(QString image);
 
-    void createWalletTable(QString ID);
-    void createWalletCoinsTable(QString ID);
-    void WalletAddressInsert(QString Email,QString Name,QString classid,QString datetime,QString address);
-    void walletCoinInsert(QString ID,QString CoinAddress,QString Owner,QString cid,QString date);
-    void createWalletHistoryTable();
-    void HistoryInsert(QString datetime,QString RXTX,QString ID,QString Ammount,QString contactname) ;
 
 private slots:
     void on_pushButtonInsertUser_clicked();
