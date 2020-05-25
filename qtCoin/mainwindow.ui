@@ -31,7 +31,7 @@
         <item row="0" column="0">
          <widget class="QTabWidget" name="tabWidget">
           <property name="currentIndex">
-           <number>5</number>
+           <number>6</number>
           </property>
           <widget class="QWidget" name="tab_5">
            <attribute name="title">
@@ -771,6 +771,13 @@
              <widget class="QPushButton" name="CreateWallet">
               <property name="text">
                <string>CreateWallet Open wallet</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QPushButton" name="adminmode">
+              <property name="text">
+               <string>GenerateCoinMode ( not for clients )</string>
               </property>
              </widget>
             </item>

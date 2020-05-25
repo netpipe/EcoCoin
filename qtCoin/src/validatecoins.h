@@ -27,8 +27,6 @@ void MainWindow::on_generatetx_clicked()
     //generateTXfile()
 }
 
-
-
 void MainWindow::on_GenerateRequest_clicked()
 {
     //could be sent via smtp
@@ -38,12 +36,14 @@ void MainWindow::on_GenerateRequest_clicked()
 
     }else{
     //if admin then placecoins without generating rxfile
+    if (admin){
         //verify keys
     placeCoins( ui->receiveid->text().toLatin1(), ui->receiveammount->text().toLatin1());
-
-    //else
+    }
+    else{
     //    QString result = generateRXfile(mainID.toLatin1(),ui->receiveid->text().toLatin1(),ui->receiveammount->text().toLatin1());
 
+    }
     }
     //QString requeststring= ;
  //   generateRXfile();

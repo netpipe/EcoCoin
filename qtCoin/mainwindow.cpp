@@ -100,18 +100,21 @@ MainWindow::MainWindow(QWidget *parent) :
 #endif
 
     if(getkeys() == 1){
-      //
+      admin=true;
     }else{ //testing
         QString tester1 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
         masterkey = GetRandomString(12,tester1.toLatin1());
         coinkey = "testing1234567";
     }
 
-    int tabindex=1;
+    QFile walletdb("wallet.sqlite");    if(walletdb.exists())    {        walletexists=true;   }    walletdb.close();
+    if (!admin && walletexists){
+        //set to client mode
+    tabindex=1;
     removedTab = ui->app->widget(tabindex);
     AddRemoveTab(ui->admintab,"Admin",tabindex);
-    AddRemoveTab(ui->admintab,"Admin",tabindex);
-
+   // AddRemoveTab(ui->admintab,"Admin",tabindex);
+    }
         //if client only mode
   //  ui->createtime->setTime(starttime);
 }
@@ -267,3 +270,11 @@ void MainWindow::on_addresssearch_clicked()
 }
 
 
+
+void MainWindow::on_adminmode_clicked()
+{
+    // if no multiple wallet support then warn user it will erase wallet and to back it up to safe location
+
+    AddRemoveTab(ui->admintab,"Admin",tabindex);
+
+}
