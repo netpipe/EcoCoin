@@ -14,6 +14,7 @@
 #include <QDebug>
 #include <QCryptographicHash>
 #include <QGraphicsView>
+#include <QTabWidget>
 
 namespace Ui {
 class MainWindow;
@@ -111,6 +112,8 @@ public:
     int smtpsend(QString toemail,QString Message);
     int getkeys();
     void playsound(QString);
+    void AddRemoveTab(QWidget *tab,QString,int tabname);
+    QWidget * removedTab;
 
     //encryption
     QString encryptxor(QString test,QString key);
@@ -227,6 +230,8 @@ private slots:
     void on_CreateWallet_clicked();
 
     void on_usergenerateQr_clicked();
+
+    void on_addresssearch_clicked();
 
 private:
     Ui::MainWindow *ui;
