@@ -12,6 +12,8 @@
 #include <QTextCodec>
 #include <QFileDialog>
 #include <QClipboard>
+#include <QByteArray>
+#include <src/encryption/encryption.h>
 
 void MainWindow::on_randomSearch_clicked()
 {//for picking lucky users
@@ -228,6 +230,30 @@ void MainWindow::createyearly(QString eownerID)
     query.clear();
     db.close();
 }
+
+void MainWindow::writeAdminFrontendHashes() // for startup and shutdown could be password protected
+{
+//generate md5sum
+QByteArray coinstxtmd5 =  fileChecksum("coins.txt",QCryptographicHash::Md5);
+QByteArray coindb =  fileChecksum("coins.sqlite",QCryptographicHash::Md5);
+QByteArray availablecoins =  fileChecksum("availableCoins.sqlite",QCryptographicHash::Md5);
+
+QTextCodec *codec = QTextCodec::codecForName("KOI8-R");
+// codec->toUnicode(coindb)
+
+QFile hashfile("hashes.txt");
+if(hashfile.open(QIODevice::WriteOnly | QIODevice::Text))
+{
+    QTextStream stream(&hashfile);
+        //hashfile.seek(0);
+        stream << "coinstxt:" << coinstxtmd5.toHex() << endl;
+        stream << "coinsdb:" << coindb.toHex() << endl;
+        stream << "availableCoins:" << availablecoins.toHex() << endl;
+   }
+hashfile.close();
+
+}
+
 
 
 void MainWindow::cleartablesusers()

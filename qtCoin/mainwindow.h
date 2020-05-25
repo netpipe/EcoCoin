@@ -97,6 +97,8 @@ public:
     void createEmailTable();
     void EmailInsertWallet();
     void getEmailSettings();
+    void writeAdminFrontendHashes();
+    void writeWalletHashes();
     QString decodetxQR();
 
     QString generateRXfile(QString suserid,QString ruserid,QString etxcoins);
