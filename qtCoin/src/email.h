@@ -90,14 +90,8 @@ void MainWindow::createEmailTable()
 drop.exec();
 
     if (create.exec())
-    {
-        qDebug()<<"Table exists or has been created";
-    }
-    else
-    {
-        qDebug()<<"Table not exists or has not been created";
-        qDebug()<<"ERROR! "<< create.lastError();
-    }
+    {        qDebug()<<"Table exists or has been created";    }    else    {        qDebug()<<"Table not exists or has not been created";
+        qDebug()<<"ERROR! "<< create.lastError();    }
     query.clear();
     db.close();
 }
@@ -105,17 +99,12 @@ drop.exec();
 void MainWindow::getEmailSettings(){
 
     db.setDatabaseName("wallet.sqlite");
-    if(db.open())
-    {
-       qDebug()<<"Successful database connection";
-    }
-    else
-    {
-       qDebug()<<"Error: failed database connection";
-    }
-        QString query;
 
-         query.append("SELECT * FROM email" );
+    if(db.open())    {       qDebug()<<"Successful database connection";    }    else    {       qDebug()<<"Error: failed database connection";    }
+
+    QString query;
+
+    query.append("SELECT * FROM email" );
 
 
     //search for coin owner / validity
@@ -123,23 +112,27 @@ void MainWindow::getEmailSettings(){
     QSqlQuery select;
     select.prepare(query);
 
-    if (select.exec())
-    {
-
-        qDebug()<<"The user is properly selected";
-    }
-    else
-    {
-        qDebug()<<"The user is not selected correctly";
-        qDebug()<<"ERROR! "<< select.lastError();
-    }
+    if (select.exec())    {        qDebug()<<"The user is properly selected";    }
+    else    {        qDebug()<<"The user is not selected correctly";        qDebug()<<"ERROR! "<< select.lastError();    }
 
     while (select.next())
     {
-               ui->smtphost->setText(select.value(1).toByteArray().constData()) ;
-               qDebug() << select.value(1).toByteArray().constData();
-        ui->smtpport->setText(select.value(2).toByteArray().constData()) ;
- qDebug() << select.value(2).toByteArray().constData();
+       ui->smtphost->setText(select.value(1).toByteArray().constData()) ;
+       //  qDebug() << select.value(1).toByteArray().constData();
+       ui->smtpport->setText(select.value(2).toByteArray().constData()) ;
+       //qDebug() << select.value(2).toByteArray().constData();
+       ui->smtpemail->setText(select.value(3).toByteArray().constData()) ;
+       ui->smtppassword->setText(select.value(4).toByteArray().constData()) ;
+
+
+     qDebug() << select.value(5).toByteArray().constData();
+       if (QString(select.value(5).toByteArray().constData()) == "Yes"){
+                    ui->smtpssl->setChecked(1);
+
+       }else {
+            ui->smtpssl->setChecked(0);
+            qDebug() << select.value(5).toByteArray().constData();
+       }
     }
 }
 
@@ -162,7 +155,8 @@ void MainWindow::EmailInsertWallet() //QString ID,QString CoinAddress,QString Ow
 
  //   query.append("DROP table email");
   //  query.append("DELETE FROM email WHERE id=1");
-
+    QString checked;
+    if (ui->smtpssl->isChecked()){ checked="Yes";};
 
     query.append("INSERT INTO email("
                  "Host,"
@@ -174,7 +168,7 @@ void MainWindow::EmailInsertWallet() //QString ID,QString CoinAddress,QString Ow
                  "'"+ui->smtpport->text().toLatin1()+"',"
                  "'"+ui->smtpemail->text().toLatin1()+"',"
                  "'"+ui->smtppassword->text().toLatin1()+"',"
-                 "'"+ui->smtpssl->text().toLatin1()+"'"
+                 "'"+checked.toLatin1()+"'"
                  ");");
 
     QSqlQuery insert;

@@ -107,6 +107,9 @@ MainWindow::MainWindow(QWidget *parent) :
         masterkey = GetRandomString(12,tester1.toLatin1());
         coinkey = "testing1234567";
     }
+
+
+
 //    auto model = new QStandardItemModel();
 
 //ui->treeView->setModel(model);
