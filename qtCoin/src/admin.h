@@ -224,6 +224,7 @@ void MainWindow::createUserTable()
 
     query.append("CREATE TABLE IF NOT EXISTS users("
                     "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    "email VARCHAR(100),"
                     "userid VARCHAR(100),"
                     "name VARCHAR(100),"
                     "password VARCHAR(100),"
@@ -459,6 +460,7 @@ void MainWindow::insertUser() //strictly a db to hold all userid's for verificat
       //generate public key and encrypt userid
 
     query.append("INSERT INTO users("
+                 "email,"
                  "userid,"
                  "name,"
                  "password,"
