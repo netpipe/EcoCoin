@@ -74,6 +74,8 @@ int MainWindow::processRXTXfile(QString file){
     nums.at(1);  // receiver
     nums.at(2); // ammount
     nums.at(4); // md5sum
+
+    //walletCoinInsert(QString ID,QString CoinAddress,QString Owner,QString cid,QString date)
 }
 
 

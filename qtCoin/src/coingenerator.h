@@ -237,268 +237,6 @@ void MainWindow::createFreeCoinTable(QString DBname)
 }
 
 
-void MainWindow::on_gencoininfo_btn_clicked()
-{
-
-    QFile file("settings.txt");
-      //    if(file.open(QIODevice::WriteOnly | QIODevice::Text))
-          if(file.open(QIODevice::ReadWrite | QIODevice::Text))
-          {
-              QTextStream stream(&file);
-              stream << "CoinName:" << ui->coinname->text() <<'\n';
-              stream << "CoinCount:" << ui->coincount->text() <<'\n';
-              stream << "CoinLength:" << ui->coinlength->text() <<'\n';
-              stream << "createday:" << ui->createday->text() <<'\n';
-              stream << "CreateMonth: " << ui->createmonth->currentText() <<'\n';
-              stream << "createyear:" << ui->createyear->text() <<'\n';
-              stream << "createtime:" << ui->createtime->time().hour() << "|" << ui->createtime->time().minute()  <<'\n';
-              stream << "coinvalue:" << ui->coinvalue->text() <<'\n';
-              stream << "matures:" << ui->matureradio_yes->text() <<'\n';
-              stream << "coinpayout:" << ui->coinpayout->text() <<'\n';
-              stream << "encrypted:" << ui->encrypted_yes->text() <<'\n';
-              stream << "maturedate:" << ui->matureday->text() <<'\n';
-              stream << "maturemonth:" << ui->maturemonth->currentText() <<'\n';
-              stream << "matureyear:" << ui->matureyear->text() <<'\n';
-              stream << "maturetime:" << ui->maturetime->time().hour() << "|" << ui->maturetime->time().minute() <<'\n';
-              stream << "maturedescription:" << ui->maturedescription->toPlainText()<<'\n';
-              stream << "usbdrivename:" << ui->usbdrivename->text() <<'\n' ; //place into keys instead
-              file.close();
-          }
-
-          ListUSB();
-        //qDebug() << "usb path " << usbpath.toLatin1();
-          QString path;
-            if(usbpath.toLatin1() != "" ){
-            path =     usbpath.toLatin1()+"/keys.txt";
-            }else{
-            path = "./keys.txt";
-            }
-          QFile file2(path);
-            //    if(file.open(QIODevice::WriteOnly | QIODevice::Text))
-                if(file2.open(QIODevice::ReadWrite | QIODevice::Text))
-                {
-                    QTextStream stream(&file2);
-                    stream << "masterkey:" << masterkey.toLatin1() <<'\n';
-                    stream << "coinkey:" << coinkey.toLatin1() <<'\n';
-                  //  stream << "usbdrivename:" << ui->usbdrivename->text();
-                    file2.close();
-                }
-}
-
-void MainWindow::on_actionOpenCoin_triggered()
-{//https://stackoverflow.com/questions/31384273/how-to-search-for-a-string-in-a-text-file-using-qt
-    QString searchString(":");
-    QFile MyFile("settings.txt");
-    MyFile.open(QIODevice::ReadWrite);
-    QTextStream in (&MyFile);
-    QString line;
-  //  int ii=0;
-    QStringList list;
-     //   QList<QString> nums;
-    QStringList nums;
-
-
-    do {
-        line = in.readLine();
-        searchString=":";
-        if (line.contains(searchString)) { //, Qt::CaseSensitive
-            // do something
-            QRegExp rx("[:]");// match a comma or a space
-            list = line.split(rx);
-            nums.append(list.at(1).toLatin1());
-        }
-    } while (!line.isNull());
-
-                QString coinname=nums.at(0);
-                ui->coinname->setText(coinname.toLatin1());
-                    qDebug("%s", qUtf8Printable(coinname));
-                QString coincount=nums.at(1);
-                ui->coincount->setText(coincount.toLatin1());
-                    qDebug("%s", qUtf8Printable(coincount));
-                //  QString coincount=nums.at(0).toLocal8Bit().constData();
-                QString CoinLength=nums.at(2);
-                ui->coinlength->setText(CoinLength.toLatin1());
-                qDebug("%s", qUtf8Printable(CoinLength));
-                QString createday=nums.at(3);
-             //   ui->createday->value(createday.toInt());
-                qDebug("%s", qUtf8Printable(createday));
-                QString CreateMonth=nums.at(4);
-                if (CreateMonth == "Jan")
-                    ui->createmonth->setCurrentIndex(0);
-                if (CreateMonth == "Feb")
-                    ui->createmonth->setCurrentIndex(1);
-                if (CreateMonth == "Mar")
-                    ui->createmonth->setCurrentIndex(2);
-                if (CreateMonth == "April")
-                    ui->createmonth->setCurrentIndex(3);
-                if (CreateMonth == "May")
-                    ui->createmonth->setCurrentIndex(4);
-                if (CreateMonth == "June")
-                    ui->createmonth->setCurrentIndex(5);
-                if (CreateMonth == "July")
-                    ui->createmonth->setCurrentIndex(6);
-                if (CreateMonth == "Aug")
-                    ui->createmonth->setCurrentIndex(7);
-                if (CreateMonth == "September")
-                    ui->createmonth->setCurrentIndex(8);
-                if (CreateMonth == "October")
-                    ui->createmonth->setCurrentIndex(9);
-                if (CreateMonth == "November")
-                    ui->createmonth->setCurrentIndex(10);
-                if (CreateMonth == "December")
-                    ui->createmonth->setCurrentIndex(11);
-
-                    qDebug("%s", qUtf8Printable(CreateMonth));
-
-                QString createyear=nums.at(5);
-                ui->createyear->setValue(createyear.toInt());
-                    qDebug("%s", qUtf8Printable(createyear));
-                QString createtime=nums.at(6);
-                QRegExp rx("[|]");// match a comma or a space
-                QStringList list2 = createtime.split(rx);
-//                QString ampm = list2.at(1);
-//                QRegExp rx2("[A]");// match a comma or a space
-//                QStringList list4 = ampm.split(rx2);
-                //qDebug("test %s", qUtf8Printable(list4.at(0).toInt()));
-//                if(regex.exactMatch(value))
-//                {
-//                   //If regex does match - Doesn't work!
-//                }
-                //QTime time(list2.at(0).toInt(),list4.at(0).toInt()); //12:00AM
-                QTime time(list2.at(0).toInt(),list2.at(1).toInt()); //12:00AM
-
-                ui->createtime->setTime(time);
-
-                    qDebug("%s", qUtf8Printable(createtime));
-                QString coinvalue=nums.at(7);
-                ui->coinvalue->setText(coinvalue.toLatin1());
-                    qDebug("%s", qUtf8Printable(coinvalue));
-                QString matures=nums.at(8);
-              //  ui->matureradio_yes->setEnabled(matures.toInt());
-                if ( matures.toLatin1() == "Yes"){
-                    ui->matureradio_yes->setChecked(1);
-                    ui->matureradio_no->setChecked(0);
-
-                }else{
-                    ui->matureradio_yes->setChecked(0);
-                    ui->matureradio_no->setChecked(1);
-                }
-                    qDebug("%s", qUtf8Printable(matures));
-                QString coinpayout=nums.at(9);
-                ui->coinpayout->setValue(coinpayout.toInt());
-                    qDebug("%s", qUtf8Printable(coinpayout));
-                QString encrypted=nums.at(10);
-               // ui->encrypted_yes->text();
-
-                if ( encrypted.toLatin1() == "Yes"){
-                    ui->encrypted_yes->setChecked(1);
-                    ui->encrypted_no->setChecked(0);
-
-                }else{
-                    ui->encrypted_yes->setChecked(0);
-                    ui->encrypted_no->setChecked(1);
-                }
-                    qDebug("%s", qUtf8Printable(coinpayout));
-                QString maturedate=nums.at(11);
-                ui->matureday->setValue(maturedate.toInt());
-                    qDebug("%s", qUtf8Printable(maturedate));
-                QString maturemonth=nums.at(12);
-                if (maturemonth == "Jan")
-                    ui->maturemonth->setCurrentIndex(0);
-                if (maturemonth == "Feb")
-                    ui->maturemonth->setCurrentIndex(1);
-                if (maturemonth == "Mar")
-                    ui->maturemonth->setCurrentIndex(2);
-                if (maturemonth == "April")
-                    ui->maturemonth->setCurrentIndex(3);
-                if (maturemonth == "May")
-                    ui->maturemonth->setCurrentIndex(4);
-                if (maturemonth == "June")
-                    ui->maturemonth->setCurrentIndex(5);
-                if (maturemonth == "July")
-                    ui->maturemonth->setCurrentIndex(6);
-                if (maturemonth == "Aug")
-                    ui->maturemonth->setCurrentIndex(7);
-                if (maturemonth == "September")
-                    ui->maturemonth->setCurrentIndex(8);
-                if (maturemonth == "October")
-                    ui->createmonth->setCurrentIndex(9);
-                if (CreateMonth == "November")
-                    ui->maturemonth->setCurrentIndex(10);
-                if (maturemonth == "December")
-                    ui->maturemonth->setCurrentIndex(11);
-
-                    qDebug("%s", qUtf8Printable(maturemonth));
-                QString matureyear=nums.at(13);
-                ui->matureyear->text();
-                    qDebug("%s", qUtf8Printable(matureyear));
-
-                QString maturetime=nums.at(14);
-                 list2 = maturetime.split(rx);
-//                 ampm = list2.at(1);
-//                 list4 = ampm.split(rx2);
-                   // qDebug("test %s", qUtf8Printable(list4.at(0).toInt()));
-//                if(regex.exactMatch(value))
-//                {
-//                   //If regex does match - Doesn't work!
-//                }
-                 //QTime time2(list2.at(0).toInt(),list4.at(0).toInt()); //12:00AM
-                 QTime time2(list2.at(0).toInt(),list2.at(1).toInt()); //12:00AM
-                 ui->maturetime->setTime(time2);
-                // ui->maturetime->setDate();
-                    qDebug("%s", qUtf8Printable(maturetime));
-                 QString maturedescription=nums.at(15);
-                 ui->maturedescription->toPlainText();
-                    qDebug("%s", qUtf8Printable(maturedescription));
-                 QString usbdrivename=nums.at(16);
-                 ui->usbdrivename->setText(usbdrivename.toLatin1());
-                    qDebug("%s", qUtf8Printable(usbdrivename));
-}
-
-void MainWindow::on_pushButton_clicked() //generate coins button
-{
-    if((ui->coincount->text().toInt() & 1) == 0){ // check if odd or even
-
-        QFile Fout("coins.sqlite");
-        if(Fout.exists())
-        {
-            QMessageBox::StandardButton reply;
-            reply = QMessageBox::question(this, "Already Exists", "do you want to generate new coindb",
-                                          QMessageBox::Yes|QMessageBox::No);
-            if (reply == QMessageBox::Yes) {
-              qDebug() << "Yes was clicked";
-              cleartablesusers();
-           //   QApplication::quit();
-            } else {
-              qDebug() << "no";
-              return;
-            }
-        }
-        Fout.close();
-
-    createCoinTable("coins.sqlite");
-    coini=0;
-    gentotext=0; // use 0 for sql
-    GenerateCoins3(ui->coinlength->text().toInt(),ui->coincount->text().toInt());
-    RandomizeCoins();
-    generateRCoins();
-    QString tester1 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
-    masterkey = GetRandomString(12,tester1.toLatin1());
-
-    QMessageBox Msgbox;
-       // int sum;
-       // sum = ui->coincount->text().toInt();
-        Msgbox.setText("coin created: ");
-        Msgbox.exec();
-   }else{
-    QMessageBox Msgbox;
-       // int sum;
-       // sum = ui->coincount->text().toInt();
-        Msgbox.setText("needs to be even number: ");
-        Msgbox.exec();
-    }
-    on_gencoininfo_btn_clicked(); // save info
-}
 
 void MainWindow::RandomizeCoins()
 {
@@ -611,25 +349,8 @@ void MainWindow::RandomizeCoins()
     insert.clear();
     db.close();
 
+    writeAdminFrontendHashes();
 
-    //generate md5sum
-    QByteArray coinstxtmd5 =  fileChecksum("coins.txt",QCryptographicHash::Md5);
-    QByteArray coindb =  fileChecksum("coins.sqlite",QCryptographicHash::Md5);
-    QByteArray availablecoins =  fileChecksum("availableCoins.sqlite",QCryptographicHash::Md5);
-
-    QTextCodec *codec = QTextCodec::codecForName("KOI8-R");
-   // codec->toUnicode(coindb)
-
-    QFile hashfile("hashes.txt");
-    if(hashfile.open(QIODevice::WriteOnly | QIODevice::Text))
-    {
-        QTextStream stream(&hashfile);
-            //hashfile.seek(0);
-            stream << "coinstxt:" << coinstxtmd5.toHex() << endl;
-            stream << "coinsdb:" << coindb.toHex() << endl;
-            stream << "availableCoins:" << availablecoins.toHex() << endl;
-       }
-    hashfile.close();
 }
 
 void MainWindow::insertCoins()
@@ -730,6 +451,53 @@ int MainWindow::md5verifydb(){
 
 return 0;
     //md5 convert coinsdb to randomcoins.db then md5sum can also check freecoins.db after each tx
+}
+
+
+void MainWindow::on_pushButton_clicked() //generate coins button
+{
+    if((ui->coincount->text().toInt() & 1) == 0){ // check if odd or even
+
+        QFile Fout("coins.sqlite");
+        if(Fout.exists())
+        {
+            QMessageBox::StandardButton reply;
+            reply = QMessageBox::question(this, "Already Exists", "do you want to generate new coindb",
+                                          QMessageBox::Yes|QMessageBox::No);
+            if (reply == QMessageBox::Yes) {
+              qDebug() << "Yes was clicked";
+              cleartablesusers();
+           //   QApplication::quit();
+            } else {
+              qDebug() << "no";
+              return;
+            }
+        }
+        Fout.close();
+
+    createCoinTable("coins.sqlite");
+    coini=0;
+    gentotext=0; // use 0 for sql
+    GenerateCoins3(ui->coinlength->text().toInt(),ui->coincount->text().toInt());
+    RandomizeCoins();
+    generateRCoins();
+    QString tester1 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+    masterkey = GetRandomString(12,tester1.toLatin1());
+    coinkey = GetRandomString(12,tester1.toLatin1());
+
+    QMessageBox Msgbox;
+       // int sum;
+       // sum = ui->coincount->text().toInt();
+        Msgbox.setText("coin created: ");
+        Msgbox.exec();
+   }else{
+    QMessageBox Msgbox;
+       // int sum;
+       // sum = ui->coincount->text().toInt();
+        Msgbox.setText("needs to be even number: ");
+        Msgbox.exec();
+    }
+    on_gencoininfo_btn_clicked(); // save info
 }
 
 void MainWindow::generateCoins() //puts coins in text file to be read in by randomizer

@@ -15,6 +15,19 @@
 #endif
 
 
+void MainWindow::on_smtptestmessage_clicked()
+{
+
+   //  text.setText("Hi,\nThis is a simple email message.\n");
+#ifdef SMTP
+ smtpsend(ui->smtpemail->text().toLatin1(),"Hi,\nThis is a simple email message.\n");
+#else
+    QMessageBox Msgbox;
+        Msgbox.setText("nosmtp enabled");
+        Msgbox.exec();
+#endif
+}
+
 int MainWindow::smtpsend(QString toemail,QString Message){
 #ifdef SMTP
     bool ssl;
@@ -39,20 +52,32 @@ int MainWindow::smtpsend(QString toemail,QString Message){
 
     // Now we can send the mail
     if (!smtp.connectToHost()) {
-        qDebug() << "Failed to connect to host!" << endl;
+        QMessageBox Msgbox;
+            Msgbox.setText("Failed to connect to host.");
+            Msgbox.exec();
+   //     qDebug() << "Failed to connect to host!" << endl;
         return 1;
     }
 
     if (!smtp.login()) {
-        qDebug() << "Failed to login!" << endl;
+        QMessageBox Msgbox;
+            Msgbox.setText("not able to login");
+            Msgbox.exec();
+     //   qDebug() << "Failed to login!" << endl;
         return 2;
     }
 
     if (!smtp.sendMail(message)) {
-        qDebug() << "Failed to send mail!" << endl;
+        QMessageBox Msgbox;
+            Msgbox.setText("Failes to send mail.");
+            Msgbox.exec();
+      //  qDebug() << "Failed to send mail!" << endl;
         return 3;
     }
     smtp.quit();
+    QMessageBox Msgbox;
+        Msgbox.setText("Email Sent");
+        Msgbox.exec();
 #endif
 }
 
@@ -68,7 +93,9 @@ void MainWindow::createEmailTable()
     {
        qDebug()<<"Error: failed database connection";
     }
+
     QString query;
+
 
     query.append("CREATE TABLE IF NOT EXISTS email("
                     "id INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -76,30 +103,67 @@ void MainWindow::createEmailTable()
                     "Port VARCHAR(50),"
                     "Email VARCHAR(50),"
                     "Password VARCHAR(100),"
-                    "Encrypted VARCHAR(100),"
+                    "Encrypted VARCHAR(100)"
                     ");");
 
+//qDebug () << query.toLatin1();
 
     QSqlQuery create;
+    QSqlQuery drop;
+    drop.prepare ("DROP TABLE IF EXISTS email");
     create.prepare(query);
+    drop.exec();
 
     if (create.exec())
-    {
-        qDebug()<<"Table exists or has been created";
-    }
-    else
-    {
-        qDebug()<<"Table not exists or has not been created";
-        qDebug()<<"ERROR! "<< create.lastError();
-    }
+    {        qDebug()<<"Table exists or has been created";    }    else    {        qDebug()<<"Table not exists or has not been created";
+        qDebug()<<"ERROR! "<< create.lastError();    }
     query.clear();
     db.close();
 }
 
+void MainWindow::getEmailSettings(){
+
+    db.setDatabaseName("wallet.sqlite");
+
+    if(db.open())    {       qDebug()<<"Successful database connection";    }    else    {       qDebug()<<"Error: failed database connection";    }
+
+    QString query;
+
+    query.append("SELECT * FROM email" );
+
+
+    //search for coin owner / validity
+
+    QSqlQuery select;
+    select.prepare(query);
+
+    if (select.exec())    {        qDebug()<<"The user is properly selected";    }
+    else    {        qDebug()<<"The user is not selected correctly";        qDebug()<<"ERROR! "<< select.lastError();    }
+
+    while (select.next())
+    {
+       ui->smtphost->setText(select.value(1).toByteArray().constData()) ;
+       //  qDebug() << select.value(1).toByteArray().constData();
+       ui->smtpport->setText(select.value(2).toByteArray().constData()) ;
+       //qDebug() << select.value(2).toByteArray().constData();
+       ui->smtpemail->setText(select.value(3).toByteArray().constData()) ;
+       ui->smtppassword->setText(select.value(4).toByteArray().constData()) ;
+
+
+     qDebug() << select.value(5).toByteArray().constData();
+       if (QString(select.value(5).toByteArray().constData()) == "Yes"){
+                    ui->smtpssl->setChecked(1);
+
+       }else {
+            ui->smtpssl->setChecked(0);
+            qDebug() << select.value(5).toByteArray().constData();
+       }
+    }
+}
 
 void MainWindow::EmailInsertWallet() //QString ID,QString CoinAddress,QString Owner,QString cid,QString date
 {
-
+    createEmailTable();
    // createWalletCoinsTable(ID);
 
     db.setDatabaseName("wallet.sqlite");
@@ -114,6 +178,11 @@ void MainWindow::EmailInsertWallet() //QString ID,QString CoinAddress,QString Ow
 
     QString query;
 
+ //   query.append("DROP table email");
+  //  query.append("DELETE FROM email WHERE id=1");
+    QString checked;
+    if (ui->smtpssl->isChecked()){ checked="Yes";};
+
     query.append("INSERT INTO email("
                  "Host,"
                  "Port,"
@@ -123,7 +192,8 @@ void MainWindow::EmailInsertWallet() //QString ID,QString CoinAddress,QString Ow
                  "'"+ui->smtphost->text().toLatin1()+"',"
                  "'"+ui->smtpport->text().toLatin1()+"',"
                  "'"+ui->smtpemail->text().toLatin1()+"',"
-                 "'"+ui->smtppassword->text().toLatin1()+
+                 "'"+ui->smtppassword->text().toLatin1()+"',"
+                 "'"+checked.toLatin1()+"'"
                  ");");
 
     QSqlQuery insert;
@@ -147,23 +217,7 @@ void MainWindow::EmailInsertWallet() //QString ID,QString CoinAddress,QString Ow
 
 void MainWindow::on_smtpsave_clicked()
 {
-
-
-
-
-}
-
-void MainWindow::on_smtptestmessage_clicked()
-{
-
-   //  text.setText("Hi,\nThis is a simple email message.\n");
-#ifdef SMTP
- //  smtpsend(QString toemail,QString Message)
-#else
-    QMessageBox Msgbox;
-        Msgbox.setText("nosmtp enabled");
-        Msgbox.exec();
-#endif
+    EmailInsertWallet();
 }
 
 

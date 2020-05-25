@@ -444,7 +444,7 @@ void MainWindow::WalletAddressInsert(QString Email,QString Name,QString classid,
 
 
 void MainWindow::GenerateQRCode(QString data,QGraphicsView *view) {
-#ifdef BARCODESCAN
+#ifdef BARCODE
     std::wstring text ( data.toStdWString() );
 
     //char *text2 = text.c_str();
@@ -488,6 +488,23 @@ void MainWindow::GenerateQRCode(QString data,QGraphicsView *view) {
 
 }
 
+void MainWindow::writeWalletHashes() //not sure if needed yet // for startup and shutdown could be password protected
+{
+//generate md5sum
+QByteArray coinstxtmd5 =  fileChecksum("wallet.sqlite",QCryptographicHash::Md5);
+
+QTextCodec *codec = QTextCodec::codecForName("KOI8-R");
+// codec->toUnicode(coindb)
+
+QFile hashfile("hashes.txt");
+if(hashfile.open(QIODevice::WriteOnly | QIODevice::Text))
+{
+    QTextStream stream(&hashfile);
+        //hashfile.seek(0);
+        stream << "md5sum:" << coinstxtmd5.toHex() << endl;
+   }
+hashfile.close();
+}
 
 void MainWindow::EAN13(QString productname,QString country,QString ean,QGraphicsView *graphicsView){ //barcode not used
 #ifdef BARCODE

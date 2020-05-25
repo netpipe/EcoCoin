@@ -106,7 +106,7 @@ QByteArray MainWindow::fileChecksum(const QString &fileName,QCryptographicHash::
     // Returns empty QByteArray() on failure.
         QFile f(fileName);
         if (f.open(QFile::ReadOnly)) {
-            QCryptographicHash hash(hashAlgorithm); //QCryptographicHash::Md5
+            QCryptographicHash hash(hashAlgorithm); //fileChecksum QCryptographicHash::Md5
             if (hash.addData(&f)) {
                 return hash.result();
             }

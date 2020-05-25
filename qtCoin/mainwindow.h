@@ -96,7 +96,9 @@ public:
     QString WordListGenerator(int,QString);
     void createEmailTable();
     void EmailInsertWallet();
-
+    void getEmailSettings();
+    void writeAdminFrontendHashes();
+    void writeWalletHashes();
     QString decodetxQR();
 
     QString generateRXfile(QString suserid,QString ruserid,QString etxcoins);
@@ -223,6 +225,8 @@ private slots:
     void on_balancetest_clicked();
 
     void on_CreateWallet_clicked();
+
+    void on_usergenerateQr_clicked();
 
 private:
     Ui::MainWindow *ui;

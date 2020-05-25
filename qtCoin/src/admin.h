@@ -12,6 +12,8 @@
 #include <QTextCodec>
 #include <QFileDialog>
 #include <QClipboard>
+#include <QByteArray>
+#include <src/encryption/encryption.h>
 
 void MainWindow::on_randomSearch_clicked()
 {//for picking lucky users
@@ -23,56 +25,56 @@ void MainWindow::on_randomSearch_clicked()
 }
 
 
-int MainWindow::getkeys(){ //for coldstorage server or standalone server which contains all the infos
 
-    qDebug() << "getting keys";
-    //if keys are stored in the local folder and checkout then use those
+void MainWindow::on_gencoininfo_btn_clicked()
+{
 
-    //verify md5sum of keys file from 2 or 3 locations possibly encrypted
-    //simple strings found on google have same md5sums or bruteforce could match it.
-    bool keyexists=0;
-    QString path;
-    if (ui->usbdrivename->text().toLatin1() != ""){
-        ListUSB();
-        QString path2;
-        path2 = usbpath.toLatin1()+"/keys.txt";
-        QFile MyFile2(path2);
-        if ( MyFile2.exists() ){        keyexists= true;        path = usbpath.toLatin1()+"/keys.txt";    }
-    } else {
-        QString path3;
-        path3 = "./keys.txt";
-        QFile MyFile3(path3);
-        if ( MyFile3.exists() ){    keyexists= true;   path = "./keys.txt"; }
-    }
+    QFile file("settings.txt");
+      //    if(file.open(QIODevice::WriteOnly | QIODevice::Text))
+          if(file.open(QIODevice::ReadWrite | QIODevice::Text))
+          {
+              QTextStream stream(&file);
+              stream << "CoinName:" << ui->coinname->text() <<'\n';
+              stream << "CoinCount:" << ui->coincount->text() <<'\n';
+              stream << "CoinLength:" << ui->coinlength->text() <<'\n';
+              stream << "createday:" << ui->createday->text() <<'\n';
+              stream << "CreateMonth: " << ui->createmonth->currentText() <<'\n';
+              stream << "createyear:" << ui->createyear->text() <<'\n';
+              stream << "createtime:" << ui->createtime->time().hour() << "|" << ui->createtime->time().minute()  <<'\n';
+              stream << "coinvalue:" << ui->coinvalue->text() <<'\n';
+              stream << "matures:" << ui->matureradio_yes->text() <<'\n';
+              stream << "coinpayout:" << ui->coinpayout->text() <<'\n';
+              stream << "encrypted:" << ui->encrypted_yes->text() <<'\n';
+              stream << "maturedate:" << ui->matureday->text() <<'\n';
+              stream << "maturemonth:" << ui->maturemonth->currentText() <<'\n';
+              stream << "matureyear:" << ui->matureyear->text() <<'\n';
+              stream << "maturetime:" << ui->maturetime->time().hour() << "|" << ui->maturetime->time().minute() <<'\n';
+              stream << "maturedescription:" << ui->maturedescription->toPlainText()<<'\n';
+              stream << "usbdrivename:" << ui->usbdrivename->text() <<'\n' ; //place into keys instead
+              file.close();
+          }
 
-    QFile MyFile(path);
+          ListUSB();
+        //qDebug() << "usb path " << usbpath.toLatin1();
+          QString path;
+            if(usbpath.toLatin1() != "" ){
+            path =     usbpath.toLatin1()+"/keys.txt";
+            }else{
+            path = "./keys.txt";
+            }
+          QFile file2(path);
+            //    if(file.open(QIODevice::WriteOnly | QIODevice::Text))
 
-    if(MyFile.exists() && keyexists ){
-    MyFile.open(QIODevice::ReadWrite);
-    QTextStream in (&MyFile);
-    QString line;
-    QStringList list;
-     //   QList<QString> nums;
-    QStringList nums;
-    QRegExp rx("[:]");
-    do {
-        line = in.readLine();
-        if (line.contains(":")) {
-            list = line.split(rx);
-            nums.append(list.at(1).toLatin1());
-        }
-    } while (!line.isNull());
-
-    masterkey=nums.at(0);
-    qDebug() << "masterkey" << masterkey;
-    coinkey=nums.at(1);
-    qDebug() << "coinkey" << coinkey;
-    return 1;
-
-    }else {
-        return 0;
-    }
-
+                if(file2.open(QIODevice::ReadWrite | QIODevice::Text))
+                {
+                    QTextStream stream(&file2);
+                    stream << "masterkey:" << masterkey.toLatin1() <<'\n';
+                    stream << "coinkey:" << coinkey.toLatin1() <<'\n';
+                    stream << "coinsmd5:" << fileChecksum("coins.sqlite",QCryptographicHash::Md5).toHex() <<'\n';
+                    stream << "checksum:" << md5Checksum("masterkey:"+ masterkey.toLatin1()+"coinkey:" +coinkey.toLatin1()+"coinsmd5:" + fileChecksum("coins.sqlite",QCryptographicHash::Md5)).toHex() <<'\n';
+                  //  stream << "usbdrivename:" << ui->usbdrivename->text();
+                    file2.close();
+                }
 }
 
 void MainWindow::on_pushButtonInsertUser_clicked()
@@ -145,44 +147,6 @@ void MainWindow::clientusbtxrx(){
 
 }
 
-void MainWindow::ListUSB(){
-    #ifdef STORAGE
-    //store and retrieve master encryption keys with this.
-
-//https://stackoverflow.com/questions/40035332/how-to-get-path-to-usb-drive-on-linux-in-qt
-    foreach (const QStorageInfo &storage, QStorageInfo::mountedVolumes()) {
-
-       qDebug() << storage.rootPath();
-
-//       QString storagestring=storage.rootPath();
-//       QRegExp rx("[/]");// match a comma or a space
-//       QStringList list2 = storagestring.split(rx);
-
-//      qDebug() << storagestring.at(3);
-       QString usbstring = ui->usbdrivename->text().toLatin1();
-
-        if (storage.rootPath().contains(usbstring)){
-        //   qDebug() << "yep" << "/n";
-            usbpath = storage.rootPath();
-
-            if (storage.isReadOnly())
-               qDebug() << "isReadOnly:" << storage.isReadOnly();
-
-//                qDebug() << "name:" << storage.name();
-//                qDebug() << "fileSystemType:" << storage.fileSystemType();
-//                qDebug() << "size:" << storage.bytesTotal()/1000/1000 << "MB";
-//                qDebug() << "availableSize:" << storage.bytesAvailable()/1000/1000 << "MB";
-        }
-     }
-
-    if (usbpath.toLatin1() == "")
-    {
-        QMessageBox Msgbox;
-            Msgbox.setText("drive not found: ");
-            Msgbox.exec();
-    }
-#endif
-}
 
 void MainWindow::searchyearly(QString ownerID)
 {
@@ -267,6 +231,30 @@ void MainWindow::createyearly(QString eownerID)
     db.close();
 }
 
+void MainWindow::writeAdminFrontendHashes() // for startup and shutdown could be password protected
+{
+//generate md5sum
+QByteArray coinstxtmd5 =  fileChecksum("coins.txt",QCryptographicHash::Md5);
+QByteArray coindb =  fileChecksum("coins.sqlite",QCryptographicHash::Md5);
+QByteArray availablecoins =  fileChecksum("availableCoins.sqlite",QCryptographicHash::Md5);
+
+QTextCodec *codec = QTextCodec::codecForName("KOI8-R");
+// codec->toUnicode(coindb)
+
+QFile hashfile("hashes.txt");
+if(hashfile.open(QIODevice::WriteOnly | QIODevice::Text))
+{
+    QTextStream stream(&hashfile);
+        //hashfile.seek(0);
+        stream << "coinstxt:" << coinstxtmd5.toHex() << endl;
+        stream << "coinsdb:" << coindb.toHex() << endl;
+        stream << "availableCoins:" << availablecoins.toHex() << endl;
+   }
+hashfile.close();
+
+}
+
+
 
 void MainWindow::cleartablesusers()
 {
@@ -312,6 +300,7 @@ void MainWindow::createUserTable()
 
     query.append("CREATE TABLE IF NOT EXISTS users("
                     "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    "email VARCHAR(100),"
                     "userid VARCHAR(100),"
                     "name VARCHAR(100),"
                     "password VARCHAR(100),"
@@ -534,15 +523,20 @@ void MainWindow::insertUser() //strictly a db to hold all userid's for verificat
        qDebug()<<"Error: failed database connection";
     }
 
+    QString crypted2 = simplecrypt(ui->lineEditName->text(),masterkey.toLatin1(),QCryptographicHash::Sha512);
+
     QString query;
 
-      QString euserid = ui->lineEditName->text();
-
-//    QByteArray bFname = EncryptMsg(ui->lineEditName->text(),"123456789", "your-IV-vector");
-//    QString mykey1 = BigInt2Str(m_e); //rsa keys
-//    QString mykey2 = BigInt2Str(m_n); //rsa keys
+     // QString euserid = ui->lineEditName->text();
+#ifdef ENCRYPTION
+    QByteArray bFname = EncryptMsg(ui->lineEditName->text(),"123456789", "your-IV-vector");
+    QString mykey1 = BigInt2Str(m_e); //rsa keys
+    QString mykey2 = BigInt2Str(m_n); //rsa keys
+#endif
+      //generate public key and encrypt userid
 
     query.append("INSERT INTO users("
+                 "email,"
                  "userid,"
                  "name,"
                  "password,"
@@ -553,8 +547,9 @@ void MainWindow::insertUser() //strictly a db to hold all userid's for verificat
                  "extra,"
                  "class)"
                  "VALUES("
-                 "'"+euserid.toLatin1()+"',"
-                 "'"+ui->lineEditSurname->text().toLatin1()+"',"
+                 "'"+crypted2.toLatin1()+"',"
+                 "'"+ui->addusername->text().toLatin1()+"',"
+                 "'"+ui->adduserEmail->text().toLatin1()+"',"
                  "'"+ui->lineEditPassword->text().toLatin1()+"',"
                  "'"+ui->lineEditPhone->text().toLatin1()+"',"
                  "'"+ui->createuserdatetime->text()+"',"
@@ -564,7 +559,7 @@ void MainWindow::insertUser() //strictly a db to hold all userid's for verificat
                  "'"+ui->createclass->text()+"'"
                  ");");
 
-    qDebug()<< euserid.toLatin1();
+  //  qDebug()<< euserid.toLatin1();
 
     QSqlQuery insert;
     insert.prepare(query);

@@ -21,7 +21,7 @@
        <enum>QTabWidget::Triangular</enum>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="accountingtab">
        <attribute name="title">
@@ -31,7 +31,7 @@
         <item row="0" column="0">
          <widget class="QTabWidget" name="tabWidget">
           <property name="currentIndex">
-           <number>6</number>
+           <number>2</number>
           </property>
           <widget class="QWidget" name="tab_5">
            <attribute name="title">
@@ -756,7 +756,7 @@
             <item row="1" column="0">
              <widget class="QPushButton" name="CreateWallet">
               <property name="text">
-               <string>CreateWallet</string>
+               <string>CreateWallet Open wallet</string>
               </property>
              </widget>
             </item>
@@ -774,13 +774,20 @@
         <item row="0" column="1">
          <widget class="QTabWidget" name="tabWidget_3">
           <property name="currentIndex">
-           <number>1</number>
+           <number>2</number>
           </property>
           <widget class="QWidget" name="tab_8">
            <attribute name="title">
             <string>Users</string>
            </attribute>
            <layout class="QGridLayout" name="gridLayout_14">
+            <item row="0" column="2">
+             <widget class="QPushButton" name="randomSearch">
+              <property name="text">
+               <string>Random Search</string>
+              </property>
+             </widget>
+            </item>
             <item row="0" column="0">
              <widget class="QLabel" name="label_14">
               <property name="text">
@@ -791,27 +798,10 @@
             <item row="0" column="1">
              <widget class="QLineEdit" name="userid"/>
             </item>
-            <item row="0" column="2">
-             <widget class="QPushButton" name="randomSearch">
-              <property name="text">
-               <string>Random Search</string>
-              </property>
-             </widget>
-            </item>
             <item row="1" column="0">
              <widget class="QLabel" name="label_15">
               <property name="text">
                <string>Coin</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QLineEdit" name="coinid"/>
-            </item>
-            <item row="1" column="2">
-             <widget class="QPushButton" name="userssearch">
-              <property name="text">
-               <string>Search</string>
               </property>
              </widget>
             </item>
@@ -820,6 +810,11 @@
               <property name="styleSheet">
                <string notr="true"/>
               </property>
+              <column>
+               <property name="text">
+                <string>Email</string>
+               </property>
+              </column>
               <column>
                <property name="text">
                 <string>CoinAddress</string>
@@ -842,11 +837,21 @@
               </column>
              </widget>
             </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="coinid"/>
+            </item>
+            <item row="1" column="2">
+             <widget class="QPushButton" name="userssearch">
+              <property name="text">
+               <string>Search</string>
+              </property>
+             </widget>
+            </item>
            </layout>
           </widget>
           <widget class="QWidget" name="tab_9">
            <attribute name="title">
-            <string>AddUser</string>
+            <string>Add User</string>
            </attribute>
            <layout class="QGridLayout" name="gridLayout_26">
             <item row="0" column="0">
@@ -854,60 +859,94 @@
               <property name="title">
                <string>AddUser</string>
               </property>
-              <layout class="QGridLayout" name="gridLayout_10">
-               <item row="5" column="2">
-                <widget class="QLineEdit" name="createextra">
+              <layout class="QGridLayout" name="gridLayout_33">
+               <item row="9" column="1">
+                <widget class="QPushButton" name="saveuserinfo">
                  <property name="text">
-                  <string/>
+                  <string>Save info to text for user</string>
                  </property>
                 </widget>
                </item>
                <item row="3" column="0">
-                <widget class="QLabel" name="label_343">
-                 <property name="text">
-                  <string>Phone:</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="6" column="2">
-                <widget class="QLineEdit" name="createclass">
-                 <property name="text">
-                  <string/>
-                 </property>
-                </widget>
-               </item>
-               <item row="4" column="2">
-                <widget class="QLineEdit" name="createuserdatetime">
-                 <property name="text">
-                  <string>2020121</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="0" colspan="2">
                 <widget class="QLabel" name="label_2834">
                  <property name="text">
                   <string>Password:</string>
                  </property>
                 </widget>
                </item>
-               <item row="3" column="2">
+               <item row="3" column="1">
+                <widget class="QLineEdit" name="lineEditPassword">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="2" colspan="2">
+                <widget class="QLabel" name="label_36">
+                 <property name="text">
+                  <string>encrypted address copied to clipboard</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="1">
                 <widget class="QLineEdit" name="lineEditPhone">
                  <property name="text">
                   <string/>
                  </property>
                 </widget>
                </item>
-               <item row="5" column="0">
-                <widget class="QLabel" name="label_32">
+               <item row="7" column="0">
+                <widget class="QLabel" name="label_38">
                  <property name="text">
-                  <string>Extra:</string>
+                  <string>class:</string>
                  </property>
                 </widget>
                </item>
-               <item row="1" column="3">
-                <widget class="QLabel" name="label_30">
+               <item row="0" column="1">
+                <widget class="QLineEdit" name="lineEditName">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
                  <property name="text">
-                  <string>used incase of lost password</string>
+                  <string>autogenerated</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_394">
+                 <property name="text">
+                  <string>name:</string>
+                 </property>
+                 <property name="scaledContents">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="0">
+                <widget class="QLabel" name="label_4">
+                 <property name="text">
+                  <string>Datetime:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="2">
+                <widget class="QLabel" name="label_31">
+                 <property name="text">
+                  <string>used for encryption</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="7" column="1">
+                <widget class="QLineEdit" name="createclass">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="2" colspan="2">
+                <widget class="QLabel" name="label_29">
+                 <property name="text">
+                  <string>optional incase of lost password</string>
                  </property>
                 </widget>
                </item>
@@ -921,105 +960,98 @@
                  </property>
                 </widget>
                </item>
-               <item row="6" column="0" colspan="2">
-                <widget class="QLabel" name="label_38">
-                 <property name="text">
-                  <string>class:</string>
-                 </property>
-                </widget>
-               </item>
                <item row="4" column="0">
-                <widget class="QLabel" name="label_4">
+                <widget class="QLabel" name="label_343">
                  <property name="text">
-                  <string>Datetime:</string>
+                  <string>Phone:</string>
                  </property>
                 </widget>
                </item>
-               <item row="4" column="3">
-                <widget class="QLabel" name="label_31">
+               <item row="6" column="0">
+                <widget class="QLabel" name="label_32">
                  <property name="text">
-                  <string>used for encryption</string>
+                  <string>Extra Info:</string>
                  </property>
                 </widget>
                </item>
-               <item row="3" column="3">
-                <widget class="QLabel" name="label_29">
+               <item row="8" column="1">
+                <widget class="QPushButton" name="pushButtonInsertUser">
                  <property name="text">
-                  <string>optional incase of lost password</string>
+                  <string>Insert User then email</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="2" colspan="2">
+                <widget class="QLabel" name="label_30">
+                 <property name="text">
+                  <string>used incase of lost password</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="1">
+                <widget class="QLineEdit" name="createuserdatetime">
+                 <property name="text">
+                  <string>2020121</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QLineEdit" name="adduserEmail">
+                 <property name="text">
+                  <string/>
                  </property>
                 </widget>
                </item>
                <item row="1" column="0">
-                <widget class="QLabel" name="label_394">
+                <widget class="QLabel" name="label_396">
                  <property name="text">
-                  <string>name:</string>
+                  <string>Email</string>
                  </property>
                  <property name="scaledContents">
                   <bool>true</bool>
                  </property>
                 </widget>
                </item>
-               <item row="5" column="3">
-                <widget class="QLabel" name="label_37">
+               <item row="2" column="1">
+                <widget class="QLineEdit" name="addusername">
                  <property name="text">
-                  <string>Extra Info</string>
+                  <string/>
                  </property>
                 </widget>
                </item>
-               <item row="2" column="3">
+               <item row="3" column="2" colspan="2">
                 <widget class="QLabel" name="label_39">
                  <property name="text">
                   <string>optional - random will be generated if blank</string>
                  </property>
                 </widget>
                </item>
-               <item row="0" column="3">
-                <widget class="QLabel" name="label_36">
+               <item row="9" column="3">
+                <widget class="QPushButton" name="addUserQR">
                  <property name="text">
-                  <string>encrypted address copied to clipboard</string>
+                  <string>SaveQRcode</string>
                  </property>
                 </widget>
                </item>
-               <item row="1" column="2">
-                <widget class="QLineEdit" name="lineEditSurname">
+               <item row="6" column="1" colspan="3">
+                <widget class="QLineEdit" name="createextra">
                  <property name="text">
                   <string/>
                  </property>
                 </widget>
                </item>
-               <item row="0" column="2">
-                <widget class="QLineEdit" name="lineEditName">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
+               <item row="8" column="3">
+                <widget class="QPushButton" name="usergenerateQr">
                  <property name="text">
-                  <string>autogenerated</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="2">
-                <widget class="QLineEdit" name="lineEditPassword">
-                 <property name="text">
-                  <string/>
-                 </property>
-                </widget>
-               </item>
-               <item row="7" column="2">
-                <widget class="QPushButton" name="pushButtonInsertUser">
-                 <property name="text">
-                  <string>Insert User</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="8" column="2">
-                <widget class="QPushButton" name="saveuserinfo">
-                 <property name="text">
-                  <string>Save info to text for user</string>
+                  <string>usergenerateQr</string>
                  </property>
                 </widget>
                </item>
               </layout>
              </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QGraphicsView" name="adduserQRview"/>
             </item>
            </layout>
           </widget>
