@@ -62,13 +62,14 @@ void MainWindow::on_gencoininfo_btn_clicked()
             }
           QFile file2(path);
             //    if(file.open(QIODevice::WriteOnly | QIODevice::Text))
+
                 if(file2.open(QIODevice::ReadWrite | QIODevice::Text))
                 {
                     QTextStream stream(&file2);
                     stream << "masterkey:" << masterkey.toLatin1() <<'\n';
                     stream << "coinkey:" << coinkey.toLatin1() <<'\n';
-                    stream << "coinsmd5:" << fileChecksum("coins.sqlite",QCryptographicHash::Md5);
-                    stream << "checksum:" << md5Checksum("masterkey:"+ masterkey.toLatin1()+"coinkey:" +coinkey.toLatin1()+"coinsmd5:" + fileChecksum("coins.sqlite",QCryptographicHash::Md5));
+                    stream << "coinsmd5:" << fileChecksum("coins.sqlite",QCryptographicHash::Md5).toHex() <<'\n';
+                    stream << "checksum:" << md5Checksum("masterkey:"+ masterkey.toLatin1()+"coinkey:" +coinkey.toLatin1()+"coinsmd5:" + fileChecksum("coins.sqlite",QCryptographicHash::Md5)).toHex() <<'\n';
                   //  stream << "usbdrivename:" << ui->usbdrivename->text();
                     file2.close();
                 }
