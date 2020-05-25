@@ -66,11 +66,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //subtract date to set progress bar
 
-    //    QString s = QDate::currentDate().toString();
-    //    QDate::currentDate().day();
-    //    QDate::currentDate().month();
-    //    QDate::currentDate().year();
-
     //convert to days then set progressbar
     ui->matureyear->text();
     ui->maturemonth->currentText();
@@ -266,3 +261,9 @@ void MainWindow::on_addresssearch_clicked()
 
 
 }
+
+void MainWindow::on_tableWidgetUsers_activated(const QModelIndex &index)
+{
+    selectUsers();
+}
+

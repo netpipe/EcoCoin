@@ -196,7 +196,7 @@ QString MainWindow::validateCOINsign(QString coin,QString euserID){ // for getti
         query2.exec("SELECT * FROM users WHERE userid = ""'"+euserID.toLatin1()+"'");
         while (query2.next()) {
              //userid = query.value(1).; //not encrypted with user password
-             ekey = query2.value(5).toString();
+             ekey = query2.value(7).toString();
             password = query2.value(4).toString();
             datetime = query2.value(6).toString(); //datetime
             qDebug() << "user " << euserID.toLatin1() << " pass " << password << "ekey " << ekey;
@@ -231,7 +231,7 @@ QString MainWindow::validateCOINsign(QString coin,QString euserID){ // for getti
                 //password ekey datetime index;
                 QString signedcoin=query3.value(0).toString(); //if not signing needs value
                // return query3.value(0).toString();
-                if (0){
+                if (1){
                QString ecoin =  simplecrypt(euserID,coinkey.toLatin1(),QCryptographicHash::Sha512);
                signedcoin = simplecrypt(ecoin,ekey.toLatin1(),QCryptographicHash::Sha512);
                }

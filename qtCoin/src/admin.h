@@ -86,6 +86,14 @@ void MainWindow::on_pushButtonInsertUser_clicked()
     QString ownerid=ui->lineEditName->text().toLatin1();
     QString password=ui->lineEditPassword->text();
 
+    //    QString s = QDate::currentDate().toString();
+    //    QDate::currentDate().day();
+    //    QDate::currentDate().month();
+    //    QDate::currentDate().year();
+    QTime starttime(QTime::currentTime().hour(),QTime::currentTime().minute());
+    QDate dNow(QDate::currentDate());
+    ui->createuserdatetime->setText(dNow.toString("dd.MM.yyyy")+"-"+starttime.toString());
+
     //fix later
     if (validateID(ownerid) == 0 ){
         for (int i=0;i < 100 ; i++) { //100 tries
@@ -368,7 +376,8 @@ void MainWindow::selectUsers()
         ui->tableWidgetUsers->setItem(row,0,new QTableWidgetItem(select.value(1).toByteArray().constData()));
         ui->tableWidgetUsers->setItem(row,1,new QTableWidgetItem(select.value(2).toByteArray().constData()));
         ui->tableWidgetUsers->setItem(row,2,new QTableWidgetItem(select.value(3).toByteArray().constData()));
-        ui->tableWidgetUsers->setItem(row,3,new QTableWidgetItem(select.value(4).toByteArray().constData()));
+        ui->tableWidgetUsers->setItem(row,3,new QTableWidgetItem(select.value(10).toByteArray().constData()));
+        ui->tableWidgetUsers->setItem(row,3,new QTableWidgetItem(select.value(6).toByteArray().constData()));
         row++;
     }
 
@@ -547,13 +556,13 @@ void MainWindow::insertUser() //strictly a db to hold all userid's for verificat
                  "extra,"
                  "class)"
                  "VALUES("
+                 "'"+ui->adduserEmail->text().toLatin1()+"',"
                  "'"+crypted2.toLatin1()+"',"
                  "'"+ui->addusername->text().toLatin1()+"',"
-                 "'"+ui->adduserEmail->text().toLatin1()+"',"
                  "'"+ui->lineEditPassword->text().toLatin1()+"',"
                  "'"+ui->lineEditPhone->text().toLatin1()+"',"
                  "'"+ui->createuserdatetime->text()+"',"
-                 "'""'," //ekey
+                 "'"+ GetReallyRandomString(8, "").toLatin1() +"'," //ekey
                  "'""'," //ammount
                  "'"+ui->createextra->text().toLatin1()+"',"
                  "'"+ui->createclass->text()+"'"

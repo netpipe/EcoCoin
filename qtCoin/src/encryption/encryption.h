@@ -116,7 +116,7 @@ QByteArray MainWindow::fileChecksum(const QString &fileName,QCryptographicHash::
 
 QString MainWindow::GetRandomString(int length,QString chars)
 { //https://stackoverflow.com/questions/18862963/qt-c-random-string-generation/18866593
-// "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
+    if (chars == ""){ chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";}
     QString possibleCharacters(chars.toLatin1());
    const int randomStringLength = length; //12 // assuming you want random strings of 12 characters
 
@@ -136,6 +136,7 @@ QString MainWindow::GetRandomString(int length,QString chars)
 
 QString MainWindow::GetReallyRandomString(int length,QString chars)
 { //https://stackoverflow.com/questions/18862963/qt-c-random-string-generation/18866593
+    if (chars == ""){ chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";}
    QString possibleCharacters(chars.toLatin1());
    const int randomStringLength = length; //12 // assuming you want random strings of 12 characters
 
