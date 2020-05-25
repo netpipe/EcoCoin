@@ -230,14 +230,26 @@ void MainWindow::on_CreateWallet_clicked()
 qDebug() <<  getHDserial(); //getPSN().toLatin1();
 //qDebug () << WordListGenerator(8,"./Resource/wordlists/english.txt");
 
-//createEmailTable();
-
-//EmailInsertWallet();
-
-getEmailSettings();
+// get created userinfo file
+createWalletTable("");
 
 
 }
 
 
 
+
+
+//void MainWindow::on_pushButtonInsertUser_clicked()
+//{
+
+//}
+
+void MainWindow::on_usergenerateQr_clicked()
+{
+    QString qrstring = ui->adduserEmail->text().toLatin1()+ui->addusername->text().toLatin1()+ui->lineEditPhone->text().toLatin1()+ui->createuserdatetime->text().toLatin1()+
+       ui->createextra->text().toLatin1()+ui->createclass->text().toLatin1();
+
+    GenerateQRCode(qrstring,ui->adduserQRview);
+
+}

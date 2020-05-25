@@ -444,7 +444,7 @@ void MainWindow::WalletAddressInsert(QString Email,QString Name,QString classid,
 
 
 void MainWindow::GenerateQRCode(QString data,QGraphicsView *view) {
-#ifdef BARCODESCAN
+#ifdef BARCODE
     std::wstring text ( data.toStdWString() );
 
     //char *text2 = text.c_str();

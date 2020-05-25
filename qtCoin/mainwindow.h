@@ -224,6 +224,8 @@ private slots:
 
     void on_CreateWallet_clicked();
 
+    void on_usergenerateQr_clicked();
+
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db;

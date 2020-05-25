@@ -446,13 +446,17 @@ void MainWindow::insertUser() //strictly a db to hold all userid's for verificat
        qDebug()<<"Error: failed database connection";
     }
 
+    QString crypted2 = simplecrypt(ui->lineEditName->text(),masterkey.toLatin1(),QCryptographicHash::Sha512);
+
     QString query;
 
-      QString euserid = ui->lineEditName->text();
-
-//    QByteArray bFname = EncryptMsg(ui->lineEditName->text(),"123456789", "your-IV-vector");
-//    QString mykey1 = BigInt2Str(m_e); //rsa keys
-//    QString mykey2 = BigInt2Str(m_n); //rsa keys
+     // QString euserid = ui->lineEditName->text();
+#ifdef ENCRYPTION
+    QByteArray bFname = EncryptMsg(ui->lineEditName->text(),"123456789", "your-IV-vector");
+    QString mykey1 = BigInt2Str(m_e); //rsa keys
+    QString mykey2 = BigInt2Str(m_n); //rsa keys
+#endif
+      //generate public key and encrypt userid
 
     query.append("INSERT INTO users("
                  "userid,"
@@ -465,8 +469,9 @@ void MainWindow::insertUser() //strictly a db to hold all userid's for verificat
                  "extra,"
                  "class)"
                  "VALUES("
-                 "'"+euserid.toLatin1()+"',"
-                 "'"+ui->lineEditSurname->text().toLatin1()+"',"
+                 "'"+crypted2.toLatin1()+"',"
+                 "'"+ui->addusername->text().toLatin1()+"',"
+                 "'"+ui->adduserEmail->text().toLatin1()+"',"
                  "'"+ui->lineEditPassword->text().toLatin1()+"',"
                  "'"+ui->lineEditPhone->text().toLatin1()+"',"
                  "'"+ui->createuserdatetime->text()+"',"
@@ -476,7 +481,7 @@ void MainWindow::insertUser() //strictly a db to hold all userid's for verificat
                  "'"+ui->createclass->text()+"'"
                  ");");
 
-    qDebug()<< euserid.toLatin1();
+  //  qDebug()<< euserid.toLatin1();
 
     QSqlQuery insert;
     insert.prepare(query);

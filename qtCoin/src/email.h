@@ -15,6 +15,19 @@
 #endif
 
 
+void MainWindow::on_smtptestmessage_clicked()
+{
+
+   //  text.setText("Hi,\nThis is a simple email message.\n");
+#ifdef SMTP
+ smtpsend(ui->smtpemail->text().toLatin1(),"Hi,\nThis is a simple email message.\n");
+#else
+    QMessageBox Msgbox;
+        Msgbox.setText("nosmtp enabled");
+        Msgbox.exec();
+#endif
+}
+
 int MainWindow::smtpsend(QString toemail,QString Message){
 #ifdef SMTP
     bool ssl;
@@ -39,20 +52,32 @@ int MainWindow::smtpsend(QString toemail,QString Message){
 
     // Now we can send the mail
     if (!smtp.connectToHost()) {
-        qDebug() << "Failed to connect to host!" << endl;
+        QMessageBox Msgbox;
+            Msgbox.setText("Failed to connect to host.");
+            Msgbox.exec();
+   //     qDebug() << "Failed to connect to host!" << endl;
         return 1;
     }
 
     if (!smtp.login()) {
-        qDebug() << "Failed to login!" << endl;
+        QMessageBox Msgbox;
+            Msgbox.setText("not able to login");
+            Msgbox.exec();
+     //   qDebug() << "Failed to login!" << endl;
         return 2;
     }
 
     if (!smtp.sendMail(message)) {
-        qDebug() << "Failed to send mail!" << endl;
+        QMessageBox Msgbox;
+            Msgbox.setText("Failes to send mail.");
+            Msgbox.exec();
+      //  qDebug() << "Failed to send mail!" << endl;
         return 3;
     }
     smtp.quit();
+    QMessageBox Msgbox;
+        Msgbox.setText("Email Sent");
+        Msgbox.exec();
 #endif
 }
 
@@ -87,7 +112,7 @@ void MainWindow::createEmailTable()
     QSqlQuery drop;
     drop.prepare ("DROP TABLE IF EXISTS email");
     create.prepare(query);
-drop.exec();
+    drop.exec();
 
     if (create.exec())
     {        qDebug()<<"Table exists or has been created";    }    else    {        qDebug()<<"Table not exists or has not been created";
@@ -193,19 +218,6 @@ void MainWindow::EmailInsertWallet() //QString ID,QString CoinAddress,QString Ow
 void MainWindow::on_smtpsave_clicked()
 {
     EmailInsertWallet();
-}
-
-void MainWindow::on_smtptestmessage_clicked()
-{
-
-   //  text.setText("Hi,\nThis is a simple email message.\n");
-#ifdef SMTP
- //  smtpsend(QString toemail,QString Message)
-#else
-    QMessageBox Msgbox;
-        Msgbox.setText("nosmtp enabled");
-        Msgbox.exec();
-#endif
 }
 
 
