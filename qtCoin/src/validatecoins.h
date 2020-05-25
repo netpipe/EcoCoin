@@ -32,20 +32,17 @@ void MainWindow::on_generatetx_clicked()
 void MainWindow::on_GenerateRequest_clicked()
 {
     //could be sent via smtp
-    //ui->receiveid.text().toLatin1()+ui->rece
-
-
 
     if ( ui->receiveid->text().toLatin1() == "" ){
         //generate purchase from server request
 
     }else{
-//if admin then placecoins without generating rxfile
+    //if admin then placecoins without generating rxfile
         //verify keys
-placeCoins( ui->receiveid->text().toLatin1(), ui->receiveammount->text().toLatin1());
+    placeCoins( ui->receiveid->text().toLatin1(), ui->receiveammount->text().toLatin1());
 
-//else
-//    QString result = generateRXfile(mainID.toLatin1(),ui->receiveid->text().toLatin1(),ui->receiveammount->text().toLatin1());
+    //else
+    //    QString result = generateRXfile(mainID.toLatin1(),ui->receiveid->text().toLatin1(),ui->receiveammount->text().toLatin1());
 
     }
     //QString requeststring= ;
@@ -248,9 +245,15 @@ QString MainWindow::validateCOINsign(QString coin,QString euserID){ // for getti
                 QString signedcoin=query3.value(0).toString(); //if not signing needs value
                // return query3.value(0).toString();
                 if (1){
-               QString ecoin =  simplecrypt(euserID,coinkey.toLatin1(),QCryptographicHash::Sha512);
-               signedcoin = simplecrypt(ecoin,ekey.toLatin1(),QCryptographicHash::Sha512);
+              //      qDebug() << "coinkey coin: " << coinkey.toLatin1();
+               QString ecoin =  simplecrypt(signedcoin.toLatin1(),coinkey.toLatin1(),QCryptographicHash::Sha512);
+             //  qDebug() << "signedcoin: " << signedcoin.toLatin1();
+              // qDebug() << "userID coin: " << coinkey.toLatin1();
+               QString ecoinuser =  simplecrypt(euserID.toLatin1(),ecoin.toLatin1(),QCryptographicHash::Sha512);
+             //  qDebug() << "usersigned coin: " << signedcoin.toLatin1();
+               signedcoin = simplecrypt(ecoinuser,ekey.toLatin1(),QCryptographicHash::Sha512);
                }
+                qDebug() << "final usersigned coin: " << signedcoin.toLatin1();
                        db.close();
             return signedcoin;
            }

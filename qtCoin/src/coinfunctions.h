@@ -31,21 +31,21 @@ void MainWindow::on_SendCoins_clicked()
 
     md5verifydb();
 
- if (ui->givecoinsid->text().toLatin1()!=""){
+    if (ui->givecoinsid->text().toLatin1()!=""){
     //could impliment rounding to make ammount proper
     float remainder =  fmod(ui->givecoinsammount->text().toFloat() ,ui->coinvalue->text().toFloat()); // int % int
-    if ( remainder > 0 ) // even ammount //check ammount is devisible by value
-    {
-        qDebug() << remainder;
-        qDebug() << "not a proper ammount";
+        if ( remainder > 0 ) // even ammount //check ammount is devisible by value
+        {
+            qDebug() << remainder;
+            qDebug() << "not a proper ammount";
 
-        QMessageBox Msgbox;
-            Msgbox.setText("not proper ammount use value ");
-            Msgbox.exec();
+            QMessageBox Msgbox;
+                Msgbox.setText("not proper ammount use value ");
+                Msgbox.exec();
 
 
-        return;
-    }
+            return;
+        }
 
      QString result2;
 
@@ -72,14 +72,18 @@ void MainWindow::on_SendCoins_clicked()
 trycount=0;
         QString result = validateID(ui->givecoinsid->text().toLatin1()).toLatin1(); // result will be unencrypted id
         qDebug() << "validate" << result;
+        //match in database.sqlite if admin
+        //if < 12 chars
+        placeCoins(result.toLatin1(),ui->givecoinsammount->text()); // send encrypted id
+
 
         float balance = checkBalance(result.toLatin1());
         qDebug() << "balance:" << balance;
 
-
+//else place user to user coins without key decrypt or make txfile
         //    //find random coin and insert it ammount times
         //generateTXfile(result, etxcoins);  // use generated tx
-        placeCoins(result.toLatin1(),ui->givecoinsammount->text()); // send encrypted id
+       // placeCoins(ui->givecoinsid->text().toLatin1(),ui->givecoinsammount->text()); // send encrypted id
 
             float balance2 = checkBalance(ui->givecoinsid->text().toLatin1());
             float total = ui->givecoinsid->text().toFloat() + balance;
@@ -88,8 +92,8 @@ trycount=0;
     QMessageBox Msgbox;
         Msgbox.setText("coins sent ");
         Msgbox.exec();
-} else {
-//send user to user coins
+} else { //send user to user coins
+
         //if client mode then generatetxfile
         int admin=0;
 
