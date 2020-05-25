@@ -13,6 +13,7 @@
 #include <QString>
 #include <QProcess>
 #include <QDebug>
+#include <QMessageBox>
 
 
 //cat /proc/cpuinfo for extra info

@@ -54,6 +54,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //load settings
     QFile Fout("settings.txt");    if(Fout.exists())    {        on_actionOpenCoin_triggered();    }    Fout.close();
+
+    getEmailSettings();
+
     this->setWindowTitle(ui->coinname->text());
     themeInit();
 
@@ -224,8 +227,14 @@ void MainWindow::on_CreateWallet_clicked()
 qDebug() <<  getHDserial(); //getPSN().toLatin1();
 //qDebug () << WordListGenerator(8,"./Resource/wordlists/english.txt");
 
+//createEmailTable();
 
+//EmailInsertWallet();
+
+getEmailSettings();
 
 
 }
+
+
 

@@ -96,7 +96,7 @@ public:
     QString WordListGenerator(int,QString);
     void createEmailTable();
     void EmailInsertWallet();
-
+    void getEmailSettings();
     QString decodetxQR();
 
     QString generateRXfile(QString suserid,QString ruserid,QString etxcoins);
