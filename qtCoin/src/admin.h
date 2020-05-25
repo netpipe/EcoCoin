@@ -18,9 +18,11 @@
 void MainWindow::on_randomSearch_clicked()
 {//for picking lucky users
     //repurposed temporarly for sqltest
-    QString sql = "SELECT * FROM users ORDER BY random()";
+//    QString sql = "SELECT * FROM users ORDER BY random()";
 
-    SQLTest("database.sqlite",sql.toLatin1());
+//    SQLTest("database.sqlite",sql.toLatin1());
+
+    selectUsers();
 
 }
 
@@ -86,6 +88,14 @@ void MainWindow::on_pushButtonInsertUser_clicked()
     QString ownerid=ui->lineEditName->text().toLatin1();
     QString password=ui->lineEditPassword->text();
 
+    //    QString s = QDate::currentDate().toString();
+    //    QDate::currentDate().day();
+    //    QDate::currentDate().month();
+    //    QDate::currentDate().year();
+    QTime starttime(QTime::currentTime().hour(),QTime::currentTime().minute());
+    QDate dNow(QDate::currentDate());
+    ui->createuserdatetime->setText(dNow.toString("dd.MM.yyyy")+"T"+starttime.toString());
+
     //fix later
     if (validateID(ownerid) == 0 ){
         for (int i=0;i < 100 ; i++) { //100 tries
@@ -99,17 +109,11 @@ void MainWindow::on_pushButtonInsertUser_clicked()
         }
     }
 
-// use password first to make more secure so no need to store in plaintext
- //   QString crypted = simplecrypt(ownerid.toLatin1(),ui->lineEditPassword->text(),QCryptographicHash::Sha512);
-  //  QString crypted2 = simplecrypt(crypted.toLatin1(),masterkey.toLatin1(),QCryptographicHash::Sha512);
-         qDebug() << ownerid.toLatin1() ;
+    qDebug() << ownerid.toLatin1() ;
+
     QString crypted2 = simplecrypt(ownerid.toLatin1(),masterkey.toLatin1(),QCryptographicHash::Sha512);
    // QString decrypted = simpledecrypt(crypted,"test2",QCryptographicHash::Sha512);
-     qDebug() << crypted2 ;
-//  crypted2 = simplecrypt(ownerid.toLatin1(),masterkey.toLatin1(),QCryptographicHash::Sha512);
-// qDebug() << crypted2 ;
-//   crypted2 = simplecrypt(ownerid.toLatin1(),masterkey.toLatin1(),QCryptographicHash::Sha512);
-//  qDebug() << crypted2 ;
+    qDebug() << crypted2 ;
     ui->lineEditName->setText(crypted2.toLatin1());
 
     createyearly(crypted2);
@@ -121,17 +125,15 @@ void MainWindow::on_pushButtonInsertUser_clicked()
 
     //selectUsersCoins(temp.toLatin1(),year.toLatin1());
 
-    //combine user year+userid to give to user
-//ui->createuserdatetime->text();
-//ui->createuserdatetime->setText();
-
     ui->lineEditName->setText(ownerid.toLatin1());
     ui->lineEditName->setEnabled(1);
 
     QClipboard *clipboard = QApplication::clipboard();
     clipboard->setText(ui->lineEditName->text());
 
-    // selectUsers(); //refresh user table
+    on_usergenerateQr_clicked();
+
+    selectUsers(); //refresh user table
 
 }
 
@@ -368,7 +370,8 @@ void MainWindow::selectUsers()
         ui->tableWidgetUsers->setItem(row,0,new QTableWidgetItem(select.value(1).toByteArray().constData()));
         ui->tableWidgetUsers->setItem(row,1,new QTableWidgetItem(select.value(2).toByteArray().constData()));
         ui->tableWidgetUsers->setItem(row,2,new QTableWidgetItem(select.value(3).toByteArray().constData()));
-        ui->tableWidgetUsers->setItem(row,3,new QTableWidgetItem(select.value(4).toByteArray().constData()));
+        ui->tableWidgetUsers->setItem(row,3,new QTableWidgetItem(select.value(10).toByteArray().constData()));
+        ui->tableWidgetUsers->setItem(row,4,new QTableWidgetItem(select.value(6).toByteArray().constData()));
         row++;
     }
 
@@ -500,14 +503,15 @@ void MainWindow::SQLTest(QString dbname,QString Query)
     db.close();
 }
 
-
-
-
-
-
-
-
-
+void MainWindow::on_addUserQR_clicked()
+{
+    QString fileName= QFileDialog::getSaveFileName(this, "Save image", QCoreApplication::applicationDirPath(), "BMP Files (*.bmp);;JPEG (*.JPEG);;PNG (*.png)" );
+        if (!fileName.isNull())
+        {
+            QPixmap pixMap = this->ui->usergenerateQr->grab();
+            pixMap.save(fileName);
+        }
+}
 
 void MainWindow::insertUser() //strictly a db to hold all userid's for verification
 {
@@ -523,6 +527,7 @@ void MainWindow::insertUser() //strictly a db to hold all userid's for verificat
        qDebug()<<"Error: failed database connection";
     }
 
+    //could also use md5sum at time of creation for public key + time
     QString crypted2 = simplecrypt(ui->lineEditName->text(),masterkey.toLatin1(),QCryptographicHash::Sha512);
 
     QString query;
@@ -547,13 +552,13 @@ void MainWindow::insertUser() //strictly a db to hold all userid's for verificat
                  "extra,"
                  "class)"
                  "VALUES("
+                 "'"+ui->adduserEmail->text().toLatin1()+"',"
                  "'"+crypted2.toLatin1()+"',"
                  "'"+ui->addusername->text().toLatin1()+"',"
-                 "'"+ui->adduserEmail->text().toLatin1()+"',"
                  "'"+ui->lineEditPassword->text().toLatin1()+"',"
                  "'"+ui->lineEditPhone->text().toLatin1()+"',"
                  "'"+ui->createuserdatetime->text()+"',"
-                 "'""'," //ekey
+                 "'"+ GetReallyRandomString(8, "").toLatin1() +"'," //ekey
                  "'""'," //ammount
                  "'"+ui->createextra->text().toLatin1()+"',"
                  "'"+ui->createclass->text()+"'"

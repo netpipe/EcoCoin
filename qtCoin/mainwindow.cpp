@@ -66,11 +66,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //subtract date to set progress bar
 
-    //    QString s = QDate::currentDate().toString();
-    //    QDate::currentDate().day();
-    //    QDate::currentDate().month();
-    //    QDate::currentDate().year();
-
     //convert to days then set progressbar
     ui->matureyear->text();
     ui->maturemonth->currentText();
@@ -94,6 +89,10 @@ MainWindow::MainWindow(QWidget *parent) :
   // qDebug() << percent2 << fixed << qSetRealNumberPrecision(2);
     ui->progress->setValue( test4);
 
+    //might have to contact server for ammount available
+
+    ui->progress_2->setValue( 100 );
+
     //enable these if you want to test rsa+aes encryption in the onpushbutton_3_clicked function.
 #ifdef ENCRYPTION
     rsaTester = new Rsa();
@@ -111,7 +110,7 @@ MainWindow::MainWindow(QWidget *parent) :
     int tabindex=1;
     removedTab = ui->app->widget(tabindex);
     AddRemoveTab(ui->admintab,"Admin",tabindex);
-    AddRemoveTab(ui->settingstab,"Admin",tabindex);
+    AddRemoveTab(ui->admintab,"Admin",tabindex);
 
         //if client only mode
   //  ui->createtime->setTime(starttime);
@@ -266,3 +265,5 @@ void MainWindow::on_addresssearch_clicked()
 
 
 }
+
+

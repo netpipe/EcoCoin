@@ -13,6 +13,14 @@
 #include <QFileDialog>
 
 
+//   "DELETE FROM euserid WHERE addr = "+ "OR StudentId = 12;"
+   // "UPDATE coins SET lastupdated WHERE userid=11"
+   // "DROP table" +userid
+   // "ALTER TABLE name ADD COLUMN test TEXT" or char(50)
+      // "ALTER TABLE name DROP COLUMN name"
+
+
+
 void MainWindow::on_SendCoins_clicked()
 {
 
@@ -250,14 +258,7 @@ qDebug() << "validate coins";
     qDebug() << yeardb;
 
     db.setDatabaseName("./db/"+ yeardb.toLatin1() +".sqlite");
-    if(db.open())
-    {
-        qDebug()<<"Successful coin database connection";
-    }
-    else
-    {
-        qDebug()<<"Error: failed database connection";
-    }
+    if(db.open())    {  qDebug()<<"Successful coin database connection";    }    else    {   qDebug()<<"Error: failed database connection";    }
     db.transaction();
 
     QString query2 = "INSERT INTO ""'"+euserid.toLatin1()+"'""(origindex,addr,datetime,class) VALUES (?,?,1,0)";
@@ -321,11 +322,7 @@ qDebug() << "validate coins";
     }
 
 }
-               //   "DELETE FROM euserid WHERE addr = "+ "OR StudentId = 12;"
-                  // "UPDATE coins SET lastupdated WHERE userid=11"
-                  // "DROP table" +userid
-                  // "ALTER TABLE name ADD COLUMN test TEXT" or char(50)
-                     // "ALTER TABLE name DROP COLUMN name"
+
 
 }
 
