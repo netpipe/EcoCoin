@@ -108,10 +108,10 @@ MainWindow::MainWindow(QWidget *parent) :
         coinkey = "testing1234567";
     }
 
-    int tabindex=2;
+    int tabindex=1;
     removedTab = ui->app->widget(tabindex);
-    AddRemoveTab(ui->settingstab,"Settings",tabindex);
-    AddRemoveTab(ui->settingstab,"Settings",tabindex);
+    AddRemoveTab(ui->admintab,"Admin",tabindex);
+    AddRemoveTab(ui->settingstab,"Admin",tabindex);
 
         //if client only mode
   //  ui->createtime->setTime(starttime);
