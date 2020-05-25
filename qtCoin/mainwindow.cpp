@@ -108,28 +108,12 @@ MainWindow::MainWindow(QWidget *parent) :
         coinkey = "testing1234567";
     }
 
+    int tabindex=1;
+    removedTab = ui->app->widget(tabindex);
+    AddRemoveTab(ui->admintab,"Admin",tabindex);
+    AddRemoveTab(ui->settingstab,"Admin",tabindex);
 
-
-//    auto model = new QStandardItemModel();
-
-//ui->treeView->setModel(model);
-//    model->appendRow(new QStandardItem ("test"));
-//        model->appendRow(new QStandardItem ("test"));
-//            model->appendRow(new QStandardItem ("test"));
-
-//QList<QStandardItem*> test;
-//QStandardItem *test34 =new QStandardItem ("test");
-//test.append(test34);
-//        model->item(1)->appendRows(test);
-//        ui->treeView->expandAll();
-    //if client only mode
-
-//ui->settingstab->setEnabled(false);
-//ui->settingstab->setVisible(false);
-//   QWidget * test= ui->app->widget(2);
-//ui->app->removeTab(2);
-//ui->app->insertTab(2,test,"Settings");
-
+        //if client only mode
   //  ui->createtime->setTime(starttime);
 
 }
@@ -161,6 +145,23 @@ void MainWindow::playsound(QString test){
 #endif
 }
 
+
+void MainWindow::AddRemoveTab(QWidget *tab,QString name,int tabindex){
+
+    // QWidget * test= ui->app->widget(2);
+    if (tab->isEnabled()) {
+       // QWidget * test= ui->app->widget(2);
+        ui->app->removeTab(tabindex);
+        tab->setEnabled(false);
+    } else {
+        tab->setEnabled(true);
+        QWidget * test= ui->app->widget(tabindex);
+       // ui->app->removeTab(2);
+//        if (tab->isVisible()){
+            ui->app->insertTab(tabindex,removedTab,name.toLatin1());
+//        }
+    }
+}
 void MainWindow::on_actionSyncUSB_triggered()
 {
     ListUSB();
@@ -246,5 +247,22 @@ void MainWindow::on_usergenerateQr_clicked()
                         ui->createclass->text().toLatin1();
 
     GenerateQRCode(qrstring,ui->adduserQRview);
+
+}
+
+void MainWindow::on_addresssearch_clicked()
+{
+    //    auto model = new QStandardItemModel();
+    //ui->treeView->setModel(model);
+    //    model->appendRow(new QStandardItem ("test"));
+    //        model->appendRow(new QStandardItem ("test"));
+    //            model->appendRow(new QStandardItem ("test"));
+
+    //QList<QStandardItem*> test;
+    //QStandardItem *test34 =new QStandardItem ("test");
+    //test.append(test34);
+    //        model->item(1)->appendRows(test);
+    //        ui->treeView->expandAll();
+
 
 }
