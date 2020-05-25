@@ -88,7 +88,7 @@ MainWindow::MainWindow(QWidget *parent) :
 //   b.setNum(pi);
   // qDebug() << percent2 << fixed << qSetRealNumberPrecision(2);
     ui->progress->setValue( test4);
-
+ui->progress_2->setValue( 100 );
     //enable these if you want to test rsa+aes encryption in the onpushbutton_3_clicked function.
 #ifdef ENCRYPTION
     rsaTester = new Rsa();

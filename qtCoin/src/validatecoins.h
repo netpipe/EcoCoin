@@ -27,11 +27,24 @@ void MainWindow::on_generatetx_clicked()
     //generateTXfile()
 }
 
+
+
 void MainWindow::on_GenerateRequest_clicked()
 {
     //could be sent via smtp
     //ui->receiveid.text().toLatin1()+ui->rece
+
+
+
+    if ( ui->receiveid.text().toLatin1() == "" ){
+        //generate purchase from server request
+
+    }else{
+//if admin then placecoins without generating rxfile
+
     QString result = generateRXfile(mainID.toLatin1(),ui->receiveid->text().toLatin1(),ui->receiveammount->text().toLatin1());
+
+    }
     //QString requeststring= ;
  //   generateRXfile();
 //GenerateQRCode(requeststring.toLatin1())
