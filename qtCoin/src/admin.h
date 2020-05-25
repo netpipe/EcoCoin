@@ -18,9 +18,11 @@
 void MainWindow::on_randomSearch_clicked()
 {//for picking lucky users
     //repurposed temporarly for sqltest
-    QString sql = "SELECT * FROM users ORDER BY random()";
+//    QString sql = "SELECT * FROM users ORDER BY random()";
 
-    SQLTest("database.sqlite",sql.toLatin1());
+//    SQLTest("database.sqlite",sql.toLatin1());
+
+    selectUsers();
 
 }
 
@@ -92,7 +94,7 @@ void MainWindow::on_pushButtonInsertUser_clicked()
     //    QDate::currentDate().year();
     QTime starttime(QTime::currentTime().hour(),QTime::currentTime().minute());
     QDate dNow(QDate::currentDate());
-    ui->createuserdatetime->setText(dNow.toString("dd.MM.yyyy")+"-"+starttime.toString());
+    ui->createuserdatetime->setText(dNow.toString("dd.MM.yyyy")+"T"+starttime.toString());
 
     //fix later
     if (validateID(ownerid) == 0 ){
@@ -377,7 +379,7 @@ void MainWindow::selectUsers()
         ui->tableWidgetUsers->setItem(row,1,new QTableWidgetItem(select.value(2).toByteArray().constData()));
         ui->tableWidgetUsers->setItem(row,2,new QTableWidgetItem(select.value(3).toByteArray().constData()));
         ui->tableWidgetUsers->setItem(row,3,new QTableWidgetItem(select.value(10).toByteArray().constData()));
-        ui->tableWidgetUsers->setItem(row,3,new QTableWidgetItem(select.value(6).toByteArray().constData()));
+        ui->tableWidgetUsers->setItem(row,4,new QTableWidgetItem(select.value(6).toByteArray().constData()));
         row++;
     }
 

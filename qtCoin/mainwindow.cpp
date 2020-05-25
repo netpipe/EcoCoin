@@ -261,9 +261,3 @@ void MainWindow::on_addresssearch_clicked()
 
 
 }
-
-void MainWindow::on_tableWidgetUsers_activated(const QModelIndex &index)
-{
-    selectUsers();
-}
-
