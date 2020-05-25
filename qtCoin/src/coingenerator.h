@@ -237,55 +237,6 @@ void MainWindow::createFreeCoinTable(QString DBname)
 }
 
 
-void MainWindow::on_gencoininfo_btn_clicked()
-{
-
-    QFile file("settings.txt");
-      //    if(file.open(QIODevice::WriteOnly | QIODevice::Text))
-          if(file.open(QIODevice::ReadWrite | QIODevice::Text))
-          {
-              QTextStream stream(&file);
-              stream << "CoinName:" << ui->coinname->text() <<'\n';
-              stream << "CoinCount:" << ui->coincount->text() <<'\n';
-              stream << "CoinLength:" << ui->coinlength->text() <<'\n';
-              stream << "createday:" << ui->createday->text() <<'\n';
-              stream << "CreateMonth: " << ui->createmonth->currentText() <<'\n';
-              stream << "createyear:" << ui->createyear->text() <<'\n';
-              stream << "createtime:" << ui->createtime->time().hour() << "|" << ui->createtime->time().minute()  <<'\n';
-              stream << "coinvalue:" << ui->coinvalue->text() <<'\n';
-              stream << "matures:" << ui->matureradio_yes->text() <<'\n';
-              stream << "coinpayout:" << ui->coinpayout->text() <<'\n';
-              stream << "encrypted:" << ui->encrypted_yes->text() <<'\n';
-              stream << "maturedate:" << ui->matureday->text() <<'\n';
-              stream << "maturemonth:" << ui->maturemonth->currentText() <<'\n';
-              stream << "matureyear:" << ui->matureyear->text() <<'\n';
-              stream << "maturetime:" << ui->maturetime->time().hour() << "|" << ui->maturetime->time().minute() <<'\n';
-              stream << "maturedescription:" << ui->maturedescription->toPlainText()<<'\n';
-              stream << "usbdrivename:" << ui->usbdrivename->text() <<'\n' ; //place into keys instead
-              file.close();
-          }
-
-          ListUSB();
-        //qDebug() << "usb path " << usbpath.toLatin1();
-          QString path;
-            if(usbpath.toLatin1() != "" ){
-            path =     usbpath.toLatin1()+"/keys.txt";
-            }else{
-            path = "./keys.txt";
-            }
-          QFile file2(path);
-            //    if(file.open(QIODevice::WriteOnly | QIODevice::Text))
-                if(file2.open(QIODevice::ReadWrite | QIODevice::Text))
-                {
-                    QTextStream stream(&file2);
-                    stream << "masterkey:" << masterkey.toLatin1() <<'\n';
-                    stream << "coinkey:" << coinkey.toLatin1() <<'\n';
-                  //  stream << "usbdrivename:" << ui->usbdrivename->text();
-                    file2.close();
-                }
-}
-
-
 
 void MainWindow::RandomizeCoins()
 {
@@ -549,6 +500,7 @@ void MainWindow::on_pushButton_clicked() //generate coins button
     generateRCoins();
     QString tester1 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
     masterkey = GetRandomString(12,tester1.toLatin1());
+    coinkey = GetRandomString(12,tester1.toLatin1());
 
     QMessageBox Msgbox;
        // int sum;
