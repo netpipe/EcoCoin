@@ -110,8 +110,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     int tabindex=1;
     removedTab = ui->app->widget(tabindex);
-  //  AddRemoveTab(ui->admintab,"Admin",tabindex);
-  //  AddRemoveTab(ui->settingstab,"Admin",tabindex);
+    AddRemoveTab(ui->admintab,"Admin",tabindex);
+    AddRemoveTab(ui->admintab,"Admin",tabindex);
 
         //if client only mode
   //  ui->createtime->setTime(starttime);
