@@ -36,13 +36,16 @@ void MainWindow::on_GenerateRequest_clicked()
 
 
 
-    if ( ui->receiveid.text().toLatin1() == "" ){
+    if ( ui->receiveid->text().toLatin1() == "" ){
         //generate purchase from server request
 
     }else{
 //if admin then placecoins without generating rxfile
+        //verify keys
+placeCoins( ui->receiveid->text().toLatin1(), ui->receiveammount->text().toLatin1());
 
-    QString result = generateRXfile(mainID.toLatin1(),ui->receiveid->text().toLatin1(),ui->receiveammount->text().toLatin1());
+//else
+//    QString result = generateRXfile(mainID.toLatin1(),ui->receiveid->text().toLatin1(),ui->receiveammount->text().toLatin1());
 
     }
     //QString requeststring= ;

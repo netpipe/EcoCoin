@@ -109,17 +109,11 @@ void MainWindow::on_pushButtonInsertUser_clicked()
         }
     }
 
-// use password first to make more secure so no need to store in plaintext
- //   QString crypted = simplecrypt(ownerid.toLatin1(),ui->lineEditPassword->text(),QCryptographicHash::Sha512);
-  //  QString crypted2 = simplecrypt(crypted.toLatin1(),masterkey.toLatin1(),QCryptographicHash::Sha512);
-         qDebug() << ownerid.toLatin1() ;
+    qDebug() << ownerid.toLatin1() ;
+
     QString crypted2 = simplecrypt(ownerid.toLatin1(),masterkey.toLatin1(),QCryptographicHash::Sha512);
    // QString decrypted = simpledecrypt(crypted,"test2",QCryptographicHash::Sha512);
-     qDebug() << crypted2 ;
-//  crypted2 = simplecrypt(ownerid.toLatin1(),masterkey.toLatin1(),QCryptographicHash::Sha512);
-// qDebug() << crypted2 ;
-//   crypted2 = simplecrypt(ownerid.toLatin1(),masterkey.toLatin1(),QCryptographicHash::Sha512);
-//  qDebug() << crypted2 ;
+    qDebug() << crypted2 ;
     ui->lineEditName->setText(crypted2.toLatin1());
 
     createyearly(crypted2);
@@ -131,17 +125,15 @@ void MainWindow::on_pushButtonInsertUser_clicked()
 
     //selectUsersCoins(temp.toLatin1(),year.toLatin1());
 
-    //combine user year+userid to give to user
-//ui->createuserdatetime->text();
-//ui->createuserdatetime->setText();
-
     ui->lineEditName->setText(ownerid.toLatin1());
     ui->lineEditName->setEnabled(1);
 
     QClipboard *clipboard = QApplication::clipboard();
     clipboard->setText(ui->lineEditName->text());
 
-    // selectUsers(); //refresh user table
+    on_usergenerateQr_clicked();
+
+    selectUsers(); //refresh user table
 
 }
 
@@ -511,14 +503,15 @@ void MainWindow::SQLTest(QString dbname,QString Query)
     db.close();
 }
 
-
-
-
-
-
-
-
-
+void MainWindow::on_addUserQR_clicked()
+{
+    QString fileName= QFileDialog::getSaveFileName(this, "Save image", QCoreApplication::applicationDirPath(), "BMP Files (*.bmp);;JPEG (*.JPEG);;PNG (*.png)" );
+        if (!fileName.isNull())
+        {
+            QPixmap pixMap = this->ui->usergenerateQr->grab();
+            pixMap.save(fileName);
+        }
+}
 
 void MainWindow::insertUser() //strictly a db to hold all userid's for verification
 {
@@ -534,6 +527,7 @@ void MainWindow::insertUser() //strictly a db to hold all userid's for verificat
        qDebug()<<"Error: failed database connection";
     }
 
+    //could also use md5sum at time of creation for public key + time
     QString crypted2 = simplecrypt(ui->lineEditName->text(),masterkey.toLatin1(),QCryptographicHash::Sha512);
 
     QString query;

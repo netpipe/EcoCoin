@@ -233,6 +233,8 @@ private slots:
 
     void on_addresssearch_clicked();
 
+    void on_addUserQR_clicked();
+
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db;
