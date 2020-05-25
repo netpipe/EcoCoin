@@ -27,6 +27,14 @@
 //https://patents.google.com/patent/US3988571A/en
 
 //encrypt with usbdrivename
+inline void delay(int millisecondsWait)
+{
+    QEventLoop loop;
+    QTimer t;
+    t.connect(&t, &QTimer::timeout, &loop, &QEventLoop::quit);
+    t.start(millisecondsWait);
+    loop.exec();
+}
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -114,6 +122,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
         //if client only mode
   //  ui->createtime->setTime(starttime);
+    QString tester1 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+    qDebug()<< GetRandomString(12,tester1.toLatin1());
+    //delay(800);
+    QThread::usleep(8000);
+    qDebug()<< GetRandomString(12,tester1.toLatin1());
 
 }
 
@@ -123,6 +136,7 @@ MainWindow::~MainWindow()
     delete ui;
     //QSqlDatabase::removeDatabase( QSqlDatabase::defaultConnection );
 }
+
 
 void MainWindow::playsound(QString test){
 #ifdef SOUND

@@ -456,6 +456,7 @@ return 0;
 
 void MainWindow::on_pushButton_clicked() //generate coins button
 {
+
     if((ui->coincount->text().toInt() & 1) == 0){ // check if odd or even
 
         QFile Fout("coins.sqlite");
@@ -483,6 +484,7 @@ void MainWindow::on_pushButton_clicked() //generate coins button
     generateRCoins();
     QString tester1 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
     masterkey = GetRandomString(12,tester1.toLatin1());
+    QThread::usleep(8000);
     coinkey = GetRandomString(12,tester1.toLatin1());
 
     QMessageBox Msgbox;

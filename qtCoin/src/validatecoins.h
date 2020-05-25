@@ -169,8 +169,10 @@ QString MainWindow::validateCOINsign(QString coin,QString euserID){ // for getti
     QString datetime;
 
     // check if validating signed or unsigned coin
-    if (euserID.toLatin1() == ""){ // only check rcoins and coins
+    if (euserID.toLatin1() == ""){ // only check rcoins and coins for unencrypted coins
         //check indexes match in coinsdb and rcoins
+
+
           db.setDatabaseName("coins.sqlite");
           db.open();
           db.transaction();
@@ -200,7 +202,31 @@ QString MainWindow::validateCOINsign(QString coin,QString euserID){ // for getti
           db.close();
 
 
-    }else{        ///check user exists and get signing info
+    }else{        ///check user exists and get signing info to sign coins with
+qDebug() << "signing coin then getting another";
+        if (coin.length() > 8 ){ //if encrypted unsign coin
+            qDebug() << "encrypted coin during verify unsingning";
+            db.setDatabaseName("wallet.sqlite"); //search for signed coin in db then unsign for placement and resigning
+            db.open();
+                QSqlDatabase::database().transaction();
+                QSqlQuery query2;
+                query2.exec("SELECT * FROM users WHERE coin = ""'"+euserID.toLatin1()+"'");
+                while (query2.next()) {
+                     //userid = query.value(1).; //not encrypted with user password
+                     ekey = query2.value(7).toString();
+                    password = query2.value(4).toString();
+                    datetime = query2.value(6).toString(); //datetime
+                    qDebug() << "user " << euserID.toLatin1() << " pass " << password << "ekey " << ekey;
+                    //qDebug() << datetime;
+                  //  return yeardb;
+                }
+                QSqlDatabase::database().commit();
+            db.close();
+
+         //   signedcoin = simplecrypt(ecoinuser,ekey.toLatin1(),QCryptographicHash::Sha512);
+         //   QString ecoinuser =  simplecrypt(euserID.toLatin1(),ecoin.toLatin1(),QCryptographicHash::Sha512);
+         //   QString ecoin =  simplecrypt(signedcoin.toLatin1(),coinkey.toLatin1(),QCryptographicHash::Sha512);
+        }
 
     db.setDatabaseName("database.sqlite");
     db.open();
@@ -209,7 +235,7 @@ QString MainWindow::validateCOINsign(QString coin,QString euserID){ // for getti
         query2.exec("SELECT * FROM users WHERE userid = ""'"+euserID.toLatin1()+"'");
         while (query2.next()) {
              //userid = query.value(1).; //not encrypted with user password
-             ekey = query2.value(7).toString();
+            ekey = query2.value(7).toString();
             password = query2.value(4).toString();
             datetime = query2.value(6).toString(); //datetime
             qDebug() << "user " << euserID.toLatin1() << " pass " << password << "ekey " << ekey;
@@ -245,12 +271,13 @@ QString MainWindow::validateCOINsign(QString coin,QString euserID){ // for getti
                 QString signedcoin=query3.value(0).toString(); //if not signing needs value
                // return query3.value(0).toString();
                 if (1){
-              //      qDebug() << "coinkey coin: " << coinkey.toLatin1();
+                    qDebug() << "coin: " << signedcoin.toLatin1();
+                    qDebug() << "coinkey coin: " << coinkey.toLatin1();
                QString ecoin =  simplecrypt(signedcoin.toLatin1(),coinkey.toLatin1(),QCryptographicHash::Sha512);
-             //  qDebug() << "signedcoin: " << signedcoin.toLatin1();
-              // qDebug() << "userID coin: " << coinkey.toLatin1();
+               qDebug() << "signedcoin: " << signedcoin.toLatin1();
+               qDebug() << "userID coin: " << coinkey.toLatin1();
                QString ecoinuser =  simplecrypt(euserID.toLatin1(),ecoin.toLatin1(),QCryptographicHash::Sha512);
-             //  qDebug() << "usersigned coin: " << signedcoin.toLatin1();
+               qDebug() << "usersigned coin: " << signedcoin.toLatin1();
                signedcoin = simplecrypt(ecoinuser,ekey.toLatin1(),QCryptographicHash::Sha512);
                }
                 qDebug() << "final usersigned coin: " << signedcoin.toLatin1();
