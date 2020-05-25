@@ -13,7 +13,7 @@
 #include "src/encryption/rsa/Rsa.h"
 #include "src/downloadmanager.h"
 #include "src/loadtheme.h"
-
+#include "src/devices.h"
 #include "src/admin.h"
 #include "src/wallet.h"
 #include "src/email.h"
@@ -155,55 +155,6 @@ void MainWindow::playsound(QString test){
 #endif
 }
 
-
-
-void MainWindow::BackUptoUSB(){
-#ifdef STORAGE
-    //store and retrieve master encryption keys with this.
-
-//https://stackoverflow.com/questions/40035332/how-to-get-path-to-usb-drive-on-linux-in-qt
-    foreach (const QStorageInfo &storage, QStorageInfo::mountedVolumes()) {
-
-       qDebug() << storage.rootPath();
-
-//       QString storagestring=storage.rootPath();
-//       QRegExp rx("[/]");// match a comma or a space
-//       QStringList list2 = storagestring.split(rx);
-
-//      qDebug() << storagestring.at(3);
-       QString usbstring = "backupdevice";//ui->usbdrivename->text().toLatin1();
-
-        if (storage.rootPath().contains(usbstring)){
-            //qDebug() << "yep" << "/n";
-            backupusbpath = storage.rootPath().contains(usbstring);
-
-            if (storage.isReadOnly())
-                qDebug() << "isReadOnly:" << storage.isReadOnly();
-
-//                qDebug() << "name:" << storage.name();
-//                qDebug() << "fileSystemType:" << storage.fileSystemType();
-//                qDebug() << "size:" << storage.bytesTotal()/1000/1000 << "MB";
-//                qDebug() << "availableSize:" << storage.bytesAvailable()/1000/1000 << "MB";
-        } else {
-            backupusbpath="";
-        }
-
-        if (backupusbpath.toLatin1() == "")
-        {
-            //date
-            QFile::copy("/settings.txt", backupusbpath.toLatin1() );
-            QFile::copy("/coins.sqlite", backupusbpath.toLatin1() );
-            QFile::copy("/availableCoins.sqlite", backupusbpath.toLatin1() );
-            QFile::copy("/hashes.txt", backupusbpath.toLatin1() );
-
-            QMessageBox Msgbox;
-                Msgbox.setText("drive not found: ");
-                Msgbox.exec();
-        }
-     }
-#endif
-}
-
 void MainWindow::on_actionSyncUSB_triggered()
 {
     ListUSB();
@@ -267,16 +218,14 @@ void MainWindow::on_placeCoinsopenfile_clicked()
     processRXTXfile(fileName);
 }
 
-
-
-
 void MainWindow::on_CreateWallet_clicked()
 {
-
   //could create wallet from server generated tx file or send one with first transaction online account registration
-
-
+qDebug() <<  getHDserial(); //getPSN().toLatin1();
 //qDebug () << WordListGenerator(8,"./Resource/wordlists/english.txt");
+
+
+
 
 }
 

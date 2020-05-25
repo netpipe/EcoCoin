@@ -23,57 +23,7 @@ void MainWindow::on_randomSearch_clicked()
 }
 
 
-int MainWindow::getkeys(){ //for coldstorage server or standalone server which contains all the infos
 
-    qDebug() << "getting keys";
-    //if keys are stored in the local folder and checkout then use those
-
-    //verify md5sum of keys file from 2 or 3 locations possibly encrypted
-    //simple strings found on google have same md5sums or bruteforce could match it.
-    bool keyexists=0;
-    QString path;
-    if (ui->usbdrivename->text().toLatin1() != ""){
-        ListUSB();
-        QString path2;
-        path2 = usbpath.toLatin1()+"/keys.txt";
-        QFile MyFile2(path2);
-        if ( MyFile2.exists() ){        keyexists= true;        path = usbpath.toLatin1()+"/keys.txt";    }
-    } else {
-        QString path3;
-        path3 = "./keys.txt";
-        QFile MyFile3(path3);
-        if ( MyFile3.exists() ){    keyexists= true;   path = "./keys.txt"; }
-    }
-
-    QFile MyFile(path);
-
-    if(MyFile.exists() && keyexists ){
-    MyFile.open(QIODevice::ReadWrite);
-    QTextStream in (&MyFile);
-    QString line;
-    QStringList list;
-     //   QList<QString> nums;
-    QStringList nums;
-    QRegExp rx("[:]");
-    do {
-        line = in.readLine();
-        if (line.contains(":")) {
-            list = line.split(rx);
-            nums.append(list.at(1).toLatin1());
-        }
-    } while (!line.isNull());
-
-    masterkey=nums.at(0);
-    qDebug() << "masterkey" << masterkey;
-    coinkey=nums.at(1);
-    qDebug() << "coinkey" << coinkey;
-    return 1;
-
-    }else {
-        return 0;
-    }
-
-}
 
 void MainWindow::on_pushButtonInsertUser_clicked()
 {
@@ -145,44 +95,6 @@ void MainWindow::clientusbtxrx(){
 
 }
 
-void MainWindow::ListUSB(){
-    #ifdef STORAGE
-    //store and retrieve master encryption keys with this.
-
-//https://stackoverflow.com/questions/40035332/how-to-get-path-to-usb-drive-on-linux-in-qt
-    foreach (const QStorageInfo &storage, QStorageInfo::mountedVolumes()) {
-
-       qDebug() << storage.rootPath();
-
-//       QString storagestring=storage.rootPath();
-//       QRegExp rx("[/]");// match a comma or a space
-//       QStringList list2 = storagestring.split(rx);
-
-//      qDebug() << storagestring.at(3);
-       QString usbstring = ui->usbdrivename->text().toLatin1();
-
-        if (storage.rootPath().contains(usbstring)){
-        //   qDebug() << "yep" << "/n";
-            usbpath = storage.rootPath();
-
-            if (storage.isReadOnly())
-               qDebug() << "isReadOnly:" << storage.isReadOnly();
-
-//                qDebug() << "name:" << storage.name();
-//                qDebug() << "fileSystemType:" << storage.fileSystemType();
-//                qDebug() << "size:" << storage.bytesTotal()/1000/1000 << "MB";
-//                qDebug() << "availableSize:" << storage.bytesAvailable()/1000/1000 << "MB";
-        }
-     }
-
-    if (usbpath.toLatin1() == "")
-    {
-        QMessageBox Msgbox;
-            Msgbox.setText("drive not found: ");
-            Msgbox.exec();
-    }
-#endif
-}
 
 void MainWindow::searchyearly(QString ownerID)
 {

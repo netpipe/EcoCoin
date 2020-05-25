@@ -104,7 +104,9 @@ HEADERS  += mainwindow.h \
     src/Barcode/quirc/tests/inspect.h \
     src/admin.h \
     src/wallet.h \
-    src/email.h
+    src/email.h \
+    src/ssl.h \
+    src/devices.h
 
 
 FORMS    += mainwindow.ui
