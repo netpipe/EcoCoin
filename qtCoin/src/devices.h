@@ -169,6 +169,8 @@ int MainWindow::getkeys(){ //for coldstorage server or standalone server which c
         }
     } while (!line.isNull());
 
+
+    //remove debugs later for security
     QString test;
     masterkey=nums.at(0);
     qDebug() << "masterkey" << masterkey;
@@ -181,13 +183,16 @@ int MainWindow::getkeys(){ //for coldstorage server or standalone server which c
     //verify string hash
 
     QString testmd5 = md5Checksum("masterkey:"+ masterkey.toLatin1()+"coinkey:" +coinkey.toLatin1()+"coinsmd5:" + fileChecksum("coins.sqlite",QCryptographicHash::Md5)).toHex();
- qDebug() << "stringhash" << testmd5;
+    //qDebug() << "stringhash" << testmd5;
     if (test.toLatin1() == testmd5.toLatin1()){
        qDebug() << "md5's match";
     return 1;
 
     }else {
               qDebug() << "md5's no match";
+
+              masterkey="";
+              coinkey="";
         return 0;
     }
 }

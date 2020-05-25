@@ -140,12 +140,15 @@ void MainWindow::on_pushButtonInsertUser_clicked()
 
 void MainWindow::serverusbtxrx(){
     //automatic function to do rxtx from usb for cold storage
-    //export db's and overwrite if valid
 
+    //verify tx file apply
+
+    //export db's and overwrite if valid
 }
 
 void MainWindow::clientusbtxrx(){
-    //import db's and overwrite if valid
+    //import db's and overwrite if valid md5sums after copying yearly dbs and md5sums from server
+    //applying rx file to compare?
 
 }
 

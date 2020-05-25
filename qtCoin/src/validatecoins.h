@@ -35,15 +35,14 @@ void MainWindow::on_GenerateRequest_clicked()
         //generate purchase from server request
 
     }else{
-    //if admin then placecoins without generating rxfile
-    if (admin){
-        //verify keys
-    placeCoins( ui->receiveid->text().toLatin1(), ui->receiveammount->text().toLatin1());
-    }
-    else{
-    //    QString result = generateRXfile(mainID.toLatin1(),ui->receiveid->text().toLatin1(),ui->receiveammount->text().toLatin1());
 
-    }
+        if (admin){    //if admin then placecoins without generating rxfile
+            placeCoins( ui->receiveid->text().toLatin1(), ui->receiveammount->text().toLatin1());
+        }
+        else{
+            QString result = generateRXfile(mainID.toLatin1(),ui->receiveid->text().toLatin1(),ui->receiveammount->text().toLatin1());
+
+        }
     }
     //QString requeststring= ;
  //   generateRXfile();
@@ -88,6 +87,9 @@ int MainWindow::processRXTXfile(QString file){
     nums.at(2); // ammount
     nums.at(4); // md5sum
 
+    //client will be able to establish trust by providing a decrypt string
+    //public list of signed coins can be provided for offline verify
+
     //walletCoinInsert(QString ID,QString CoinAddress,QString Owner,QString cid,QString date)
 }
 
@@ -117,7 +119,12 @@ QString MainWindow::generateTXfile(QString suserid,QString ruserid,QString etxco
 
         file.close();
        }
-
+//       nums.at(0);  // sender
+//       nums.at(1);  // receiver
+       //ekey encrypted coins to verify sender to server also can be stored like that in others wallets
+//       nums.at(2); // ammount
+       //       nums.at(2); // datetime
+//       nums.at(4); // md5sum
        //append md5sum
 
 }

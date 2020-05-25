@@ -265,7 +265,7 @@ qDebug() << "validate coins";
     if(db.open())    {  qDebug()<<"Successful coin database connection";    }    else    {   qDebug()<<"Error: failed database connection";    }
     db.transaction();
 
-    QString query2 = "INSERT INTO ""'"+euserid.toLatin1()+"'""(origindex,addr,datetime,class) VALUES (?,?,1,0)";
+    QString query2 = "INSERT INTO ""'"+euserid.toLatin1()+"'""(origindex,addr,datetime,class,hold) VALUES (?,?,1,0,0)";
 
 //    qDebug() << query;
     QSqlQuery insert;
