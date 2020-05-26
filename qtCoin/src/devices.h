@@ -136,8 +136,6 @@ int MainWindow::getkeys(){ //for coldstorage server or standalone server which c
     qDebug() << "getting keys";
     //if keys are stored in the local folder and checkout then use those
 
-    //verify md5sum of keys file from 2 or 3 locations possibly encrypted
-    //simple strings found on google have same md5sums or bruteforce could match it.
     bool keyexists=0;
     QString path;
     if (ui->usbdrivename->text().toLatin1() != ""){
@@ -171,15 +169,35 @@ int MainWindow::getkeys(){ //for coldstorage server or standalone server which c
         }
     } while (!line.isNull());
 
+
+    //remove debugs later for security
+    QString test;
     masterkey=nums.at(0);
     qDebug() << "masterkey" << masterkey;
     coinkey=nums.at(1);
     qDebug() << "coinkey" << coinkey;
+    test=nums.at(2);
+    qDebug() << "coinsmd5" << test;
+    test=nums.at(3);
+    qDebug() << "stringhash" << test;
+    //verify string hash
+
+    QString testmd5 = md5Checksum("masterkey:"+ masterkey.toLatin1()+"coinkey:" +coinkey.toLatin1()+"coinsmd5:" + fileChecksum("coins.sqlite",QCryptographicHash::Md5)).toHex();
+    //qDebug() << "stringhash" << testmd5;
+    if (test.toLatin1() == testmd5.toLatin1()){
+       qDebug() << "md5's match";
     return 1;
 
     }else {
+              qDebug() << "md5's no match";
+
+              masterkey="";
+              coinkey="";
         return 0;
     }
+}
+    //verify md5sum of keys file from 2 or 3 locations possibly encrypted
+    //simple strings found on google have same md5sums or bruteforce could match it.
 
 }
 

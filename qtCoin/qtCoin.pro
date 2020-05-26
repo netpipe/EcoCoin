@@ -8,7 +8,7 @@ QT += core gui sql printsupport
 
 #emscripten
 linux {
-DEFINES += SOUND DBUS DOWNLOAD SMTP STORAGE
+DEFINES += SOUND DBUS DOWNLOAD SMTP STORAGE FTP zlib QUAZIP
 QT += multimedia svg dbus network
 CONFIG += barcodescan
 #unix:!macx:CONFIG += barcodescan
@@ -20,7 +20,7 @@ DEFINES += BARCODE
 }
 
 win32 {
-DEFINES += SOUND DBUS DOWNLOAD SMTP STORAGE
+DEFINES += SOUND DBUS DOWNLOAD SMTP STORAGE FTP zlib QUAZIP
 QT += multimedia svg dbus network
 CONFIG += barcodescan
 }
@@ -68,7 +68,45 @@ SOURCES += main.cpp\
     src/Barcode/quirc/lib/decode.c \
     src/Barcode/quirc/lib/identify.c \
     src/Barcode/quirc/lib/quirc.c \
-    src/Barcode/quirc/lib/version_db.c
+    src/Barcode/quirc/lib/version_db.c \
+    src/ftp-server/dataconnection.cpp \
+    src/ftp-server/debuglogdialog.cpp \
+    src/ftp-server/ftpcommand.cpp \
+    src/ftp-server/ftpcontrolconnection.cpp \
+    src/ftp-server/ftplistcommand.cpp \
+    src/ftp-server/ftpretrcommand.cpp \
+    src/ftp-server/ftpserver.cpp \
+    src/ftp-server/ftpstorcommand.cpp \
+    src/ftp-server/sslserver.cpp \
+    src/ftp-server/ftpgui.cpp \
+    src/quazip/JlCompress.cpp \
+    src/quazip/qioapi.cpp \
+    src/quazip/quaadler32.cpp \
+    src/quazip/quacrc32.cpp \
+    src/quazip/quagzipfile.cpp \
+    src/quazip/quaziodevice.cpp \
+    src/quazip/quazip.cpp \
+    src/quazip/quazipdir.cpp \
+    src/quazip/quazipfile.cpp \
+    src/quazip/quazipfileinfo.cpp \
+    src/quazip/quazipnewinfo.cpp \
+    src/quazip/unzip.c \
+    src/quazip/zip.c \
+    src/zlib/adler32.c \
+    src/zlib/compress.c \
+    src/zlib/crc32.c \
+    src/zlib/deflate.c \
+    src/zlib/gzclose.c \
+    src/zlib/gzlib.c \
+    src/zlib/gzread.c \
+    src/zlib/gzwrite.c \
+    src/zlib/infback.c \
+    src/zlib/inffast.c \
+    src/zlib/inflate.c \
+    src/zlib/inftrees.c \
+    src/zlib/trees.c \
+    src/zlib/uncompr.c \
+    src/zlib/zutil.c
 
 HEADERS  += mainwindow.h \
     src/qstylesheetmanager.h \
@@ -106,10 +144,49 @@ HEADERS  += mainwindow.h \
     src/wallet.h \
     src/email.h \
     src/ssl.h \
-    src/devices.h
+    src/devices.h \
+    src/ftp-server/dataconnection.h \
+    src/ftp-server/debuglogdialog.h \
+    src/ftp-server/ftpcommand.h \
+    src/ftp-server/ftpcontrolconnection.h \
+    src/ftp-server/ftplistcommand.h \
+    src/ftp-server/ftpretrcommand.h \
+    src/ftp-server/ftpserver.h \
+    src/ftp-server/ftpstorcommand.h \
+    src/ftp-server/sslserver.h \
+    src/ftp-server/ftpgui.h \
+    src/quazip/crypt.h \
+    src/quazip/ioapi.h \
+    src/quazip/JlCompress.h \
+    src/quazip/quaadler32.h \
+    src/quazip/quachecksum32.h \
+    src/quazip/quacrc32.h \
+    src/quazip/quagzipfile.h \
+    src/quazip/quaziodevice.h \
+    src/quazip/quazip.h \
+    src/quazip/quazipdir.h \
+    src/quazip/quazipfile.h \
+    src/quazip/quazipfileinfo.h \
+    src/quazip/quazip_global.h \
+    src/quazip/quazipnewinfo.h \
+    src/quazip/unzip.h \
+    src/quazip/zip.h \
+    src/zlib/crc32.h \
+    src/zlib/deflate.h \
+    src/zlib/gzguts.h \
+    src/zlib/inffast.h \
+    src/zlib/inffixed.h \
+    src/zlib/inflate.h \
+    src/zlib/inftrees.h \
+    src/zlib/trees.h \
+    src/zlib/zconf.h \
+    src/zlib/zlib.h \
+    src/zlib/zutil.h
 
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    src/ftp-server/debuglogdialog.ui \
+    src/ftp-server/ftpgui.ui
 
 RESOURCES +=
 

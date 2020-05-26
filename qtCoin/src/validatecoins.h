@@ -27,26 +27,22 @@ void MainWindow::on_generatetx_clicked()
     //generateTXfile()
 }
 
-
-
 void MainWindow::on_GenerateRequest_clicked()
 {
     //could be sent via smtp
-    //ui->receiveid.text().toLatin1()+ui->rece
-
-
 
     if ( ui->receiveid->text().toLatin1() == "" ){
         //generate purchase from server request
 
     }else{
-//if admin then placecoins without generating rxfile
-        //verify keys
-placeCoins( ui->receiveid->text().toLatin1(), ui->receiveammount->text().toLatin1());
 
-//else
-//    QString result = generateRXfile(mainID.toLatin1(),ui->receiveid->text().toLatin1(),ui->receiveammount->text().toLatin1());
+        if (admin){    //if admin then placecoins without generating rxfile
+            placeCoins( ui->receiveid->text().toLatin1(), ui->receiveammount->text().toLatin1());
+        }
+        else{
+            QString result = generateRXfile(mainID.toLatin1(),ui->receiveid->text().toLatin1(),ui->receiveammount->text().toLatin1());
 
+        }
     }
     //QString requeststring= ;
  //   generateRXfile();
@@ -91,6 +87,9 @@ int MainWindow::processRXTXfile(QString file){
     nums.at(2); // ammount
     nums.at(4); // md5sum
 
+    //client will be able to establish trust by providing a decrypt string
+    //public list of signed coins can be provided for offline verify
+
     //walletCoinInsert(QString ID,QString CoinAddress,QString Owner,QString cid,QString date)
 }
 
@@ -120,7 +119,12 @@ QString MainWindow::generateTXfile(QString suserid,QString ruserid,QString etxco
 
         file.close();
        }
-
+//       nums.at(0);  // sender
+//       nums.at(1);  // receiver
+       //use users ekey and encrypted public signedcoins list? encrypted coins to verify sender to server also can be stored like that in others wallets
+//       nums.at(2); // ammount
+       //       nums.at(2); // datetime
+//       nums.at(4); // md5sum
        //append md5sum
 
 }
@@ -161,7 +165,7 @@ QString MainWindow::generateRXfile(QString ruserid,QString suserid,QString etxco
 
 }
 
-QString MainWindow::validateCOINsign(QString coin,QString euserID){ // for getting coins from rcoins and placing into userid
+QString MainWindow::validateCOINsign(QString coin,QString userID){ // for getting coins from rcoins and placing into userid
     //used for signing coins with userid and password and index,datetime
     //encrypt coin during validation with user password then return coin address
 
@@ -172,13 +176,15 @@ QString MainWindow::validateCOINsign(QString coin,QString euserID){ // for getti
     QString datetime;
 
     // check if validating signed or unsigned coin
-    if (euserID.toLatin1() == ""){ // only check rcoins and coins
+    if (userID.toLatin1() == ""){ // only check rcoins and coins for unencrypted coins
         //check indexes match in coinsdb and rcoins
+
+
           db.setDatabaseName("coins.sqlite");
           db.open();
           db.transaction();
               QSqlQuery query4;
-              query4.exec("SELECT * FROM users WHERE name = " "'" + euserID.toLatin1() + "'" " AND addr = "+coin.toLatin1());
+              query4.exec("SELECT * FROM users WHERE name = " "'" + userID.toLatin1() + "'" " AND addr = "+coin.toLatin1());
               while (query4.next()) {
                //   yeardb = query.value(0).toInt();
                   qDebug() << "coin " << query4.value(0).toString();
@@ -203,19 +209,43 @@ QString MainWindow::validateCOINsign(QString coin,QString euserID){ // for getti
           db.close();
 
 
-    }else{        ///check user exists and get signing info
+    }else{        ///check user exists and get signing info to sign coins with
+qDebug() << "signing coin then getting another";
+        if (coin.length() > 8 ){ //if encrypted unsign coin
+            qDebug() << "encrypted coin during verify unsingning";
+            db.setDatabaseName("wallet.sqlite"); //search for signed coin in db then unsign for placement and resigning
+            db.open();
+                QSqlDatabase::database().transaction();
+                QSqlQuery query2;
+                query2.exec("SELECT * FROM users WHERE coin = ""'"+userID.toLatin1()+"'");
+                while (query2.next()) {
+                     //userid = query.value(1).; //not encrypted with user password
+                     ekey = query2.value(7).toString();
+                    password = query2.value(4).toString();
+                    datetime = query2.value(6).toString(); //datetime
+                    qDebug() << "user " << userID.toLatin1() << " pass " << password << "ekey " << ekey;
+                    //qDebug() << datetime;
+                  //  return yeardb;
+                }
+                QSqlDatabase::database().commit();
+            db.close();
 
+         //   signedcoin = simplecrypt(ecoinuser,ekey.toLatin1(),QCryptographicHash::Sha512);
+         //   QString ecoinuser =  simplecrypt(euserID.toLatin1(),ecoin.toLatin1(),QCryptographicHash::Sha512);
+         //   QString ecoin =  simplecrypt(signedcoin.toLatin1(),coinkey.toLatin1(),QCryptographicHash::Sha512);
+        }
+QString euserID;
     db.setDatabaseName("database.sqlite");
     db.open();
         QSqlDatabase::database().transaction();
         QSqlQuery query2;
-        query2.exec("SELECT * FROM users WHERE userid = ""'"+euserID.toLatin1()+"'");
+        query2.exec("SELECT * FROM users WHERE userid = ""'"+userID.toLatin1()+"'");
         while (query2.next()) {
-             //userid = query.value(1).; //not encrypted with user password
-             ekey = query2.value(7).toString();
+            euserID = query2.value(2).toString(); //not encrypted with user password
+            ekey = query2.value(7).toString();
             password = query2.value(4).toString();
             datetime = query2.value(6).toString(); //datetime
-            qDebug() << "user " << euserID.toLatin1() << " pass " << password << "ekey " << ekey;
+            qDebug() << "user " << userID.toLatin1() << " pass " << password << "ekey " << ekey;
             //qDebug() << datetime;
           //  return yeardb;
         }
@@ -248,9 +278,17 @@ QString MainWindow::validateCOINsign(QString coin,QString euserID){ // for getti
                 QString signedcoin=query3.value(0).toString(); //if not signing needs value
                // return query3.value(0).toString();
                 if (1){
-               QString ecoin =  simplecrypt(euserID,coinkey.toLatin1(),QCryptographicHash::Sha512);
-               signedcoin = simplecrypt(ecoin,ekey.toLatin1(),QCryptographicHash::Sha512);
+                    qDebug() << "coin: " << signedcoin.toLatin1();
+               QString ecoin =  simplecrypt(signedcoin.toLatin1(),coinkey.toLatin1(),QCryptographicHash::Sha512);
+
+               qDebug() << "signedcoin: " << signedcoin.toLatin1();
+               qDebug() << "coinkeysigned coin: " << ecoin.toLatin1();
+               QString ecoinuser =  simplecrypt(userID.toLatin1(),ecoin.toLatin1(),QCryptographicHash::Sha512);
+
+               qDebug() << "usersigned coin: " << ecoinuser.toLatin1();
+               signedcoin = simplecrypt(ecoinuser.toLatin1(),ekey.toLatin1(),QCryptographicHash::Sha512);
                }
+                qDebug() << "final usersigned coin: " << signedcoin.toLatin1();
                        db.close();
             return signedcoin;
            }

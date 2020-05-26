@@ -30,6 +30,9 @@ DownloadManager::DownloadManager()
 void DownloadManager::doDownload(const QUrl &url)
 {
     QNetworkRequest request(url);
+    //    url2.setPassword("12345");
+    //    url2.setUserName("user");
+
     QNetworkReply *reply = manager.get(request);
 
 //#if QT_CONFIG(ssl)

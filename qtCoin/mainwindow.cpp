@@ -17,8 +17,11 @@
 #include "src/admin.h"
 #include "src/wallet.h"
 #include "src/email.h"
-
-
+#include "src/ftp-server/ftpgui.h"
+#include "src/quazip/quazip.h"
+#include "src/quazip/quazipfile.h"
+#include "src/quazip/JlCompress.h"
+#include <QProcess>
 
 //references and links
 //https://doc.qt.io/qt-5/sql-sqlstatements.html
@@ -27,7 +30,7 @@
 //https://patents.google.com/patent/US3988571A/en
 
 //encrypt with usbdrivename
-
+FTPGUI *ftpgui;
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -100,21 +103,26 @@ MainWindow::MainWindow(QWidget *parent) :
 #endif
 
     if(getkeys() == 1){
-      //
+      admin=true;
     }else{ //testing
         QString tester1 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
         masterkey = GetRandomString(12,tester1.toLatin1());
         coinkey = "testing1234567";
     }
 
-    int tabindex=1;
+    QFile walletdb("wallet.sqlite");    if(walletdb.exists())    {        walletexists=true;   }    walletdb.close();
+    if (!admin && walletexists){
+        //set to client mode
+    tabindex=1;
     removedTab = ui->app->widget(tabindex);
     AddRemoveTab(ui->admintab,"Admin",tabindex);
-    AddRemoveTab(ui->admintab,"Admin",tabindex);
+   // AddRemoveTab(ui->admintab,"Admin",tabindex);
+    }else{
+
+    }
 
         //if client only mode
   //  ui->createtime->setTime(starttime);
-
 }
 
 
@@ -123,6 +131,7 @@ MainWindow::~MainWindow()
     delete ui;
     //QSqlDatabase::removeDatabase( QSqlDatabase::defaultConnection );
 }
+
 
 void MainWindow::playsound(QString test){
 #ifdef SOUND
@@ -161,6 +170,54 @@ void MainWindow::AddRemoveTab(QWidget *tab,QString name,int tabindex){
 //        }
     }
 }
+
+void MainWindow::Compress(QString filename , QString ofilename)
+{
+#ifdef QUAZIP
+    QString saveFile = QFileDialog::getSaveFileName(this, "Select file to save","", "Zip File(*.zip)");
+    QStringList list;
+    if(JlCompress::compressFiles(saveFile, list)){
+    }
+#endif
+//   QFile infile(filename);
+//   QFile outfile(ofilename);
+//   infile.open(QIODevice::ReadOnly);
+//   outfile.open(QIODevice::WriteOnly);
+//   QByteArray uncompressed_data = infile.readAll();
+//   QByteArray compressed_data = qCompress(uncompressed_data, 9);
+//   outfile.write(compressed_data);
+//   infile.close();
+//   outfile.close();
+}
+
+void MainWindow::unCompress(QString filename , QString ofilename)
+{
+    #ifdef QUAZIP
+    QString zipFile = "";// ui->editZipFilePath->text();
+    if(zipFile == "")
+        return;
+
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
+                                                      "",
+                                                      QFileDialog::ShowDirsOnly
+                                                      | QFileDialog::DontResolveSymlinks);
+    if(dir == "")
+        return;
+
+    QStringList list = JlCompress::getFileList(zipFile);
+    JlCompress::extractFiles(zipFile, list, dir);
+#endif
+//   QFile infile(filename);
+//   QFile outfile(ofilename);
+//   infile.open(QIODevice::ReadOnly);
+//   outfile.open(QIODevice::WriteOnly);
+//   QByteArray uncompressed_data = infile.readAll();
+//   QByteArray compressed_data = qUncompress(uncompressed_data);
+//   outfile.write(compressed_data);
+//   infile.close();
+//   outfile.close();
+}
+
 void MainWindow::on_actionSyncUSB_triggered()
 {
     ListUSB();
@@ -210,7 +267,7 @@ void MainWindow::on_test_clicked()
 
 void MainWindow::on_saveuserinfo_clicked()
 {
-
+//doDownload("ftp://127.0.0.1/");
 }
 
 void MainWindow::on_placeCoinsopenfile_clicked()
@@ -267,3 +324,22 @@ void MainWindow::on_addresssearch_clicked()
 }
 
 
+
+void MainWindow::on_adminmode_clicked()
+{
+    // if no multiple wallet support then warn user it will erase wallet and to back it up to safe location
+
+    AddRemoveTab(ui->admintab,"Admin",tabindex);
+
+}
+
+void MainWindow::on_ftpserver_clicked()
+{
+#ifdef FTP
+    if (adminftp==0){
+    ftpgui = new FTPGUI;
+    adminftp=1;
+    }
+    if (adminftp) {ftpgui->show();}
+#endif
+}

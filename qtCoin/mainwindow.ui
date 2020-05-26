@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1018</width>
-    <height>534</height>
+    <height>570</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -31,7 +31,7 @@
         <item row="0" column="0">
          <widget class="QTabWidget" name="tabWidget">
           <property name="currentIndex">
-           <number>2</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="tab_5">
            <attribute name="title">
@@ -774,6 +774,13 @@
               </property>
              </widget>
             </item>
+            <item row="2" column="0">
+             <widget class="QPushButton" name="adminmode">
+              <property name="text">
+               <string>GenerateCoinMode ( not for clients )</string>
+              </property>
+             </widget>
+            </item>
            </layout>
           </widget>
          </widget>
@@ -788,7 +795,7 @@
         <item row="0" column="1">
          <widget class="QTabWidget" name="tabWidget_3">
           <property name="currentIndex">
-           <number>1</number>
+           <number>4</number>
           </property>
           <widget class="QWidget" name="tab_8">
            <attribute name="title">
@@ -1557,6 +1564,24 @@
              </widget>
             </item>
            </layout>
+          </widget>
+          <widget class="QWidget" name="tab_6">
+           <attribute name="title">
+            <string>FTP Server</string>
+           </attribute>
+           <widget class="QPushButton" name="ftpserver">
+            <property name="geometry">
+             <rect>
+              <x>300</x>
+              <y>120</y>
+              <width>88</width>
+              <height>28</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>ftpserver</string>
+            </property>
+           </widget>
           </widget>
          </widget>
         </item>

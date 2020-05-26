@@ -140,12 +140,15 @@ void MainWindow::on_pushButtonInsertUser_clicked()
 
 void MainWindow::serverusbtxrx(){
     //automatic function to do rxtx from usb for cold storage
-    //export db's and overwrite if valid
 
+    //verify tx file apply
+
+    //export db's and overwrite if valid
 }
 
 void MainWindow::clientusbtxrx(){
-    //import db's and overwrite if valid
+    //import db's and overwrite if valid md5sums after copying yearly dbs and md5sums from server
+    //applying rx file to compare?
 
 }
 
@@ -213,7 +216,8 @@ void MainWindow::createyearly(QString eownerID)
                     "origindex VARCHAR(100)," //rcoins index then coins.sqlite is stored on usbdrive as part of key/verify
                     "addr VARCHAR(100),"
                     "datetime INTEGER,"
-                    "class INTEGER"
+                    "class INTEGER,"
+                    "hold INTEGER"
                     ");");
 
 
