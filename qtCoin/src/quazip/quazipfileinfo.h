@@ -1,6 +1,6 @@
 #ifndef QUA_ZIPFILEINFO_H
 #define QUA_ZIPFILEINFO_H
-
+#ifdef QUAZIP
 /*
 Copyright (C) 2005-2014 Sergey A. Tachenov
 
@@ -175,4 +175,5 @@ struct QUAZIP_EXPORT QuaZipFileInfo64 {
   bool isEncrypted() const {return (flags & 1) != 0;}
 };
 
+#endif
 #endif

@@ -1,6 +1,6 @@
 #ifndef QUAZIP_QUAGZIPFILE_H
 #define QUAZIP_QUAGZIPFILE_H
-
+#ifdef QUAZIP
 /*
 Copyright (C) 2005-2014 Sergey A. Tachenov
 
@@ -106,3 +106,4 @@ private:
 };
 
 #endif // QUAZIP_QUAGZIPFILE_H
+#endif

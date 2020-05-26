@@ -26,7 +26,7 @@
    http://www.winzip.com/aes_info.htm ) and PKWare PKZip 5.x Strong
    Encryption is not supported.
 */
-
+#ifdef QUAZIP
 #include "quazip_global.h"
 
 #define CRC32(c, b) ((*(pcrc_32_tab+(((int)(c) ^ (b)) & 0xff))) ^ ((c) >> 8))
@@ -132,4 +132,5 @@ static int crypthead(passwd, buf, bufSize, pkeys, pcrc_32_tab, crcForCrypting)
     return n;
 }
 
+#endif
 #endif

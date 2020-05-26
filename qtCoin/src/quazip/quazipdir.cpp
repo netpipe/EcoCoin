@@ -21,7 +21,7 @@ See COPYING file for the full LGPL text.
 Original ZIP package is copyrighted by Gilles Vollant and contributors,
 see quazip/(un)zip.h files for details. Basically it's the zlib license.
 */
-
+#ifdef QUAZIP
 #include "quazipdir.h"
 
 #include <QSet>
@@ -565,3 +565,4 @@ QDir::SortFlags QuaZipDir::sorting() const
 {
     return d->sorting;
 }
+#endif

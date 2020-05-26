@@ -2,7 +2,7 @@
  * Copyright (C) 1995-2003, 2010, 2014, 2016 Jean-loup Gailly, Mark Adler
  * For conditions of distribution and use, see copyright notice in zlib.h
  */
-
+#ifdef zlib
 /* @(#) $Id$ */
 
 #define ZLIB_INTERNAL
@@ -91,3 +91,4 @@ int ZEXPORT uncompress (dest, destLen, source, sourceLen)
 {
     return uncompress2(dest, destLen, source, &sourceLen);
 }
+#endif

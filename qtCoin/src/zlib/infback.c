@@ -9,7 +9,7 @@
    with inffast.c is retained so that optimized assembler-coded versions of
    inflate_fast() can be used with either inflate.c or infback.c.
  */
-
+#ifdef zlib
 #include "zutil.h"
 #include "inftrees.h"
 #include "inflate.h"
@@ -638,3 +638,4 @@ z_streamp strm;
     Tracev((stderr, "inflate: end\n"));
     return Z_OK;
 }
+#endif

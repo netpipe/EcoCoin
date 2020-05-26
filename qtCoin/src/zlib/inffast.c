@@ -2,7 +2,7 @@
  * Copyright (C) 1995-2017 Mark Adler
  * For conditions of distribution and use, see copyright notice in zlib.h
  */
-
+#ifdef zlib
 #include "zutil.h"
 #include "inftrees.h"
 #include "inflate.h"
@@ -321,3 +321,4 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
  */
 
 #endif /* !ASMINF */
+#endif

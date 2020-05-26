@@ -1,6 +1,6 @@
 #ifndef QUACHECKSUM32_H
 #define QUACHECKSUM32_H
-
+#ifdef QUAZIP
 /*
 Copyright (C) 2005-2014 Sergey A. Tachenov
 
@@ -76,3 +76,4 @@ public:
 };
 
 #endif //QUACHECKSUM32_H
+#endif

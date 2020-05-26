@@ -2,7 +2,7 @@
  * Copyright (C) 1995-2005, 2014, 2016 Jean-loup Gailly, Mark Adler
  * For conditions of distribution and use, see copyright notice in zlib.h
  */
-
+#ifdef zlib
 /* @(#) $Id$ */
 
 #define ZLIB_INTERNAL
@@ -84,3 +84,4 @@ uLong ZEXPORT compressBound (sourceLen)
     return sourceLen + (sourceLen >> 12) + (sourceLen >> 14) +
            (sourceLen >> 25) + 13;
 }
+#endif

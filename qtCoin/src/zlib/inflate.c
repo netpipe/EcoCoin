@@ -2,7 +2,7 @@
  * Copyright (C) 1995-2016 Mark Adler
  * For conditions of distribution and use, see copyright notice in zlib.h
  */
-
+#ifdef zlib
 /*
  * Change history:
  *
@@ -1559,3 +1559,4 @@ z_streamp strm;
     state = (struct inflate_state FAR *)strm->state;
     return (unsigned long)(state->next - state->codes);
 }
+#endif

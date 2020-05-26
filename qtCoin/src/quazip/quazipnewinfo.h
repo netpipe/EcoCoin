@@ -1,6 +1,6 @@
 #ifndef QUA_ZIPNEWINFO_H
 #define QUA_ZIPNEWINFO_H
-
+#ifdef QUAZIP
 /*
 Copyright (C) 2005-2014 Sergey A. Tachenov
 
@@ -204,4 +204,5 @@ struct QUAZIP_EXPORT QuaZipNewInfo {
   void setFileNTFScTime(const QDateTime &cTime, int fineTicks = 0);
 };
 
+#endif
 #endif

@@ -44,7 +44,7 @@
   by Sergey A. Tachenov. Most modifications include the I/O API redesign
   to support QIODevice interface. Some improvements and small fixes were also made.
 */
-
+#ifdef QUAZIP
 #ifndef _unz64_H
 #define _unz64_H
 
@@ -456,3 +456,4 @@ extern int ZEXPORT unzClearFlags(unzFile file, unsigned flags);
 #endif
 
 #endif /* _unz64_H */
+#endif

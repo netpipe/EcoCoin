@@ -1,6 +1,6 @@
 #ifndef QUAZIP_QUAZIODEVICE_H
 #define QUAZIP_QUAZIODEVICE_H
-
+#ifdef QUAZIP
 /*
 Copyright (C) 2005-2014 Sergey A. Tachenov
 
@@ -100,3 +100,4 @@ private:
   QuaZIODevicePrivate *d;
 };
 #endif // QUAZIP_QUAZIODEVICE_H
+#endif

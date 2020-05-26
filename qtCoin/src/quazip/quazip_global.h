@@ -1,6 +1,6 @@
 #ifndef QUAZIP_GLOBAL_H
 #define QUAZIP_GLOBAL_H
-
+#ifdef QUAZIP
 /*
 Copyright (C) 2005-2014 Sergey A. Tachenov
 
@@ -57,3 +57,4 @@ see quazip/(un)zip.h files for details. Basically it's the zlib license.
 #define QUAZIP_EXTRA_NTFS_TIME_MAGIC 0x0001u
 
 #endif // QUAZIP_GLOBAL_H
+#endif

@@ -66,7 +66,7 @@
 
 */
 
-
+#ifdef QUAZIP
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -2145,3 +2145,4 @@ int ZEXPORT unzClearFlags(unzFile file, unsigned flags)
     s->flags &= ~flags;
     return UNZ_OK;
 }
+#endif

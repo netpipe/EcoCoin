@@ -42,7 +42,7 @@
   to support QIODevice interface. Some improvements and small fixes were also made.
 
 */
-
+#ifdef QUAZIP
 #ifndef _zip12_H
 #define _zip12_H
 
@@ -388,3 +388,4 @@ extern int ZEXPORT zipClearFlags(zipFile file, unsigned flags);
 #endif
 
 #endif /* _zip64_H */
+#endif

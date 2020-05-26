@@ -22,7 +22,7 @@ See COPYING file for the full LGPL text.
 Original ZIP package is copyrighted by Gilles Vollant and contributors,
 see quazip/(un)zip.h files for details. Basically it's the zlib license.
 */
-
+#ifdef QUAZIP
 #include "JlCompress.h"
 #include <QDebug>
 
@@ -442,3 +442,4 @@ QStringList JlCompress::extractFiles(QIODevice *ioDevice, QStringList files, QSt
     QuaZip zip(ioDevice);
     return extractFiles(zip, files, dir);
 } 
+#endif

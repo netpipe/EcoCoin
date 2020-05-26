@@ -1,6 +1,6 @@
 #ifndef QUAZIP_QUAZIPDIR_H
 #define QUAZIP_QUAZIPDIR_H
-
+#ifdef QUAZIP
 /*
 Copyright (C) 2005-2014 Sergey A. Tachenov
 
@@ -221,3 +221,4 @@ public:
 };
 
 #endif // QUAZIP_QUAZIPDIR_H
+#endif

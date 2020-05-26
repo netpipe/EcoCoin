@@ -1,6 +1,6 @@
 #ifndef JLCOMPRESSFOLDER_H_
 #define JLCOMPRESSFOLDER_H_
-
+#ifdef QUAZIP
 /*
 Copyright (C) 2010 Roberto Pompermaier
 Copyright (C) 2005-2016 Sergey A. Tachenov
@@ -195,3 +195,4 @@ public:
 };
 
 #endif /* JLCOMPRESSFOLDER_H_ */
+#endif

@@ -173,12 +173,12 @@ void MainWindow::AddRemoveTab(QWidget *tab,QString name,int tabindex){
 
 void MainWindow::Compress(QString filename , QString ofilename)
 {
-
+#ifdef QUAZIP
     QString saveFile = QFileDialog::getSaveFileName(this, "Select file to save","", "Zip File(*.zip)");
     QStringList list;
     if(JlCompress::compressFiles(saveFile, list)){
     }
-
+#endif
 //   QFile infile(filename);
 //   QFile outfile(ofilename);
 //   infile.open(QIODevice::ReadOnly);
@@ -192,6 +192,7 @@ void MainWindow::Compress(QString filename , QString ofilename)
 
 void MainWindow::unCompress(QString filename , QString ofilename)
 {
+    #ifdef QUAZIP
     QString zipFile = "";// ui->editZipFilePath->text();
     if(zipFile == "")
         return;
@@ -205,7 +206,7 @@ void MainWindow::unCompress(QString filename , QString ofilename)
 
     QStringList list = JlCompress::getFileList(zipFile);
     JlCompress::extractFiles(zipFile, list, dir);
-
+#endif
 //   QFile infile(filename);
 //   QFile outfile(ofilename);
 //   infile.open(QIODevice::ReadOnly);

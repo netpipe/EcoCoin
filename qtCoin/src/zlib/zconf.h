@@ -4,7 +4,7 @@
  */
 
 /* @(#) $Id$ */
-
+#ifdef zlib
 #ifndef ZCONF_H
 #define ZCONF_H
 
@@ -532,3 +532,4 @@ typedef uLong FAR uLongf;
 #endif
 
 #endif /* ZCONF_H */
+#endif

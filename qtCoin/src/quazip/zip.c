@@ -23,7 +23,7 @@
    Jan-2010 - back to unzip and minizip 1.0 name scheme, with compatibility layer
 
 */
-
+#ifdef QUAZIP
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -2095,3 +2095,4 @@ int ZEXPORT zipClearFlags(zipFile file, unsigned flags)
     }
     return ZIP_OK;
 }
+#endif

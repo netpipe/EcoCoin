@@ -21,7 +21,7 @@ See COPYING file for the full LGPL text.
 Original ZIP package is copyrighted by Gilles Vollant, see
 quazip/(un)zip.h files for details, basically it's zlib license.
  **/
-
+#ifdef QUAZIP
 #include "quazipfile.h"
 
 using namespace std;
@@ -529,3 +529,4 @@ qint64 QuaZipFile::bytesAvailable() const
 {
     return size() - pos();
 }
+#endif

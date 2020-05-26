@@ -1,3 +1,4 @@
+#ifdef zlib
 /* gzguts.h -- zlib internal header definitions for gz* operations
  * Copyright (C) 2004, 2005, 2010, 2011, 2012, 2013, 2016 Mark Adler
  * For conditions of distribution and use, see copyright notice in zlib.h
@@ -215,4 +216,5 @@ char ZLIB_INTERNAL *gz_strwinerror OF((DWORD error));
 #else
 unsigned ZLIB_INTERNAL gz_intmax OF((void));
 #  define GT_OFF(x) (sizeof(int) == sizeof(z_off64_t) && (x) > gz_intmax())
+#endif
 #endif

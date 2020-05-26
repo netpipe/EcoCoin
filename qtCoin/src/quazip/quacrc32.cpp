@@ -21,7 +21,7 @@ See COPYING file for the full LGPL text.
 Original ZIP package is copyrighted by Gilles Vollant and contributors,
 see quazip/(un)zip.h files for details. Basically it's the zlib license.
 */
-
+#ifdef QUAZIP
 #include "quacrc32.h"
 
 #include "zlib.h"
@@ -50,3 +50,4 @@ quint32 QuaCrc32::value()
 {
 	return checksum;
 }
+#endif

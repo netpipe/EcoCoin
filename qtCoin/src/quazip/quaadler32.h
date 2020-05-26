@@ -1,6 +1,6 @@
 #ifndef QUAADLER32_H
 #define QUAADLER32_H
-
+#ifdef QUAZIP
 /*
 Copyright (C) 2010 Adam Walczak
 Copyright (C) 2005-2014 Sergey A. Tachenov
@@ -52,3 +52,4 @@ private:
 };
 
 #endif //QUAADLER32_H
+#endif

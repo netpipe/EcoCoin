@@ -1,6 +1,6 @@
 #ifndef QUA_ZIPFILE_H
 #define QUA_ZIPFILE_H
-
+#ifdef QUAZIP
 /*
 Copyright (C) 2005-2014 Sergey A. Tachenov
 
@@ -453,4 +453,5 @@ class QUAZIP_EXPORT QuaZipFile: public QIODevice {
     virtual qint64 bytesAvailable() const;
 };
 
+#endif
 #endif

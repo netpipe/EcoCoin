@@ -21,7 +21,7 @@ See COPYING file for the full LGPL text.
 Original ZIP package is copyrighted by Gilles Vollant and contributors,
 see quazip/(un)zip.h files for details. Basically it's the zlib license.
 */
-
+#ifdef QUAZIP
 #include "quaziodevice.h"
 
 #define QUAZIO_INBUFSIZE 4096
@@ -337,3 +337,4 @@ qint64 QuaZIODevice::bytesAvailable() const
     // Plus whatever QIODevice has buffered.
     return (d->atEnd ? 0 : 1) + QIODevice::bytesAvailable();
 }
+#endif

@@ -3,7 +3,7 @@
  * detect_data_type() function provided freely by Cosmin Truta, 2006
  * For conditions of distribution and use, see copyright notice in zlib.h
  */
-
+#ifdef zlib
 /*
  *  ALGORITHM
  *
@@ -1201,3 +1201,4 @@ local void bi_windup(s)
     s->bits_sent = (s->bits_sent+7) & ~7;
 #endif
 }
+#endif

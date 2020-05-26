@@ -2,7 +2,7 @@
  * Copyright (C) 1995-2017 Mark Adler
  * For conditions of distribution and use, see copyright notice in zlib.h
  */
-
+#ifdef zlib
 #include "zutil.h"
 #include "inftrees.h"
 
@@ -302,3 +302,4 @@ unsigned short FAR *work;
     *bits = root;
     return 0;
 }
+#endif

@@ -19,7 +19,7 @@
                           (but you should use iowin32.c for windows instead)
 
 */
-
+#ifdef QUAZIP
 #ifndef _ZLIBIOAPI64_H
 #define _ZLIBIOAPI64_H
 
@@ -204,4 +204,5 @@ void    fill_zlib_filefunc64_32_def_from_filefunc32(zlib_filefunc64_32_def* p_fi
 }
 #endif
 
+#endif
 #endif

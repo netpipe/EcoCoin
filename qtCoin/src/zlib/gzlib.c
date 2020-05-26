@@ -2,7 +2,7 @@
  * Copyright (C) 2004-2017 Mark Adler
  * For conditions of distribution and use, see copyright notice in zlib.h
  */
-
+#ifdef zlib
 #include "gzguts.h"
 
 #if defined(_WIN32) && !defined(__BORLANDC__) && !defined(__MINGW32__)
@@ -634,4 +634,5 @@ unsigned ZLIB_INTERNAL gz_intmax()
     } while (p > q);
     return q >> 1;
 }
+#endif
 #endif

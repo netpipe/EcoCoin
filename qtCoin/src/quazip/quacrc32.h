@@ -1,6 +1,6 @@
 #ifndef QUACRC32_H
 #define QUACRC32_H
-
+#ifdef QUAZIP
 /*
 Copyright (C) 2005-2014 Sergey A. Tachenov
 
@@ -48,3 +48,4 @@ private:
 };
 
 #endif //QUACRC32_H
+#endif

@@ -7,7 +7,7 @@
 
    Modified by Sergey A. Tachenov to integrate with Qt.
 */
-
+#ifdef QUAZIP
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -361,3 +361,4 @@ void fill_zlib_filefunc64_32_def_from_filefunc32(zlib_filefunc64_32_def* p_filef
     p_filefunc64_32->zseek32_file = p_filefunc32->zseek_file;
     p_filefunc64_32->ztell32_file = p_filefunc32->ztell_file;
 }
+#endif

@@ -2,7 +2,7 @@
  * Copyright (C) 2004, 2005, 2010, 2011, 2012, 2013, 2016 Mark Adler
  * For conditions of distribution and use, see copyright notice in zlib.h
  */
-
+#ifdef zlib
 #include "gzguts.h"
 
 /* Local functions */
@@ -652,3 +652,4 @@ int ZEXPORT gzclose_r(file)
     free(state);
     return ret ? Z_ERRNO : err;
 }
+#endif

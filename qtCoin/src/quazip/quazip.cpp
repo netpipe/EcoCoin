@@ -21,7 +21,7 @@ See COPYING file for the full LGPL text.
 Original ZIP package is copyrighted by Gilles Vollant, see
 quazip/(un)zip.h files for details, basically it's zlib license.
  **/
-
+#ifdef QUAZIP
 #include <QFile>
 #include <QFlags>
 #include <QHash>
@@ -793,3 +793,4 @@ void QuaZip::setAutoClose(bool autoClose) const
 {
     p->autoClose = autoClose;
 }
+#endif
