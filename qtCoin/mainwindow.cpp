@@ -116,13 +116,8 @@ MainWindow::MainWindow(QWidget *parent) :
     AddRemoveTab(ui->admintab,"Admin",tabindex);
    // AddRemoveTab(ui->admintab,"Admin",tabindex);
     }else{
-            ftpgui = new FTPGUI;
-        int adminftp=0;
-            if (adminftp) {ftpgui->show();}
+
     }
-
-
-
 
         //if client only mode
   //  ui->createtime->setTime(starttime);
@@ -173,6 +168,33 @@ void MainWindow::AddRemoveTab(QWidget *tab,QString name,int tabindex){
 //        }
     }
 }
+
+void MainWindow::Compress(QString filename , QString ofilename)
+{
+   QFile infile(filename);
+   QFile outfile(ofilename);
+   infile.open(QIODevice::ReadOnly);
+   outfile.open(QIODevice::WriteOnly);
+   QByteArray uncompressed_data = infile.readAll();
+   QByteArray compressed_data = qCompress(uncompressed_data, 9);
+   outfile.write(compressed_data);
+   infile.close();
+   outfile.close();
+}
+
+void MainWindow::unCompress(QString filename , QString ofilename)
+{
+   QFile infile(filename);
+   QFile outfile(ofilename);
+   infile.open(QIODevice::ReadOnly);
+   outfile.open(QIODevice::WriteOnly);
+   QByteArray uncompressed_data = infile.readAll();
+   QByteArray compressed_data = qUncompress(uncompressed_data);
+   outfile.write(compressed_data);
+   infile.close();
+   outfile.close();
+}
+
 void MainWindow::on_actionSyncUSB_triggered()
 {
     ListUSB();
@@ -286,4 +308,15 @@ void MainWindow::on_adminmode_clicked()
 
     AddRemoveTab(ui->admintab,"Admin",tabindex);
 
+}
+
+void MainWindow::on_ftpserver_clicked()
+{
+#ifdef FTP
+    if (adminftp==0){
+    ftpgui = new FTPGUI;
+    adminftp=1;
+    }
+    if (adminftp) {ftpgui->show();}
+#endif
 }

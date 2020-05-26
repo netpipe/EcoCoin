@@ -114,7 +114,9 @@ public:
     void playsound(QString);
     void AddRemoveTab(QWidget *tab,QString,int tabname);
     QWidget * removedTab;
-
+    void unCompress(QString filename , QString ofilename);
+    void Compress(QString filename , QString ofilename);
+int adminftp=0;
     //encryption
     QString encryptxor(QString test,QString key);
     QString decryptxor(QString string,QString key);
@@ -237,6 +239,8 @@ private slots:
     void on_addUserQR_clicked();
 
     void on_adminmode_clicked();
+
+    void on_ftpserver_clicked();
 
 private:
     Ui::MainWindow *ui;

@@ -43,7 +43,7 @@ FTPGUI::FTPGUI(QWidget *parent)
 
     loadSettings();
     server = 0;
-    startServer();
+ //   startServer();
 }
 
 FTPGUI::~FTPGUI()
@@ -112,20 +112,19 @@ void FTPGUI::loadSettings()
     // UNIX-derived systems such as Linux and Android don't allow access to
     // port 21 for non-root programs, so we will use port 2121 instead.
     QString defaultPort;
-#if defined(Q_OS_UNIX)
+
     defaultPort = "8258";
-#else
-    defaultPort = "21";
-#endif
+
+ //   defaultPort = "21";
 
     QSettings settings;
     ui->lineEditPort->setText(settings.value("settings/port", defaultPort).toString());
     ui->lineEditUserName->setText(settings.value("settings/username", "admin").toString());
     ui->lineEditPassword->setText(settings.value("settings/password", "qt").toString());
-    ui->lineEditRootPath->setText(settings.value("settings/rootpath", QDir::currentPath()).toString());
+    ui->lineEditRootPath->setText(settings.value("settings/rootpath", QDir::currentPath()).toString()+"/db");
     ui->checkBoxAnonymous->setChecked(settings.value("settings/anonymous", false).toBool());
     ui->checkBoxReadOnly->setChecked(settings.value("settings/readonly", false).toBool());
-    ui->checkBoxOnlyOneIpAllowed->setChecked(settings.value("settings/oneip", true).toBool());
+    ui->checkBoxOnlyOneIpAllowed->setChecked(settings.value("settings/oneip", false).toBool());
 }
 
 void FTPGUI::saveSettings()
