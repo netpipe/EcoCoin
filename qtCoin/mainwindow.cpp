@@ -17,6 +17,7 @@
 #include "src/admin.h"
 #include "src/wallet.h"
 #include "src/email.h"
+#include "src/ftp-server/ftpgui.h"
 
 
 
@@ -27,7 +28,7 @@
 //https://patents.google.com/patent/US3988571A/en
 
 //encrypt with usbdrivename
-
+FTPGUI *ftpgui;
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -114,7 +115,15 @@ MainWindow::MainWindow(QWidget *parent) :
     removedTab = ui->app->widget(tabindex);
     AddRemoveTab(ui->admintab,"Admin",tabindex);
    // AddRemoveTab(ui->admintab,"Admin",tabindex);
+    }else{
+            ftpgui = new FTPGUI;
+        int adminftp=0;
+            if (adminftp) {ftpgui->show();}
     }
+
+
+
+
         //if client only mode
   //  ui->createtime->setTime(starttime);
 }

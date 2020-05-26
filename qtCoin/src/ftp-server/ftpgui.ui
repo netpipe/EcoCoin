@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>FTPGUI</class>
+ <widget class="QDialog" name="FTPGUI">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>663</width>
+    <height>362</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>78</y>
+     <width>64</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Password:</string>
+   </property>
+  </widget>
+  <widget class="QToolButton" name="toolButtonBrowse">
+   <property name="geometry">
+    <rect>
+     <x>197</x>
+     <y>117</y>
+     <width>21</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>...</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>114</y>
+     <width>64</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Root path:</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonShowDebugLog">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>277</y>
+     <width>188</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Debug Console</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>42</y>
+     <width>64</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>User:</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonExit">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>311</y>
+     <width>188</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditRootPath">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>114</y>
+     <width>91</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>./</string>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonRestartServer">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>243</y>
+     <width>188</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Restart FTP Server</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>6</y>
+     <width>64</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Port:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditPort">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>6</y>
+     <width>118</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>21</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditPassword">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>78</y>
+     <width>118</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>test</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditUserName">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>42</y>
+     <width>118</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>admin</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="checkBoxReadOnly">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>179</y>
+     <width>188</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Read-only</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="checkBoxOnlyOneIpAllowed">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>208</y>
+     <width>188</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Only one IP allowed</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="checkBoxAnonymous">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>150</y>
+     <width>188</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Allow anonymous login</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="statusBar">
+   <property name="geometry">
+    <rect>
+     <x>280</x>
+     <y>20</y>
+     <width>351</width>
+     <height>30</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

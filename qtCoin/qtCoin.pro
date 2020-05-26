@@ -78,8 +78,7 @@ SOURCES += main.cpp\
     src/ftp-server/ftpserver.cpp \
     src/ftp-server/ftpstorcommand.cpp \
     src/ftp-server/sslserver.cpp \
-    src/ftp-server/mainwindow2.cpp \
-    src/ftp-server/mainwindow2.cpp
+    src/ftp-server/ftpgui.cpp
 
 HEADERS  += mainwindow.h \
     src/qstylesheetmanager.h \
@@ -127,13 +126,12 @@ HEADERS  += mainwindow.h \
     src/ftp-server/ftpserver.h \
     src/ftp-server/ftpstorcommand.h \
     src/ftp-server/sslserver.h \
-    src/ftp-server/mainwindow2.h \
-    src/ftp-server/mainwindow2.h
+    src/ftp-server/ftpgui.h
 
 
 FORMS    += mainwindow.ui \
     src/ftp-server/debuglogdialog.ui \
-    src/ftp-server/mainwindow2.ui
+    src/ftp-server/ftpgui.ui
 
 RESOURCES +=
 
