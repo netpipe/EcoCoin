@@ -1,3 +1,4 @@
+#ifdef FTP
 #include "ftpgui.h"
 #include "ui_ftpgui.h"
 #include "ftpserver.h"
@@ -215,3 +216,4 @@ void FTPGUI::on_pushButtonExit_clicked()
 {
     close();
 }
+#endif

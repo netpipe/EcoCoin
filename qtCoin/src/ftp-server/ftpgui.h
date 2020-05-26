@@ -1,3 +1,4 @@
+#ifdef FTP
 #ifndef FTPGUI_H
 #define FTPGUI_H
 
@@ -58,3 +59,4 @@ private:
 };
 
 #endif // FTPGUI_H
+#endif
