@@ -18,10 +18,8 @@
 #include "src/wallet.h"
 #include "src/email.h"
 #include "src/ftp-server/ftpgui.h"
-#include "src/quazip/quazip.h"
-#include "src/quazip/quazipfile.h"
-#include "src/quazip/JlCompress.h"
-#include <QProcess>
+
+//#include <QProcess>
 
 //references and links
 //https://doc.qt.io/qt-5/sql-sqlstatements.html
@@ -169,53 +167,6 @@ void MainWindow::AddRemoveTab(QWidget *tab,QString name,int tabindex){
             ui->app->insertTab(tabindex,removedTab,name.toLatin1());
 //        }
     }
-}
-
-void MainWindow::Compress(QString filename , QString ofilename)
-{
-#ifdef QUAZIP
-    QString saveFile = QFileDialog::getSaveFileName(this, "Select file to save","", "Zip File(*.zip)");
-    QStringList list;
-    if(JlCompress::compressFiles(saveFile, list)){
-    }
-#endif
-//   QFile infile(filename);
-//   QFile outfile(ofilename);
-//   infile.open(QIODevice::ReadOnly);
-//   outfile.open(QIODevice::WriteOnly);
-//   QByteArray uncompressed_data = infile.readAll();
-//   QByteArray compressed_data = qCompress(uncompressed_data, 9);
-//   outfile.write(compressed_data);
-//   infile.close();
-//   outfile.close();
-}
-
-void MainWindow::unCompress(QString filename , QString ofilename)
-{
-    #ifdef QUAZIP
-    QString zipFile = "";// ui->editZipFilePath->text();
-    if(zipFile == "")
-        return;
-
-    QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
-                                                      "",
-                                                      QFileDialog::ShowDirsOnly
-                                                      | QFileDialog::DontResolveSymlinks);
-    if(dir == "")
-        return;
-
-    QStringList list = JlCompress::getFileList(zipFile);
-    JlCompress::extractFiles(zipFile, list, dir);
-#endif
-//   QFile infile(filename);
-//   QFile outfile(ofilename);
-//   infile.open(QIODevice::ReadOnly);
-//   outfile.open(QIODevice::WriteOnly);
-//   QByteArray uncompressed_data = infile.readAll();
-//   QByteArray compressed_data = qUncompress(uncompressed_data);
-//   outfile.write(compressed_data);
-//   infile.close();
-//   outfile.close();
 }
 
 void MainWindow::on_actionSyncUSB_triggered()

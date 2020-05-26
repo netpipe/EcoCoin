@@ -11,14 +11,31 @@
 #include <QMessageBox>
 #include <QTextCodec>
 #include <QFileDialog>
-
-
+#include "quazip/quazip.h"
+#include "quazip/quazipfile.h"
+#include "quazip/JlCompress.h"
+//#include <QProcess>
 
 QString MainWindow::decodetxQR(){
 
 qDebug() << "test";
 
 }
+
+void MainWindow::serverusbtxrx(){
+    //automatic function to do rxtx from usb for cold storage
+
+    //verify tx file apply
+
+    //export db's and overwrite if valid
+}
+
+void MainWindow::clientusbtxrx(){
+    //import db's and overwrite if valid md5sums after copying yearly dbs and md5sums from server
+    //applying rx file to compare?
+
+}
+
 
 void MainWindow::on_generatetx_clicked()
 {
@@ -54,6 +71,57 @@ void MainWindow::on_GenerateRequest_clicked()
 void MainWindow::on_validatecoins_clicked()
 {
 // in order to validate all coins we need to first start with the databases then rcoins and compare to coins.sqlite to see if all are accounted for.
+
+
+
+}
+
+
+void MainWindow::Compress(QString filename , QString ofilename)
+{
+#ifdef QUAZIP
+    QString saveFile = QFileDialog::getSaveFileName(this, "Select file to save","", "Zip File(*.zip)");
+    QStringList list;
+    if(JlCompress::compressFiles(saveFile, list)){
+    }
+#endif
+//   QFile infile(filename);
+//   QFile outfile(ofilename);
+//   infile.open(QIODevice::ReadOnly);
+//   outfile.open(QIODevice::WriteOnly);
+//   QByteArray uncompressed_data = infile.readAll();
+//   QByteArray compressed_data = qCompress(uncompressed_data, 9);
+//   outfile.write(compressed_data);
+//   infile.close();
+//   outfile.close();
+}
+
+void MainWindow::unCompress(QString filename , QString ofilename)
+{
+    #ifdef QUAZIP
+    QString zipFile = "";// ui->editZipFilePath->text();
+    if(zipFile == "")
+        return;
+
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
+                                                      "",
+                                                      QFileDialog::ShowDirsOnly
+                                                      | QFileDialog::DontResolveSymlinks);
+    if(dir == "")
+        return;
+
+    QStringList list = JlCompress::getFileList(zipFile);
+    JlCompress::extractFiles(zipFile, list, dir);
+#endif
+//   QFile infile(filename);
+//   QFile outfile(ofilename);
+//   infile.open(QIODevice::ReadOnly);
+//   outfile.open(QIODevice::WriteOnly);
+//   QByteArray uncompressed_data = infile.readAll();
+//   QByteArray compressed_data = qUncompress(uncompressed_data);
+//   outfile.write(compressed_data);
+//   infile.close();
+//   outfile.close();
 }
 
 
@@ -88,7 +156,7 @@ int MainWindow::processRXTXfile(QString file){
     nums.at(4); // md5sum
 
     //client will be able to establish trust by providing a decrypt string
-    //public list of signed coins can be provided for offline verify
+    //encrypted public list of signed coins yearly db's can be provided for offline verify via ftp
 
     //walletCoinInsert(QString ID,QString CoinAddress,QString Owner,QString cid,QString date)
 }

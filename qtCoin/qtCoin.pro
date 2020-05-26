@@ -155,7 +155,6 @@ HEADERS  += mainwindow.h \
     src/ftp-server/ftpstorcommand.h \
     src/ftp-server/sslserver.h \
     src/ftp-server/ftpgui.h \
-    src/quazip/crypt.h \
     src/quazip/ioapi.h \
     src/quazip/JlCompress.h \
     src/quazip/quaadler32.h \
