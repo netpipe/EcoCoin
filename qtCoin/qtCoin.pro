@@ -46,6 +46,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += main.cpp\
         mainwindow.cpp \
+    src/dbus/chat_adaptor.cpp \
+    src/dbus/chat_interface.cpp \
+    src/dbus/chatwidget.cpp \
     src/qstylesheetmanager.cpp \
     src/downloadmanager.cpp \
     src/encryption/rsa/Rsa.cpp \
@@ -109,6 +112,9 @@ SOURCES += main.cpp\
     src/zlib/zutil.c
 
 HEADERS  += mainwindow.h \
+    src/dbus/chat_adaptor.h \
+    src/dbus/chat_interface.h \
+    src/dbus/chatwidget.h \
     src/qstylesheetmanager.h \
     src/loadtheme.h \
     src/downloadmanager.h \
@@ -185,6 +191,7 @@ HEADERS  += mainwindow.h \
 
 
 FORMS    += mainwindow.ui \
+    src/dbus/chatwidget.ui \
     src/ftp-server/debuglogdialog.ui \
     src/ftp-server/ftpgui.ui
 

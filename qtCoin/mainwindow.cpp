@@ -22,6 +22,7 @@
 #include "src/quazip/quazipfile.h"
 #include "src/quazip/JlCompress.h"
 #include <QProcess>
+#include "src/dbus/chatwidget.h"
 
 //references and links
 //https://doc.qt.io/qt-5/sql-sqlstatements.html
@@ -120,6 +121,9 @@ MainWindow::MainWindow(QWidget *parent) :
     }else{
 
     }
+
+    ChatWidget *chat = new ChatWidget(this);
+    ui->tabWidget->addTab(chat, "Chat");
 
         //if client only mode
   //  ui->createtime->setTime(starttime);

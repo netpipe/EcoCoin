@@ -4,6 +4,8 @@
 #include "src/qstylesheetmanager.h"
 #include <QThread>
 #include <QDebug>
+
+
 //https://github.com/ganquan0910/qt5-sqlite-connection-example
 
 class I : public QThread
