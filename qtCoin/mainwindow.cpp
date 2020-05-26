@@ -192,7 +192,7 @@ void MainWindow::Compress(QString filename , QString ofilename)
 
 void MainWindow::unCompress(QString filename , QString ofilename)
 {
-    QString zipFile = ui->editZipFilePath->text();
+    QString zipFile = "";// ui->editZipFilePath->text();
     if(zipFile == "")
         return;
 
