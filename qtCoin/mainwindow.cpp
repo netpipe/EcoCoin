@@ -21,7 +21,7 @@
 #include "src/quazip/quazip.h"
 #include "src/quazip/quazipfile.h"
 #include "src/quazip/JlCompress.h"
-
+#include <QProcess>
 
 //references and links
 //https://doc.qt.io/qt-5/sql-sqlstatements.html

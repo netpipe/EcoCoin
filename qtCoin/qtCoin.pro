@@ -91,7 +91,22 @@ SOURCES += main.cpp\
     src/quazip/quazipfileinfo.cpp \
     src/quazip/quazipnewinfo.cpp \
     src/quazip/unzip.c \
-    src/quazip/zip.c
+    src/quazip/zip.c \
+    src/zlib/adler32.c \
+    src/zlib/compress.c \
+    src/zlib/crc32.c \
+    src/zlib/deflate.c \
+    src/zlib/gzclose.c \
+    src/zlib/gzlib.c \
+    src/zlib/gzread.c \
+    src/zlib/gzwrite.c \
+    src/zlib/infback.c \
+    src/zlib/inffast.c \
+    src/zlib/inflate.c \
+    src/zlib/inftrees.c \
+    src/zlib/trees.c \
+    src/zlib/uncompr.c \
+    src/zlib/zutil.c
 
 HEADERS  += mainwindow.h \
     src/qstylesheetmanager.h \
@@ -155,7 +170,18 @@ HEADERS  += mainwindow.h \
     src/quazip/quazip_global.h \
     src/quazip/quazipnewinfo.h \
     src/quazip/unzip.h \
-    src/quazip/zip.h
+    src/quazip/zip.h \
+    src/zlib/crc32.h \
+    src/zlib/deflate.h \
+    src/zlib/gzguts.h \
+    src/zlib/inffast.h \
+    src/zlib/inffixed.h \
+    src/zlib/inflate.h \
+    src/zlib/inftrees.h \
+    src/zlib/trees.h \
+    src/zlib/zconf.h \
+    src/zlib/zlib.h \
+    src/zlib/zutil.h
 
 
 FORMS    += mainwindow.ui \
