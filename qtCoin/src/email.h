@@ -44,11 +44,40 @@ int MainWindow::smtpsend(QString toemail,QString Message){
     message.addRecipient(&to);
     message.setSubject(ui->coinname->text());
 
-    MimeText text;
-  //  text.setText("Hi,\nThis is a simple email message.\n");
-    text.setText(Message.toLatin1());
-    // Now add it to the mail
-    message.addPart(&text);
+//    MimeText text;
+//  //  text.setText("Hi,\nThis is a simple email message.\n");
+//    text.setText(Message.toLatin1());
+//    // Now add it to the mail
+//    message.addPart(&text);
+
+    MimeHtml html;
+
+    html.setHtml("<h1>"+ui->coinname->text()+ "</h1>"
+                 "<h2>"+Message.toLatin1()+"</h2>"
+                 "<img src='cid:image1' />"
+                 "<h2> This is the second image </h2>"
+                 "test");
+
+
+
+
+    // Create a MimeInlineFile object for each image
+    MimeInlineFile image1 (new QFile("Resource/qtcoin.png"));
+
+    // An unique content id must be setted
+    image1.setContentId("image1");
+    image1.setContentType("image/png"); //"image/jpg"   //text/plain  // application/octet-stream
+
+    MimeInlineFile image2 (new QFile("Resource/ecocoin.png"));
+    image2.setContentId("image2");
+    image2.setContentType("image/png");
+
+    message.addPart(&html);
+    message.addPart(&image1);
+    message.addPart(&image2);
+
+
+
 
     // Now we can send the mail
     if (!smtp.connectToHost()) {

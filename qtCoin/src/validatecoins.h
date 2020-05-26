@@ -121,7 +121,7 @@ QString MainWindow::generateTXfile(QString suserid,QString ruserid,QString etxco
        }
 //       nums.at(0);  // sender
 //       nums.at(1);  // receiver
-       //ekey encrypted coins to verify sender to server also can be stored like that in others wallets
+       //use users ekey and encrypted public signedcoins list? encrypted coins to verify sender to server also can be stored like that in others wallets
 //       nums.at(2); // ammount
        //       nums.at(2); // datetime
 //       nums.at(4); // md5sum

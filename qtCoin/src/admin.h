@@ -216,7 +216,8 @@ void MainWindow::createyearly(QString eownerID)
                     "origindex VARCHAR(100)," //rcoins index then coins.sqlite is stored on usbdrive as part of key/verify
                     "addr VARCHAR(100),"
                     "datetime INTEGER,"
-                    "class INTEGER"
+                    "class INTEGER,"
+                    "hold INTEGER"
                     ");");
 
 

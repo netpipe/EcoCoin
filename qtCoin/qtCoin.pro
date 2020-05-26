@@ -8,7 +8,7 @@ QT += core gui sql printsupport
 
 #emscripten
 linux {
-DEFINES += SOUND DBUS DOWNLOAD SMTP STORAGE
+DEFINES += SOUND DBUS DOWNLOAD SMTP STORAGE FTP
 QT += multimedia svg dbus network
 CONFIG += barcodescan
 #unix:!macx:CONFIG += barcodescan
@@ -20,7 +20,7 @@ DEFINES += BARCODE
 }
 
 win32 {
-DEFINES += SOUND DBUS DOWNLOAD SMTP STORAGE
+DEFINES += SOUND DBUS DOWNLOAD SMTP STORAGE FTP
 QT += multimedia svg dbus network
 CONFIG += barcodescan
 }
@@ -68,7 +68,18 @@ SOURCES += main.cpp\
     src/Barcode/quirc/lib/decode.c \
     src/Barcode/quirc/lib/identify.c \
     src/Barcode/quirc/lib/quirc.c \
-    src/Barcode/quirc/lib/version_db.c
+    src/Barcode/quirc/lib/version_db.c \
+    src/ftp-server/dataconnection.cpp \
+    src/ftp-server/debuglogdialog.cpp \
+    src/ftp-server/ftpcommand.cpp \
+    src/ftp-server/ftpcontrolconnection.cpp \
+    src/ftp-server/ftplistcommand.cpp \
+    src/ftp-server/ftpretrcommand.cpp \
+    src/ftp-server/ftpserver.cpp \
+    src/ftp-server/ftpstorcommand.cpp \
+    src/ftp-server/sslserver.cpp \
+    src/ftp-server/mainwindow2.cpp \
+    src/ftp-server/mainwindow2.cpp
 
 HEADERS  += mainwindow.h \
     src/qstylesheetmanager.h \
@@ -106,10 +117,23 @@ HEADERS  += mainwindow.h \
     src/wallet.h \
     src/email.h \
     src/ssl.h \
-    src/devices.h
+    src/devices.h \
+    src/ftp-server/dataconnection.h \
+    src/ftp-server/debuglogdialog.h \
+    src/ftp-server/ftpcommand.h \
+    src/ftp-server/ftpcontrolconnection.h \
+    src/ftp-server/ftplistcommand.h \
+    src/ftp-server/ftpretrcommand.h \
+    src/ftp-server/ftpserver.h \
+    src/ftp-server/ftpstorcommand.h \
+    src/ftp-server/sslserver.h \
+    src/ftp-server/mainwindow2.h \
+    src/ftp-server/mainwindow2.h
 
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    src/ftp-server/debuglogdialog.ui \
+    src/ftp-server/mainwindow2.ui
 
 RESOURCES +=
 
