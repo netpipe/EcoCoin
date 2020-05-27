@@ -19,7 +19,7 @@
 #include "src/email.h"
 #include "src/ftp-server/ftpgui.h"
 
-//#include <QProcess>
+
 
 //references and links
 //https://doc.qt.io/qt-5/sql-sqlstatements.html
@@ -209,6 +209,9 @@ void MainWindow::on_pushButton_2_clicked() //clearall databases
 
 void MainWindow::on_test_clicked()
 {
+    serverusbtxrx();
+    clientusbtxrx();
+
     QString test = rot13("test");
     qDebug() << "encrypted rot13:" << test;
     qDebug() << "decrypted rot13:" << rot13(test.toLatin1());
@@ -293,4 +296,16 @@ void MainWindow::on_ftpserver_clicked()
     }
     if (adminftp) {ftpgui->show();}
 #endif
+}
+
+void MainWindow::on_CheckAvailability_clicked()
+{
+    //download info file from server
+}
+
+void MainWindow::on_updateVerify_clicked()
+{
+    //download all databases for verification of coins offline - still succeptable to double spend but atleast its able to work without server.
+    //possibly place usersigned coins they would like to spend that day into a pickup database for the server to hold for them temporary holding when doing offline tx's
+
 }

@@ -15,6 +15,7 @@
 #include "quazip/quazipfile.h"
 #include "quazip/JlCompress.h"
 //#include <QProcess>
+#include <QDirIterator>
 
 QString MainWindow::decodetxQR(){
 
@@ -26,23 +27,65 @@ void MainWindow::serverusbtxrx(){
     //automatic function to do rxtx from usb for cold storage
 
     //verify tx file apply
-
+    QStringList list;
     //export db's and overwrite if valid
+    QDirIterator it("./db/", QStringList() << "*.sqlite", QDir::Files, QDirIterator::Subdirectories);
+    while (it.hasNext()){
+      //  QFileInfo fileInfo(f.fileName());
+     list << it.next().toLatin1();
+    }
+
+
+    if(JlCompress::compressFiles("saveFile.zip", list)){
+//        QMessageBox Msgbox;
+//            Msgbox.setText("zipped");
+//            Msgbox.exec();
+    } else {
+                   QMessageBox Msgbox;
+                       Msgbox.setText("zip file not found ");
+                       Msgbox.exec();
+    }
+
+
 }
 
 void MainWindow::clientusbtxrx(){
     //import db's and overwrite if valid md5sums after copying yearly dbs and md5sums from server
     //applying rx file to compare?
 
+    QStringList list;
+    //export db's and overwrite if valid
+    QDirIterator it("./db/", QStringList() << "*.sqlite", QDir::Files, QDirIterator::Subdirectories);
+    while (it.hasNext()){
+      //  QFileInfo fileInfo(f.fileName());
+     list << it.next().toLatin1();
+    }
+
+
+    if(JlCompress::compressFiles("saveFile.zip", list)){
+//        QMessageBox Msgbox;
+//            Msgbox.setText("zipped");
+//            Msgbox.exec();
+    } else {
+                   QMessageBox Msgbox;
+                       Msgbox.setText("zip file not found ");
+                       Msgbox.exec();
+    }
+
+
+    unCompress("saveFile.zip" , "./db/");
+
 }
 
 
 void MainWindow::on_generatetx_clicked()
 {
+    //for user offline transactions the coins will be placed into a pickup database on the server
     //GenerateQRCode()
     QString result = generateRXfile(mainID.toLatin1(),ui->receiveid->text().toLatin1(),ui->receiveammount->text().toLatin1());
     //generateTXfile()
 }
+
 
 void MainWindow::on_GenerateRequest_clicked()
 {
@@ -50,20 +93,17 @@ void MainWindow::on_GenerateRequest_clicked()
 
     if ( ui->receiveid->text().toLatin1() == "" ){
         //generate purchase from server request
-
     }else{
-
         if (admin){    //if admin then placecoins without generating rxfile
             placeCoins( ui->receiveid->text().toLatin1(), ui->receiveammount->text().toLatin1());
-        }
-        else{
+        } else {
             QString result = generateRXfile(mainID.toLatin1(),ui->receiveid->text().toLatin1(),ui->receiveammount->text().toLatin1());
-
         }
     }
-    //QString requeststring= ;
- //   generateRXfile();
-//GenerateQRCode(requeststring.toLatin1())
+
+     //QString requeststring= ;
+     //   generateRXfile();
+     //GenerateQRCode(requeststring.toLatin1())
 }
 
 
@@ -74,54 +114,6 @@ void MainWindow::on_validatecoins_clicked()
 
 
 
-}
-
-
-void MainWindow::Compress(QString filename , QString ofilename)
-{
-#ifdef QUAZIP
-    QString saveFile = QFileDialog::getSaveFileName(this, "Select file to save","", "Zip File(*.zip)");
-    QStringList list;
-    if(JlCompress::compressFiles(saveFile, list)){
-    }
-#endif
-//   QFile infile(filename);
-//   QFile outfile(ofilename);
-//   infile.open(QIODevice::ReadOnly);
-//   outfile.open(QIODevice::WriteOnly);
-//   QByteArray uncompressed_data = infile.readAll();
-//   QByteArray compressed_data = qCompress(uncompressed_data, 9);
-//   outfile.write(compressed_data);
-//   infile.close();
-//   outfile.close();
-}
-
-void MainWindow::unCompress(QString filename , QString ofilename)
-{
-    #ifdef QUAZIP
-    QString zipFile = "";// ui->editZipFilePath->text();
-    if(zipFile == "")
-        return;
-
-    QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
-                                                      "",
-                                                      QFileDialog::ShowDirsOnly
-                                                      | QFileDialog::DontResolveSymlinks);
-    if(dir == "")
-        return;
-
-    QStringList list = JlCompress::getFileList(zipFile);
-    JlCompress::extractFiles(zipFile, list, dir);
-#endif
-//   QFile infile(filename);
-//   QFile outfile(ofilename);
-//   infile.open(QIODevice::ReadOnly);
-//   outfile.open(QIODevice::WriteOnly);
-//   QByteArray uncompressed_data = infile.readAll();
-//   QByteArray compressed_data = qUncompress(uncompressed_data);
-//   outfile.write(compressed_data);
-//   infile.close();
-//   outfile.close();
 }
 
 
@@ -139,7 +131,6 @@ int MainWindow::processRXTXfile(QString file){
     QTextStream in (&MyFile);
     QString line;
     QStringList list;
-     //   QList<QString> nums;
     QStringList nums;
     QRegExp rx("[:]");
     do {
@@ -155,6 +146,8 @@ int MainWindow::processRXTXfile(QString file){
     nums.at(2); // ammount
     nums.at(4); // md5sum
 
+    //validateCOINsign();
+
     //client will be able to establish trust by providing a decrypt string
     //encrypted public list of signed coins yearly db's can be provided for offline verify via ftp
 
@@ -168,17 +161,35 @@ QString MainWindow::generateTXfile(QString suserid,QString ruserid,QString etxco
     //might only need ammount and userid and other usersid for tx's because users are not sending coins directly to other users
     QString fileName2 = QFileDialog::getSaveFileName(this,  tr("Save TX"), "",  tr("SaveRX/TX File (*.txt);;All Files (*)"));
 
+    //pull coins from wallet or yearlydb's and place into file to be processed
+    if (ruserid.toLatin1() == ""){
+        //db.setDatabaseName("./"+ result +".sqlite");
+           db.open();
+               QSqlDatabase::database().transaction();
+               QSqlQuery query;
+              // query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
+              // query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
+               while (query.next()) {
+                   int employeeId = query.value(0).toInt();
+               }
+               QSqlDatabase::database().commit();
+           db.close();
+
+    }else{
+
  //   db.setDatabaseName("./"+ result +".sqlite");
-//       db.open();
-//           QSqlDatabase::database().transaction();
-//           QSqlQuery query;
-//         //  query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
-//          // query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
-//           while (query.next()) {
-//               int employeeId = query.value(0).toInt();
-//           }
-//           QSqlDatabase::database().commit();
-//       db.close();
+       db.open();
+           QSqlDatabase::database().transaction();
+           QSqlQuery query;
+         //  query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
+          // query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
+           while (query.next()) {
+               int employeeId = query.value(0).toInt();
+           }
+           QSqlDatabase::database().commit();
+       db.close();
+
+    }
 
     QFile file(fileName2);
        if(file.open(QIODevice::ReadWrite | QIODevice::Text))
@@ -232,6 +243,44 @@ QString MainWindow::generateRXfile(QString ruserid,QString suserid,QString etxco
 
 
 }
+
+
+
+void MainWindow::Compress(QString saveFile , QString ofilename)
+{
+#ifdef QUAZIP
+    //QString saveFile = QFileDialog::getSaveFileName(this, "Select file to save","", "Zip File(*.zip)");
+    QStringList list;
+    if(JlCompress::compressFiles(saveFile, list)){
+
+    }
+#endif
+}
+
+void MainWindow::unCompress(QString zipFile , QString outdir)
+{
+    #ifdef QUAZIP
+    if(zipFile == "")
+        return;
+
+   // QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
+                                       //               "",
+                                          //            QFileDialog::ShowDirsOnly
+                                          //            | QFileDialog::DontResolveSymlinks);
+    if(outdir == "")
+        return;
+
+    QStringList list = JlCompress::getFileList(zipFile);
+    JlCompress::extractFiles(zipFile, list, outdir);
+#endif
+}
+
+//QString MainWindow::validateCOINsignWallet(){ //for offline server validation
+
+//    //unencrypt public signed public coins list
+
+
+//}
 
 QString MainWindow::validateCOINsign(QString coin,QString userID){ // for getting coins from rcoins and placing into userid
     //used for signing coins with userid and password and index,datetime
@@ -396,20 +445,21 @@ QString euserID;
 QString MainWindow::validateID(QString userid){ // can validate public encrypted and master encrypted ID's
 //also sets QString yeardb globally for other functions
 
-QString ekey;
-QString euserid;
-QString datetime;
+    QString ekey;
+    QString euserid;
+    QString datetime;
 
-vpublickey = 0;
-//match the public ekey to get the userid
-if (userid.length() <= 12){ //check if encrypted
-    qDebug() << "userid" << userid.toLatin1() ;
-}else{
-    qDebug() << "userid encrypted" << userid ;
-    euserid = simpledecrypt(userid,masterkey.toLatin1(),QCryptographicHash::Sha512);
-}
+    vpublickey = 0;
+    //match the public ekey to get the userid
 
-qDebug() << "searching valid id" << userid;
+    if (userid.length() <= 12){ //check if encrypted
+        qDebug() << "userid" << userid.toLatin1() ;
+    }else{
+        qDebug() << "userid encrypted" << userid ;
+        euserid = simpledecrypt(userid,masterkey.toLatin1(),QCryptographicHash::Sha512);
+    }
+
+    qDebug() << "searching valid id" << userid;
             db.setDatabaseName("database.sqlite");
             db.open();
                 QSqlDatabase::database().transaction();

@@ -242,6 +242,10 @@ private slots:
 
     void on_ftpserver_clicked();
 
+    void on_CheckAvailability_clicked();
+
+    void on_updateVerify_clicked();
+
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db;

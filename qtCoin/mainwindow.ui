@@ -21,7 +21,7 @@
        <enum>QTabWidget::Triangular</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="accountingtab">
        <attribute name="title">
@@ -31,7 +31,7 @@
         <item row="0" column="0">
          <widget class="QTabWidget" name="tabWidget">
           <property name="currentIndex">
-           <number>1</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tab_5">
            <attribute name="title">
@@ -90,6 +90,13 @@
                 <widget class="QPushButton" name="CheckAvailability">
                  <property name="text">
                   <string>Check</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="7">
+                <widget class="QPushButton" name="updateVerify">
+                 <property name="text">
+                  <string>UpdateVerify</string>
                  </property>
                 </widget>
                </item>
@@ -795,7 +802,7 @@
         <item row="0" column="1">
          <widget class="QTabWidget" name="tabWidget_3">
           <property name="currentIndex">
-           <number>4</number>
+           <number>2</number>
           </property>
           <widget class="QWidget" name="tab_8">
            <attribute name="title">
@@ -1098,24 +1105,6 @@
                 <string>Coin Info</string>
                </attribute>
                <layout class="QGridLayout" name="gridLayout">
-                <item row="1" column="0" colspan="2">
-                 <layout class="QHBoxLayout" name="horizontalLayout_8">
-                  <item>
-                   <widget class="QLabel" name="label_22">
-                    <property name="text">
-                     <string>USB Drive Name only, leaveblank to store on HD</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="usbdrivename">
-                    <property name="text">
-                     <string/>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </item>
                 <item row="0" column="0" colspan="2">
                  <widget class="QGroupBox" name="groupBox_11">
                   <property name="title">
@@ -1332,6 +1321,45 @@
                    </item>
                   </layout>
                  </widget>
+                </item>
+                <item row="1" column="0" colspan="2">
+                 <layout class="QHBoxLayout" name="horizontalLayout_8">
+                  <item>
+                   <widget class="QLabel" name="label_22">
+                    <property name="text">
+                     <string>USB Key Drive Name only, leaveblank to store on HD</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="usbdrivename">
+                    <property name="text">
+                     <string>drivename</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_42">
+                    <property name="text">
+                     <string>Transaction driveName</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_37">
+                    <property name="text">
+                     <string/>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="usbdrivename3">
+                    <property name="text">
+                     <string/>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
                 </item>
                </layout>
               </widget>
@@ -1580,6 +1608,19 @@
             </property>
             <property name="text">
              <string>ftpserver</string>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="test">
+            <property name="geometry">
+             <rect>
+              <x>300</x>
+              <y>160</y>
+              <width>88</width>
+              <height>28</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>test</string>
             </property>
            </widget>
           </widget>
