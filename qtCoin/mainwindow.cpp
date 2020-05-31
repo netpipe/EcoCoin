@@ -224,7 +224,7 @@ void MainWindow::on_test_clicked()
 
 void MainWindow::on_saveuserinfo_clicked()
 {
-//doDownload("ftp://127.0.0.1/");
+//Download("ftp://127.0.0.1/");
 }
 
 void MainWindow::on_placeCoinsopenfile_clicked()
