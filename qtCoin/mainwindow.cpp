@@ -18,7 +18,7 @@
 #include "src/wallet.h"
 #include "src/email.h"
 #include "src/ftp-server/ftpgui.h"
-
+#include <src/oglwidget.h>
 
 
 //references and links
@@ -121,6 +121,22 @@ MainWindow::MainWindow(QWidget *parent) :
     }else{
 
     }
+
+#ifdef OPENGL
+  //  widget = new IrrlichtWidget( ui->tabWidget->findChild<QWidget *>("irrRenderWidget0") );
+    //QOpenGLWidget
+   OGLWidget *widget2 = new OGLWidget(ui->tabWidget_2->findChild<QWidget *>("openGLWidget"));
+   //widget2->(ui->openGLWidget->height());
+   // OGLWidget *openGLWidget = new OGLWidget(parent);
+  //  openGLWidget->show();
+//ui->openGLWidget->resize(300,400);
+widget2->resize(ui->openGLWidget->width(),ui->openGLWidget->height());
+ //  ui->openGLWidget->showMaximized();
+    //     setCentralWidget(widget); //widget
+     //    showMaximized();
+       //  widget2->autoRepaint();
+
+#endif
 
         //if client only mode
   //  ui->createtime->setTime(starttime);

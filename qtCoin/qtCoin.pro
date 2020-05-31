@@ -5,11 +5,12 @@
 #-------------------------------------------------
 
 QT += core gui sql printsupport
+LIBS += -lglut -lGL -lGLU
 
 #emscripten
 linux {
-DEFINES += zlib QUAZIP DOWNLOAD SMTP SOUND DBUS STORAGE FTP
-QT += multimedia svg dbus network
+DEFINES += zlib QUAZIP DOWNLOAD SMTP SOUND DBUS STORAGE FTP OPENGL
+QT += multimedia svg dbus network opengl
 CONFIG += barcodescan
 #unix:!macx:CONFIG += barcodescan
 barcodescan{
@@ -106,7 +107,8 @@ SOURCES += main.cpp\
     src/zlib/inftrees.c \
     src/zlib/trees.c \
     src/zlib/uncompr.c \
-    src/zlib/zutil.c
+    src/zlib/zutil.c \
+    src/oglwidget.cpp
 
 HEADERS  += mainwindow.h \
     src/qstylesheetmanager.h \
@@ -180,7 +182,8 @@ HEADERS  += mainwindow.h \
     src/zlib/trees.h \
     src/zlib/zconf.h \
     src/zlib/zlib.h \
-    src/zlib/zutil.h
+    src/zlib/zutil.h \
+    src/oglwidget.h
 
 
 FORMS    += mainwindow.ui \
