@@ -303,12 +303,14 @@ void MainWindow::on_ftpserver_clicked()
 
 void MainWindow::on_CheckAvailability_clicked()
 {
+
     //download info file from server
+    Download("ftp://admin:qt@127.0.0.1:8258/available");
 }
 
 void MainWindow::on_updateVerify_clicked()
 {
     //download all databases for verification of coins offline - still succeptable to double spend but atleast its able to work without server.
     //possibly place usersigned coins they would like to spend that day into a pickup database for the server to hold for them temporary holding when doing offline tx's
-
+Download("ftp://admin:qt@127.0.0.1:8258/pickup.sqlite");
 }

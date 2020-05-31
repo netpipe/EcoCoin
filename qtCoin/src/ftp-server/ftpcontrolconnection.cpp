@@ -281,6 +281,9 @@ void FtpControlConnection::processCommand(const QString &entireCommand)
         } else {
             rnto(toLocalPath(commandParameters));
         }
+    }
+        else if ("HELP" == command) {
+reply("200 Command okay.");
     } else if ("APPE" == command) {
         if (!isLoggedIn) {
             reply("530 You must log in first.");
