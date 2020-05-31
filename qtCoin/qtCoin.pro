@@ -10,7 +10,7 @@ QT += core gui sql printsupport
 linux {
 DEFINES += zlib QUAZIP DOWNLOAD SMTP#SOUND DBUS DOWNLOAD SMTP STORAGE FTP
 QT += multimedia svg dbus network
-#CONFIG += barcodescan
+CONFIG += barcodescan
 #unix:!macx:CONFIG += barcodescan
 barcodescan{
 LIBS+= -lpng -ljpeg

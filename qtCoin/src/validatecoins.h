@@ -20,9 +20,12 @@
 // for nonencrypted mode only xor the id against coin or append
 
 QString MainWindow::decodetxQR(){
+#ifdef BARCODE
+        QString fileName = QFileDialog::getOpenFileName(this, tr("Open rx/tx"), "./", tr("rx/tx files (*.png *.jpg)"));
+    decodeqr(fileName);
 
 qDebug() << "test";
-
+#endif
 }
 
 
@@ -61,15 +64,8 @@ void MainWindow::on_validatecoins_clicked()
     if (admin){
     // in order to validate all coins we need to first start with the databases then rcoins and compare to coins.sqlite to see if all are accounted for.
 // verify coins.db to availableCoins.sqlite
-        //export coins.db to textfile
+        // verify availableCoins to coins.txt
 
-        QFile file(fileName2);
-           if(file.open(QIODevice::ReadWrite | QIODevice::Text))
-           {
-               QTextStream stream(&file);
-
-            file.close();
-           }
         // verify rcoins against coins.sqlite
 
 
