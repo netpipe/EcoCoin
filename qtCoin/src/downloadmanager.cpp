@@ -29,9 +29,9 @@ DownloadManager::DownloadManager()
 
 void DownloadManager::doDownload(const QUrl &url)
 {
+
     QNetworkRequest request(url);
-    //    url2.setPassword("12345");
-    //    url2.setUserName("user");
+
 
     QNetworkReply *reply = manager.get(request);
 
@@ -110,12 +110,12 @@ void DownloadManager::execute()
 
 void DownloadManager::sslErrors(const QList<QSslError> &sslErrors)
 {
-//#if QT_CONFIG(ssl)
+#if QT_CONFIG(ssl)
     for (const QSslError &error : sslErrors)
         fprintf(stderr, "SSL error: %s\n", qPrintable(error.errorString()));
-//#else
-//    Q_UNUSED(sslErrors);
-//#endif
+#else
+    Q_UNUSED(sslErrors);
+#endif
 }
 
 void DownloadManager::downloadFinished(QNetworkReply *reply)

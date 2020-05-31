@@ -41,6 +41,27 @@ void MainWindow::on_walletCreateAddress_clicked()
 
 }
 
+void MainWindow::Download(QString URL){
+    // QUrl url{"https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png"};
+#if DOWNLOAD
+    QUrl url{URL};
+    //  URL = "\"https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png\"";
+    // QUrl url;
+    // url.setPath(URL);
+
+    //    url.setPassword("12345");
+    //   url.setUserName("qt");
+
+    // QString URL2 = "\""+url+"\"";  //url.toString();
+    // fromStdString()
+
+        manager.doDownload(url);
+
+    //    manager.replaceFile("./new.exe","./S.exe");
+#endif
+}
+
+
 void MainWindow::on_receivesaveqr_clicked()
 {
     QString fileName= QFileDialog::getSaveFileName(this, "Save image", QCoreApplication::applicationDirPath(), "BMP Files (*.bmp);;JPEG (*.JPEG);;PNG (*.png)" );

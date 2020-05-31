@@ -8,7 +8,7 @@ QT += core gui sql printsupport
 
 #emscripten
 linux {
-DEFINES += zlib QUAZIP DOWNLOAD SMTP#SOUND DBUS DOWNLOAD SMTP STORAGE FTP
+DEFINES += zlib QUAZIP DOWNLOAD SMTP SOUND DBUS STORAGE FTP
 QT += multimedia svg dbus network
 CONFIG += barcodescan
 #unix:!macx:CONFIG += barcodescan

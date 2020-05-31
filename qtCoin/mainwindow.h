@@ -15,6 +15,7 @@
 #include <QCryptographicHash>
 #include <QGraphicsView>
 #include <QTabWidget>
+#include "src/downloadmanager.h"
 
 namespace Ui {
 class MainWindow;
@@ -110,7 +111,10 @@ public:
     QString validateID(QString userid);
     int checkAvailableCoins(QString ID ,QString db,QString needed);
     int smtpsend(QString toemail,QString Message);
-
+    #if DOWNLOAD
+        void Download(QString URL);
+        DownloadManager manager;
+    #endif
     QString validateCOINsignWallet(QString ID,QString Coin);
     int pickupCoinsInsert(QString eownerID,QString Coin);
     int createPickupCoinTable(QString eownerID);

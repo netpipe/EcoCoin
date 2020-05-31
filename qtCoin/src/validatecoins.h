@@ -74,7 +74,7 @@ void MainWindow::on_validatecoins_clicked()
     } else {
 
 //download pickup.sqlite and verify against current coin holdings
-
+doDownload("ftp://admin:qt@127.0.0.1/pickup.sqlite");
     }
 }
 
@@ -275,9 +275,7 @@ QString MainWindow::validateCOINsignWallet(QString ID,QString Coin){ //for offli
             db.open();
             db.transaction();
             QSqlQuery query;
-            query.exec("SELECT * FROM users WHERE coin = ""'"+ID.toLatin1()+"'");
-          //  query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
-           // query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
+            query.exec("SELECT * FROM " "'" +ID.toLatin1()+"'");
             while (query.next()) {
                 QString coinid = query.value(1).toString();
             if (coinid.toLatin1() == Coin.toLatin1())
