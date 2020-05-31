@@ -297,7 +297,7 @@ void MainWindow::on_ftpserver_clicked()
     ftpgui = new FTPGUI;
     adminftp=1;
     }
-    if (adminftp) {ftpgui->show();}
+    if (adminftp) { ftpgui->show();}
 #endif
 }
 

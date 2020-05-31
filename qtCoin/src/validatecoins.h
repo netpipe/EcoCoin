@@ -203,7 +203,7 @@ QString MainWindow::generateTXfile(QString suserid,QString ruserid,QString etxco
                   //append coins
                stream << "coin:" << tmp.toLatin1();
                 }
-            stream << "md5:" << fileChecksum("tmptx.txt"); // md5sum
+            stream << "md5:" << fileChecksum("tmptx.txt",QCryptographicHash::Md5); // md5sum
 
         file.close();
        }
