@@ -87,14 +87,16 @@ void MainWindow::on_placeCoins_clicked()
     //if any incorrect flag account for checking also disable other transactions.
     int verified = 0;//md5verifydb();
 
+    if (admin){
+        placeCoins("receive",ui->receiveammount->text().toLatin1());
 
-    placeCoins("receive",ui->receiveammount->text().toLatin1());
-
-    if (verified == 1){
-    QMessageBox Msgbox;
-        Msgbox.setText("coins sent ");
-        Msgbox.exec();
+        if (verified == 1){
+        QMessageBox Msgbox;
+            Msgbox.setText("coins sent ");
+            Msgbox.exec();
+        }
     }
+
 }
 
 
@@ -104,7 +106,7 @@ listwalletcoins(mainID.toLatin1());
 }
 
 
-void MainWindow::walletCoinInsert(QString ID,QString CoinAddress,QString Owner,QString cid,QString date) //QString ID,QString CoinAddress,QString Owner,QString cid,QString date
+void MainWindow::walletCoinInsert(QString ID,QString CoinAddress,QString Owner,QString classid,QString date) //QString ID,QString CoinAddress,QString Owner,QString cid,QString date
 {
 
     createWalletCoinsTable(ID);
@@ -132,7 +134,7 @@ void MainWindow::walletCoinInsert(QString ID,QString CoinAddress,QString Owner,Q
                  "'"+ID.toLatin1()+"',"
                  "'"+CoinAddress.toLatin1()+"',"
                  "'"+Owner.toLatin1()+"',"
-                 "'"+cid.toLatin1()+"',"
+                 "'"+classid.toLatin1()+"',"
                  "'"+date.toLatin1()+"'"
                  ");");
 
@@ -159,16 +161,10 @@ void MainWindow::walletCoinInsert(QString ID,QString CoinAddress,QString Owner,Q
 void MainWindow::createWalletHistoryTable()
 {
     db.setDatabaseName("wallet.sqlite");
-    if(db.open())
-    {
-       qDebug()<<"Successful database connection";
-    }
-    else
-    {
-       qDebug()<<"Error: failed database connection";
-    }
-    QString query;
+    if(db.open())    {       qDebug()<<"Successful database connection";    }
+    else    {       qDebug()<<"Error: failed database connection";    }
 
+    QString query;
     query.append("CREATE TABLE IF NOT EXISTS history("
                     "id INTEGER PRIMARY KEY AUTOINCREMENT,"
                     "DateTime INTEGER NOT NULL,"
@@ -178,19 +174,11 @@ void MainWindow::createWalletHistoryTable()
                     "ContactName VARCHAR(100)"
                     ");");
 
-
     QSqlQuery create;
     create.prepare(query);
 
-    if (create.exec())
-    {
-        qDebug()<<"Table exists or has been created";
-    }
-    else
-    {
-        qDebug()<<"Table not exists or has not been created";
-        qDebug()<<"ERROR! "<< create.lastError();
-    }
+    if (create.exec())    {        qDebug()<<"Table exists or has been created";    }
+    else    {        qDebug()<<"Table not exists or has not been created";        qDebug()<<"ERROR! "<< create.lastError();    }
     query.clear();
     db.close();
 }
@@ -198,15 +186,10 @@ void MainWindow::createWalletHistoryTable()
 void MainWindow::listwalletcoins(QString ID){
 
     db.setDatabaseName("database.sqlite");
-    if(db.open())
-    {
-       qDebug()<<"Successful database connection";
-    }
-    else
-    {
-       qDebug()<<"Error: failed database connection";
-    }
-        QString query;
+    if(db.open())    {       qDebug()<<"Successful database connection";    }
+    else    {       qDebug()<<"Error: failed database connection";    }
+
+    QString query;
 
         //testing save the keys maybe shorten the encryption length ?
 #ifdef ENCRYPTION

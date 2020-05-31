@@ -73,8 +73,8 @@ void MainWindow::on_validatecoins_clicked()
 
     } else {
 
-//download pickup.sqlite and verify against current coin holdings
-Download("ftp://admin:qt@127.0.0.1/pickup.sqlite");
+    //download pickup.sqlite and verify against current coin holdings
+    Download("ftp://admin:qt@127.0.0.1/pickup.sqlite");
     }
 }
 
@@ -130,7 +130,7 @@ int MainWindow::processRXTXfile(QString file){
 
 
 
-
+return false;
 }
 
 
@@ -138,24 +138,38 @@ QString MainWindow::generateTXfile(QString suserid,QString ruserid,QString etxco
     //encrypt with masterkey encrypted userID and user encryption key and datetime to validate coins from their wallet
 
     //might only need ammount and userid and other usersid for tx's because users are not sending coins directly to other users
-    QString fileName2 = QFileDialog::getSaveFileName(this,  tr("Save TX"), "",  tr("SaveRX/TX File (*.txt);;All Files (*)"));
+    QString fileName2;
 
+    if (admin){ // maybe check if frontend or backend
+        fileName2="./rxtx/tmp.txt";
+    }else {
+        fileName2 = QFileDialog::getSaveFileName(this,  tr("Save TX"), "",  tr("SaveRX/TX File (*.txt);;All Files (*)"));
+    }
+            QStringList coins;
     //pull coins from wallet or yearlydb's and place into file to be processed
-    if (ruserid.toLatin1() == ""){
+    if (ruserid.toLatin1() == ""){ // if receiver is blank then check admin mode
+        if (admin){ // send to user already done with placecoins
+           //     placecoins();
 
-        //db.setDatabaseName("./"+ result +".sqlite");
+        }else{ // inbetween personal accounts from main wallet ID or pull from all addresses.  might not be needed use send button instead
+
+
+        db.setDatabaseName("./wallet.sqlite");
            db.open();
                QSqlDatabase::database().transaction();
                QSqlQuery query;
+               query.exec("SELECT * FROM " "'" +suserid.toLatin1() +"'" "LIMIT " "'"+ etxcoins.toLatin1() +"'");
               // query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
               // query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
                while (query.next()) {
-                   int employeeId = query.value(0).toInt();
+                   coins << query.value(0).toString();
                }
                QSqlDatabase::database().commit();
            db.close();
 
-    }else{
+           //insertwalletcoins()
+       }
+    }else{ //send from address to address check if any of wallet addresses match for multiple wallets the same for timed offline transactions
 
  //   db.setDatabaseName("./"+ result +".sqlite");
        db.open();
@@ -164,7 +178,7 @@ QString MainWindow::generateTXfile(QString suserid,QString ruserid,QString etxco
          //  query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
           // query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
            while (query.next()) {
-               int employeeId = query.value(0).toInt();
+                  coins << query.value(0).toString();
            }
            QSqlDatabase::database().commit();
        db.close();
@@ -175,19 +189,25 @@ QString MainWindow::generateTXfile(QString suserid,QString ruserid,QString etxco
        if(file.open(QIODevice::ReadWrite | QIODevice::Text))
        {
            QTextStream stream(&file);
+           stream << "sender:" << suserid.toLatin1();  // sender
+           stream << "receiver:" << ruserid.toLatin1();
+                  //use users ekey and encrypted public signedcoins list? encrypted coins to verify sender to server also can be stored like that in others wallets
+           stream << "ammount:"<< etxcoins; // ammount
 
+           QTime starttime(QTime::currentTime().hour(),QTime::currentTime().minute());
+           QDate dNow(QDate::currentDate());
 
+           stream << dNow.toString("dd.MM.yyyy")+"T"+starttime.toString();
+
+           foreach (QString tmp , coins){
+                  //append coins
+               stream << "coin:" << tmp.toLatin1();
+                }
+            stream << "md5:" << fileChecksum("tmptx.txt"); // md5sum
 
         file.close();
        }
-//       nums.at(0);  // sender
-//       nums.at(1);  // receiver
-       //use users ekey and encrypted public signedcoins list? encrypted coins to verify sender to server also can be stored like that in others wallets
-//       nums.at(2); // ammount
-       //       nums.at(2); // datetime
-//       nums.at(4); // md5sum
-       //append coins
-       //append md5sum
+
 
 
        //generate random transaction key maybe with time place with tx plain and then encrypt coins with it.
