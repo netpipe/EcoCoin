@@ -14,6 +14,112 @@
 #include <QClipboard>
 #include <QByteArray>
 #include <src/encryption/encryption.h>
+#include <QDirIterator>
+
+#include "quazip/quazip.h"
+#include "quazip/quazipfile.h"
+#include "quazip/JlCompress.h"
+
+int MainWindow::createPickupCoinTable(QString eownerID){
+
+    db.setDatabaseName("./db/pickup.sqlite");
+
+    if(db.open())    {       qDebug()<<"Successful database connection";    }
+    else    {       qDebug()<<"Error: failed database connection";    }
+
+    QString query;
+
+    qDebug() << "test" << eownerID.toLatin1();
+
+    query.append("CREATE TABLE IF NOT EXISTS ""'"+eownerID.toLatin1()+"'""("
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    "origindex VARCHAR(100)," //rcoins index then coins.sqlite is stored on usbdrive as part of key/verify
+                    "addr VARCHAR(100),"
+                    "datetime INTEGER,"
+                    "class INTEGER,"
+                    "hold INTEGER"
+                    ");");
+
+
+    QSqlQuery create;
+    create.prepare(query);
+
+    if (create.exec())
+    {
+        qDebug()<<"Table exists or has been created";
+    }
+    else
+    {
+        qDebug()<<"Table not exists or has not been created";
+        qDebug()<<"ERROR! "<< create.lastError();
+    }
+    query.clear();
+    db.close();
+
+}
+
+int MainWindow::pickupCoinsInsert(QString eownerID,QString Coin){
+//createPickupCoinTable();
+
+}
+
+
+
+void MainWindow::serverusbtxrx(){
+    //automatic function to do rxtx from usb for cold storage
+
+    //verify tx file apply
+    QStringList list;
+    //export db's and overwrite if valid
+    QDirIterator it("./db/", QStringList() << "*.sqlite", QDir::Files, QDirIterator::Subdirectories);
+    while (it.hasNext()){
+      //  QFileInfo fileInfo(f.fileName());
+     list << it.next().toLatin1();
+    }
+
+
+    if(JlCompress::compressFiles("saveFile.zip", list)){
+//        QMessageBox Msgbox;
+//            Msgbox.setText("zipped");
+//            Msgbox.exec();
+    } else {
+                   QMessageBox Msgbox;
+                       Msgbox.setText("zip file not found ");
+                       Msgbox.exec();
+    }
+
+
+}
+
+void MainWindow::clientusbtxrx(){
+    //import db's and overwrite if valid md5sums after copying yearly dbs and md5sums from server
+    //applying rx file to compare?
+
+    QStringList list;
+    //export db's and overwrite if valid
+    QDirIterator it("./db/", QStringList() << "*.sqlite", QDir::Files, QDirIterator::Subdirectories);
+    while (it.hasNext()){
+      //  QFileInfo fileInfo(f.fileName());
+     list << it.next().toLatin1();
+    }
+
+
+    if(JlCompress::compressFiles("saveFile.zip", list)){
+//        QMessageBox Msgbox;
+//            Msgbox.setText("zipped");
+//            Msgbox.exec();
+    } else {
+                   QMessageBox Msgbox;
+                       Msgbox.setText("zip file not found ");
+                       Msgbox.exec();
+    }
+
+
+    unCompress("saveFile.zip" , "./db/");
+
+}
+
+
 
 void MainWindow::on_randomSearch_clicked()
 {//for picking lucky users

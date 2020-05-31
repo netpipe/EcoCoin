@@ -28,7 +28,10 @@
 //https://patents.google.com/patent/US3988571A/en
 
 //encrypt with usbdrivename
-FTPGUI *ftpgui;
+#ifdef FTP
+    FTPGUI *ftpgui;
+#endif
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)

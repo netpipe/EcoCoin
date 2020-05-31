@@ -110,6 +110,12 @@ public:
     QString validateID(QString userid);
     int checkAvailableCoins(QString db,QString needed);
     int smtpsend(QString toemail,QString Message);
+
+    QString validateCOINsignWallet(QString ID,QString Coin);
+    int pickupCoinsInsert(QString eownerID,QString Coin);
+    int createPickupCoinTable(QString eownerID);
+
+
     int getkeys();
     void playsound(QString);
     void AddRemoveTab(QWidget *tab,QString,int tabname);
@@ -117,6 +123,9 @@ public:
     void unCompress(QString filename , QString ofilename);
     void Compress(QString filename , QString ofilename);
 int adminftp=0;
+
+
+
     //encryption
     QString encryptxor(QString test,QString key);
     QString decryptxor(QString string,QString key);

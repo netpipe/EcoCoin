@@ -17,63 +17,11 @@
 //#include <QProcess>
 #include <QDirIterator>
 
+// for nonencrypted mode only xor the id against coin or append
+
 QString MainWindow::decodetxQR(){
 
 qDebug() << "test";
-
-}
-
-void MainWindow::serverusbtxrx(){
-    //automatic function to do rxtx from usb for cold storage
-
-    //verify tx file apply
-    QStringList list;
-    //export db's and overwrite if valid
-    QDirIterator it("./db/", QStringList() << "*.sqlite", QDir::Files, QDirIterator::Subdirectories);
-    while (it.hasNext()){
-      //  QFileInfo fileInfo(f.fileName());
-     list << it.next().toLatin1();
-    }
-
-
-    if(JlCompress::compressFiles("saveFile.zip", list)){
-//        QMessageBox Msgbox;
-//            Msgbox.setText("zipped");
-//            Msgbox.exec();
-    } else {
-                   QMessageBox Msgbox;
-                       Msgbox.setText("zip file not found ");
-                       Msgbox.exec();
-    }
-
-
-}
-
-void MainWindow::clientusbtxrx(){
-    //import db's and overwrite if valid md5sums after copying yearly dbs and md5sums from server
-    //applying rx file to compare?
-
-    QStringList list;
-    //export db's and overwrite if valid
-    QDirIterator it("./db/", QStringList() << "*.sqlite", QDir::Files, QDirIterator::Subdirectories);
-    while (it.hasNext()){
-      //  QFileInfo fileInfo(f.fileName());
-     list << it.next().toLatin1();
-    }
-
-
-    if(JlCompress::compressFiles("saveFile.zip", list)){
-//        QMessageBox Msgbox;
-//            Msgbox.setText("zipped");
-//            Msgbox.exec();
-    } else {
-                   QMessageBox Msgbox;
-                       Msgbox.setText("zip file not found ");
-                       Msgbox.exec();
-    }
-
-
-    unCompress("saveFile.zip" , "./db/");
 
 }
 
@@ -110,10 +58,28 @@ void MainWindow::on_GenerateRequest_clicked()
 
 void MainWindow::on_validatecoins_clicked()
 {
-// in order to validate all coins we need to first start with the databases then rcoins and compare to coins.sqlite to see if all are accounted for.
+    if (admin){
+    // in order to validate all coins we need to first start with the databases then rcoins and compare to coins.sqlite to see if all are accounted for.
+// verify coins.db to availableCoins.sqlite
+        //export coins.db to textfile
+
+        QFile file(fileName2);
+           if(file.open(QIODevice::ReadWrite | QIODevice::Text))
+           {
+               QTextStream stream(&file);
+
+            file.close();
+           }
+        // verify rcoins against coins.sqlite
 
 
 
+
+    } else {
+
+//download pickup.sqlite and verify against current coin holdings
+
+    }
 }
 
 
@@ -125,6 +91,9 @@ int MainWindow::processRXTXfile(QString file){
 
 //    QString fileName = QFileDialog::getOpenFileName(this, tr("Open rx/tx"), "./", tr("rx/tx files (*.rx *.tx *.txt)"));
 //    qDebug()<< fileName.toLatin1() ;
+
+    //if admin mode validate id
+
 
     QFile MyFile(file.toLatin1());
     MyFile.open(QIODevice::ReadWrite);
@@ -145,13 +114,27 @@ int MainWindow::processRXTXfile(QString file){
     nums.at(1);  // receiver
     nums.at(2); // ammount
     nums.at(4); // md5sum
+    //coins
+
 
     //validateCOINsign();
 
     //client will be able to establish trust by providing a decrypt string
+
+    if (admin){
     //encrypted public list of signed coins yearly db's can be provided for offline verify via ftp
 
-    //walletCoinInsert(QString ID,QString CoinAddress,QString Owner,QString cid,QString date)
+    } else {
+    //send to server and get balance back or verify with pickupdb
+
+        //validateCOINsignWallet();
+        //walletCoinInsert(QString ID,QString CoinAddress,QString Owner,QString cid,QString date)
+
+    }
+
+
+
+
 }
 
 
@@ -163,6 +146,7 @@ QString MainWindow::generateTXfile(QString suserid,QString ruserid,QString etxco
 
     //pull coins from wallet or yearlydb's and place into file to be processed
     if (ruserid.toLatin1() == ""){
+
         //db.setDatabaseName("./"+ result +".sqlite");
            db.open();
                QSqlDatabase::database().transaction();
@@ -191,10 +175,12 @@ QString MainWindow::generateTXfile(QString suserid,QString ruserid,QString etxco
 
     }
 
-    QFile file(fileName2);
+    QFile file("tmptx.txt"); // maybe do this in memory later or send with smtp
        if(file.open(QIODevice::ReadWrite | QIODevice::Text))
        {
            QTextStream stream(&file);
+
+
 
         file.close();
        }
@@ -204,8 +190,11 @@ QString MainWindow::generateTXfile(QString suserid,QString ruserid,QString etxco
 //       nums.at(2); // ammount
        //       nums.at(2); // datetime
 //       nums.at(4); // md5sum
+       //append coins
        //append md5sum
 
+
+       //generate random transaction key maybe with time place with tx plain and then encrypt coins with it.
 }
 
 QString MainWindow::generateRXfile(QString ruserid,QString suserid,QString etxcoins){ //rxfile to give client encrypted coins to put in wallet might not be needed. for client only cold server
@@ -216,6 +205,7 @@ QString MainWindow::generateRXfile(QString ruserid,QString suserid,QString etxco
     // do they get their actual userid or an encrypted version based on masterkey and their password
 
     QString fileName2 = QFileDialog::getSaveFileName(this,  tr("Save TX"), "",  tr("SaveRX/TX File (*.txt);;All Files (*)"));
+
 
 
 //       db.setDatabaseName("./"+ result +".sqlite");
@@ -232,6 +222,8 @@ QString MainWindow::generateRXfile(QString ruserid,QString suserid,QString etxco
 //           db.commit();
 //       db.close();
 
+
+
     QFile file(fileName2);
        if(file.open(QIODevice::ReadWrite | QIODevice::Text))
        {
@@ -241,6 +233,7 @@ QString MainWindow::generateRXfile(QString ruserid,QString suserid,QString etxco
        }
        //append md5sum
 
+// if frontend admin mode then use its own key
 
 }
 
@@ -259,7 +252,7 @@ void MainWindow::Compress(QString saveFile , QString ofilename)
 
 void MainWindow::unCompress(QString zipFile , QString outdir)
 {
-    #ifdef QUAZIP
+#ifdef QUAZIP
     if(zipFile == "")
         return;
 
@@ -275,12 +268,28 @@ void MainWindow::unCompress(QString zipFile , QString outdir)
 #endif
 }
 
-//QString MainWindow::validateCOINsignWallet(){ //for offline server validation
-
-//    //unencrypt public signed public coins list
 
 
-//}
+QString MainWindow::validateCOINsignWallet(QString ID,QString Coin){ //for offline server validation
+
+//unencrypt public signed public coins list
+    //match user and coin
+
+db.setDatabaseName("./db/pickup.sqlite");
+    db.open();
+    db.transaction();
+    QSqlQuery query;
+  //  query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
+   // query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
+    while (query.next()) {
+        int employeeId = query.value(0).toInt();
+      //  rcoins <<      //decrypt coins and reencrypt for new user
+        //can place into text file to be sure then delete here// verify enough is available
+    }
+    db.commit();
+db.close();
+
+}
 
 QString MainWindow::validateCOINsign(QString coin,QString userID){ // for getting coins from rcoins and placing into userid
     //used for signing coins with userid and password and index,datetime
@@ -327,7 +336,7 @@ QString MainWindow::validateCOINsign(QString coin,QString userID){ // for gettin
 
 
     }else{        ///check user exists and get signing info to sign coins with
-qDebug() << "signing coin then getting another";
+        qDebug() << "signing coin then getting another";
         if (coin.length() > 8 ){ //if encrypted unsign coin
             qDebug() << "encrypted coin during verify unsingning";
             db.setDatabaseName("wallet.sqlite"); //search for signed coin in db then unsign for placement and resigning
@@ -351,7 +360,7 @@ qDebug() << "signing coin then getting another";
          //   QString ecoinuser =  simplecrypt(euserID.toLatin1(),ecoin.toLatin1(),QCryptographicHash::Sha512);
          //   QString ecoin =  simplecrypt(signedcoin.toLatin1(),coinkey.toLatin1(),QCryptographicHash::Sha512);
         }
-QString euserID;
+    QString euserID;
     db.setDatabaseName("database.sqlite");
     db.open();
         QSqlDatabase::database().transaction();
