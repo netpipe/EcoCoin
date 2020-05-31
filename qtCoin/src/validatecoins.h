@@ -270,21 +270,23 @@ QString MainWindow::validateCOINsignWallet(QString ID,QString Coin){ //for offli
 
 //unencrypt public signed public coins list
     //match user and coin
-
-db.setDatabaseName("./db/pickup.sqlite");
-    db.open();
-    db.transaction();
-    QSqlQuery query;
-  //  query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
-   // query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
-    while (query.next()) {
-        int employeeId = query.value(0).toInt();
-      //  rcoins <<      //decrypt coins and reencrypt for new user
-        //can place into text file to be sure then delete here// verify enough is available
-    }
-    db.commit();
-db.close();
-
+  //  if (offline){
+        db.setDatabaseName("./db/pickup.sqlite");
+            db.open();
+            db.transaction();
+            QSqlQuery query;
+            query.exec("SELECT * FROM users WHERE coin = ""'"+ID.toLatin1()+"'");
+          //  query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
+           // query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
+            while (query.next()) {
+                QString coinid = query.value(1).toString();
+            if (coinid.toLatin1() == Coin.toLatin1())
+                return Coin.toLatin1();
+            }
+            db.commit();
+        db.close();
+    //}
+return "notvalid";
 }
 
 QString MainWindow::validateCOINsign(QString coin,QString userID){ // for getting coins from rcoins and placing into userid

@@ -31,7 +31,7 @@ void MainWindow::on_SendCoins_clicked()
 
     md5verifydb();
 
-    if (ui->givecoinsid->text().toLatin1()!=""){
+    if (ui->givecoinsid->text().toLatin1()!= "" ){  // user is specified
     //could impliment rounding to make ammount proper
     float remainder =  fmod(ui->givecoinsammount->text().toFloat() ,ui->coinvalue->text().toFloat()); // int % int
         if ( remainder > 0 ) // even ammount //check ammount is devisible by value
@@ -51,51 +51,56 @@ void MainWindow::on_SendCoins_clicked()
 
 
     //check if 2 userid's provided
-    if (ui->givecoinsid2->text() == ""){
-        //check available coins has enough for tx
-        int availableCoins = checkAvailableCoins("rcoins.sqlite", ui->givecoinsammount->text().toLatin1() );
+        if (ui->givecoinsid2->text() == ""){  // if
+            if (admin){
+            //check available coins has enough for tx
+            int availableCoins = checkAvailableCoins("","rcoins.sqlite", ui->givecoinsammount->text().toLatin1() );
 
-        qDebug() << availableCoins;
+            qDebug() << availableCoins;
 
-        if (availableCoins == ui->givecoinsammount->text().toFloat()){
-            qDebug() << "coins are available for tx";
-        }            else{
-            qDebug() << "not enough for tx";
-        }
-
-
-        //check to see if userid is encrypted otherwise no need to encrypt
-      //  QString crypted = simplecrypt( ui->givecoinsid->text().toLatin1(), masterkey.toLatin1(), QCryptographicHash::Sha512);
-    //    qDebug() << crypted;
-    //    QString decrypted = simpledecrypt(crypted,"test2",QCryptographicHash::Sha512);
-    //    qDebug() << decrypted;
-trycount=0;
-        QString result = validateID(ui->givecoinsid->text().toLatin1()).toLatin1(); // result will be unencrypted id
-        qDebug() << "validate" << result;
-        //match in database.sqlite if admin
-        //if < 12 chars
-        placeCoins(result.toLatin1(),ui->givecoinsammount->text()); // send encrypted id
+            if (availableCoins == ui->givecoinsammount->text().toFloat()){
+                qDebug() << "coins are available for tx";
+            }            else{
+                qDebug() << "not enough for tx";
+            }
 
 
-        float balance = checkBalance(result.toLatin1());
-        qDebug() << "balance:" << balance;
+            //check to see if userid is encrypted otherwise no need to encrypt
+          //  QString crypted = simplecrypt( ui->givecoinsid->text().toLatin1(), masterkey.toLatin1(), QCryptographicHash::Sha512);
+        //    qDebug() << crypted;
+        //    QString decrypted = simpledecrypt(crypted,"test2",QCryptographicHash::Sha512);
+        //    qDebug() << decrypted;
+            trycount=0;
+            QString result = validateID(ui->givecoinsid->text().toLatin1()).toLatin1(); // result will be unencrypted id
+            qDebug() << "validate" << result;
+            //match in database.sqlite if admin
+            //if < 12 chars
+            placeCoins(result.toLatin1(),ui->givecoinsammount->text()); // send encrypted id
 
-//else place user to user coins without key decrypt or make txfile
-        //    //find random coin and insert it ammount times
-        //generateTXfile(result, etxcoins);  // use generated tx
-       // placeCoins(ui->givecoinsid->text().toLatin1(),ui->givecoinsammount->text()); // send encrypted id
 
-            float balance2 = checkBalance(ui->givecoinsid->text().toLatin1());
-            float total = ui->givecoinsid->text().toFloat() + balance;
+            float balance = checkBalance(result.toLatin1());
+            qDebug() << "balance:" << balance;
+
+             //else place user to user coins without key decrypt or make txfile
+            //    //find random coin and insert it ammount times
+            //generateTXfile(result, etxcoins);  // use generated tx
+           // placeCoins(ui->givecoinsid->text().toLatin1(),ui->givecoinsammount->text()); // send encrypted id
+
+                float balance2 = checkBalance(ui->givecoinsid->text().toLatin1());
+                float total = ui->givecoinsid->text().toFloat() + balance;
 
 
-    QMessageBox Msgbox;
-        Msgbox.setText("coins sent ");
-        Msgbox.exec();
-} else { //send user to user coins
+            QMessageBox Msgbox;
+                Msgbox.setText("coins sent ");
+                Msgbox.exec();
+            } else {  // when not admin
+
+              //   generateTXfile(result,result2,ui->givecoinsammount->text());
+
+            }
+    } else { //when second user not specified send coins
 
         //if client mode then generatetxfile
-        int admin=0;
 
         QString result = validateID(ui->givecoinsid->text().toLatin1()).toLatin1(); // result will be unencrypted id
         qDebug() << "validate" << result;
@@ -103,22 +108,22 @@ trycount=0;
         QString result2 = validateID(ui->givecoinsid2->text().toLatin1()).toLatin1(); // result will be unencrypted id
         qDebug() << "validate" << result2;
 
-    if(admin){
-        float balance = checkBalance(result.toLatin1());
-        qDebug() << "balance:" << balance;
+            if(admin){
+                float balance = checkBalance(result.toLatin1());
+                qDebug() << "balance:" << balance;
 
-        placeCoins(result,"receive"); //send to rcoins
+                placeCoins(result,"receive"); //send to rcoins
 
-        placeCoins(result2,ui->givecoinsammount->text()); //place into user account after validating id
+                placeCoins(result2,ui->givecoinsammount->text()); //place into user account after validating id
 
-    }else{
+            }else{
+                // if frontend generate this and send to usb
+                generateTXfile(result,result2,ui->givecoinsammount->text());
 
-        generateTXfile(result,result2,ui->givecoinsammount->text());
+            }
 
     }
-
-    }
- }
+ } //when no user specified
  //    //find user in yearly db pull coins out and verify validity then place back into rcoins
  //    //re-md5sum file
 
@@ -374,28 +379,34 @@ int MainWindow::checkAllCoins(QString db2){
 
 
 
-int MainWindow::checkAvailableCoins(QString db2,QString needed){
+int MainWindow::checkAvailableCoins(QString ID , QString db2,QString needed){
     //check available coins has enough for tx
         int coins=0;
         qDebug() << "checking enough coins available for tx";
+        if(admin && ID.toLatin1() == ""){
+            db.setDatabaseName(db2.toLatin1());
+            db.open();
+            db.transaction();
+                QSqlQuery query;
+               // query.exec("SELECT * FROM coins");
+                query.exec("SELECT * FROM coins LIMIT "+needed.toLatin1());
+                while (query.next()) {
+                 //   int employeeId = query.value(0).toInt();
 
-        db.setDatabaseName(db2.toLatin1());
-        db.open();
-        db.transaction();
-            QSqlQuery query;
-           // query.exec("SELECT * FROM coins");
-            query.exec("SELECT * FROM coins LIMIT "+needed.toLatin1());
-            while (query.next()) {
-             //   int employeeId = query.value(0).toInt();
+                    qDebug() << query.value(2).toString(); //addr
+                    qDebug() << query.value(1).toInt(); //origindex
+                    qDebug() << query.value(0).toInt(); //index
 
-                qDebug() << query.value(2).toString(); //addr
-                qDebug() << query.value(1).toInt(); //origindex
-                qDebug() << query.value(0).toInt(); //index
-
-                coins++;
+                    coins++;
+                }
+                db.commit();
+            db.close();
+        } else {
+            if(admin){ // look in id for available coins
             }
-            db.commit();
-        db.close();
+            //check wallet
+
+        }
 
   return coins;
 }

@@ -108,7 +108,7 @@ public:
     QString validateCOINsign(QString coin,QString euserID);
     float checkBalance(QString euserID);
     QString validateID(QString userid);
-    int checkAvailableCoins(QString db,QString needed);
+    int checkAvailableCoins(QString ID ,QString db,QString needed);
     int smtpsend(QString toemail,QString Message);
 
     QString validateCOINsignWallet(QString ID,QString Coin);
