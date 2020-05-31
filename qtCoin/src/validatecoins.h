@@ -66,6 +66,41 @@ void MainWindow::on_validatecoins_clicked()
 // verify coins.db to availableCoins.sqlite
         // verify availableCoins to coins.txt
 
+        QStringList coins;
+        QStringList index;
+
+        //check if file exists
+        QFile MyFile("coins.txt");
+        MyFile.open(QIODevice::ReadWrite);
+        QTextStream in (&MyFile);
+        QString line;
+        QStringList list;
+        QStringList nums;
+        QRegExp rx("[:]");
+        do {
+            line = in.readLine();
+            if (line.contains(":")) {
+                list = line.split(rx);
+                index.append(list.at(0).toLatin1());
+                coins.append(list.at(1).toLatin1());
+
+            }
+        } while (!line.isNull());
+
+
+//        db.setDatabaseName("./available.sqlite");
+//           db.open();
+//               QSqlDatabase::database().transaction();
+//               QSqlQuery query;
+//               query.exec("SELECT * FROM " "'" +suserid.toLatin1() +"'" "LIMIT " "'"+ etxcoins.toLatin1() +"'");
+//              // query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
+//              // query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
+//               while (query.next()) {
+//                   coins << query.value(0).toString();
+//               }
+//               QSqlDatabase::database().commit();
+//           db.close();
+
         // verify rcoins against coins.sqlite
 
 
@@ -89,7 +124,7 @@ int MainWindow::processRXTXfile(QString file){
 //    qDebug()<< fileName.toLatin1() ;
 
     //if admin mode validate id
-
+QStringList coins;
 
     QFile MyFile(file.toLatin1());
     MyFile.open(QIODevice::ReadWrite);
@@ -109,7 +144,15 @@ int MainWindow::processRXTXfile(QString file){
     nums.at(0);  // sender
     nums.at(1);  // receiver
     nums.at(2); // ammount
-    nums.at(4); // md5sum
+    nums.at(3); //datetime
+    int i=4;
+    foreach (QString tmp , nums){
+             i++;
+     coins <<   nums.at(i).toLatin1();
+
+    }
+    //coins
+    nums.at(4); // md5sum  load all but last line of file then verify file md5sum
     //coins
 
 
@@ -197,7 +240,7 @@ QString MainWindow::generateTXfile(QString suserid,QString ruserid,QString etxco
            QTime starttime(QTime::currentTime().hour(),QTime::currentTime().minute());
            QDate dNow(QDate::currentDate());
 
-           stream << dNow.toString("dd.MM.yyyy")+"T"+starttime.toString();
+           stream << "datetime:"<< dNow.toString("dd.MM.yyyy")+"T"+starttime.toString();
 
            foreach (QString tmp , coins){
                   //append coins
@@ -220,8 +263,15 @@ QString MainWindow::generateRXfile(QString ruserid,QString suserid,QString etxco
     //verify with time encrypted password verify and send time info password encrypted with userid
     // do they get their actual userid or an encrypted version based on masterkey and their password
 
-    QString fileName2 = QFileDialog::getSaveFileName(this,  tr("Save TX"), "",  tr("SaveRX/TX File (*.txt);;All Files (*)"));
+    // use these to generate client wallets too aswell as processing on server / forward to server
 
+    QString fileName2;
+    QString coins;
+    if (admin){ // maybe check if frontend or backend
+        fileName2="./rxtx/tmp.txt";
+    }else {
+        fileName2 = QFileDialog::getSaveFileName(this,  tr("Save TX"), "",  tr("SaveRX/TX File (*.txt);;All Files (*)"));
+    }
 
 
 //       db.setDatabaseName("./"+ result +".sqlite");
@@ -240,13 +290,30 @@ QString MainWindow::generateRXfile(QString ruserid,QString suserid,QString etxco
 
 
 
-    QFile file(fileName2);
-       if(file.open(QIODevice::ReadWrite | QIODevice::Text))
-       {
-           QTextStream stream(&file);
+       QFile file("tmprx.txt"); // maybe do this in memory later or send with smtp
+          if(file.open(QIODevice::ReadWrite | QIODevice::Text))
+          {
+              QTextStream stream(&file);
+              stream << "sender:" << suserid.toLatin1();  // sender
+              stream << "receiver:" << ruserid.toLatin1();
+                     //use users ekey and encrypted public signedcoins list? encrypted coins to verify sender to server also can be stored like that in others wallets
+              stream << "ammount:"<< etxcoins; // ammount
 
-        file.close();
-       }
+              QTime starttime(QTime::currentTime().hour(),QTime::currentTime().minute());
+              QDate dNow(QDate::currentDate());
+
+              stream << "datetime:"<< dNow.toString("dd.MM.yyyy")+"T"+starttime.toString();
+
+              foreach (QString tmp , coins){
+                     //append coins
+                  stream << "coin:" << tmp.toLatin1();
+                   }
+               stream << "md5:" << fileChecksum("tmprx.txt",QCryptographicHash::Md5); // md5sum
+
+           file.close();
+          }
+
+
        //append md5sum
 
 // if frontend admin mode then use its own key
@@ -260,9 +327,7 @@ void MainWindow::Compress(QString saveFile , QString ofilename)
 #ifdef QUAZIP
     //QString saveFile = QFileDialog::getSaveFileName(this, "Select file to save","", "Zip File(*.zip)");
     QStringList list;
-    if(JlCompress::compressFiles(saveFile, list)){
-
-    }
+    if(JlCompress::compressFiles(saveFile, list)){    }
 #endif
 }
 
@@ -288,7 +353,6 @@ void MainWindow::unCompress(QString zipFile , QString outdir)
 
 QString MainWindow::validateCOINsignWallet(QString ID,QString Coin){ //for offline server validation
 
-//unencrypt public signed public coins list
     //match user and coin
   //  if (offline){
         db.setDatabaseName("./db/pickup.sqlite");
