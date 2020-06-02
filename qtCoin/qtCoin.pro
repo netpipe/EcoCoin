@@ -17,6 +17,7 @@ barcodescan{
 LIBS+= -lpng -ljpeg
 DEFINES += BARCODE
 }
+//INCLUDEPATH
 
 }
 

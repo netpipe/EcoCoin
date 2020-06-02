@@ -162,7 +162,7 @@ void MainWindow::playsound(QString test){
       QBuffer* buffer = new QBuffer(arr);
       buffer->open(QIODevice::ReadOnly);
       buffer->seek(0);
-
+//qDebug() << "Media supported state -> " << QMediaPlayer::hasSupport("video/mp4"); // this gives a "1"
       player->setVolume(10);
  //    media->setMedia("sound.mp3");
      player->setMedia(QMediaContent(), buffer);
