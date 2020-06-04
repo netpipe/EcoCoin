@@ -148,4 +148,21 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
     //    QCoreApplication::instance()->quit();
     }
 }
+
+int DownloadManager::Upload(QString URL,QString User,QString Password,QString port,QString filePath){
+
+    QFile *file = new QFile(filePath);
+    file->open(QIODevice::ReadOnly);
+    QByteArray byte_file = file->readAll();
+
+    QNetworkAccessManager *accessManager = new QNetworkAccessManager(this);
+    QUrl url(URL.toLatin1());
+    url.setPort(port.toInt());
+    url.setUserName(User.toLatin1());
+    url.setPassword(Password.toLatin1());
+
+    QNetworkRequest request(url);
+  //  QNetworkReply* reply = accessManager->put(request, byte_file);
+accessManager->put(request, byte_file);
+}
 #endif
