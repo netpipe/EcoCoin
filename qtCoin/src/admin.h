@@ -77,7 +77,7 @@ void MainWindow::serverusbtxrx(){
      list << it.next().toLatin1();
     }
 
-
+#ifdef QUAZIP
     if(JlCompress::compressFiles("saveFile.zip", list)){
 //        QMessageBox Msgbox;
 //            Msgbox.setText("zipped");
@@ -87,7 +87,7 @@ void MainWindow::serverusbtxrx(){
                        Msgbox.setText("zip file not found ");
                        Msgbox.exec();
     }
-
+#endif
 
 }
 
@@ -103,7 +103,7 @@ void MainWindow::clientusbtxrx(){
      list << it.next().toLatin1();
     }
 
-
+#ifdef QUAZIP
     if(JlCompress::compressFiles("saveFile.zip", list)){
 //        QMessageBox Msgbox;
 //            Msgbox.setText("zipped");
@@ -116,7 +116,7 @@ void MainWindow::clientusbtxrx(){
 
 
     unCompress("saveFile.zip" , "./db/");
-
+#endif
 }
 
 

@@ -42,7 +42,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     qDebug()<<"Application initialized...";
 
-    db = QSqlDatabase::addDatabase("QSQLITE");    
+    db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName("database.sqlite");
 #ifdef SOUND
     player=new QMediaPlayer();

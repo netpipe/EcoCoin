@@ -109,7 +109,7 @@ void MainWindow::on_validatecoins_clicked()
     } else {
 
     //download pickup.sqlite and verify against current coin holdings
-    Download("ftp://admin:qt@127.0.0.1/pickup.sqlite");
+    Download("ftp://admin:qt@127.0.0.1:8285/pickup.sqlite");
     }
 }
 

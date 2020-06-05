@@ -44,7 +44,10 @@ FTPGUI::FTPGUI(QWidget *parent)
 
     loadSettings();
     server = 0;
- //   startServer();
+    startServer();
+
+    this->setWindowFlags(Qt::WindowStaysOnTopHint);
+
 }
 
 FTPGUI::~FTPGUI()
