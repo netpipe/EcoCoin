@@ -140,6 +140,7 @@ QStringList coins;
             nums.append(list.at(1).toLatin1());
         }
     } while (!line.isNull());
+    MyFile.close();
 
     nums.at(0);  // sender
     nums.at(1);  // receiver

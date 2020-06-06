@@ -9,8 +9,8 @@ LIBS += -lglut -lGL -lGLU
 
 #emscripten
 linux {
-#DEFINES += zlib QUAZIP DOWNLOAD SMTP SOUND DBUS STORAGE FTP
-DEFINES += DOWNLOAD SMTP SOUND STORAGE FTP
+DEFINES += zlib QUAZIP DOWNLOAD SMTP SOUND DBUS STORAGE FTP OPENGL
+#DEFINES += DOWNLOAD SMTP SOUND STORAGE FTP
 QT += multimedia svg dbus network opengl
 CONFIG += barcodescan
 #unix:!macx:CONFIG += barcodescan

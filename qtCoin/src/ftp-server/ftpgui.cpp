@@ -121,7 +121,8 @@ void FTPGUI::loadSettings()
 
  //   defaultPort = "21";
 
-    QSettings settings;
+  //  QSettings settings("qtftp", "netpipe");
+    QSettings settings(QDir::currentPath() + "/ftp.ini", QSettings::IniFormat);
     ui->lineEditPort->setText(settings.value("settings/port", defaultPort).toString());
     ui->lineEditUserName->setText(settings.value("settings/username", "admin").toString());
     ui->lineEditPassword->setText(settings.value("settings/password", "qt").toString());
@@ -129,11 +130,27 @@ void FTPGUI::loadSettings()
     ui->checkBoxAnonymous->setChecked(settings.value("settings/anonymous", false).toBool());
     ui->checkBoxReadOnly->setChecked(settings.value("settings/readonly", false).toBool());
     ui->checkBoxOnlyOneIpAllowed->setChecked(settings.value("settings/oneip", false).toBool());
+    ui->chkboxuserslist->setChecked(settings.value("settings/userslist", false).toBool());
+
+
+    QFile MyFile("users.txt");
+    MyFile.open(QIODevice::ReadWrite);
+    QTextStream in (&MyFile);
+    QString line;
+
+    do {
+        line = in.readLine();
+       ui->usersList->addItem(line.toLatin1());
+
+    } while (!line.isNull());
+
+
 }
 
 void FTPGUI::saveSettings()
 {
-    QSettings settings;
+  //  QSettings settings("qtftp", "netpipe");
+    QSettings settings(QDir::currentPath() + "/ftp.ini", QSettings::IniFormat);
     settings.setValue("settings/port", ui->lineEditPort->text());
     settings.setValue("settings/username", ui->lineEditUserName->text());
     settings.setValue("settings/password", ui->lineEditPassword->text());
@@ -141,6 +158,7 @@ void FTPGUI::saveSettings()
     settings.setValue("settings/anonymous", ui->checkBoxAnonymous->isChecked());
     settings.setValue("settings/readonly", ui->checkBoxReadOnly->isChecked());
     settings.setValue("settings/oneip", ui->checkBoxOnlyOneIpAllowed->isChecked());
+    settings.setValue("settings/userslist", ui->chkboxuserslist->isChecked());
 }
 
 void FTPGUI::startServer()
@@ -153,7 +171,7 @@ void FTPGUI::startServer()
     }
     delete server;
     server = new FtpServer(this, ui->lineEditRootPath->text(), ui->lineEditPort->text().toInt(), userName,
-                           password, ui->checkBoxReadOnly->isChecked(), ui->checkBoxOnlyOneIpAllowed->isChecked());
+                           password, ui->checkBoxReadOnly->isChecked(), ui->checkBoxOnlyOneIpAllowed->isChecked(),ui->chkboxuserslist->isChecked());
     connect(server, SIGNAL(newPeerIp(QString)), SLOT(onPeerIpChanged(QString)));
     if (server->isListening()) {
         ui->statusBar->setText("Listening at " + lanIp());
@@ -217,6 +235,52 @@ void FTPGUI::on_pushButtonShowDebugLog_clicked()
 
 void FTPGUI::on_pushButtonExit_clicked()
 {
+
     close();
 }
+
+
+void FTPGUI::on_adduserbtn_clicked()
+{
+
+
+    ui->usersList->addItem(ui->insertUser->text().toLatin1());
+
+    writeusers();
+}
+
+void FTPGUI::on_rmuserbtn_clicked()
+{
+
+    qDeleteAll(ui->usersList->selectedItems());
+writeusers();
+
+}
+
+void FTPGUI::writeusers(){
+
+    QFile file("users.txt");
+          if(file.open(QIODevice::ReadWrite | QIODevice::Text))
+          {
+
+              QTextStream stream(&file);
+              int sized = ui->usersList->count();
+              for (int i=0; i < sized; i++){
+                  ui->usersList->setCurrentRow(i);
+                   stream << ui->usersList->currentItem()->text().toLatin1() << endl;
+              }
+
+          file.close();
+    }
+}
+
+void FTPGUI::on_savesettings_clicked()
+{
+// write users.txt
+writeusers();
+    saveSettings();
+}
 #endif
+
+
+

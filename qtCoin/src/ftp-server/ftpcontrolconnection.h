@@ -18,7 +18,7 @@ class FtpControlConnection : public QObject
 {
     Q_OBJECT
 public:
-    explicit FtpControlConnection(QObject *parent, QSslSocket *socket, const QString &rootPath, const QString &userName = QString(), const QString &password = QString(), bool readOnly = false);
+    explicit FtpControlConnection(QObject *parent, QSslSocket *socket, const QString &rootPath, const QString &userName = QString(), const QString &password = QString(), bool readOnly = false,bool users=false);
     ~FtpControlConnection();
 
 signals:
@@ -110,6 +110,7 @@ private:
     // Flag whether the client is allowed only read-only access (can download,
     // but not upload/modify).
     bool readOnly;
+    bool userslist;
 };
 
 #endif // FTPCONTROLCONNECTION_H

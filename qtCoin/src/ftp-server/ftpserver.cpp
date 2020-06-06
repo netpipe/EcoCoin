@@ -6,7 +6,7 @@
 #include <QDebug>
 #include <QSslSocket>
 
-FtpServer::FtpServer(QObject *parent, const QString &rootPath, int port, const QString &userName, const QString &password, bool readOnly, bool onlyOneIpAllowed) :
+FtpServer::FtpServer(QObject *parent, const QString &rootPath, int port, const QString &userName, const QString &password, bool readOnly, bool onlyOneIpAllowed,bool userslist) :
     QObject(parent)
 {
     server = new SslServer(this);
@@ -23,6 +23,7 @@ FtpServer::FtpServer(QObject *parent, const QString &rootPath, int port, const Q
     this->password = password;
     this->rootPath = rootPath;
     this->readOnly = readOnly;
+    this->userslist = userslist;
     this->onlyOneIpAllowed = onlyOneIpAllowed;
 }
 

@@ -16,7 +16,7 @@ class FtpServer : public QObject
 public:
     explicit FtpServer(QObject *parent, const QString &rootPath, int port = 21,
                        const QString &userName = QString(), const QString &password = QString(),
-                       bool readOnly = false, bool onlyOneIpAllowed = false);
+                       bool readOnly = false, bool onlyOneIpAllowed = false, bool userslist = false);
 
     // Whether or not the server is listening for incoming connections. If it
     // is not currently listening then there was an error - probably no
@@ -62,6 +62,7 @@ private:
     // refuse connections from any other IP. This makes sense because a mobile
     // phone is unlikely to be used from 2 places at once.
     bool onlyOneIpAllowed;
+    bool userslist;
 };
 
 #endif // FTPSERVER_H

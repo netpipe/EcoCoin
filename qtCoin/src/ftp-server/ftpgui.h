@@ -1,3 +1,5 @@
+void on_adduserbtn_clicked();
+void on_rmuserbtn_clicked();
 #ifdef FTP
 #ifndef FTPGUI_H
 #define FTPGUI_H
@@ -38,6 +40,11 @@ private slots:
     void on_pushButtonShowDebugLog_clicked();
 
     void on_pushButtonExit_clicked();
+
+    void on_adduserbtn_clicked();
+    void on_rmuserbtn_clicked();
+    void on_savesettings_clicked();
+void writeusers();
 
 private:
     Ui::FTPGUI *ui;
