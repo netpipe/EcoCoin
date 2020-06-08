@@ -52,6 +52,6 @@ void FtpServer::startNewControlConnection()
     }
 
     // Create a new FTP control connection on this socket.
-    new FtpControlConnection(this, socket, rootPath, userName, password, readOnly);
+    new FtpControlConnection(this, socket, rootPath, userName, password, readOnly,userslist);
 }
 #endif

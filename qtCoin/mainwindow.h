@@ -118,7 +118,6 @@ public:
     QString validateCOINsignWallet(QString ID,QString Coin);
     int pickupCoinsInsert(QString eownerID,QString Coin);
     int createPickupCoinTable(QString eownerID);
-    void Upload(QString URL,QString User,QString Password,QString port);
 
     int getkeys();
     void playsound(QString);

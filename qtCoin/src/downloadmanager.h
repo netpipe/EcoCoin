@@ -27,6 +27,7 @@ public:
     static bool isHttpRedirect(QNetworkReply *reply);
     void replaceFile(QString Src, QString Dest);
         int Upload(QString URL,QString User,QString Password,QString port,QString filePath);
+        void Download(QString URL);
 
 public slots:
     void execute();
