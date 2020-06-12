@@ -140,11 +140,23 @@ widget2->resize(ui->openGLWidget->width(),ui->openGLWidget->height());
 
         //if client only mode
   //  ui->createtime->setTime(starttime);
+
+    m_hDbus = new DBusHandler();
+    qDebug() << "Createing DBusHandler...\n";
+    m_hDbus->moveToThread(m_hDbus);
+    m_hDbus->start();
+    while (not m_hDbus->isRunning());
+
 }
 
 
 MainWindow::~MainWindow()
 {
+    m_hDbus->stop();
+    while (m_hDbus->isRunning());
+
+    delete m_hDbus;
+
     delete ui;
     //QSqlDatabase::removeDatabase( QSqlDatabase::defaultConnection );
 }
