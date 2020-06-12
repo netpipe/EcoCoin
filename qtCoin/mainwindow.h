@@ -16,6 +16,7 @@
 #include <QGraphicsView>
 #include <QTabWidget>
 #include "src/downloadmanager.h"
+#include "src/dbus/dbushandler.h"
 
 namespace Ui {
 class MainWindow;
@@ -262,6 +263,8 @@ private:
     Ui::MainWindow *ui;
     QSqlDatabase db;
     QSqlDatabase coinDB;
+
+    DBusHandler *m_hDbus;
 };
 
 #endif // MAINWINDOW_H
