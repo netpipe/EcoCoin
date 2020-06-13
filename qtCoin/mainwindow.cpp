@@ -146,10 +146,10 @@ widget2->resize(ui->openGLWidget->width(),ui->openGLWidget->height());
 QDBusConnection connection = QDBusConnection::sessionBus();
 connection.registerObject("/qtcoin", this);
 connection.registerService("qtcoin.test");
-connection.connect(QString(), "/qtcoin", "qtcoin.test", "test", this, SLOT(remoteCall(QString)));
+connection.connect("my.qtcoin.dbus", "/qtcoin", "qtcoin.test", "test", this, SLOT(remoteCall(QString)));
 
 
-//dbus-send --system --type=signal / qtcoin.test string:"hello"
+//dbus-send --system --type=signal / my.qtcoin.test string:"hello"
 //dbus-send --system --type="method_call" --dest=com.user.server /com/user/server com.user.server.function
 
 //    m_hDbus = new DBusHandler();
