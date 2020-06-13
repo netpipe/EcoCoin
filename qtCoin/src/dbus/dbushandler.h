@@ -4,29 +4,52 @@
 #include        <QtCore/QtCore>
 #include        <QtDBus/QDBusInterface>
 
-#define         DBUS_PATH       "/"
-#define         DBUS_INTERFACE  "my.qtcoin.dbus"
-#define         DBUS_NAME       "message"
+//"org.freedesktop.PowerManagement",  // from list on left
+//                     "/org/freedesktop/PowerManagement", // from first line of screenshot
+//                     "org.freedesktop.PowerManagement",  // from above Methods
+#define         DBUS_PATH       "org.qtcoin.DBus"
+#define         DBUS_INTERFACE  "org/qtcoin/message"
+#define         DBUS_NAME       "org.qtcoin.message"
 
 class           DBusHandler : public QThread
 {
-  Q_OBJECT;
+  Q_OBJECT
 
 private:
 
   void          run(void)
   {
-    QDBusConnection connection = QDBusConnection::sessionBus();
 
-    connection.registerService(QString());
-    connection.registerObject(DBUS_PATH, this, QDBusConnection::ExportAllSlots);
-    connection.connect(QString(), DBUS_PATH, DBUS_INTERFACE, DBUS_NAME, this, SLOT(remoteCall(QString)));
-
-    exec();
   }
 
 public:
-  DBusHandler(void) {}
+  DBusHandler(void) {
+
+      QDBusConnection connection = QDBusConnection::sessionBus();
+
+      connection.registerObject("/testObject", this);
+
+      connection.registerService("dbustester.test");
+
+
+
+     // QDBusInterface iface( DBUS_PATH, DBUS_INTERFACE, DBUS_NAME, QDBusConnection::sessionBus(), 0 );
+
+    //  QDBusConnection connection = QDBusConnection::sessionBus();
+
+
+    //  connection.registerService("my.qdbus.example");
+    //  connection.registerObject("/", this, QDBusConnection::ExportAllSlots);
+
+    //  connection.registerService(DBUS_PATH);
+    //  connection.registerObject(DBUS_PATH, this, QDBusConnection::ExportAllSlots);
+    //  connection.connect(QString(), DBUS_PATH, DBUS_INTERFACE, DBUS_NAME, this, SLOT(remoteCall(QString)));
+
+      exec();
+
+
+
+  }
   virtual ~DBusHandler(void) {}
 
   void          stop(void)

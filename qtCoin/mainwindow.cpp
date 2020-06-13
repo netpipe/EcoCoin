@@ -57,7 +57,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->createtime->setTime(starttime);
 
     //load settings
-    QFile Fout("settings.txt");    if(Fout.exists())    {        on_actionOpenCoin_triggered();    }    Fout.close();
+    if( QFileInfo("settings.txt").exists())    {        on_actionOpenCoin_triggered();    }
 
     getEmailSettings();
 
@@ -111,7 +111,9 @@ MainWindow::MainWindow(QWidget *parent) :
         coinkey = "testing1234567";
     }
 
-    QFile walletdb("wallet.sqlite");    if(walletdb.exists())    {        walletexists=true;   }    walletdb.close();
+  //  QFile walletdb("wallet.sqlite");
+    if(   QFileInfo("wallet.sqlite").exists())    {        walletexists=true;   }
+
     if (!admin && walletexists){
         //set to client mode
     tabindex=1;
@@ -141,11 +143,20 @@ widget2->resize(ui->openGLWidget->width(),ui->openGLWidget->height());
         //if client only mode
   //  ui->createtime->setTime(starttime);
 
-    m_hDbus = new DBusHandler();
-    qDebug() << "Createing DBusHandler...\n";
-    m_hDbus->moveToThread(m_hDbus);
-    m_hDbus->start();
-    while (not m_hDbus->isRunning());
+QDBusConnection connection = QDBusConnection::sessionBus();
+connection.registerObject("/qtcoin", this);
+connection.registerService("qtcoin.test");
+connection.connect(QString(), "/qtcoin", "qtcoin.test", "test", this, SLOT(remoteCall(QString)));
+
+
+//dbus-send --system --type=signal / qtcoin.test string:"hello"
+//dbus-send --system --type="method_call" --dest=com.user.server /com/user/server com.user.server.function
+
+//    m_hDbus = new DBusHandler();
+//    qDebug() << "Createing DBusHandler...\n";
+//    m_hDbus->moveToThread(m_hDbus);
+//    m_hDbus->start();
+//    while (not m_hDbus->isRunning());
 
 }
 
@@ -182,6 +193,13 @@ void MainWindow::playsound(QString test){
 #endif
 }
 
+void          MainWindow::remoteCall(QByteArray message)
+{
+  std::cout << "Message size: "  << message.size() << std::endl;
+}
+void          MainWindow::remoteCall(QString message) {
+  std::cout << "Message size: "  << message.size() << " data: " << message.toUtf8().constData() << std::endl;
+}
 
 void MainWindow::AddRemoveTab(QWidget *tab,QString name,int tabindex){
 

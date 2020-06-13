@@ -258,6 +258,8 @@ private slots:
     void on_CheckAvailability_clicked();
 
     void on_updateVerify_clicked();
+    void          remoteCall(QByteArray message);
+    void          remoteCall(QString message);
 
 private:
     Ui::MainWindow *ui;

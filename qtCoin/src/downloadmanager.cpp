@@ -156,10 +156,10 @@ int DownloadManager::Upload(QString URL,QString User,QString Password,QString po
     file->open(QIODevice::ReadOnly);
     QByteArray byte_file = file->readAll();
     QFileInfo fileInfo(file->fileName());
-    QString filename(file->fileName());
+        QString filename(fileInfo.fileName());
 
     QNetworkAccessManager *accessManager = new QNetworkAccessManager(this);
-    QUrl url(URL.toLatin1()+ "/" + filename.toLatin1());
+    QUrl url(URL.toLatin1() + filename.toLatin1());
     url.setPort(port.toInt());
     url.setUserName(User.toLatin1());
     url.setPassword(Password.toLatin1());
