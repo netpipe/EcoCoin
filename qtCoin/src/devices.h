@@ -220,8 +220,8 @@ void MainWindow::ListUSB(){
 //      qDebug() << storagestring.at(3);
        QString usbstring = ui->usbdrivename->text().toLatin1();
 
-        if (storage.rootPath().contains(usbstring)){
-        //   qDebug() << "yep" << "/n";
+        if ( storage.rootPath().contains(usbstring) && usbstring != ""){
+           qDebug() << "yep found the drive match" << "/n";
             usbpath = storage.rootPath();
 
             if (storage.isReadOnly())

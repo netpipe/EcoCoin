@@ -136,7 +136,7 @@ void MainWindow::on_randomSearch_clicked()
 
 void MainWindow::on_gencoininfo_btn_clicked()
 {
-
+        qDebug() << "generating settings.txt";
     QFile file("settings.txt");
       //    if(file.open(QIODevice::WriteOnly | QIODevice::Text))
           if(file.open(QIODevice::ReadWrite | QIODevice::Text))
@@ -163,11 +163,14 @@ void MainWindow::on_gencoininfo_btn_clicked()
           }
 
           ListUSB();
-        //qDebug() << "usb path " << usbpath.toLatin1();
+
+        qDebug() << "usb path " << usbpath.toLatin1();
           QString path;
+          qDebug() << "usb path set.";
             if(usbpath.toLatin1() != "" ){
             path =     usbpath.toLatin1()+"/keys.txt";
             }else{
+                qDebug() << "local keys path set.";
             path = "./keys.txt";
             }
           QFile file2(path);
