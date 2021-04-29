@@ -1,0 +1,1159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>FormInvestment</class>
+ <widget class="QWidget" name="FormInvestment">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1018</width>
+    <height>634</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_4">
+   <item>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>4</number>
+     </property>
+     <widget class="QWidget" name="tab_User">
+      <attribute name="title">
+       <string>Users</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <layout class="QGridLayout" name="gridLayout">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_14">
+           <property name="text">
+            <string>ID</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="userid">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>32</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QPushButton" name="btn_SelectAll">
+           <property name="minimumSize">
+            <size>
+             <width>120</width>
+             <height>32</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Select All</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_15">
+           <property name="text">
+            <string>Coin</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="coinid">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>32</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QPushButton" name="btn_Search">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>32</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Search</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QTableWidget" name="tableWidgetUsers">
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <column>
+          <property name="text">
+           <string>Email</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>CoinAddress</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>owner</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Class</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>DateTime</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_Add">
+      <attribute name="title">
+       <string>Add User</string>
+      </attribute>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QGroupBox" name="groupBox_2">
+         <property name="title">
+          <string>AddUser</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_33">
+          <property name="verticalSpacing">
+           <number>12</number>
+          </property>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_394">
+            <property name="text">
+             <string>Name:</string>
+            </property>
+            <property name="scaledContents">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="2" colspan="2">
+           <widget class="QLabel" name="label_30">
+            <property name="text">
+             <string>used incase of lost password</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="1" colspan="3">
+           <widget class="QLineEdit" name="add_txt_Extra">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QLineEdit" name="add_txt_Phone">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="2" colspan="2">
+           <widget class="QLabel" name="label_29">
+            <property name="text">
+             <string>optional incase of lost password</string>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="1">
+           <widget class="QPushButton" name="add_btn_Insert">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Insert User then email</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0">
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>Datetime:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="1">
+           <widget class="QLineEdit" name="add_txt_Class">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_396">
+            <property name="text">
+             <string>Email</string>
+            </property>
+            <property name="scaledContents">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="add_txt_Email">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="add_txt_Name">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2" colspan="2">
+           <widget class="QLabel" name="label_36">
+            <property name="text">
+             <string>encrypted address copied to clipboard</string>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="3">
+           <widget class="QPushButton" name="add_btn_GenerateQR">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Generate QR Code</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="add_txt_UserID">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(211, 215, 207);</string>
+            </property>
+            <property name="text">
+             <string>autogenerated</string>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QLineEdit" name="add_txt_Password">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="2">
+           <widget class="QLabel" name="label_31">
+            <property name="text">
+             <string>used for encryption</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="0">
+           <widget class="QLabel" name="label_32">
+            <property name="text">
+             <string>Extra Info:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>UserID:</string>
+            </property>
+            <property name="scaledContents">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="9" column="3">
+           <widget class="QPushButton" name="add_btn_SaveQR">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Save QR Code</string>
+            </property>
+           </widget>
+          </item>
+          <item row="9" column="1">
+           <widget class="QPushButton" name="add_btn_Save">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Save info to text for user</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="label_2834">
+            <property name="text">
+             <string>Password:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="QLabel" name="label_343">
+            <property name="text">
+             <string>Phone:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="1">
+           <widget class="QLineEdit" name="add_txt_Date">
+            <property name="text">
+             <string>2020121</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="2" colspan="2">
+           <widget class="QLabel" name="label_39">
+            <property name="text">
+             <string>optional - random will be generated if blank</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="0">
+           <widget class="QLabel" name="label_38">
+            <property name="text">
+             <string>Class:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="10" column="1">
+           <spacer name="verticalSpacer">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGraphicsView" name="add_QRView"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_Coin">
+      <attribute name="title">
+       <string>Generate Coin</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QLabel" name="label_16">
+         <property name="text">
+          <string>Coin Value based on Local Currency or something like Gold / silver / bitcoin / cookies / votes / lottery etc...</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_11">
+         <property name="title">
+          <string>Coin Settings</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_3">
+          <item row="2" column="3">
+           <widget class="QLabel" name="label_8">
+            <property name="text">
+             <string>Encrypted-RSA+AES</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0" colspan="2">
+           <widget class="QLabel" name="label_655">
+            <property name="text">
+             <string>CoinAddressLength</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="2">
+           <widget class="QLineEdit" name="cns_txt_Length">
+            <property name="text">
+             <string>8</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QLineEdit" name="cns_txt_Count">
+            <property name="text">
+             <string>10000</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QLineEdit" name="cns_txt_Coin">
+            <property name="text">
+             <string>CookieCoin</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_5">
+            <property name="text">
+             <string>CoinCount</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_19">
+            <property name="text">
+             <string>Coin Name</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="label_755">
+            <property name="text">
+             <string>DateCreated</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="2">
+           <layout class="QHBoxLayout" name="horizontalLayout_14">
+            <item>
+             <widget class="QSpinBox" name="cns_sp_Day">
+              <property name="minimum">
+               <number>1</number>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="cns_cb_Month">
+              <item>
+               <property name="text">
+                <string>Jan</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Feb</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Mar</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>April</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>May</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>June</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>July</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Aug</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>September</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>October</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>November</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="cns_sp_Year">
+              <property name="maximum">
+               <number>15000</number>
+              </property>
+              <property name="value">
+               <number>2020</number>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QTimeEdit" name="cns_sp_Time"/>
+            </item>
+           </layout>
+          </item>
+          <item row="2" column="4">
+           <layout class="QHBoxLayout" name="horizontalLayout_15">
+            <item>
+             <widget class="QRadioButton" name="cns_chk_EncYes">
+              <property name="text">
+               <string>Yes</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="cns_chk_EncNo">
+              <property name="text">
+               <string>No</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="1" column="3">
+           <widget class="QLabel" name="label_21">
+            <property name="text">
+             <string>Coin Value</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="4">
+           <widget class="QLineEdit" name="cns_txt_Type">
+            <property name="text">
+             <string>CAD</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="4">
+           <widget class="QSpinBox" name="cns_sp_Expires">
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>10000</number>
+            </property>
+            <property name="value">
+             <number>50</number>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="3">
+           <widget class="QLabel" name="label_17">
+            <property name="text">
+             <string>Type</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="3">
+           <widget class="QLabel" name="label_1155">
+            <property name="text">
+             <string>Inactives Expire Years</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="4">
+           <widget class="QLineEdit" name="cns_txt_Value">
+            <property name="text">
+             <string>.25</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <widget class="QLabel" name="label_22">
+           <property name="text">
+            <string>USB Key Drive Name only, leaveblank to store on HD</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="cns_txt_USB">
+           <property name="text">
+            <string>drivename</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_42">
+           <property name="text">
+            <string>Transaction driveName</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="cns_sp_DriveName">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox">
+         <property name="title">
+          <string>Matures</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout" stretch="1,10">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <widget class="QRadioButton" name="cns_chk_mature_Yes">
+              <property name="maximumSize">
+               <size>
+                <width>50</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Yes</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="cns_chk_mature_No">
+              <property name="maximumSize">
+               <size>
+                <width>50</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>No</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Minimum</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_9">
+              <property name="text">
+               <string>CoinPayout </string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="cns_sp_Payout">
+              <property name="value">
+               <double>1.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_20">
+              <property name="text">
+               <string>Investment Multiplier: 2 is double</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_10">
+              <property name="text">
+               <string>MaturingDate</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="cns_sp_matureDay">
+              <property name="minimum">
+               <number>1</number>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="cns_cb_matureMonth">
+              <item>
+               <property name="text">
+                <string>Jan</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Feb</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Mar</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>April</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>May</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>June</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>July</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Aug</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>September</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>October</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>November</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="cns_cb_matureYear">
+              <property name="maximum">
+               <number>15000</number>
+              </property>
+              <property name="value">
+               <number>2020</number>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QTimeEdit" name="cns_cb_matureTime"/>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,10">
+            <item>
+             <widget class="QLabel" name="label_18">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Description</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPlainTextEdit" name="cns_txt_description">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="plainText">
+               <string>What the investment will be based on</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <item>
+          <spacer name="horizontalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="cns_btn_Generate">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>32</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Generate Coin</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_4">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_Validate">
+      <attribute name="title">
+       <string>Validate</string>
+      </attribute>
+      <widget class="QPushButton" name="btn_validateCoin">
+       <property name="geometry">
+        <rect>
+         <x>380</x>
+         <y>240</y>
+         <width>151</width>
+         <height>71</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Validate</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="tab_FTP">
+      <attribute name="title">
+       <string>Server Settings</string>
+      </attribute>
+      <widget class="QGroupBox" name="groupBox_3">
+       <property name="geometry">
+        <rect>
+         <x>70</x>
+         <y>170</y>
+         <width>300</width>
+         <height>260</height>
+        </rect>
+       </property>
+       <property name="title">
+        <string>FTP</string>
+       </property>
+       <widget class="QPushButton" name="btn_FtpServer">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>60</y>
+          <width>141</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Server Settings</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btn_FTPTest">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>120</y>
+          <width>141</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>test</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QGroupBox" name="groupBox_4">
+       <property name="geometry">
+        <rect>
+         <x>430</x>
+         <y>170</y>
+         <width>381</width>
+         <height>260</height>
+        </rect>
+       </property>
+       <property name="title">
+        <string>SMTP</string>
+       </property>
+       <widget class="QLineEdit" name="txt_smtp_password">
+        <property name="geometry">
+         <rect>
+          <x>131</x>
+          <y>140</y>
+          <width>216</width>
+          <height>25</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="echoMode">
+         <enum>QLineEdit::Password</enum>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_3234">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>74</y>
+          <width>105</width>
+          <height>25</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Port</string>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="chk_smtp_ssl">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>174</y>
+          <width>216</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>encrypted</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="txt_smtp_host">
+        <property name="geometry">
+         <rect>
+          <x>131</x>
+          <y>41</y>
+          <width>216</width>
+          <height>25</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>smtp.gmail.com</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btn_SmtpSave">
+        <property name="geometry">
+         <rect>
+          <x>240</x>
+          <y>200</y>
+          <width>105</width>
+          <height>42</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Save Settings</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_6234">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>107</y>
+          <width>105</width>
+          <height>25</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Email</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="txt_smtp_email">
+        <property name="geometry">
+         <rect>
+          <x>131</x>
+          <y>107</y>
+          <width>216</width>
+          <height>25</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>your_username@gmail.com</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="txt_smtp_port">
+        <property name="geometry">
+         <rect>
+          <x>131</x>
+          <y>74</y>
+          <width>216</width>
+          <height>25</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>465</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_2234">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>41</y>
+          <width>105</width>
+          <height>25</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Host</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_7234">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>140</y>
+          <width>105</width>
+          <height>25</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Password</string>
+        </property>
+       </widget>
+      </widget>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>userid</tabstop>
+  <tabstop>coinid</tabstop>
+  <tabstop>btn_SelectAll</tabstop>
+  <tabstop>btn_Search</tabstop>
+  <tabstop>tableWidgetUsers</tabstop>
+  <tabstop>add_txt_UserID</tabstop>
+  <tabstop>add_txt_Email</tabstop>
+  <tabstop>add_txt_Name</tabstop>
+  <tabstop>add_txt_Password</tabstop>
+  <tabstop>add_txt_Phone</tabstop>
+  <tabstop>add_txt_Date</tabstop>
+  <tabstop>add_txt_Extra</tabstop>
+  <tabstop>add_txt_Class</tabstop>
+  <tabstop>add_btn_Insert</tabstop>
+  <tabstop>add_btn_Save</tabstop>
+  <tabstop>add_btn_GenerateQR</tabstop>
+  <tabstop>add_btn_SaveQR</tabstop>
+  <tabstop>add_QRView</tabstop>
+  <tabstop>cns_txt_Coin</tabstop>
+  <tabstop>cns_txt_Count</tabstop>
+  <tabstop>cns_txt_Length</tabstop>
+  <tabstop>cns_sp_Day</tabstop>
+  <tabstop>cns_cb_Month</tabstop>
+  <tabstop>cns_sp_Year</tabstop>
+  <tabstop>cns_sp_Time</tabstop>
+  <tabstop>cns_txt_Type</tabstop>
+  <tabstop>cns_txt_Value</tabstop>
+  <tabstop>cns_chk_EncYes</tabstop>
+  <tabstop>cns_chk_EncNo</tabstop>
+  <tabstop>cns_sp_Expires</tabstop>
+  <tabstop>cns_txt_USB</tabstop>
+  <tabstop>cns_sp_DriveName</tabstop>
+  <tabstop>cns_chk_mature_Yes</tabstop>
+  <tabstop>cns_chk_mature_No</tabstop>
+  <tabstop>cns_sp_Payout</tabstop>
+  <tabstop>cns_sp_matureDay</tabstop>
+  <tabstop>cns_cb_matureMonth</tabstop>
+  <tabstop>cns_cb_matureYear</tabstop>
+  <tabstop>cns_cb_matureTime</tabstop>
+  <tabstop>cns_txt_description</tabstop>
+  <tabstop>cns_btn_Generate</tabstop>
+  <tabstop>btn_validateCoin</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

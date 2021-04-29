@@ -76,7 +76,7 @@ public:
 
     void ListUSB();
 #ifdef SOUND
-    QMediaPlayer*player;
+    QMediaPlayer* player;
 #endif
     void SQLTest(QString dbname,QString Query);
     //coingenerator3
