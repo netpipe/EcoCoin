@@ -149,8 +149,8 @@ connection.registerService("qtcoin.test");
 connection.connect("my.qtcoin.dbus", "/qtcoin", "qtcoin.test", "test", this, SLOT(remoteCall(QString)));
 
 
-//dbus-send --system --type=signal / my.qtcoin.test string:"hello"
-//dbus-send --system --type="method_call" --dest=com.user.server /com/user/server com.user.server.function
+//dbus-send --session --type=signal / my.qtcoin.test string:"hello"
+//dbus-send --session --type="method_call" --dest=com.user.server /com/user/server com.user.server.function
 
 //    m_hDbus = new DBusHandler();
 //    qDebug() << "Createing DBusHandler...\n";

@@ -45,7 +45,7 @@ public:
     //  connection.registerObject(DBUS_PATH, this, QDBusConnection::ExportAllSlots);
     //  connection.connect(QString(), DBUS_PATH, DBUS_INTERFACE, DBUS_NAME, this, SLOT(remoteCall(QString)));
 
-      exec();
+    //  exec();
 
 
 
