@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1018</width>
+    <width>1047</width>
     <height>570</height>
    </rect>
   </property>
@@ -24,7 +24,7 @@
        <enum>QTabWidget::Triangular</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="accountingtab">
        <attribute name="title">
@@ -805,7 +805,7 @@
         <item row="0" column="1">
          <widget class="QTabWidget" name="tabWidget_3">
           <property name="currentIndex">
-           <number>2</number>
+           <number>3</number>
           </property>
           <widget class="QWidget" name="tab_8">
            <attribute name="title">
@@ -1413,7 +1413,7 @@
                     <rect>
                      <x>10</x>
                      <y>30</y>
-                     <width>473</width>
+                     <width>519</width>
                      <height>32</height>
                     </rect>
                    </property>
@@ -1467,7 +1467,7 @@
                     <rect>
                      <x>490</x>
                      <y>30</y>
-                     <width>416</width>
+                     <width>459</width>
                      <height>38</height>
                     </rect>
                    </property>
@@ -1642,7 +1642,7 @@
            <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="tab_2">
            <attribute name="title">
@@ -1883,7 +1883,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1018</width>
+     <width>1047</width>
      <height>24</height>
     </rect>
    </property>

@@ -47,8 +47,13 @@ void MainWindow::on_GenerateRequest_clicked()
     }else{
         if (admin){    //if admin then placecoins without generating rxfile
             placeCoins( ui->receiveid->text().toLatin1(), ui->receiveammount->text().toLatin1());
+
+
         } else {
             QString result = generateRXfile(mainID.toLatin1(),ui->receiveid->text().toLatin1(),ui->receiveammount->text().toLatin1());
+
+
+
         }
     }
 
@@ -119,6 +124,9 @@ int MainWindow::processRXTXfile(QString file){
     //check if client or admin
     //if client just add rx into wallet
     //server must process tx files to validate
+    //store in pickup on server for offline txs
+    //ftp mode and smtp mode , ssl available later
+    //
 
 //    QString fileName = QFileDialog::getOpenFileName(this, tr("Open rx/tx"), "./", tr("rx/tx files (*.rx *.tx *.txt)"));
 //    qDebug()<< fileName.toLatin1() ;
@@ -179,6 +187,8 @@ return false;
 
 
 QString MainWindow::generateTXfile(QString suserid,QString ruserid,QString etxcoins){ //file to send from client
+
+    //for offline transactions it can send multiple times with random delays and store them in pickup db
     //encrypt with masterkey encrypted userID and user encryption key and datetime to validate coins from their wallet
 
     //might only need ammount and userid and other usersid for tx's because users are not sending coins directly to other users
@@ -186,8 +196,14 @@ QString MainWindow::generateTXfile(QString suserid,QString ruserid,QString etxco
 
     if (admin){ // maybe check if frontend or backend
         fileName2="./rxtx/tmp.txt";
+
+
+
     }else {
         fileName2 = QFileDialog::getSaveFileName(this,  tr("Save TX"), "",  tr("SaveRX/TX File (*.txt);;All Files (*)"));
+
+
+
     }
             QStringList coins;
     //pull coins from wallet or yearlydb's and place into file to be processed
@@ -213,7 +229,7 @@ QString MainWindow::generateTXfile(QString suserid,QString ruserid,QString etxco
 
            //insertwalletcoins()
        }
-    }else{ //send from address to address check if any of wallet addresses match for multiple wallets the same for timed offline transactions
+    } else { //send from address to address check if any of wallet addresses match for multiple wallets the same for timed offline transactions
 
  //   db.setDatabaseName("./"+ result +".sqlite");
        db.open();
@@ -258,6 +274,9 @@ QString MainWindow::generateTXfile(QString suserid,QString ruserid,QString etxco
 }
 
 QString MainWindow::generateRXfile(QString ruserid,QString suserid,QString etxcoins){ //rxfile to give client encrypted coins to put in wallet might not be needed. for client only cold server
+
+
+    // generating rx file will allow client and backend to receive coins\
 
     //etxcoins is either tmptxtfile with encryptedcoins or to make more secure use memory
     //encrypt coin addresses with mastercoinkey and userid to send the coins to their wallets if so desired (upto the user for extra security also gives ability to send between user accounts)

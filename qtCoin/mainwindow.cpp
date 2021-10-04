@@ -44,10 +44,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
     db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName("database.sqlite");
+
 #ifdef SOUND
     player=new QMediaPlayer();
     playsound("Resource/sounds/ec1_mono.ogg");
 #endif
+
     qDebug() << "db exists" << QDir("db").exists();    if (!QDir("db").exists()){        QDir().mkdir("db");    }
 
     ui->createyear->setValue(year.toInt());
@@ -125,18 +127,18 @@ MainWindow::MainWindow(QWidget *parent) :
     }
 
 #ifdef OPENGL
-  //  widget = new IrrlichtWidget( ui->tabWidget->findChild<QWidget *>("irrRenderWidget0") );
+    //  widget = new IrrlichtWidget( ui->tabWidget->findChild<QWidget *>("irrRenderWidget0") );
     //QOpenGLWidget
-   OGLWidget *widget2 = new OGLWidget(ui->tabWidget_2->findChild<QWidget *>("openGLWidget"));
-   //widget2->(ui->openGLWidget->height());
-   // OGLWidget *openGLWidget = new OGLWidget(parent);
-  //  openGLWidget->show();
-//ui->openGLWidget->resize(300,400);
-widget2->resize(ui->openGLWidget->width(),ui->openGLWidget->height());
- //  ui->openGLWidget->showMaximized();
+    OGLWidget *widget2 = new OGLWidget(ui->tabWidget_2->findChild<QWidget *>("openGLWidget"));
+    //widget2->(ui->openGLWidget->height());
+    // OGLWidget *openGLWidget = new OGLWidget(parent);
+    //  openGLWidget->show();
+    //ui->openGLWidget->resize(300,400);
+    widget2->resize(ui->openGLWidget->width(),ui->openGLWidget->height());
+    //  ui->openGLWidget->showMaximized();
     //     setCentralWidget(widget); //widget
-     //    showMaximized();
-       //  widget2->autoRepaint();
+    //    showMaximized();
+    //  widget2->autoRepaint();
 
 #endif
 
