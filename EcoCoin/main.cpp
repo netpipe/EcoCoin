@@ -13,8 +13,8 @@
 #define headlessGUI //define for console mode only
 
 #include "sqlCon.h"
-#include <irrlicht.h>
-#include <irrNet.h>
+//#include <irrlicht.h>
+//#include <irrNet.h>
 #include "md5sum.h"
 #include "address.h"
 
@@ -22,6 +22,7 @@
 #include "crypto/Ecdsa.hpp"
 #include "crypto/Sha256Hash.hpp"
 #include "crypto/Uint256.hpp"
+#include "coingen.h"
 
 static int numTestCases = 0;
 
@@ -37,21 +38,21 @@ static int numTestCases = 0;
 
 //int system(const char *command); //md5 file
 
-using namespace irr;
-using namespace core;
-using namespace scene;
-using namespace video;
-using namespace io;
-using namespace gui;
+//using namespace irr;
+//using namespace core;
+//using namespace scene;
+//using namespace video;
+//using namespace io;
+//using namespace gui;
 
 
 void handleConnection();
 bool doit;
 bool connected,authorized;
 
-vector3df tmpvect;
+//vector3df tmpvect;
 //	u32 address = netManager->getClientAddress(playerId);
-
+#ifdef irrlicht
 class ServerNetCallback : public net::INetCallback
 {
  public:
@@ -126,7 +127,7 @@ private:
 	core::array<u32> banList;
 	net::INetManager* netManager;
 };
-
+#endif
 static void testEcdsaSignAndVerify() {
 	// Define test cases
 	struct SignCase {
@@ -237,14 +238,14 @@ int main()
 		node->setMaterialTexture( 0, driver->getTexture("./media/sydney.bmp") );
 	}
 	smgr->addCameraSceneNode(0, vector3df(0,30,-40), vector3df(0,5,0));
-#endif
+
     //log << std::string("loop");
 		//  The default port that clients can connect to is set to 45000.
 		net::INetManager* netManager = net::createIrrNetServer(0);
 		ServerNetCallback* serverCallback = new ServerNetCallback(netManager);
 		netManager->setNetCallback(serverCallback);
           netManager->setVerbose(true);
-
+#endif
 
     //! TEST AREA FOR SQL
 std::string a;
@@ -287,6 +288,8 @@ std::string a;
 	testEcdsaSignAndVerify();
 	testEcdsaVerify();
 	std::printf("All %d test cases passed\n", numTestCases);
+
+	//brutegen();
 #ifndef headlessGUI
 
     while(device->run())
@@ -344,8 +347,9 @@ while(1){
 
 
 	device->drop();
-#endif
+
     delete netManager;
     delete serverCallback;
+    #endif
     return 0;
 }
