@@ -12,12 +12,12 @@
   return 0;
 }
 
-sqlCon::sqlCon(char*){
+sqlCon::sqlCon(char* test){
   stmt = 0;
   zErrMsg = 0;
 
    fprintf(stderr, "Opening DB \n");
-    rc = sqlite3_open( "ha.db", &db);
+    rc = sqlite3_open( test, &db);
     if( rc ){
         fprintf(stderr,"Can't open database: %s\n", sqlite3_errmsg(db));
   }
