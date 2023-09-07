@@ -34,7 +34,7 @@
         <item row="0" column="0">
          <widget class="QTabWidget" name="tabWidget">
           <property name="currentIndex">
-           <number>3</number>
+           <number>6</number>
           </property>
           <widget class="QWidget" name="tab_5">
            <attribute name="title">
@@ -151,17 +151,17 @@
                <string>Send Coin</string>
               </property>
               <layout class="QGridLayout" name="gridLayout_7">
-               <item row="6" column="1">
-                <widget class="QLineEdit" name="givecoinsid2">
+               <item row="3" column="0">
+                <widget class="QLabel" name="label_23">
                  <property name="text">
-                  <string/>
+                  <string>Ammount</string>
                  </property>
                 </widget>
                </item>
-               <item row="0" column="1">
-                <widget class="QLabel" name="label_35">
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_24">
                  <property name="text">
-                  <string>candidates/votes use the uer field</string>
+                  <string>User</string>
                  </property>
                 </widget>
                </item>
@@ -179,10 +179,24 @@
                  </property>
                 </widget>
                </item>
-               <item row="2" column="0">
-                <widget class="QLabel" name="label_24">
+               <item row="7" column="1">
+                <widget class="QPushButton" name="generatetx">
                  <property name="text">
-                  <string>User</string>
+                  <string>Generate TX file</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QLabel" name="label_35">
+                 <property name="text">
+                  <string>candidates/votes use the uer field</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="1">
+                <widget class="QLineEdit" name="givecoinsid2">
+                 <property name="text">
+                  <string/>
                  </property>
                 </widget>
                </item>
@@ -192,24 +206,10 @@
                <item row="3" column="1">
                 <widget class="QLineEdit" name="givecoinsammount"/>
                </item>
-               <item row="3" column="0">
-                <widget class="QLabel" name="label_23">
-                 <property name="text">
-                  <string>Ammount</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="7" column="1">
-                <widget class="QPushButton" name="generatetx">
-                 <property name="text">
-                  <string>Generate TX file</string>
-                 </property>
-                </widget>
-               </item>
                <item row="4" column="1">
                 <widget class="QLabel" name="label_34">
                  <property name="text">
-                  <string>if blank goes comes from rcoins for admin</string>
+                  <string>if fromuser is blank goes comes from rcoins for admin</string>
                  </property>
                 </widget>
                </item>
@@ -632,7 +632,7 @@
               </column>
               <column>
                <property name="text">
-                <string>owner</string>
+                <string>prevowner</string>
                </property>
               </column>
               <column>
@@ -660,6 +660,13 @@
                <string>Wallet</string>
               </property>
               <layout class="QGridLayout" name="gridLayout_31">
+               <item row="1" column="2">
+                <widget class="QLabel" name="label_47">
+                 <property name="text">
+                  <string>used incase of lost password</string>
+                 </property>
+                </widget>
+               </item>
                <item row="4" column="0">
                 <widget class="QLabel" name="label_40">
                  <property name="text">
@@ -667,10 +674,38 @@
                  </property>
                 </widget>
                </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_2835">
+                 <property name="text">
+                  <string>Password:</string>
+                 </property>
+                </widget>
+               </item>
                <item row="0" column="2">
                 <widget class="QLabel" name="label_41">
                  <property name="text">
                   <string>encrypted address copied to clipboard</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="1">
+                <widget class="QLineEdit" name="createextra_2">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="2">
+                <widget class="QLabel" name="label_44">
+                 <property name="text">
+                  <string>optional incase of lost password</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="2">
+                <widget class="QLabel" name="label_43">
+                 <property name="text">
+                  <string>Extra Info</string>
                  </property>
                 </widget>
                </item>
@@ -694,10 +729,45 @@
                  </property>
                 </widget>
                </item>
-               <item row="5" column="1">
+               <item row="2" column="1">
+                <widget class="QLineEdit" name="lineEditPassword_2">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="1">
+                <widget class="QLineEdit" name="lineEditPhone_2">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="7" column="1">
+                <widget class="QPushButton" name="pushButton_4">
+                 <property name="text">
+                  <string>PublishDetails</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="1">
                 <widget class="QPushButton" name="pushButton_3">
                  <property name="text">
                   <string>SaveDetails</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QLineEdit" name="lineEditSurname_2">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0">
+                <widget class="QLabel" name="label_344">
+                 <property name="text">
+                  <string>Phone:</string>
                  </property>
                 </widget>
                </item>
@@ -711,13 +781,6 @@
                  </property>
                 </widget>
                </item>
-               <item row="2" column="1">
-                <widget class="QLineEdit" name="lineEditPassword_2">
-                 <property name="text">
-                  <string/>
-                 </property>
-                </widget>
-               </item>
                <item row="2" column="2">
                 <widget class="QLabel" name="label_46">
                  <property name="text">
@@ -725,66 +788,10 @@
                  </property>
                 </widget>
                </item>
-               <item row="3" column="0">
-                <widget class="QLabel" name="label_344">
+               <item row="5" column="1">
+                <widget class="QPushButton" name="pushButton_6">
                  <property name="text">
-                  <string>Phone:</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="4" column="1">
-                <widget class="QLineEdit" name="createextra_2">
-                 <property name="text">
-                  <string/>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="1">
-                <widget class="QLineEdit" name="lineEditPhone_2">
-                 <property name="text">
-                  <string/>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="2">
-                <widget class="QLabel" name="label_44">
-                 <property name="text">
-                  <string>optional incase of lost password</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="0">
-                <widget class="QLabel" name="label_2835">
-                 <property name="text">
-                  <string>Password:</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="2">
-                <widget class="QLabel" name="label_47">
-                 <property name="text">
-                  <string>used incase of lost password</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="1">
-                <widget class="QLineEdit" name="lineEditSurname_2">
-                 <property name="text">
-                  <string/>
-                 </property>
-                </widget>
-               </item>
-               <item row="4" column="2">
-                <widget class="QLabel" name="label_43">
-                 <property name="text">
-                  <string>Extra Info</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="6" column="1">
-                <widget class="QPushButton" name="pushButton_4">
-                 <property name="text">
-                  <string>PublishDetails</string>
+                  <string>Generate or request ID from server</string>
                  </property>
                 </widget>
                </item>

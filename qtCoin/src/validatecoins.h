@@ -324,7 +324,7 @@ QString MainWindow::generateRXfile(QString ruserid,QString suserid,QString etxco
            file.close();
           }
  //encrypt file check md5sum
-
+        //stream << "md5:" << fileChecksum("tmptx.txt",QCryptographicHash::Md5); // md5sum
        //append md5sum
 
 // if frontend admin mode then use its own key
