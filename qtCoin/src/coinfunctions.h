@@ -129,7 +129,10 @@ void MainWindow::on_SendCoins_clicked()
 
 }
 
-int MainWindow::placeCoins(QString euserid,QString ammount) //free coins from coins.db
+//int MainWindow::createmorecoins(){ should append to several databases - maybe a burn option/remove some will work too.
+//}
+
+int MainWindow::placeCoins(QString euserid,QString ammount) //place coins into yearlydb
 {// place into client walled based on yearly tables when created ID
 
 ///////////////////
@@ -141,7 +144,7 @@ int MainWindow::placeCoins(QString euserid,QString ammount) //free coins from co
 //    qDebug() << QString(array.toHex());
 //////////////////////
 //ui->givecoinsammount.text().toLatin1()
-    if (euserid.toLatin1() == "receive"){ //receiving coins
+    if (euserid.toLatin1() == "receive"){ //receiving coins back into rcoins or updating userid in recoins.db
 //get ammount of usercoins, verify then decrypt and add to rcoins and remove from user table
         QVariantList coins;
         QVariantList origindex;
@@ -223,7 +226,7 @@ int MainWindow::placeCoins(QString euserid,QString ammount) //free coins from co
 
         //remove coins
 
-    } else{ ///send coins to yeardb wallet
+    } else{ ///send coins to yeardb wallet with new userID
 
 
 
@@ -338,8 +341,8 @@ qDebug() << "validate coins";
 float MainWindow::checkBalance(QString euserID){
 //iterate and count coins from userid from yeardb
     float balance=0;
-
-    db.setDatabaseName("./db/"+yeardb.toLatin1()+".sqlite");
+    db.setDatabaseName("./db/recoins.sqlite");
+    //db.setDatabaseName("./db/"+yeardb+".sqlite");  //search all years or ask server for recoins.db(user/coins/list)
     db.open();
     QSqlDatabase::database().transaction();
         QSqlQuery query;
@@ -355,7 +358,7 @@ float MainWindow::checkBalance(QString euserID){
   return balance;
 }
 
-int MainWindow::checkAllCoins(QString db2){
+int MainWindow::checkAllCoins(QString db2){ //wallet file
     //check available coins has enough for tx
         int coins=0;
         qDebug() << "checking all available coins";

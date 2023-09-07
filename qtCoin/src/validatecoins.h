@@ -64,12 +64,12 @@ void MainWindow::on_GenerateRequest_clicked()
 
 
 
-void MainWindow::on_validatecoins_clicked()
+void MainWindow::on_validatecoins_clicked() // check to see if they exist. db validate after creation
 {
     if (admin){
     // in order to validate all coins we need to first start with the databases then rcoins and compare to coins.sqlite to see if all are accounted for.
 // verify coins.db to availableCoins.sqlite
-        // verify availableCoins to coins.txt
+        // verify availableCoins to coins.txt for now otherwise use coinsdb
 
         QStringList coins;
         QStringList index;
@@ -112,9 +112,9 @@ void MainWindow::on_validatecoins_clicked()
 
 
     } else {
-
+//check wallet coins are verified
     //download pickup.sqlite and verify against current coin holdings
-    Download("ftp://admin:qt@127.0.0.1:8285/pickup.sqlite");
+   // Download("ftp://admin:qt@127.0.0.1:8285/pickup.sqlite"); //pickup db uses transaction password
     }
 }
 
@@ -132,6 +132,8 @@ int MainWindow::processRXTXfile(QString file){
 //    qDebug()<< fileName.toLatin1() ;
 
     //if admin mode validate id
+
+    //decrypt file possibly or just coins
 QStringList coins;
 
     QFile MyFile(file.toLatin1());
@@ -141,29 +143,37 @@ QStringList coins;
     QStringList list;
     QStringList nums;
     QRegExp rx("[:]");
+    //int lines;
     do {
         line = in.readLine();
         if (line.contains(":")) {
             list = line.split(rx);
             nums.append(list.at(1).toLatin1());
         }
+       // lines++;
     } while (!line.isNull());
     MyFile.close();
 
-    nums.at(0);  // sender
-    nums.at(1);  // receiver
-    nums.at(2); // ammount
-    nums.at(3); //datetime
+    QFile MyFiletx("tmp.txt");
+    MyFiletx.open(QIODevice::ReadWrite);
+    QTextStream intx (&MyFiletx);
+//save to tmp file and md5sum
+    intx << nums.at(0);  // sender
+    intx << nums.at(1);  // receiver
+    intx << nums.at(2); // ammount
+    intx << nums.at(3); //datetime
     int i=4;
     foreach (QString tmp , nums){
              i++;
-     coins <<   nums.at(i).toLatin1();
+             intx << nums.at(i).toLatin1();
+     coins <<   nums.at(i).toLatin1();  // unencrypt and reencrypt to tx password
 
     }
-    //coins
-    nums.at(4); // md5sum  load all but last line of file then verify file md5sum
-    //coins
 
+    //coins
+   // nums.at(nums); // md5sum  load all but last line of file then verify file md5sum
+    //coins get put into recoinsdb with nums.at(1);  // receiver ID
+MyFiletx.close();
 
     //validateCOINsign();
 
@@ -227,21 +237,25 @@ QString MainWindow::generateTXfile(QString suserid,QString ruserid,QString etxco
                QSqlDatabase::database().commit();
            db.close();
 
-           //insertwalletcoins()
+           foreach(QString tmp,coins){
+                // insertwalletcoins(tmp);
+                //save them to file
+                   }
        }
     } else { //send from address to address check if any of wallet addresses match for multiple wallets the same for timed offline transactions
 
  //   db.setDatabaseName("./"+ result +".sqlite");
-       db.open();
-           QSqlDatabase::database().transaction();
-           QSqlQuery query;
-         //  query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
-          // query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
-           while (query.next()) {
-                  coins << query.value(0).toString();
-           }
-           QSqlDatabase::database().commit();
-       db.close();
+//          db.setDatabaseName("./wallet.sqlite");
+//       db.open();
+//           QSqlDatabase::database().transaction();
+//           QSqlQuery query;
+//           query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
+//          // query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
+//           while (query.next()) {
+//                  coins << query.value(0).toString();
+//           }
+//           QSqlDatabase::database().commit();
+//       db.close();
 
     }
 
@@ -293,23 +307,6 @@ QString MainWindow::generateRXfile(QString ruserid,QString suserid,QString etxco
         fileName2 = QFileDialog::getSaveFileName(this,  tr("Save TX"), "",  tr("SaveRX/TX File (*.txt);;All Files (*)"));
     }
 
-
-//       db.setDatabaseName("./"+ result +".sqlite");
-//       db.open();
-//           db.transaction();
-//           QSqlQuery query;
-//         //  query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
-//          // query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
-//           while (query.next()) {
-//               int employeeId = query.value(0).toInt();
-//             //  rcoins <<      //decrypt coins and reencrypt for new user
-//               //can place into text file to be sure then delete here// verify enough is available
-//           }
-//           db.commit();
-//       db.close();
-
-
-
        QFile file("tmprx.txt"); // maybe do this in memory later or send with smtp
           if(file.open(QIODevice::ReadWrite | QIODevice::Text))
           {
@@ -324,15 +321,9 @@ QString MainWindow::generateRXfile(QString ruserid,QString suserid,QString etxco
 
               stream << "datetime:"<< dNow.toString("dd.MM.yyyy")+"T"+starttime.toString();
 
-              foreach (QString tmp , coins){
-                     //append coins
-                  stream << "coin:" << tmp.toLatin1();
-                   }
-               stream << "md5:" << fileChecksum("tmprx.txt",QCryptographicHash::Md5); // md5sum
-
            file.close();
           }
-
+ //encrypt file check md5sum
 
        //append md5sum
 
@@ -405,6 +396,8 @@ QString MainWindow::validateCOINsign(QString coin,QString userID){ // for gettin
     if (userID.toLatin1() == ""){ // only check rcoins and coins for unencrypted coins
         //check indexes match in coinsdb and rcoins
 
+        //rencryptedcoins public coinlookup list (validationcoinkeys from coinkeypublic)
+
 
           db.setDatabaseName("coins.sqlite");
           db.open();
@@ -421,7 +414,7 @@ QString MainWindow::validateCOINsign(QString coin,QString userID){ // for gettin
 
 
 
-          db.setDatabaseName("rcoins.sqlite");
+          db.setDatabaseName("rcoins.sqlite"); // random coins open
           db.open();
           QSqlDatabase::database().transaction();
               QSqlQuery query5;
@@ -429,11 +422,23 @@ QString MainWindow::validateCOINsign(QString coin,QString userID){ // for gettin
               while (query5.next()) {
                //   yeardb = query.value(0).toInt();
                   qDebug() << "coin " << query5.value(0).toString();
-                  return  "valid";
+                //  return  "valid";
               }
           QSqlDatabase::database().commit();
           db.close();
 
+//          db.setDatabaseName("rencryptedcoins.sqlite");
+//          db.open();
+//          db.transaction();
+//              QSqlQuery query4;
+//              query4.exec("SELECT * FROM users WHERE name = " "'" + userID.toLatin1() + "'" " AND addr = "+coin.toLatin1());
+//              while (query4.next()) {
+//               //   yeardb = query.value(0).toInt();
+//                  qDebug() << "coin " << query4.value(0).toString();
+//                 // return yeardb.toLatin1();
+//              }
+//          db.commit();
+//          db.close();
 
     }else{        ///check user exists and get signing info to sign coins with
         qDebug() << "signing coin then getting another";
