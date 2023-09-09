@@ -22,9 +22,9 @@
 QString MainWindow::decodetxQR(){
 #ifdef BARCODE
         QString fileName = QFileDialog::getOpenFileName(this, tr("Open rx/tx"), "./", tr("rx/tx files (*.png *.jpg)"));
-    decodeqr(fileName);
+    return decodeqr(fileName);
 
-qDebug() << "test";
+qDebug() << "testqrdecode";
 #endif
 }
 
@@ -442,7 +442,7 @@ QString MainWindow::validateCOINsign(QString coin,QString userID){ // for gettin
 
     }else{        ///check user exists and get signing info to sign coins with
         qDebug() << "signing coin then getting another";
-        if (coin.length() > 8 ){ //if encrypted unsign coin
+        if (coin.length() > ui->coinlength->text().toInt() ){ //8 if encrypted unsign coin settingsforcoinlength
             qDebug() << "encrypted coin during verify unsingning";
             db.setDatabaseName("wallet.sqlite"); //search for signed coin in db then unsign for placement and resigning
             db.open();

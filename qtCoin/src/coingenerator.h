@@ -535,9 +535,10 @@ void MainWindow::generateCoins() //puts coins in text file to be read in by rand
 
 }
 
-void MainWindow::GenerateCoins3(int length,int total)
+void MainWindow::GenerateCoins3(int length,int total) // start and end + arr key support could be added in future
 {
     QString arrm = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+    //QString arr= "testingtesting12" ; //
     QString arr= GetRandomString(15,arrm.toLatin1());
     //qDebug()<< "coinstring" << arr;
     coinkey=arr;
@@ -556,7 +557,7 @@ void MainWindow::GenerateCoins3(int length,int total)
 
      qDebug() << "running combo util";
 
-    combinationUtil(arr, arr.length(), _length, 0, data, 0);
+    combinationUtil(arr, ui->coincount->text().toInt(), _length, 0, data, 0);
 }
 
 void MainWindow::combinationUtil(QString arr, int n, int r, int index, QString data, int i)
