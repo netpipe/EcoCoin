@@ -286,7 +286,7 @@ void MainWindow::RandomizeCoins()
     query.clear();
     db.close();
 
-    createCoinTable("availableCoins.sqlite");
+    createFreeCoinTable("availableCoins.sqlite");
     //read coins.txt and send them to new availablecoins database
         QFile MyFile("coins.txt");
         MyFile.open(QIODevice::ReadOnly);
@@ -299,13 +299,19 @@ void MainWindow::RandomizeCoins()
 
         QVariantList coins;
         QVariantList index;
+        //QVariantList encryptedcoin;
         qDebug()<<"filling coins";
         while (in.readLineInto(&line)) {
             QRegExp rx("[:]");// match a comma or a space
             list = line.split(rx);
           //      nums.append(line);
-                  //  index << list.at(0).toLatin1();
-                    coins << list.at(1).toLatin1();
+                    index << list.at(0).toLatin1();
+                   // encryptedcoin << signcoin(list.at(1).toLatin1());
+                    coins << simplecrypt( list.at(1).toLatin1(), coinkey.toLatin1(), QCryptographicHash::Sha512);          //encrypt here with coinkey
+
+                    //    QString decrypted = simpledecrypt(crypted,"test2",QCryptographicHash::Sha512);
+
+
                    // qDebug() << list.at(1).toLatin1();
                    // coins << line.toLatin1();
             //        query += "INSERT INTO coins(addr) VALUES ('" + _coins[k] + "');";
@@ -329,11 +335,13 @@ void MainWindow::RandomizeCoins()
 
     db.transaction();
 
-    QString query2 = "INSERT INTO coins(addr) VALUES (?)";
+    //QString query2 = "INSERT INTO coins(addr) VALUES (?)";  // maybe add index too with encrypted coin for public verification of pickup and txfile coins
+    QString query2 = "INSERT INTO coins(origid,addr) VALUES (?,?)";  // maybe add index too with encrypted coin for public verification of pickup and txfile coins
 
 //    qDebug() << query;
     QSqlQuery insert;
     insert.prepare(query2);
+    insert.addBindValue(index);
     insert.addBindValue(coins);
 
     if(insert.execBatch())
@@ -346,6 +354,7 @@ void MainWindow::RandomizeCoins()
     }
     db.commit();
     coins.clear();
+    index.clear();
     insert.clear();
     db.close();
 
