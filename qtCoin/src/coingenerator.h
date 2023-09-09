@@ -296,7 +296,7 @@ void MainWindow::RandomizeCoins()
         QString line;
         QStringList list;
         QStringList nums;
-
+            int vinc=0;
         QVariantList coins;
         QVariantList index;
         //QVariantList encryptedcoin;
@@ -305,12 +305,14 @@ void MainWindow::RandomizeCoins()
             QRegExp rx("[:]");// match a comma or a space
             list = line.split(rx);
           //      nums.append(line);
+                  //  index << QString::number(vinc).toLatin1();//list.at(0).toLatin1();
                     index << list.at(0).toLatin1();
+
                    // encryptedcoin << signcoin(list.at(1).toLatin1());
                     coins << simplecrypt( list.at(1).toLatin1(), coinkey.toLatin1(), QCryptographicHash::Sha512);          //encrypt here with coinkey
 
                     //    QString decrypted = simpledecrypt(crypted,"test2",QCryptographicHash::Sha512);
-
+vinc++;
 
                    // qDebug() << list.at(1).toLatin1();
                    // coins << line.toLatin1();

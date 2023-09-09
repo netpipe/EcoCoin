@@ -116,15 +116,15 @@ MainWindow::MainWindow(QWidget *parent) :
   //  QFile walletdb("wallet.sqlite");
     if(   QFileInfo("wallet.sqlite").exists())    {        walletexists=true;   }
 
-    if (!admin && walletexists){
-        //set to client mode
-    tabindex=1;
-    removedTab = ui->app->widget(tabindex);
-    AddRemoveTab(ui->admintab,"Admin",tabindex);
-   // AddRemoveTab(ui->admintab,"Admin",tabindex);
-    }else{
+//    if (!admin && walletexists){
+//        //set to client mode
+//    tabindex=1;
+//    removedTab = ui->app->widget(tabindex);
+//    AddRemoveTab(ui->admintab,"Admin",tabindex);
+//   // AddRemoveTab(ui->admintab,"Admin",tabindex);
+//    }else{
 
-    }
+//    }
 
 #ifdef OPENGL
     //  widget = new IrrlichtWidget( ui->tabWidget->findChild<QWidget *>("irrRenderWidget0") );
