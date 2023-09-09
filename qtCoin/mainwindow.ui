@@ -24,7 +24,7 @@
        <enum>QTabWidget::Triangular</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="accountingtab">
        <attribute name="title">
@@ -34,7 +34,7 @@
         <item row="0" column="0">
          <widget class="QTabWidget" name="tabWidget">
           <property name="currentIndex">
-           <number>6</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="tab_5">
            <attribute name="title">
@@ -812,20 +812,13 @@
         <item row="0" column="1">
          <widget class="QTabWidget" name="tabWidget_3">
           <property name="currentIndex">
-           <number>2</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="tab_8">
            <attribute name="title">
             <string>Users</string>
            </attribute>
            <layout class="QGridLayout" name="gridLayout_14">
-            <item row="0" column="2">
-             <widget class="QPushButton" name="randomSearch">
-              <property name="text">
-               <string>Random Search</string>
-              </property>
-             </widget>
-            </item>
             <item row="0" column="0">
              <widget class="QLabel" name="label_14">
               <property name="text">
@@ -833,17 +826,14 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="1">
-             <widget class="QLineEdit" name="userid"/>
-            </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="label_15">
+            <item row="1" column="2">
+             <widget class="QPushButton" name="userssearch">
               <property name="text">
-               <string>Coin</string>
+               <string>Search</string>
               </property>
              </widget>
             </item>
-            <item row="2" column="0" colspan="3">
+            <item row="3" column="0" colspan="3">
              <widget class="QTableWidget" name="tableWidgetUsers">
               <property name="styleSheet">
                <string notr="true"/>
@@ -878,10 +868,27 @@
             <item row="1" column="1">
              <widget class="QLineEdit" name="coinid"/>
             </item>
-            <item row="1" column="2">
-             <widget class="QPushButton" name="userssearch">
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="userid"/>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_15">
               <property name="text">
-               <string>Search</string>
+               <string>Coin</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <widget class="QPushButton" name="randomSearch">
+              <property name="text">
+               <string>Random Search</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="2">
+             <widget class="QPushButton" name="RefreshUsers">
+              <property name="text">
+               <string>Refresh</string>
               </property>
              </widget>
             </item>
@@ -1159,13 +1166,6 @@
                      </property>
                     </widget>
                    </item>
-                   <item row="1" column="0">
-                    <widget class="QLabel" name="label_5">
-                     <property name="text">
-                      <string>CoinCount</string>
-                     </property>
-                    </widget>
-                   </item>
                    <item row="0" column="0">
                     <widget class="QLabel" name="label_19">
                      <property name="text">
@@ -1267,6 +1267,9 @@
                     <layout class="QHBoxLayout" name="horizontalLayout_15">
                      <item>
                       <widget class="QRadioButton" name="encrypted_yes">
+                       <property name="enabled">
+                        <bool>false</bool>
+                       </property>
                        <property name="text">
                         <string>Yes</string>
                        </property>
@@ -1274,6 +1277,9 @@
                      </item>
                      <item>
                       <widget class="QRadioButton" name="encrypted_no">
+                       <property name="enabled">
+                        <bool>false</bool>
+                       </property>
                        <property name="text">
                         <string>No</string>
                        </property>
@@ -1300,6 +1306,9 @@
                    </item>
                    <item row="3" column="4">
                     <widget class="QSpinBox" name="matureday_2">
+                     <property name="enabled">
+                      <bool>false</bool>
+                     </property>
                      <property name="minimum">
                       <number>1</number>
                      </property>
@@ -1329,6 +1338,13 @@
                     <widget class="QLineEdit" name="coinvalue">
                      <property name="text">
                       <string>.25</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="0" colspan="2">
+                    <widget class="QLabel" name="label_5">
+                     <property name="text">
+                      <string>CoinCount 728k max</string>
                      </property>
                     </widget>
                    </item>
@@ -1390,7 +1406,7 @@
                    <property name="geometry">
                     <rect>
                      <x>140</x>
-                     <y>70</y>
+                     <y>120</y>
                      <width>771</width>
                      <height>141</height>
                     </rect>
@@ -1402,14 +1418,14 @@
                     </sizepolicy>
                    </property>
                    <property name="plainText">
-                    <string>What the investment will be based on</string>
+                    <string>What the investment will be based on possibly website where to cashout</string>
                    </property>
                   </widget>
                   <widget class="QLabel" name="label_18">
                    <property name="geometry">
                     <rect>
                      <x>10</x>
-                     <y>70</y>
+                     <y>120</y>
                      <width>70</width>
                      <height>18</height>
                     </rect>
@@ -1475,8 +1491,8 @@
                   <widget class="QWidget" name="layoutWidget">
                    <property name="geometry">
                     <rect>
-                     <x>490</x>
-                     <y>30</y>
+                     <x>10</x>
+                     <y>70</y>
                      <width>459</width>
                      <height>38</height>
                     </rect>
@@ -1570,6 +1586,51 @@
                     </item>
                    </layout>
                   </widget>
+                  <widget class="QWidget" name="layoutWidget_2">
+                   <property name="geometry">
+                    <rect>
+                     <x>690</x>
+                     <y>30</y>
+                     <width>108</width>
+                     <height>24</height>
+                    </rect>
+                   </property>
+                   <layout class="QHBoxLayout" name="horizontalLayout_4">
+                    <item>
+                     <widget class="QRadioButton" name="burnableradio_yes">
+                      <property name="enabled">
+                       <bool>false</bool>
+                      </property>
+                      <property name="text">
+                       <string>Yes</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QRadioButton" name="burnableradio_no">
+                      <property name="text">
+                       <string>No</string>
+                      </property>
+                      <property name="checked">
+                       <bool>true</bool>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                  <widget class="QLabel" name="label_11">
+                   <property name="geometry">
+                    <rect>
+                     <x>590</x>
+                     <y>30</y>
+                     <width>82</width>
+                     <height>30</height>
+                    </rect>
+                   </property>
+                   <property name="text">
+                    <string>Burnable</string>
+                   </property>
+                  </widget>
                  </widget>
                 </item>
                </layout>
@@ -1648,6 +1709,9 @@
        <layout class="QGridLayout" name="gridLayout_3">
         <item row="0" column="0">
          <widget class="QTabWidget" name="tabWidget_2">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
           <property name="tabShape">
            <enum>QTabWidget::Rounded</enum>
           </property>
@@ -1857,6 +1921,9 @@
               <layout class="QGridLayout" name="gridLayout_36">
                <item row="0" column="1">
                 <widget class="QPushButton" name="updateChangelog">
+                 <property name="enabled">
+                  <bool>true</bool>
+                 </property>
                  <property name="text">
                   <string>Update</string>
                  </property>

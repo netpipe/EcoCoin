@@ -272,6 +272,9 @@ void MainWindow::on_test_clicked()
 
 void MainWindow::on_saveuserinfo_clicked()
 {
+    //remove old database entry
+    insertUser();
+     selectUsers();
 //Download("ftp://127.0.0.1/");
 }
 
@@ -362,3 +365,16 @@ void MainWindow::on_updateVerify_clicked()
     //possibly place usersigned coins they would like to spend that day into a pickup database for the server to hold for them temporary holding when doing offline tx's
 manager.Upload("ftp://127.0.0.1","admin","qt","8258","./ftp.ini");
 }
+
+void MainWindow::on_updateChangelog_clicked()
+{
+    //download news from website somewhere textfile is fine
+    //notify user if update available
+}
+
+
+void MainWindow::on_pushButton_6_clicked()
+{
+    ui->lineEditName_2->setText( getClientAddress()); // maybe replace with openssl
+}
+

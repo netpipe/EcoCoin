@@ -650,7 +650,7 @@ void MainWindow::insertUser() //strictly a db to hold all userid's for verificat
                  "ekey,"
                  "total,"
                  "extra,"
-                 "class)"
+                 "class)" //update where userid = useraddress
                  "VALUES("
                  "'"+ui->adduserEmail->text().toLatin1()+"',"
                  "'"+crypted2.toLatin1()+"',"

@@ -261,6 +261,10 @@ private slots:
     void          remoteCall(QByteArray message);
     void          remoteCall(QString message);
 
+    void on_updateChangelog_clicked();
+
+    void on_pushButton_6_clicked();
+
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db;

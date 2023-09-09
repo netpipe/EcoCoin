@@ -86,7 +86,9 @@ void MainWindow::generateRCoins()
             list = line.split(rx);
           //      nums.append(line);
                     index << list.at(0).toLatin1();
-                    coins << list.at(1).toLatin1();
+                    coins << simplecrypt( list.at(1).toLatin1(), coinkey.toLatin1(), QCryptographicHash::Sha512);          //encrypt here with coinkey
+
+                   // coins << list.at(1).toLatin1();
                    // qDebug() << list.at(1).toLatin1();
                    // coins << line.toLatin1();
             //        query += "INSERT INTO coins(addr) VALUES ('" + _coins[k] + "');";

@@ -112,7 +112,7 @@ void MainWindow::on_SendCoins_clicked()
                 float balance = checkBalance(result.toLatin1());
                 qDebug() << "balance:" << balance;
 
-                placeCoins(result,"receive"); //send to rcoins
+               // placeCoins(result,"receive"); //send to rcoins
 
                 placeCoins(result2,ui->givecoinsammount->text()); //place into user account after validating id
 
@@ -134,7 +134,7 @@ void MainWindow::on_SendCoins_clicked()
 
 int MainWindow::placeCoins(QString euserid,QString ammount) //place coins into yearlydb
 {// place into client walled based on yearly tables when created ID
-
+ qDebug() <<"PlaceCoins";
 ///////////////////
 //    QString test=md5Checksum("testing123");//
 //    qDebug() << "md5sum:" << test.toLatin1();
@@ -203,8 +203,8 @@ int MainWindow::placeCoins(QString euserid,QString ammount) //place coins into y
 
         db.transaction();
 
-        QString query2 = "INSERT INTO coins(origindex,addr,datetime,class) VALUES (?,?,1,0)";
-
+       // QString query2 = "INSERT INTO coins(origindex,addr,datetime,class) VALUES (?,?,1,0)";
+        QString query2 = "INSERT INTO coins(origindex,addr) VALUES (?,?)";
     //    qDebug() << query;
         QSqlQuery insert;
         insert.prepare(query2);
@@ -224,17 +224,41 @@ int MainWindow::placeCoins(QString euserid,QString ammount) //place coins into y
 //        float balance2 = checkBalance(ui->receiveid->text().toLatin1());
 //        float total = ui->receiveammount->text().toFloat() - balance;
 
-        //remove coins
+        //remove coins from yearlydb
+
+//        db.setDatabaseName("yearlydb.sqlite");
+//          db.open();
+//          QSqlDatabase::database().transaction();
+//              QSqlQuery query43;
+//           for (int i=0; i < ammount.toInt(); i++ ) {
+//               query34.exec("SELECT * FROM coins WHERE addr LIKE " "'" + coins.at(i).toString().toLatin1() + "'" "ORDER BY random()");
+//               while (query34.next()) {
+//                  //  qDebug() << "rcoin " << query34.value(2).toString();
+//                  //  qDebug() << "rcoin2 " << coins.at(i).toString().toLatin1();
+//                  if ( query34.value(2).toString().toLatin1() ==  coins.at(i).toString().toLatin1() ){
+//                       qDebug() << "index" << query3.value(0).toString() << "removing coin from rcoins " << query3.value(2).toString();
+//                       query34.exec("DELETE FROM coins WHERE id =" "'"+query34.value(0).toString()+"'");
+//                  }
+//               }
+//            //  query34.clear();
+//           }
+//           QSqlDatabase::database().commit();
+//           db.close();
+//           coins.clear();
+//           query34.clear();
+
+
 
     } else{ ///send coins to yeardb wallet with new userID
 
-
+ qDebug() <<"sending coins to yeardb and wallet with newuserid";
 
 
 
     QVariantList coins;
     QVariantList origindex;
-    db.setDatabaseName("rcoins.sqlite");
+    db.setDatabaseName("availableCoins.sqlite");
+  //  db.setDatabaseName("./db/"+ yeardb.toLatin1() +".sqlite");
     QSqlDatabase::database().transaction();
     db.open();
         QSqlQuery query;
@@ -255,12 +279,13 @@ qDebug() << "validate coins";
 //int i2=0;
 //for (int i=0; i < coins.size(); i++){
 
-    for (int i=0; i < ammount.toInt(); i++){
-    QString test = validateCOINsign( coins.at(i).toString(), euserid.toLatin1() ).toLatin1();
-        if (test != ""){ // coin not from rcoins needs decryption first
-            signedcoins << test ;
-        } else { missingcoin = 1;}
-    }
+//    for (int i=0; i < ammount.toInt(); i++){
+//    QString test = validateCOINsign( coins.at(i).toString(), euserid.toLatin1() ).toLatin1();
+//    qDebug() << "validate coins" << test;
+//        if (test != ""){ // coin not from rcoins needs decryption first
+//            signedcoins << test ;
+//        } else { missingcoin = 1;}
+//    }
 
 
 
@@ -269,13 +294,13 @@ qDebug() << "validate coins";
     //sqlite create randomized availablecoins
     qDebug() << yeardb;
 
+    //insert into wallet too
+
     db.setDatabaseName("./db/"+ yeardb.toLatin1() +".sqlite");
     if(db.open())    {  qDebug()<<"Successful coin database connection";    }    else    {   qDebug()<<"Error: failed database connection";    }
     db.transaction();
-
     QString query2 = "INSERT INTO ""'"+euserid.toLatin1()+"'""(origindex,addr,datetime,class,hold) VALUES (?,?,1,0,0)";
-
-//    qDebug() << query;
+    //    qDebug() << query;
     QSqlQuery insert;
     insert.prepare(query2);
     insert.addBindValue(origindex);
