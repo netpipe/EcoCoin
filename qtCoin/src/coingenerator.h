@@ -536,7 +536,7 @@ void MainWindow::generateCoins() //puts coins in text file to be read in by rand
 void MainWindow::GenerateCoins3(int length,int total)
 {
     QString arrm = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
-    QString arr= GetRandomString(16,arrm.toLatin1());
+    QString arr= GetRandomString(24,arrm.toLatin1());   //coin length
     //qDebug()<< "coinstring" << arr;
     coinkey=arr;
     //save string incase more coins need to be added after
@@ -547,6 +547,8 @@ void MainWindow::GenerateCoins3(int length,int total)
     _state = false;
  //   _length = 8;
     _length = length;
+
+
 
     for (int i=0; i < _length; i++){
        data += " ";
