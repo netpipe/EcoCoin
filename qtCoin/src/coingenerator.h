@@ -296,7 +296,7 @@ void MainWindow::RandomizeCoins()
         QString line;
         QStringList list;
         QStringList nums;
-            int vinc=0;
+
         QVariantList coins;
         QVariantList index;
         //QVariantList encryptedcoin;
@@ -305,14 +305,12 @@ void MainWindow::RandomizeCoins()
             QRegExp rx("[:]");// match a comma or a space
             list = line.split(rx);
           //      nums.append(line);
-                  //  index << QString::number(vinc).toLatin1();//list.at(0).toLatin1();
                     index << list.at(0).toLatin1();
-
                    // encryptedcoin << signcoin(list.at(1).toLatin1());
                     coins << simplecrypt( list.at(1).toLatin1(), coinkey.toLatin1(), QCryptographicHash::Sha512);          //encrypt here with coinkey
 
                     //    QString decrypted = simpledecrypt(crypted,"test2",QCryptographicHash::Sha512);
-vinc++;
+
 
                    // qDebug() << list.at(1).toLatin1();
                    // coins << line.toLatin1();
@@ -535,11 +533,10 @@ void MainWindow::generateCoins() //puts coins in text file to be read in by rand
 
 }
 
-void MainWindow::GenerateCoins3(int length,int total) // start and end + arr key support could be added in future
+void MainWindow::GenerateCoins3(int length,int total)
 {
     QString arrm = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
-    //QString arr= "testingtesting12" ; //
-    QString arr= GetRandomString(15,arrm.toLatin1());
+    QString arr= GetRandomString(16,arrm.toLatin1());
     //qDebug()<< "coinstring" << arr;
     coinkey=arr;
     //save string incase more coins need to be added after
@@ -557,7 +554,7 @@ void MainWindow::GenerateCoins3(int length,int total) // start and end + arr key
 
      qDebug() << "running combo util";
 
-    combinationUtil(arr, ui->coincount->text().toInt(), _length, 0, data, 0);
+    combinationUtil(arr, arr.length(), _length, 0, data, 0);
 }
 
 void MainWindow::combinationUtil(QString arr, int n, int r, int index, QString data, int i)
