@@ -279,13 +279,13 @@ qDebug() << "validate coins";
 //int i2=0;
 //for (int i=0; i < coins.size(); i++){
 
-//    for (int i=0; i < ammount.toInt(); i++){
-//    QString test = validateCOINsign( coins.at(i).toString(), euserid.toLatin1() ).toLatin1();
-//    qDebug() << "validate coins" << test;
-//        if (test != ""){ // coin not from rcoins needs decryption first
-//            signedcoins << test ;
-//        } else { missingcoin = 1;}
-//    }
+  //  for (int i=0; i < ammount.toInt(); i++){
+    //QString test = validateCOINsign( coins.at(i).toString(), euserid.toLatin1() ).toLatin1(); // might need to lookup index for coins.txt and decrypt coin verify
+  //  qDebug() << "validate coins" << test;
+       // if (test != ""){ // coin not from rcoins needs decryption first
+    //        signedcoins << test ;
+       // } else { missingcoin = 1;}
+   // }
 
 
 
@@ -304,7 +304,7 @@ qDebug() << "validate coins";
     QSqlQuery insert;
     insert.prepare(query2);
     insert.addBindValue(origindex);
-    insert.addBindValue(signedcoins);
+    insert.addBindValue(coins); //signedcoins
 
     if(insert.execBatch())
     {
