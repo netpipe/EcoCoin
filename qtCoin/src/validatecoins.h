@@ -223,7 +223,7 @@ QString MainWindow::generateTXfile(QString suserid,QString ruserid,QString etxco
 
         }else{ // inbetween personal accounts from main wallet ID or pull from all addresses.  might not be needed use send button instead
 
-
+//check if wallet exists otherwise error message wallet non existant
         db.setDatabaseName("./wallet.sqlite");
            db.open();
                QSqlDatabase::database().transaction();
@@ -240,6 +240,7 @@ QString MainWindow::generateTXfile(QString suserid,QString ruserid,QString etxco
            foreach(QString tmp,coins){
                 // insertwalletcoins(tmp);
                 //save them to file
+               //remove them from wallet and place into backupcoins and pickupcoins
                    }
        }
     } else { //send from address to address check if any of wallet addresses match for multiple wallets the same for timed offline transactions
@@ -382,14 +383,15 @@ QString MainWindow::validateCOINsignWallet(QString ID,QString Coin){ //for offli
 return "notvalid";
 }
 
-QString MainWindow::validateCOINsign(QString coin,QString userID){ // for getting coins from rcoins and placing into userid
+QString MainWindow::validateCOINsign(QString coin,QString userID,QString password){
+    // for getting coins from rcoins and placing into userid
     //used for signing coins with userid and password and index,datetime
     //encrypt coin during validation with user password then return coin address
 
     qDebug() << "looking for coin" << coin.toLatin1();
-    QString ekey;
+    QString ekey = password;
            // int euserid;
-    QString password;
+   // QString password;
     QString datetime;
 
     // check if validating signed or unsigned coin
@@ -399,7 +401,7 @@ QString MainWindow::validateCOINsign(QString coin,QString userID){ // for gettin
         //rencryptedcoins public coinlookup list (validationcoinkeys from coinkeypublic)
 
 
-          db.setDatabaseName("coins.sqlite");
+          db.setDatabaseName("wallet.sqlite");
           db.open();
           db.transaction();
               QSqlQuery query4;
@@ -414,15 +416,13 @@ QString MainWindow::validateCOINsign(QString coin,QString userID){ // for gettin
 
 
 
-          db.setDatabaseName("rcoins.sqlite"); // random coins open
+          db.setDatabaseName("availableCoins.sqlite"); // random coins open
           db.open();
           QSqlDatabase::database().transaction();
               QSqlQuery query5;
               query5.exec("SELECT * FROM coins WHERE addr=""'"+coin.toLatin1()+"'");
               while (query5.next()) {
-               //   yeardb = query.value(0).toInt();
-                  qDebug() << "coin " << query5.value(0).toString();
-                //  return  "valid";
+                  qDebug() << "coin found" << query5.value(0).toString();
               }
           QSqlDatabase::database().commit();
           db.close();
@@ -465,23 +465,26 @@ QString MainWindow::validateCOINsign(QString coin,QString userID){ // for gettin
          //   QString ecoinuser =  simplecrypt(euserID.toLatin1(),ecoin.toLatin1(),QCryptographicHash::Sha512);
          //   QString ecoin =  simplecrypt(signedcoin.toLatin1(),coinkey.toLatin1(),QCryptographicHash::Sha512);
         }
-    QString euserID;
-    db.setDatabaseName("database.sqlite");
-    db.open();
-        QSqlDatabase::database().transaction();
-        QSqlQuery query2;
-        query2.exec("SELECT * FROM users WHERE userid = ""'"+userID.toLatin1()+"'");
-        while (query2.next()) {
-            euserID = query2.value(2).toString(); //not encrypted with user password
-            ekey = query2.value(7).toString();
-            password = query2.value(4).toString();
-            datetime = query2.value(6).toString(); //datetime
-            qDebug() << "user " << userID.toLatin1() << " pass " << password << "ekey " << ekey;
-            //qDebug() << datetime;
-          //  return yeardb;
-        }
-        QSqlDatabase::database().commit();
-    db.close();
+
+
+     if (admin){ // validate with all the extra databases
+            QString euserID;
+            db.setDatabaseName("database.sqlite");
+            db.open();
+                QSqlDatabase::database().transaction();
+                QSqlQuery query2;
+                query2.exec("SELECT * FROM users WHERE userid = ""'"+userID.toLatin1()+"'");
+                while (query2.next()) {
+                    euserID = query2.value(2).toString(); //not encrypted with user password
+                    ekey = query2.value(7).toString();
+                    password = query2.value(4).toString();
+                    datetime = query2.value(6).toString(); //datetime
+                    qDebug() << "user " << userID.toLatin1() << " pass " << password << "ekey " << ekey;
+                    //qDebug() << datetime;
+                  //  return yeardb;
+                }
+                QSqlDatabase::database().commit();
+            db.close();
 
 
     //use password to decrypt coin then masterkey and check in coinsdb with index
@@ -548,6 +551,7 @@ QString MainWindow::validateCOINsign(QString coin,QString userID){ // for gettin
 //    db.close();
 
     //sign coins
+}
 
 }
 

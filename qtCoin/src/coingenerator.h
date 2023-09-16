@@ -21,6 +21,7 @@ QString MainWindow::getClientAddress(){ //change to getclientaddress instead
 void MainWindow::selectUsersCoins(QString userid,QString yeardb) // not ready yet
 {
     db.setDatabaseName("./db/"+yeardb+".sqlite");
+   //  db.setDatabaseName("./wallet.sqlite");
     if(db.open())
     {
        qDebug() << "Successful database connection";

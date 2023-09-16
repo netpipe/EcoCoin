@@ -52,6 +52,7 @@ void MainWindow::on_SendCoins_clicked()
 
     //check if 2 userid's provided
         if (ui->givecoinsid2->text() == ""){  // if
+
             if (admin){
             //check available coins has enough for tx
             int availableCoins = checkAvailableCoins("","rcoins.sqlite", ui->givecoinsammount->text().toLatin1() );
@@ -146,6 +147,7 @@ int MainWindow::placeCoins(QString euserid,QString ammount) //place coins into y
 //ui->givecoinsammount.text().toLatin1()
     if (euserid.toLatin1() == "receive"){ //receiving coins back into rcoins or updating userid in recoins.db
 //get ammount of usercoins, verify then decrypt and add to rcoins and remove from user table
+        qDebug() << "receive to rcoins";
         QVariantList coins;
         QVariantList origindex;
         //ui->receiveid->text().toLatin1()
@@ -179,7 +181,7 @@ int MainWindow::placeCoins(QString euserid,QString ammount) //place coins into y
 //        }
 
 
-        qDebug()<< "inserting coins into rcoins";
+        qDebug()<< "inserting coins into yeardb";
         //sqlite create randomized availablecoins
         qDebug() << yeardb;
 
@@ -190,7 +192,7 @@ int MainWindow::placeCoins(QString euserid,QString ammount) //place coins into y
         //for (int i=0; i < coins.size(); i++){
 
             for (int i=0; i < ammount.toInt(); i++){
-            QString test = validateCOINsign( coins.at(i).toString(), "" ).toLatin1(); //validate without id and get from textbox
+            QString test = validateCOINsign( coins.at(i).toString(), "" ,"").toLatin1(); //validate without id and get from textbox
             if (test != ""){ // coin not from rcoins needs decryption first
             signedcoins << test ;
             } else { missingcoin = 1;}
@@ -226,7 +228,7 @@ int MainWindow::placeCoins(QString euserid,QString ammount) //place coins into y
 
         //remove coins from yearlydb
 
-//        db.setDatabaseName("yearlydb.sqlite");
+//        db.setDatabaseName("rcoins.sqlite");
 //          db.open();
 //          QSqlDatabase::database().transaction();
 //              QSqlQuery query43;
@@ -236,7 +238,7 @@ int MainWindow::placeCoins(QString euserid,QString ammount) //place coins into y
 //                  //  qDebug() << "rcoin " << query34.value(2).toString();
 //                  //  qDebug() << "rcoin2 " << coins.at(i).toString().toLatin1();
 //                  if ( query34.value(2).toString().toLatin1() ==  coins.at(i).toString().toLatin1() ){
-//                       qDebug() << "index" << query3.value(0).toString() << "removing coin from rcoins " << query3.value(2).toString();
+//                       qDebug() << "delete index" << query3.value(0).toString() << "removing coin from rcoins " << query3.value(2).toString();
 //                       query34.exec("DELETE FROM coins WHERE id =" "'"+query34.value(0).toString()+"'");
 //                  }
 //               }
@@ -279,13 +281,13 @@ qDebug() << "validate coins";
 //int i2=0;
 //for (int i=0; i < coins.size(); i++){
 
-  //  for (int i=0; i < ammount.toInt(); i++){
-    //QString test = validateCOINsign( coins.at(i).toString(), euserid.toLatin1() ).toLatin1(); // might need to lookup index for coins.txt and decrypt coin verify
-  //  qDebug() << "validate coins" << test;
-       // if (test != ""){ // coin not from rcoins needs decryption first
-    //        signedcoins << test ;
-       // } else { missingcoin = 1;}
-   // }
+//    for (int i=0; i < ammount.toInt(); i++){
+//    QString test = validateCOINsign( coins.at(i).toString(), euserid.toLatin1() ,"").toLatin1(); // might need to lookup index for coins.txt and decrypt coin verify
+//    qDebug() << "validate coins" << test;
+//        if (test != ""){ // coin not from rcoins needs decryption first
+//            signedcoins << test ;
+//        } else { missingcoin = 1;}
+//    }
 
 
 
@@ -305,6 +307,7 @@ qDebug() << "validate coins";
     insert.prepare(query2);
     insert.addBindValue(origindex);
     insert.addBindValue(coins); //signedcoins
+
 
     if(insert.execBatch())
     {

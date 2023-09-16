@@ -107,7 +107,7 @@ public:
     QString generateRXfile(QString suserid,QString ruserid,QString etxcoins);
     QString generateTXfile(QString suserid,QString ruserid,QString etxcoins);
     int processRXTXfile(QString file);
-    QString validateCOINsign(QString coin,QString euserID);
+    QString validateCOINsign(QString coin,QString euserID,QString Password);
     float checkBalance(QString euserID);
     QString validateID(QString userid);
     int checkAvailableCoins(QString ID ,QString db,QString needed);
