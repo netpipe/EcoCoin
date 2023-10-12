@@ -23,8 +23,8 @@ DEFINES += BARCODE
 }
 
 win32 {
-DEFINES += STORAGE
-QT += svg dbus network
+DEFINES += STORAGE FTP DOWNLOAD SOUND
+QT += svg dbus network multimedia
 CONFIG += barcodescan
 }
 
