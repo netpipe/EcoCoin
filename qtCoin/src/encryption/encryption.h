@@ -9,7 +9,7 @@
 #include <QFile>
 #include "../../mainwindow.h"
 #include "simpleCrypt/simplecrypt.h"
-#include <QTextCodec>
+//#include <QTextCodec>
 #include <QTime>
 
 //https://doc.qt.io/qt-5/qcryptographichash.html

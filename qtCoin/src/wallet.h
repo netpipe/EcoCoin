@@ -11,7 +11,7 @@
 #include <QDebug>
 #include <QCryptographicHash>
 #include <QMessageBox>
-#include <QTextCodec>
+//#include <QTextCodec>
 #include <QFileDialog>
 #include <iostream>
 #include <fstream>

@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 QT += core gui sql printsupport
-LIBS += -lglut -lGL -lGLU
+LIBS +=
 
 #emscripten
 linux {
@@ -15,7 +15,7 @@ QT += multimedia svg dbus network opengl
 CONFIG += barcodescan
 #unix:!macx:CONFIG += barcodescan
 barcodescan{
-LIBS+= -lpng -ljpeg
+LIBS+= -lpng -ljpeg -lglut -lGL -lGLU
 DEFINES += BARCODE
 }
 //INCLUDEPATH
@@ -23,8 +23,8 @@ DEFINES += BARCODE
 }
 
 win32 {
-DEFINES += SOUND DBUS DOWNLOAD SMTP STORAGE FTP
-QT += multimedia svg dbus network
+DEFINES += STORAGE
+QT += svg dbus network
 CONFIG += barcodescan
 }
 

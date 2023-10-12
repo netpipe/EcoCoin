@@ -144,12 +144,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
         //if client only mode
   //  ui->createtime->setTime(starttime);
-
+#ifdef DBUS
 QDBusConnection connection = QDBusConnection::sessionBus();
 connection.registerObject("/qtcoin", this);
 connection.registerService("qtcoin.test");
 connection.connect("my.qtcoin.dbus", "/qtcoin", "qtcoin.test", "test", this, SLOT(remoteCall(QString)));
-
+#endif
 
 //dbus-send --session --type=signal / my.qtcoin.test string:"hello"
 //dbus-send --session --type="method_call" --dest=com.user.server /com/user/server com.user.server.function
@@ -165,11 +165,12 @@ connection.connect("my.qtcoin.dbus", "/qtcoin", "qtcoin.test", "test", this, SLO
 
 MainWindow::~MainWindow()
 {
+#ifdef DBUS
     m_hDbus->stop();
     while (m_hDbus->isRunning());
 
     delete m_hDbus;
-
+#endif
     delete ui;
     //QSqlDatabase::removeDatabase( QSqlDatabase::defaultConnection );
 }
@@ -354,16 +355,19 @@ void MainWindow::on_ftpserver_clicked()
 
 void MainWindow::on_CheckAvailability_clicked()
 {
-
+#ifdef DOWNLOAD
     //download info file from server
     manager.Download("ftp://admin:qt@127.0.0.1:8258/available");
+#endif
 }
 
 void MainWindow::on_updateVerify_clicked()
 {
     //download all databases for verification of coins offline - still succeptable to double spend but atleast its able to work without server.
     //possibly place usersigned coins they would like to spend that day into a pickup database for the server to hold for them temporary holding when doing offline tx's
-manager.Upload("ftp://127.0.0.1","admin","qt","8258","./ftp.ini");
+#ifdef DOWNLOAD
+    manager.Upload("ftp://127.0.0.1","admin","qt","8258","./ftp.ini");
+#endif
 }
 
 void MainWindow::on_updateChangelog_clicked()

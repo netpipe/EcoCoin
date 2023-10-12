@@ -112,8 +112,9 @@ public:
     QString validateID(QString userid);
     int checkAvailableCoins(QString ID ,QString db,QString needed);
     int smtpsend(QString toemail,QString Message);
+     void Download(QString URL);
     #if DOWNLOAD
-        void Download(QString URL);
+
         DownloadManager manager;
     #endif
     QString validateCOINsignWallet(QString ID,QString Coin);
@@ -269,8 +270,9 @@ private:
     Ui::MainWindow *ui;
     QSqlDatabase db;
     QSqlDatabase coinDB;
-
+#ifdef DBUS
     DBusHandler *m_hDbus;
+#endif
 };
 
 #endif // MAINWINDOW_H

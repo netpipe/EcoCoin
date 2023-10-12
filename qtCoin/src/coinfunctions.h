@@ -9,7 +9,7 @@
 //#include <QMainWindow>
 #include <QCryptographicHash>
 #include <QMessageBox>
-#include <QTextCodec>
+//#include <QTextCodec>
 #include <QFileDialog>
 
 
