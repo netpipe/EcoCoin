@@ -812,7 +812,7 @@
         <item row="0" column="1">
          <widget class="QTabWidget" name="tabWidget_3">
           <property name="currentIndex">
-           <number>1</number>
+           <number>2</number>
           </property>
           <widget class="QWidget" name="tab_8">
            <attribute name="title">
@@ -1155,7 +1155,7 @@
                       <bool>true</bool>
                      </property>
                      <property name="text">
-                      <string>500000</string>
+                      <string>50000</string>
                      </property>
                     </widget>
                    </item>
