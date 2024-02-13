@@ -134,46 +134,116 @@ int MainWindow::processRXTXfile(QString file){
     //if admin mode validate id
 
     //decrypt file possibly or just coins
-QStringList coins;
+    QVariantList coins;
+    QVariantList origindex;
 
     QFile MyFile(file.toLatin1());
-    MyFile.open(QIODevice::ReadWrite);
+    //MyFile.open(QIODevice::ReadWrite);
+    if (!MyFile.open(QIODevice::ReadWrite | QIODevice::Text)) {
+        // Handle the error if the file cannot be opened.
+        qDebug() << "Failed to open the file for reading and writing:" << MyFile.errorString();
+        //return;
+    }
     QTextStream in (&MyFile);
     QString line;
     QStringList list;
     QStringList nums;
     QRegExp rx("[:]");
+    QRegExp rx2("[->]");
     //int lines;
     do {
         line = in.readLine();
+        qDebug() << line;
         if (line.contains(":")) {
             list = line.split(rx);
             nums.append(list.at(1).toLatin1());
         }
+        else if(line.contains("->")){
+            list = line.split(rx2);
+            qDebug() << list;
+            coins.append(list.at(2).toLatin1());
+            origindex.append(list.at(0).toInt());
+            qDebug() << list.at(0).toLatin1() << list.at(2).toLatin1();
+
+        }
        // lines++;
     } while (!line.isNull());
+    qDebug() << list;
+    qDebug() << nums;
     MyFile.close();
 
-    QFile MyFiletx("tmp.txt");
-    MyFiletx.open(QIODevice::ReadWrite);
-    QTextStream intx (&MyFiletx);
-//save to tmp file and md5sum
-    intx << nums.at(0);  // sender
-    intx << nums.at(1);  // receiver
-    intx << nums.at(2); // ammount
-    intx << nums.at(3); //datetime
-    int i=4;
-    foreach (QString tmp , nums){
-             i++;
-             intx << nums.at(i).toLatin1();
-     coins <<   nums.at(i).toLatin1();  // unencrypt and reencrypt to tx password
+    db.setDatabaseName("./db/"+ nums.at(1).toLatin1() +".sqlite");
+    if(db.open())    {  qDebug()<<"Successful coin database connection";    }    else    {   qDebug()<<"Error: failed database connection";    }
+    // Check and create the 'coins' table if it doesn't exist
+        QSqlQuery checkTable;
+        QString createTableQuery = "CREATE TABLE IF NOT EXISTS coins ("
+                                   "origindex INTEGER PRIMARY KEY, "
+                                   "addr TEXT, "
+                                   "datetime TEXT, "
+                                   "class INTEGER, "
+                                   "hold INTEGER)";
 
+        if(checkTable.exec(createTableQuery)) {
+            qDebug() << "The 'coins' table is verified or created successfully";
+        } else {
+            qDebug() << "ERROR! Could not verify or create the 'coins' table:" << checkTable.lastError();
+            // Handle error, maybe return or exit
+        }
+    db.transaction();
+    QString query2 = "INSERT INTO 'coins'(origindex,addr,datetime,class,hold) VALUES (?,?,?,?,?)";
+    QSqlQuery insert;
+    insert.prepare(query2);
+    for(int i = 0; i < coins.length(); ++i) {
+                // Bind values for each coin
+        insert.bindValue(0, origindex[i]);
+        insert.bindValue(1, coins[i]);
+        // Bind additional values for datetime, class, and hold as needed
+        insert.bindValue(2, 1);
+        insert.bindValue(3, 0);
+        insert.bindValue(4, 0);
+
+        if(!insert.exec()) {
+            qDebug() << "Error inserting data: " << insert.lastError();
+            db.rollback();  // Rollback transaction on error
+            break;  // Exit the loop if there is an error
+        }
     }
+
+
+    if(insert.execBatch())
+    {
+        qDebug() << "Coin is properly inserted";
+    }
+    else
+    {
+        qDebug()<<"ERROR! "<< insert.lastError();
+        //undo
+    }
+    db.commit();
+    insert.clear();
+
+    db.close();
+
+    //QFile MyFiletx("tmp.txt");
+    //MyFiletx.open(QIODevice::ReadWrite);
+    //QTextStream intx (&MyFiletx);
+//save to tmp file and md5sum
+    //intx << nums.at(0);  // sender
+    //intx << nums.at(1);  // receiver
+    //intx << nums.at(2); // ammount
+    //intx << nums.at(3); //datetime
+    //int i=4;
+    //foreach (QString tmp , nums){
+    //         i++;
+    //         intx << nums.at(i).toLatin1();
+    // coins <<   nums.at(i).toLatin1();  // unencrypt and reencrypt to tx password
+
+    //}
 
     //coins
    // nums.at(nums); // md5sum  load all but last line of file then verify file md5sum
     //coins get put into recoinsdb with nums.at(1);  // receiver ID
-MyFiletx.close();
+    //MyFiletx.close();
 
     //validateCOINsign();
 
@@ -192,7 +262,7 @@ MyFiletx.close();
 
 
 
-return false;
+return 0;
 }
 
 
@@ -203,6 +273,8 @@ QString MainWindow::generateTXfile(QString suserid,QString ruserid,QString etxco
 
     //might only need ammount and userid and other usersid for tx's because users are not sending coins directly to other users
     QString fileName2;
+    QVariantList coins;
+    QVariantList origindex;
 
     if (admin){ // maybe check if frontend or backend
         fileName2="./rxtx/tmp.txt";
@@ -211,11 +283,83 @@ QString MainWindow::generateTXfile(QString suserid,QString ruserid,QString etxco
 
     }else {
         fileName2 = QFileDialog::getSaveFileName(this,  tr("Save TX"), "",  tr("SaveRX/TX File (*.txt);;All Files (*)"));
+        //fileName2 = QFileDialog::getSaveFileName(this,  tr("Save TX"), "",  tr("SaveRX/TX File (*.txt);;All Files (*)"));
+        qDebug() << "doc generate:";
+        QFile file(fileName2);
+        if (!file.open(QIODevice::ReadWrite | QIODevice::Text)) {
+            // Handle the error if the file cannot be opened.
+            qDebug() << "Failed to open the file for reading and writing:" << file.errorString();
+            //return;
+        }
+
+        QTextStream stream(&file);
+
+        // Writing data to the stream.
+        stream << "sender:" << suserid.toLatin1() << "\n";
+        stream << "receiver:" << ruserid.toLatin1() << "\n";
+        stream << "amount:" << etxcoins << "\n";
+
+        QDateTime currentDateTime = QDateTime::currentDateTime();
+        stream << "datetime:" << currentDateTime.toString("dd.MM.yyyy'T'HH:mm:ss") << "\n";
+
+
+        file.close();
+        // Reopen the file in append mode to add the checksum.
+            if (!file.open(QIODevice::Append | QIODevice::Text)) {
+                qDebug() << "Could not open file for appending:" << file.errorString();
+                //return;
+            }
+        // Calculate and write the MD5 checksum of the file.
+        //file.seek(0); // Go to the beginning of the file to read its contents for the checksum.
+        QString md5Checksum = fileChecksum(file.fileName(), QCryptographicHash::Md5);
+        stream << "md5:" << md5Checksum << "\n";
+        db.setDatabaseName("./db/"+ suserid.toLatin1() +".sqlite");
+        QSqlDatabase::database().transaction();
+        db.open();
+        QSqlQuery query;
+        query.exec("SELECT * FROM coins ORDER BY random() LIMIT "+etxcoins.toLatin1());
+        while (query.next()) {
+            coins << query.value(1).toString();
+            origindex << query.value(0).toString();
+            qDebug() << "picked coins" << query.value(1).toString();
+            stream << query.value(0).toString()+"->" << query.value(1).toString() << "\n";
+        }
+        QSqlDatabase::database().commit();
+        origindex.clear();
+        db.close();
+
+        qDebug() << "Document saved successfully.";
+        file.close();
+
+        //return 0;
+        qDebug() << "doc generate:";
+        db.setDatabaseName("./db/"+ suserid.toLatin1() +".sqlite");
+        //db.open();
+        if(db.open())    {  qDebug()<<"Successful rcoin database connection";    }    else    {   qDebug()<<"Error: failed database connection";    }
+        QSqlDatabase::database().transaction();
+        QSqlQuery query3;
+        for (int i=0; i < etxcoins.toInt(); i++ ) {
+            qDebug() << coins.at(i).toString().toLatin1();
+            query3.exec("SELECT * FROM coins WHERE addr LIKE " "'" + coins.at(i).toString().toLatin1() + "'" "ORDER BY random()");
+            while (query3.next()) {
+                  qDebug() << "rcoin " << query3.value(1).toString();
+                  qDebug() << "rcoin2 " << coins.at(i).toString().toLatin1();
+                if ( query3.value(1).toString().toLatin1() ==  coins.at(i).toString().toLatin1() ){
+                    qDebug() << "index" << query3.value(0).toString() << "removing coin from rcoins " << query3.value(1).toString();
+                    query3.exec("DELETE FROM coins WHERE origindex =" "'"+query3.value(0).toString()+"'");
+                }
+            }
+            //  query3.clear();
+        }
+        qDebug()<<"Successful rcoins database connection";
+        QSqlDatabase::database().commit();
+        db.close();
+        coins.clear();
+        query3.clear();
 
 
 
     }
-            QStringList coins;
     //pull coins from wallet or yearlydb's and place into file to be processed
     if (ruserid.toLatin1() == ""){ // if receiver is blank then check admin mode
         if (admin){ // send to user already done with placecoins
@@ -224,24 +368,9 @@ QString MainWindow::generateTXfile(QString suserid,QString ruserid,QString etxco
         }else{ // inbetween personal accounts from main wallet ID or pull from all addresses.  might not be needed use send button instead
 
 //check if wallet exists otherwise error message wallet non existant
-        db.setDatabaseName("./wallet.sqlite");
-           db.open();
-               QSqlDatabase::database().transaction();
-               QSqlQuery query;
-               query.exec("SELECT * FROM " "'" +suserid.toLatin1() +"'" "LIMIT " "'"+ etxcoins.toLatin1() +"'");
-              // query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
-              // query.exec("SELECT * FROM coins WHERE name = ""'"+ +"'");
-               while (query.next()) {
-                   coins << query.value(0).toString();
-               }
-               QSqlDatabase::database().commit();
-           db.close();
 
-           foreach(QString tmp,coins){
-                // insertwalletcoins(tmp);
-                //save them to file
-               //remove them from wallet and place into backupcoins and pickupcoins
-                   }
+
+
        }
     } else { //send from address to address check if any of wallet addresses match for multiple wallets the same for timed offline transactions
 
@@ -260,28 +389,38 @@ QString MainWindow::generateTXfile(QString suserid,QString ruserid,QString etxco
 
     }
 
-    QFile file("tmptx.txt"); // maybe do this in memory later or send with smtp
-       if(file.open(QIODevice::ReadWrite | QIODevice::Text))
-       {
-           QTextStream stream(&file);
-           stream << "sender:" << suserid.toLatin1();  // sender
-           stream << "receiver:" << ruserid.toLatin1();
-                  //use users ekey and encrypted public signedcoins list? encrypted coins to verify sender to server also can be stored like that in others wallets
-           stream << "ammount:"<< etxcoins; // ammount
-
-           QTime starttime(QTime::currentTime().hour(),QTime::currentTime().minute());
-           QDate dNow(QDate::currentDate());
-
-           stream << "datetime:"<< dNow.toString("dd.MM.yyyy")+"T"+starttime.toString();
-
-           foreach (QString tmp , coins){
-                  //append coins
-               stream << "coin:" << tmp.toLatin1();
-                }
-            stream << "md5:" << fileChecksum("tmptx.txt",QCryptographicHash::Md5); // md5sum
-
-        file.close();
+       QFile file2("tmptx.txt");
+       if (!file2.open(QIODevice::ReadWrite | QIODevice::Text)) {
+           // Handle the error if the file cannot be opened.
+           qDebug() << "Failed to open the file for reading and writing:" << file2.errorString();
+           //return;
        }
+
+       QTextStream stream(&file2);
+
+       // Writing data to the stream.
+       stream << "sender:" << suserid.toLatin1();  // sender
+       stream << "receiver:" << ruserid.toLatin1();
+              //use users ekey and encrypted public signedcoins list? encrypted coins to verify sender to server also can be stored like that in others wallets
+       stream << "ammount:"<< etxcoins; // ammount
+
+       QDateTime currentDateTime = QDateTime::currentDateTime();
+       stream << "datetime:" << currentDateTime.toString("dd.MM.yyyy'T'HH:mm:ss");
+       file2.close();
+       // Reopen the file in append mode to add the checksum.
+           if (!file2.open(QIODevice::Append | QIODevice::Text)) {
+               qDebug() << "Could not open file for appending:" << file2.errorString();
+               //return;
+           }
+       // Calculate and write the MD5 checksum of the file.
+       //file2.seek(0); // Go to the beginning of the file to read its contents for the checksum.
+       QString md5Checksum = fileChecksum(file2.fileName(), QCryptographicHash::Md5);
+       stream << "md5:" << md5Checksum;
+
+       qDebug() << "Document saved successfully.";
+       file2.close();
+
+       return 0;
 
 
 
@@ -308,7 +447,7 @@ QString MainWindow::generateRXfile(QString ruserid,QString suserid,QString etxco
         fileName2 = QFileDialog::getSaveFileName(this,  tr("Save TX"), "",  tr("SaveRX/TX File (*.txt);;All Files (*)"));
     }
 
-       QFile file("tmprx.txt"); // maybe do this in memory later or send with smtp
+       QFile file("./newtx.txt"); // maybe do this in memory later or send with smtp
           if(file.open(QIODevice::ReadWrite | QIODevice::Text))
           {
               QTextStream stream(&file);
@@ -320,10 +459,14 @@ QString MainWindow::generateRXfile(QString ruserid,QString suserid,QString etxco
               QTime starttime(QTime::currentTime().hour(),QTime::currentTime().minute());
               QDate dNow(QDate::currentDate());
 
-              stream << "datetime:"<< dNow.toString("dd.MM.yyyy")+"T"+starttime.toString();
+              //stream << "datetime:"<< dNow.toString("dd.MM.yyyy")+"T"+starttime.toString();
+              file.close();
 
-           file.close();
+
+          } else {
+              qDebug() << "Failed to open the file: " << file.errorString();
           }
+
  //encrypt file check md5sum
         //stream << "md5:" << fileChecksum("tmptx.txt",QCryptographicHash::Md5); // md5sum
        //append md5sum
@@ -604,7 +747,7 @@ QString MainWindow::validateID(QString userid){ // can validate public encrypted
                       //datetime = query2.value(6).toString()
                         qDebug() << userid.toLatin1() << "pass " << validatepassword << "ekey " << ekey;
                     } else{
-                    qDebug() << 'not proper userid';
+                    //qDebug() << 'not proper userid';
                     }
                   //  return yeardb;
                 }
@@ -648,7 +791,7 @@ QString MainWindow::validateID(QString userid){ // can validate public encrypted
             QSqlDatabase::database().commit();
         db.close();
 
-    return "";
+    return userid.left(4);
 }
 
 

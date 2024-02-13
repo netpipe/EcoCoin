@@ -174,7 +174,7 @@ int MainWindow::getkeys(){ //for coldstorage server or standalone server which c
     //remove debugs later for security
     QString test;
     masterkey=nums.at(0);
-    qDebug() << "masterkey" << masterkey;
+    qDebug() << "masterkeydd" << masterkey;
     coinkey=nums.at(1);
     qDebug() << "coinkey" << coinkey;
     test=nums.at(2);
