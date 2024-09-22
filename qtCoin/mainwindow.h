@@ -31,6 +31,7 @@ public:
     ~MainWindow();
     void createUserTable();
     void insertUser();
+    void insertUserNoAdmin();
     void selectUsers();
     void GenerateCoins1();
     void GenerateCoins2();
@@ -266,6 +267,7 @@ private slots:
     void on_updateChangelog_clicked();
 
     void on_pushButton_6_clicked();
+    void on_pushButton_3_clicked();
 
 private:
     Ui::MainWindow *ui;

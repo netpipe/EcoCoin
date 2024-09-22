@@ -124,7 +124,7 @@ void MainWindow::on_SendCoins_clicked()
                 // placeCoins(result,"receive"); //send to rcoins
 
                 //if (ui->givecoinsammount->text().toFloat() <= balance){
-                    placeCoins(result2,ui->givecoinsammount->text()); //place into user account after validating id
+                placeCoins(result2,ui->givecoinsammount->text()); //place into user account after validating id
                 //}
 
             }else{
@@ -317,20 +317,20 @@ int MainWindow::placeCoins(QString euserid,QString ammount) //place coins into y
         db.setDatabaseName("./db/"+ euserid.toLatin1() +".sqlite");
         if(db.open())    {  qDebug()<<"Successful coin database connection";    }    else    {   qDebug()<<"Error: failed database connection";    }
         // Check and create the 'coins' table if it doesn't exist
-            QSqlQuery checkTable;
-            QString createTableQuery = "CREATE TABLE IF NOT EXISTS coins ("
-                                       "origindex INTEGER PRIMARY KEY, "
-                                       "addr TEXT, "
-                                       "datetime TEXT, "
-                                       "class INTEGER, "
-                                       "hold INTEGER)";
+        QSqlQuery checkTable;
+        QString createTableQuery = "CREATE TABLE IF NOT EXISTS coins ("
+                                   "origindex INTEGER PRIMARY KEY, "
+                                   "addr TEXT, "
+                                   "datetime TEXT, "
+                                   "class INTEGER, "
+                                   "hold INTEGER)";
 
-            if(checkTable.exec(createTableQuery)) {
-                qDebug() << "The 'coins' table is verified or created successfully";
-            } else {
-                qDebug() << "ERROR! Could not verify or create the 'coins' table:" << checkTable.lastError();
-                // Handle error, maybe return or exit
-            }
+        if(checkTable.exec(createTableQuery)) {
+            qDebug() << "The 'coins' table is verified or created successfully";
+        } else {
+            qDebug() << "ERROR! Could not verify or create the 'coins' table:" << checkTable.lastError();
+            // Handle error, maybe return or exit
+        }
         db.transaction();
         QString query2 = "INSERT INTO 'coins'(origindex,addr,datetime,class,hold) VALUES (?,?,?,?,?)";
         //    qDebug() << query;
@@ -342,7 +342,7 @@ int MainWindow::placeCoins(QString euserid,QString ammount) //place coins into y
         //insert.addBindValue(0);
         //insert.addBindValue(0);
         for(int i = 0; i < coins.length(); ++i) {
-                    // Bind values for each coin
+            // Bind values for each coin
             insert.bindValue(0, origindex[i]);
             insert.bindValue(1, coins[i]);
             // Bind additional values for datetime, class, and hold as needed
@@ -394,8 +394,8 @@ int MainWindow::placeCoins(QString euserid,QString ammount) //place coins into y
                 qDebug() << coins.at(i).toString().toLatin1();
                 query3.exec("SELECT * FROM coins WHERE addr LIKE " "'" + coins.at(i).toString().toLatin1() + "'" "ORDER BY random()");
                 while (query3.next()) {
-                      qDebug() << "rcoin " << query3.value(2).toString();
-                      qDebug() << "rcoin2 " << coins.at(i).toString().toLatin1();
+                    qDebug() << "rcoin " << query3.value(2).toString();
+                    qDebug() << "rcoin2 " << coins.at(i).toString().toLatin1();
                     if ( query3.value(2).toString().toLatin1() ==  coins.at(i).toString().toLatin1() ){
                         qDebug() << "index" << query3.value(0).toString() << "removing coin from rcoins " << query3.value(2).toString();
                         query3.exec("DELETE FROM coins WHERE id =" "'"+query3.value(0).toString()+"'");
