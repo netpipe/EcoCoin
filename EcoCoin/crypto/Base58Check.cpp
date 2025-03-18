@@ -1,7 +1,7 @@
-/* 
+/*
  * Bitcoin cryptography library
  * Copyright (c) Project Nayuki
- * 
+ *
  * https://www.nayuki.io/page/bitcoin-cryptography-library
  * https://github.com/nayuki/Bitcoin-Cryptography-Library
  */
@@ -23,7 +23,7 @@ using std::size_t;
 
 void Base58Check::pubkeyHashToBase58Check(const uint8_t pubkeyHash[Ripemd160::HASH_LEN], uint8_t version, char outStr[36]) {
 	assert(pubkeyHash != nullptr && outStr != nullptr);
-	constexpr size_t arrayLen = 1 + static_cast<size_t>(Ripemd160::HASH_LEN) + 4;
+	const size_t arrayLen = 1 + static_cast<size_t>(Ripemd160::HASH_LEN) + 4;
 	uint8_t toEncode[arrayLen];
 	toEncode[0] = version;
 	std::memcpy(&toEncode[1], pubkeyHash, Ripemd160::HASH_LEN);
@@ -34,7 +34,7 @@ void Base58Check::pubkeyHashToBase58Check(const uint8_t pubkeyHash[Ripemd160::HA
 
 void Base58Check::privateKeyToBase58Check(const Uint256 &privKey, uint8_t version, bool isCompressed, char outStr[53]) {
 	assert(outStr != nullptr);
-	constexpr size_t arrayLen = 1 + 32 + 1 + 4;
+	const size_t arrayLen = 1 + 32 + 1 + 4;
 	uint8_t toEncode[arrayLen];
 	toEncode[0] = version;
 	privKey.getBigEndianBytes(&toEncode[1]);
@@ -46,7 +46,7 @@ void Base58Check::privateKeyToBase58Check(const Uint256 &privKey, uint8_t versio
 
 void Base58Check::extendedPrivateKeyToBase58Check(const ExtendedPrivateKey &key, char outStr[112]) {
 	assert(outStr != nullptr);
-	constexpr size_t arrayLen = 4 + 1 + 4 + 4 + 32 + 1 + 32 + 4;
+	const size_t arrayLen = 4 + 1 + 4 + 4 + 32 + 1 + 32 + 4;
 	uint8_t toEncode[arrayLen];
 	Utils::storeBigUint32(0x0488ADE4, &toEncode[0]);
 	toEncode[ 4] = key.depth;
@@ -66,12 +66,12 @@ void Base58Check::bytesToBase58Check(uint8_t data[], uint8_t temp[], size_t data
 	const Sha256Hash sha256Hash = Sha256::getDoubleHash(data, dataLen);
 	for (int i = 0; i < 4; i++, dataLen++)
 		data[dataLen] = sha256Hash.value[i];
-	
+
 	// Count leading zero bytes
 	size_t leadingZeros = 0;
 	while (leadingZeros < dataLen && data[leadingZeros] == 0)
 		leadingZeros++;
-	
+
 	// Encode to Base 58
 	size_t outLen = 0;
 	while (!isZero(data, dataLen)) {  // Extract digits in little-endian
@@ -85,14 +85,14 @@ void Base58Check::bytesToBase58Check(uint8_t data[], uint8_t temp[], size_t data
 		outLen++;
 	}
 	outStr[outLen] = '\0';
-	
+
 	// Reverse the string
 	if (outLen == 0)
 		return;  // Exit early to ensure that j does not overflow
 	for (size_t i = 0, j = outLen - 1; i < j; i++, j--) {
-		char temp = outStr[i];
+		char tp = outStr[i];
 		outStr[i] = outStr[j];
-		outStr[j] = temp;
+		outStr[j] = tp;
 	}
 }
 
@@ -138,12 +138,12 @@ bool Base58Check::pubkeyHashFromBase58Check(const char *addrStr, uint8_t outPubk
 	assert(addrStr != nullptr && outPubkeyHash != nullptr);
 	if (std::strlen(addrStr) < 25 || std::strlen(addrStr) > 35)
 		return false;
-	
+
 	// Perform Base58 decoding
 	uint8_t decoded[1 + Ripemd160::HASH_LEN + 4];
 	if (!base58CheckToBytes(addrStr, decoded, sizeof(decoded) / sizeof(decoded[0])))
 		return false;
-	
+
 	// Successfully set the output and version
 	std::memcpy(outPubkeyHash, &decoded[1], Ripemd160::HASH_LEN * sizeof(uint8_t));
 	if (outVersion != nullptr)
@@ -157,9 +157,9 @@ bool Base58Check::privateKeyFromBase58Check(const char wifStr[53], Uint256 &outP
 	assert(wifStr != nullptr);
 	if (std::strlen(wifStr) < 38 || std::strlen(wifStr) > 52)
 		return false;
-	
+
 	// Perform Base58 decoding
-	constexpr size_t arrayLen = 1 + 32 + 1 + 4;
+	const size_t arrayLen = 1 + 32 + 1 + 4;
 	uint8_t decoded[arrayLen];
 	if (base58CheckToBytes(wifStr, decoded, arrayLen - 1)) {  // Try decoding uncompressed
 		if (outIsCompressed != nullptr)
@@ -171,7 +171,7 @@ bool Base58Check::privateKeyFromBase58Check(const char wifStr[53], Uint256 &outP
 			*outIsCompressed = true;
 	} else
 		return false;
-	
+
 	// Successfully set the value and version
 	outPrivKey = Uint256(&decoded[1]);
 	if (outVersion != nullptr)
@@ -185,12 +185,12 @@ bool Base58Check::extendedPrivateKeyFromBase58Check(const char xprvStr[112], Ext
 	assert(xprvStr != nullptr);
 	if (std::strlen(xprvStr) != 111)
 		return false;
-	
+
 	// Perform Base58 decoding
 	uint8_t decoded[4 + 1 + 4 + 4 + 32 + 1 + 32 + 4];
 	if (!base58CheckToBytes(xprvStr, decoded, sizeof(decoded) / sizeof(decoded[0])))
 		return false;
-	
+
 	// Load fields
 	uint8_t depth = decoded[4];
 	const uint8_t *parentPubkeyHash = &decoded[5];
@@ -200,7 +200,7 @@ bool Base58Check::extendedPrivateKeyFromBase58Check(const char xprvStr[112], Ext
 	               | static_cast<uint32_t>(decoded[12]) <<  0;
 	const uint8_t *chainCode = &decoded[13];
 	Uint256 privateKey(&decoded[46]);
-	
+
 	// Check format
 	if (decoded[0] != 0x04 || decoded[1] != 0x88 || decoded[2] != 0xAD || decoded[3] != 0xE4)  // Header for Bitcoin
 		return false;
@@ -208,7 +208,7 @@ bool Base58Check::extendedPrivateKeyFromBase58Check(const char xprvStr[112], Ext
 		return false;
 	if (privateKey == Uint256::ZERO || privateKey >= CurvePoint::ORDER)
 		return false;
-	
+
 	// Successfully set the value
 	outKey = ExtendedPrivateKey(privateKey, chainCode, depth, index, parentPubkeyHash);
 	return true;
@@ -217,7 +217,7 @@ bool Base58Check::extendedPrivateKeyFromBase58Check(const char xprvStr[112], Ext
 
 bool Base58Check::base58CheckToBytes(const char *inStr, uint8_t outData[], size_t outDataLen) {
 	assert(inStr != nullptr && outData != nullptr && outDataLen >= 4);
-	
+
 	// Convert from Base 58 to base 256
 	std::memset(outData, 0, outDataLen * sizeof(outData[0]));
 	for (size_t i = 0; inStr[i] != '\0'; i++) {
@@ -226,10 +226,10 @@ bool Base58Check::base58CheckToBytes(const char *inStr, uint8_t outData[], size_
 		const char *p = std::strchr(ALPHABET, inStr[i]);
 		if (p == nullptr)
 			return false;
-		if (addUint8(outData, p - &ALPHABET[0], outDataLen))
+		if (addUint8(outData, static_cast<uint8_t>(p - &ALPHABET[0]), outDataLen))
 			return false;
 	}
-	
+
 	// Verify number of leading zeros
 	for (size_t i = 0; ; i++) {
 		if (inStr[i] != '1' && (i >= outDataLen || outData[i] != 0))
@@ -239,10 +239,10 @@ bool Base58Check::base58CheckToBytes(const char *inStr, uint8_t outData[], size_
 		else
 			return false;  // Mismatch
 	}
-	
+
 	// Compute and check hash
 	const Sha256Hash sha256Hash = Sha256::getDoubleHash(outData, outDataLen - 4);
-	for (int i = 0; i < 4; i++) {
+	for (unsigned int i = 0; i < 4; i++) {
 		if (outData[outDataLen - 4 + i] != sha256Hash.value[i])
 			return false;
 	}

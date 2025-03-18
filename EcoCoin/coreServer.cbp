@@ -12,7 +12,6 @@
 				<Option compiler="gcc" />
 				<Option projectResourceIncludeDirsRelation="1" />
 				<Linker>
-					<Add library="Xxf86vm" />
 					<Add directory="../../libs/net/irrNetLite21beta" />
 				</Linker>
 			</Target>
@@ -21,17 +20,20 @@
 			<Add alias="All" targets="default;" />
 		</VirtualTargets>
 		<Compiler>
+			<Add option="-std=c17" />
 			<Add option="-fPIC" />
 			<Add option="-fpermissive" />
 			<Add directory="/home/Dev/libs/net/irrNetLite22/source" />
 			<Add directory="/home/Dev/libs/game/Irrlicht-SVN/include" />
 			<Add directory="/home/Dev/libs/net/irrNetLite22" />
+			<Add directory="/Users/macbook2015/Desktop/brew/include/" />
 		</Compiler>
 		<Linker>
 			<Add library="ssl" />
 			<Add library="crypto" />
 			<Add directory="/home/Dev/libs/net/irrNetLite22" />
 			<Add directory="/home/Dev/libs/game/Irrlicht-SVN/lib/Linux" />
+			<Add directory="/Users/macbook2015/Desktop/brew/lib" />
 		</Linker>
 		<Unit filename="address.h" />
 		<Unit filename="coingen.h" />

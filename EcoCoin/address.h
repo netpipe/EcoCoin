@@ -14,6 +14,10 @@
 #include <openssl/ec.h>
 #include <openssl/ripemd.h>
 #include <memory.h>
+#include <cstring>
+#include <iostream>
+
+using namespace std;
 
 int create_address_from_string(const unsigned char *string,
 		unsigned char *address,
@@ -52,11 +56,11 @@ int create_address_from_string(const unsigned char *string,
 		bool debug,
 		EC_GROUP *precompgroup) {
 
-    u_int8_t * hash = malloc(SHA256_DIGEST_LENGTH);
+    u_int8_t * hash = std::malloc(SHA256_DIGEST_LENGTH);
     BIGNUM * n = BN_new();
 
     //first we hash the string
-    SHA256 (string, strlen(string), hash);
+    SHA256 (string, std::strlen(string), hash);
 	//then we convert the hash to the BIGNUM n
     n = BN_bin2bn(hash, SHA256_DIGEST_LENGTH, n);
 
