@@ -31,6 +31,7 @@ public:
     ~MainWindow();
     void createUserTable();
     void insertUser();
+    void insertUserNoAdmin();
     void selectUsers();
     void GenerateCoins1();
     void GenerateCoins2();
@@ -109,6 +110,7 @@ public:
     int processRXTXfile(QString file);
     QString validateCOINsign(QString coin,QString euserID,QString Password);
     float checkBalance(QString euserID);
+    float checkBalanceCoins(QString euserID);
     QString validateID(QString userid);
     int checkAvailableCoins(QString ID ,QString db,QString needed);
     int smtpsend(QString toemail,QString Message);
@@ -265,6 +267,7 @@ private slots:
     void on_updateChangelog_clicked();
 
     void on_pushButton_6_clicked();
+    void on_pushButton_3_clicked();
 
 private:
     Ui::MainWindow *ui;

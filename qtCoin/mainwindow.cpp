@@ -29,7 +29,7 @@
 
 //encrypt with usbdrivename
 #ifdef FTP
-    FTPGUI *ftpgui;
+FTPGUI *ftpgui;
 #endif
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -82,17 +82,17 @@ MainWindow::MainWindow(QWidget *parent) :
     qDebug() << ui->matureyear->text().toInt()<< ui->maturemonth->currentIndex()+1<< ui->matureday->text().toInt();
     qDebug() << "leap year detector" << QDate::isLeapYear(year.toInt());
     qDebug() << "Today is" << dNow.toString("dd.MM.yyyy")
-                << "maturedate is" << maturedate.toString("dd.MM.yyyy")
+             << "maturedate is" << maturedate.toString("dd.MM.yyyy")
              << "days to maturing: "
              << dNow.daysTo(maturedate);
 
-   float dayselapsed =  createdate.daysTo(maturedate) - dNow.daysTo(maturedate); // days elapsed since creation
-   float daystotalmaturing = createdate.daysTo(maturedate);
-   float test4 = dayselapsed / daystotalmaturing * 100;
-//   float pi = 3.14;
-//   QString b;
-//   b.setNum(pi);
-  // qDebug() << percent2 << fixed << qSetRealNumberPrecision(2);
+    float dayselapsed =  createdate.daysTo(maturedate) - dNow.daysTo(maturedate); // days elapsed since creation
+    float daystotalmaturing = createdate.daysTo(maturedate);
+    float test4 = dayselapsed / daystotalmaturing * 100;
+    //   float pi = 3.14;
+    //   QString b;
+    //   b.setNum(pi);
+    // qDebug() << percent2 << fixed << qSetRealNumberPrecision(2);
     ui->progress->setValue( test4);
 
     //might have to contact server for ammount available
@@ -106,25 +106,118 @@ MainWindow::MainWindow(QWidget *parent) :
 #endif
 
     if(getkeys() == 1){
-      admin=true;
+        admin=true;
     }else{ //testing
-        QString tester1 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
-        masterkey = GetRandomString(12,tester1.toLatin1());
-        coinkey = "testing1234567";
+        QString fileName2;
+        fileName2="userkeys.txt";
+        if(!QFile::exists(fileName2)){
+            QString tester1 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+            masterkey = GetRandomString(12,tester1.toLatin1());
+            coinkey = "testing1234567";
+
+            QFile file(fileName2);
+            if (!file.open(QIODevice::ReadWrite | QIODevice::Text)) {
+                // Handle the error if the file cannot be opened.
+                qDebug() << "Failed to open the file for reading and writing:" << file.errorString();
+                //return;
+            }
+
+            QTextStream stream(&file);
+
+            // Writing data to the stream.
+            stream << "usermasterkey:" << masterkey << "\n";
+            //stream << "receiver:" << ruserid.toLatin1() << "\n";
+            //stream << "amount:" << etxcoins << "\n";
+
+            QDateTime currentDateTime = QDateTime::currentDateTime();
+            stream << "datetime:" << currentDateTime.toString("dd.MM.yyyy'T'HH:mm:ss") << "\n";
+
+
+            file.close();
+        }
+        else{
+            qDebug() << "File already exists. Skipping creation.";
+            QFile MyFile(fileName2);
+            MyFile.open(QIODevice::ReadWrite);
+            QTextStream in (&MyFile);
+            QString line;
+            QStringList list;
+             //   QList<QString> nums;
+            QStringList nums;
+            QRegExp rx("[:]");
+            do {
+                line = in.readLine();
+                if (line.contains(":")) {
+                    list = line.split(rx);
+                    nums.append(list.at(1).toLatin1());
+                }
+            } while (!line.isNull());
+
+
+            //remove debugs later for security
+            QString test;
+            masterkey=nums.at(0);
+            db.setDatabaseName("database.sqlite");
+            if(db.open())
+            {
+                qDebug()<<"Successful database connection";
+            }
+            else
+            {
+                qDebug()<<"Error: failed database connection";
+            }
+
+            qDebug()<< masterkey.toLatin1();
+            QString query;
+            query.append("SELECT * FROM users WHERE ekey LIKE ?");
+
+            QSqlQuery select;
+            select.prepare(query);
+            select.bindValue(0, "%" + masterkey + "%"); // Assuming masterkey is QString
+            //select.prepare(query);
+
+            if (select.exec())
+            {
+                qDebug()<<"The user is properly selected";
+            }
+            else
+            {
+                qDebug()<<"The user is not selected correctly";
+                qDebug()<<"ERROR! "<< select.lastError();
+            }
+
+            int row = 0;
+            ui->AddressesList->setRowCount(0);
+
+            while (select.next())
+            {
+                ui->AddressesList->insertRow(row);
+                ui->AddressesList->setItem(row,0,new QTableWidgetItem(select.value(2).toByteArray().constData()));
+                ui->AddressesList->setItem(row,1,new QTableWidgetItem(0));
+                ui->AddressesList->setItem(row,2,new QTableWidgetItem(0));
+                ui->AddressesList->setItem(row,3,new QTableWidgetItem(0));
+                row++;
+            }
+
+            query.clear();
+            db.close();
+
+
+        }
     }
 
-  //  QFile walletdb("wallet.sqlite");
+    //  QFile walletdb("wallet.sqlite");
     if(   QFileInfo("wallet.sqlite").exists())    {        walletexists=true;   }
 
-//    if (!admin && walletexists){
-//        //set to client mode
-//    tabindex=1;
-//    removedTab = ui->app->widget(tabindex);
-//    AddRemoveTab(ui->admintab,"Admin",tabindex);
-//   // AddRemoveTab(ui->admintab,"Admin",tabindex);
-//    }else{
+    if (!admin){
+        //        //set to client mode
+        tabindex=1;
+        removedTab = ui->app->widget(tabindex);
+        AddRemoveTab(ui->admintab,"Admin",tabindex);
+        //   // AddRemoveTab(ui->admintab,"Admin",tabindex);
+    }else{
 
-//    }
+    }
 
 #ifdef OPENGL
     //  widget = new IrrlichtWidget( ui->tabWidget->findChild<QWidget *>("irrRenderWidget0") );
@@ -142,23 +235,23 @@ MainWindow::MainWindow(QWidget *parent) :
 
 #endif
 
-        //if client only mode
-  //  ui->createtime->setTime(starttime);
+    //if client only mode
+    //  ui->createtime->setTime(starttime);
 #ifdef DBUS
-QDBusConnection connection = QDBusConnection::sessionBus();
-connection.registerObject("/qtcoin", this);
-connection.registerService("qtcoin.test");
-connection.connect("my.qtcoin.dbus", "/qtcoin", "qtcoin.test", "test", this, SLOT(remoteCall(QString)));
+    QDBusConnection connection = QDBusConnection::sessionBus();
+    connection.registerObject("/qtcoin", this);
+    connection.registerService("qtcoin.test");
+    connection.connect("my.qtcoin.dbus", "/qtcoin", "qtcoin.test", "test", this, SLOT(remoteCall(QString)));
 #endif
 
-//dbus-send --session --type=signal / my.qtcoin.test string:"hello"
-//dbus-send --session --type="method_call" --dest=com.user.server /com/user/server com.user.server.function
+    //dbus-send --session --type=signal / my.qtcoin.test string:"hello"
+    //dbus-send --session --type="method_call" --dest=com.user.server /com/user/server com.user.server.function
 
-//    m_hDbus = new DBusHandler();
-//    qDebug() << "Createing DBusHandler...\n";
-//    m_hDbus->moveToThread(m_hDbus);
-//    m_hDbus->start();
-//    while (not m_hDbus->isRunning());
+    //    m_hDbus = new DBusHandler();
+    //    qDebug() << "Createing DBusHandler...\n";
+    //    m_hDbus->moveToThread(m_hDbus);
+    //    m_hDbus->start();
+    //    while (not m_hDbus->isRunning());
 
 }
 
@@ -180,44 +273,44 @@ void MainWindow::playsound(QString test){
 #ifdef SOUND
     // player->setMedia(QUrl("qrc:/sounds/ec1_mono.ogg"));
     // player->setMedia(QUrl::fromLocalFile("./paddle_hit.wav"));
-     //or play from memory
-      QFile file(test.toLatin1());
-      file.open(QIODevice::ReadOnly);
-      QByteArray* arr = new QByteArray(file.readAll());
-      file.close();
-      QBuffer* buffer = new QBuffer(arr);
-      buffer->open(QIODevice::ReadOnly);
-      buffer->seek(0);
-//qDebug() << "Media supported state -> " << QMediaPlayer::hasSupport("video/mp4"); // this gives a "1"
-      player->setVolume(10);
- //    media->setMedia("sound.mp3");
-     player->setMedia(QMediaContent(), buffer);
-     player->play();
+    //or play from memory
+    QFile file(test.toLatin1());
+    file.open(QIODevice::ReadOnly);
+    QByteArray* arr = new QByteArray(file.readAll());
+    file.close();
+    QBuffer* buffer = new QBuffer(arr);
+    buffer->open(QIODevice::ReadOnly);
+    buffer->seek(0);
+    //qDebug() << "Media supported state -> " << QMediaPlayer::hasSupport("video/mp4"); // this gives a "1"
+    player->setVolume(10);
+    //    media->setMedia("sound.mp3");
+    player->setMedia(QMediaContent(), buffer);
+    player->play();
 #endif
 }
 
 void          MainWindow::remoteCall(QByteArray message)
 {
-  std::cout << "Message size: "  << message.size() << std::endl;
+    std::cout << "Message size: "  << message.size() << std::endl;
 }
 void          MainWindow::remoteCall(QString message) {
-  std::cout << "Message size: "  << message.size() << " data: " << message.toUtf8().constData() << std::endl;
+    std::cout << "Message size: "  << message.size() << " data: " << message.toUtf8().constData() << std::endl;
 }
 
 void MainWindow::AddRemoveTab(QWidget *tab,QString name,int tabindex){
 
     // QWidget * test= ui->app->widget(2);
     if (tab->isEnabled()) {
-       // QWidget * test= ui->app->widget(2);
+        // QWidget * test= ui->app->widget(2);
         ui->app->removeTab(tabindex);
         tab->setEnabled(false);
     } else {
         tab->setEnabled(true);
         QWidget * test= ui->app->widget(tabindex);
-       // ui->app->removeTab(2);
-//        if (tab->isVisible()){
-            ui->app->insertTab(tabindex,removedTab,name.toLatin1());
-//        }
+        // ui->app->removeTab(2);
+        //        if (tab->isVisible()){
+        ui->app->insertTab(tabindex,removedTab,name.toLatin1());
+        //        }
     }
 }
 
@@ -233,7 +326,7 @@ void MainWindow::on_actionExit_triggered()
 
 void MainWindow::on_matureradio_yes_clicked()
 {
-ui->matureradio_no->setChecked(0);
+    ui->matureradio_no->setChecked(0);
 }
 
 void MainWindow::on_encrypted_yes_clicked()
@@ -243,7 +336,7 @@ void MainWindow::on_encrypted_yes_clicked()
 
 void MainWindow::on_matureradio_no_clicked()
 {
-ui->matureradio_yes->setChecked(1);
+    ui->matureradio_yes->setChecked(1);
 }
 
 void MainWindow::on_encrypted_no_clicked()
@@ -275,8 +368,8 @@ void MainWindow::on_saveuserinfo_clicked()
 {
     //remove old database entry
     insertUser();
-     selectUsers();
-//Download("ftp://127.0.0.1/");
+    selectUsers();
+    //Download("ftp://127.0.0.1/");
 }
 
 void MainWindow::on_placeCoinsopenfile_clicked()
@@ -292,12 +385,12 @@ void MainWindow::on_placeCoinsopenfile_clicked()
 
 void MainWindow::on_CreateWallet_clicked()
 {
-  //could create wallet from server generated tx file or send one with first transaction online account registration
-qDebug() <<  getHDserial(); //getPSN().toLatin1();
-//qDebug () << WordListGenerator(8,"./Resource/wordlists/english.txt");
+    //could create wallet from server generated tx file or send one with first transaction online account registration
+    qDebug() <<  getHDserial(); //getPSN().toLatin1();
+    //qDebug () << WordListGenerator(8,"./Resource/wordlists/english.txt");
 
-// get created userinfo file
-createWalletTable("");
+    // get created userinfo file
+    createWalletTable("");
 
 
 }
@@ -305,11 +398,11 @@ createWalletTable("");
 void MainWindow::on_usergenerateQr_clicked()
 {
     QString qrstring =  ui->adduserEmail->text().toLatin1()+"::"+
-                        ui->addusername->text().toLatin1()+"::"+
-                        ui->lineEditPhone->text().toLatin1()+"::"+
-                        ui->createuserdatetime->text().toLatin1()+"::"+
-                        ui->createextra->text().toLatin1()+"::"+
-                        ui->createclass->text().toLatin1();
+            ui->addusername->text().toLatin1()+"::"+
+            ui->lineEditPhone->text().toLatin1()+"::"+
+            ui->createuserdatetime->text().toLatin1()+"::"+
+            ui->createextra->text().toLatin1()+"::"+
+            ui->createclass->text().toLatin1();
 
     GenerateQRCode(qrstring,ui->adduserQRview);
 
@@ -346,8 +439,8 @@ void MainWindow::on_ftpserver_clicked()
 {
 #ifdef FTP
     if (adminftp==0){
-    ftpgui = new FTPGUI;
-    adminftp=1;
+        ftpgui = new FTPGUI;
+        adminftp=1;
     }
     if (adminftp) { ftpgui->show();}
 #endif
@@ -381,4 +474,47 @@ void MainWindow::on_pushButton_6_clicked()
 {
     ui->lineEditName_2->setText( getClientAddress()); // maybe replace with openssl
 }
+void MainWindow::on_pushButton_3_clicked()
+{
 
+    //QString temp = GenerateClientAddress(8);
+    QString temp = GetRandomString(8,"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890");
+    ui->lineEditName_2->setText(year.toLatin1()+temp.toLatin1());
+    //ui->lineEditName->setText(temp.toLatin1()); //testing
+    QString ownerid=ui->lineEditName_2->text().toLatin1();
+    QString password=ui->lineEditPassword_2->text();
+
+    //    QString s = QDate::currentDate().toString();
+    //    QDate::currentDate().day();
+    //    QDate::currentDate().month();
+    //    QDate::currentDate().year();
+    QTime starttime(QTime::currentTime().hour(),QTime::currentTime().minute());
+    QDate dNow(QDate::currentDate());
+    //ui->createuserdatetime->setText(dNow.toString("dd.MM.yyyy")+"T"+starttime.toString());
+    qDebug() << ownerid.toLatin1() ;
+
+    QString crypted2 = simplecrypt(ownerid.toLatin1(),masterkey.toLatin1(),QCryptographicHash::Sha512);
+    qDebug() << masterkey.toLatin1() ;
+    // QString decrypted = simpledecrypt(crypted,"test2",QCryptographicHash::Sha512);
+    qDebug() << crypted2 ;
+    //ui->lineEditName_2->setText(crypted2.toLatin1());
+
+    createyearly(crypted2);
+
+    //  createyearly(crypted2); //the /n causes issues
+    //  qDebug() << "lineeditname " << ui->lineEditName->text();
+
+    insertUserNoAdmin();
+
+    //selectUsersCoins(temp.toLatin1(),year.toLatin1());
+
+    ui->lineEditName->setText(ownerid.toLatin1());
+    ui->lineEditName->setEnabled(1);
+
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(ui->lineEditName->text());
+
+    on_usergenerateQr_clicked();
+
+    selectUsers();
+}
